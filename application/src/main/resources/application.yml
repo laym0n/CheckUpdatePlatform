@@ -1,2 +1,11 @@
 server:
   port: ${ev.port:8080}
+
+spring:
+  liquibase:
+    enabled: true
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: ${ev.spring.datasource.username}
+    password: ${ev.spring.datasource.password}
+    url: ${ev.spring.datasource.url}

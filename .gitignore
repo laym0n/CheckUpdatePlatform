@@ -11,5 +11,6 @@
 /api/target/
 /application/target/
 /core/target/
+/dal/target/
 /domain/target/
 /tests/target/

@@ -29,6 +29,7 @@
         <module>api</module>
         <module>application</module>
         <module>core</module>
+        <module>dal</module>
         <module>domain</module>
         <module>integration</module>
         <module>tests</module>
@@ -53,6 +54,11 @@
             </dependency>
             <dependency>
                 <groupId>com.victor.kochnev</groupId>
+                <artifactId>dal</artifactId>
+                <version>${release}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.victor.kochnev</groupId>
                 <artifactId>domain</artifactId>
                 <version>${release}</version>
             </dependency>
@@ -71,6 +77,16 @@
                 <groupId>org.springdoc</groupId>
                 <artifactId>springdoc-openapi-ui</artifactId>
                 <version>1.7.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-core</artifactId>
+                <version>4.25.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>42.7.1</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
