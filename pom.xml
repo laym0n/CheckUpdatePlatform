@@ -32,6 +32,7 @@
         <module>dal</module>
         <module>domain</module>
         <module>integration</module>
+        <module>rest-presenters</module>
         <module>tests</module>
     </modules>
 
@@ -65,6 +66,11 @@
             <dependency>
                 <groupId>com.victor.kochnev</groupId>
                 <artifactId>integration</artifactId>
+                <version>${release}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.victor.kochnev</groupId>
+                <artifactId>rest-presenters</artifactId>
                 <version>${release}</version>
             </dependency>
 

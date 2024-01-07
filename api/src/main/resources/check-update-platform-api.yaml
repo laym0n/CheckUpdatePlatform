@@ -8,42 +8,45 @@ info:
     url: https://vk.com/laym0n
   version: 1.0.0
 paths:
-  /customer:
+  /sign/up:
     post:
       tags:
-        - Customer
-      summary: Create Customer
-      operationId: createCustomer
+        - User
+      summary: Регистарация нового пользователя
+      operationId: register
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Customer'
+              $ref: '#/components/schemas/UserRegistrationRequestDto'
       responses:
         '200':
-          description: OK
+          description: успешная регистрация
+        '400':
+          description: неуспешная регистрация
           content:
             'application/json':
               schema:
-                $ref: '#/components/schemas/CustomerFullData'
+                $ref: '#/components/schemas/ErrorMessageDto'
 components:
   schemas:
-    Customer:
+    UserRegistrationRequestDto:
       type: object
       properties:
-        firstName:
+        email:
           type: string
-          description: First name of the customer
-        lastName:
+          description: email для регистрации
+          format: email
+        password:
           type: string
-          description: Last name of the customer
-    CustomerFullData:
-      allOf:
-        - $ref: '#/components/schemas/Customer'
-        - type: object
-          properties:
-            customerId:
-              type: integer
-              description: The ID of the customer
-              format: int64
-      description: Full data of the customer.
+          description: Пароль
+      required:
+        - email
+        - password
+    ErrorMessageDto:
+      description: Сообщение с ошибкой
+      properties:
+        message:
+          type: string
+      required:
+        - message

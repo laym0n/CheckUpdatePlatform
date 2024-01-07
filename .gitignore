@@ -13,4 +13,5 @@
 /core/target/
 /dal/target/
 /domain/target/
+/rest-presenters/target/
 /tests/target/
