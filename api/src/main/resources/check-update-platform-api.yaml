@@ -1,0 +1,49 @@
+openapi: 3.0.3
+info:
+  title: CheckUpdatePlatform
+  description: API дипломного проекта на тему "Платформа по отслеживанию обновлений веб-ресурсов"
+  contact:
+    email: victor_k02@mail.ru
+    name: Victor Kochnev
+    url: https://vk.com/laym0n
+  version: 1.0.0
+paths:
+  /customer:
+    post:
+      tags:
+        - Customer
+      summary: Create Customer
+      operationId: createCustomer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/CustomerFullData'
+components:
+  schemas:
+    Customer:
+      type: object
+      properties:
+        firstName:
+          type: string
+          description: First name of the customer
+        lastName:
+          type: string
+          description: Last name of the customer
+    CustomerFullData:
+      allOf:
+        - $ref: '#/components/schemas/Customer'
+        - type: object
+          properties:
+            customerId:
+              type: integer
+              description: The ID of the customer
+              format: int64
+      description: Full data of the customer.
