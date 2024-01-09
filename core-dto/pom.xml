@@ -8,20 +8,15 @@
         <version>${release}</version>
     </parent>
 
-    <artifactId>api</artifactId>
+    <artifactId>core-dto</artifactId>
     <version>${release}</version>
 
-    <name>api</name>
+    <name>core-dto</name>
 
     <properties>
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>com.victor.kochnev</groupId>
-            <artifactId>core-dto</artifactId>
-        </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
@@ -29,7 +24,6 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.openapitools</groupId>
@@ -56,12 +50,11 @@
                                 ${project.basedir}/src/main/resources/check-update-platform-api.yaml
                             </inputSpec>
                             <generatorName>spring</generatorName>
-                            <apiPackage>com.victor.kochnev.api</apiPackage>
                             <modelPackage>com.victor.kochnev.core.dto</modelPackage>
                             <generateSupportingFiles>false</generateSupportingFiles>
                             <generateApiTests>false</generateApiTests>
-                            <generateModels>false</generateModels>
-                            <generateModelTests>false</generateModelTests>
+                            <generateApis>false</generateApis>
+                            <generateModels>true</generateModels>
                             <configOptions>
                                 <interfaceOnly>true</interfaceOnly>
                                 <skipDefaultInterface>true</skipDefaultInterface>

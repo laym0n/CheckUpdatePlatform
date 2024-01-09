@@ -23,12 +23,16 @@
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
         <release>1.0.0-SNAPSHOT</release>
+        <org.projectlombok.version>1.18.30</org.projectlombok.version>
+        <org.projectlombok.lombok-mapstruct-binding.version>0.2.0</org.projectlombok.lombok-mapstruct-binding.version>
+        <mapstruct-processor.version>1.5.5.Final</mapstruct-processor.version>
     </properties>
 
     <modules>
         <module>api</module>
         <module>application</module>
         <module>core</module>
+        <module>core-dto</module>
         <module>dal</module>
         <module>domain</module>
         <module>integration</module>
@@ -55,12 +59,23 @@
             </dependency>
             <dependency>
                 <groupId>com.victor.kochnev</groupId>
+                <artifactId>core-dto</artifactId>
+                <version>${release}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.victor.kochnev</groupId>
                 <artifactId>dal</artifactId>
                 <version>${release}</version>
             </dependency>
             <dependency>
                 <groupId>com.victor.kochnev</groupId>
                 <artifactId>domain</artifactId>
+                <version>${release}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.victor.kochnev</groupId>
+                <artifactId>domain</artifactId>
+                <type>test-jar</type>
                 <version>${release}</version>
             </dependency>
             <dependency>
@@ -94,6 +109,36 @@
                 <artifactId>postgresql</artifactId>
                 <version>42.7.1</version>
             </dependency>
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct</artifactId>
+                <version>1.5.5.Final</version>
+            </dependency>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${org.projectlombok.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-engine</artifactId>
+                <version>5.10.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.testcontainers</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>1.19.3</version>
+            </dependency>
+            <dependency>
+                <groupId>org.testcontainers</groupId>
+                <artifactId>junit-jupiter</artifactId>
+                <version>1.18.0</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.servlet</groupId>
+                <artifactId>jakarta.servlet-api</artifactId>
+                <version>6.0.0</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -116,6 +161,16 @@
                     <groupId>org.openapitools</groupId>
                     <artifactId>openapi-generator-maven-plugin</artifactId>
                     <version>7.2.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>3.3.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.8.1</version>
                 </plugin>
             </plugins>
         </pluginManagement>

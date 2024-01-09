@@ -8,7 +8,6 @@
         <version>${release}</version>
     </parent>
 
-    <groupId>com.victor.kochnev</groupId>
     <artifactId>integration</artifactId>
     <version>${release}</version>
 
