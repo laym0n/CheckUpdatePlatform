@@ -31,22 +31,6 @@ paths:
 components:
   schemas:
     UserRegistrationRequestDto:
-      type: object
-      properties:
-        email:
-          type: string
-          description: email для регистрации
-          format: email
-        password:
-          type: string
-          description: Пароль
-      required:
-        - email
-        - password
+      $ref: '../../../../core-dto/src/main/resources/check-update-platform-api.yaml#/components/schemas/UserRegistrationRequestDto'
     ErrorMessageDto:
-      description: Сообщение с ошибкой
-      properties:
-        message:
-          type: string
-      required:
-        - message
+      $ref: '../../../../core-dto/src/main/resources/check-update-platform-api.yaml#/components/schemas/ErrorMessageDto'

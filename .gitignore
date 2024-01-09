@@ -11,6 +11,7 @@
 /api/target/
 /application/target/
 /core/target/
+/core-dto/target/
 /dal/target/
 /domain/target/
 /rest-presenters/target/
