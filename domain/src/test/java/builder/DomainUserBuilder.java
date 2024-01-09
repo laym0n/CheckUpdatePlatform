@@ -7,6 +7,7 @@ import java.util.UUID;
 
 public class DomainUserBuilder {
     public static final String DEFAULT_EMAIL = "victor_k02@mail.ru";
+
     private DomainUserBuilder() {
     }
 
