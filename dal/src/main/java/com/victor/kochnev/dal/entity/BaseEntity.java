@@ -14,7 +14,7 @@ import java.util.UUID;
 @MappedSuperclass
 @Data
 @NoArgsConstructor
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 public abstract class BaseEntity {
     @Id
     @GeneratedValue(generator = "platform")

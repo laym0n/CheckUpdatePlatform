@@ -10,7 +10,7 @@ import lombok.experimental.SuperBuilder;
 @Entity
 @Table(name = "users")
 @Data
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 public class UserEntity extends BaseEntity {
     @Column(name = "email", nullable = false)

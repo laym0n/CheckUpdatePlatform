@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Data
 @NoArgsConstructor
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 public abstract class BaseEntity {
     private UUID id;
     private ZonedDateTime createDate;

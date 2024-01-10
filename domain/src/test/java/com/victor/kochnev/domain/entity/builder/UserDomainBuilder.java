@@ -15,7 +15,8 @@ public class UserDomainBuilder {
     public static User.UserBuilder<?, ?> defaultUser() {
         return User.builder()
                 .email(DEFAULT_EMAIL)
-                .password(DEFAULT_PASSWORD);
+                .password(DEFAULT_PASSWORD)
+                .enabled(true);
     }
 
     public static User.UserBuilder<?, ?> persistedDefaultUser() {

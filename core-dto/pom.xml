@@ -59,6 +59,7 @@
                                 <interfaceOnly>true</interfaceOnly>
                                 <skipDefaultInterface>true</skipDefaultInterface>
                                 <useSpringBoot3>true</useSpringBoot3>
+                                <additionalModelTypeAnnotations>@lombok.Builder</additionalModelTypeAnnotations>
                             </configOptions>
                         </configuration>
                     </execution>
