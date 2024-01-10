@@ -1,9 +1,10 @@
 package com.victor.kochnev.core.service.user;
 
 import base.BaseCoreTest;
-import builder.DomainUserBuilder;
 import com.victor.kochnev.core.dto.UserRegistrationRequestDto;
+import com.victor.kochnev.core.exception.UserRegistrationException;
 import com.victor.kochnev.domain.entity.User;
+import com.victor.kochnev.domain.entity.builder.UserDomainBuilder;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
@@ -53,10 +54,10 @@ public class UserServiceImplTest extends BaseCoreTest {
     @Test
     public void testCreateExistedUser_expectIllegalArgumentException() {
         //Assign
-        when(userRepository.findUserByEmail(eq(REQUEST_EMAIL))).thenReturn(Optional.of(DomainUserBuilder.persistedSimpleUser().build()));
+        when(userRepository.findUserByEmail(eq(REQUEST_EMAIL))).thenReturn(Optional.of(UserDomainBuilder.persistedDefaultUser().build()));
         UserRegistrationRequestDto request = prepareRequest();
 
         //Action
-        assertThrows(IllegalArgumentException.class, () -> userService.createUser(request));
+        assertThrows(UserRegistrationException.class, () -> userService.createUser(request));
     }
 }

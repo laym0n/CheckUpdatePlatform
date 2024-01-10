@@ -8,6 +8,7 @@ import com.victor.kochnev.domain.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @Repository
@@ -23,6 +24,9 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User create(User user) {
+        if (Objects.nonNull(user.getId()) && userEntityRepository.existsById(user.getId())) {
+            throw new RuntimeException("User with id " + user.getId() + " already exists");
+        }
         UserEntity savedUser = userEntityRepository.save(entityUserMapper.mapToEntity(user));
         return entityUserMapper.mapToDomain(savedUser);
     }

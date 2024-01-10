@@ -23,11 +23,13 @@ paths:
         '200':
           description: успешная регистрация
         '400':
-          description: неуспешная регистрация
+          description: неправильный запрос
           content:
             'application/json':
               schema:
                 $ref: '#/components/schemas/ErrorMessageDto'
+        '409':
+          description: email уже используется
 components:
   schemas:
     UserRegistrationRequestDto:

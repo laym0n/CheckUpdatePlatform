@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.jdbc.Sql;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -24,6 +25,7 @@ import java.util.function.Consumer;
 @ActiveProfiles({"default", "production", "test"})
 @SpringBootTest(classes = {CoreConfiguration.class, DalConfiguration.class, RestPresentersConfiguration.class, SecurityConfiguration.class})
 @Testcontainers
+@Sql("classpath:initdata/clean_db.sql")
 public abstract class BaseIntegrationTest {
 
     @Container

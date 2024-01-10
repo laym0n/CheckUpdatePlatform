@@ -29,6 +29,12 @@
         </dependency>
         <dependency>
             <groupId>com.victor.kochnev</groupId>
+            <artifactId>dal</artifactId>
+            <scope>test</scope>
+            <type>test-jar</type>
+        </dependency>
+        <dependency>
+            <groupId>com.victor.kochnev</groupId>
             <artifactId>rest-presenters</artifactId>
             <scope>test</scope>
         </dependency>
