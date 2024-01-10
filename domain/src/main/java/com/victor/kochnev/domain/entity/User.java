@@ -10,4 +10,5 @@ import lombok.experimental.SuperBuilder;
 public class User extends BaseEntity {
     private String email;
     private String password;
+    private boolean enabled = true;
 }
