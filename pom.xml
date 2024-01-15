@@ -24,6 +24,7 @@
         <maven.compiler.target>1.7</maven.compiler.target>
         <release>1.0.0-SNAPSHOT</release>
 
+        <spring-boot.version>3.2.1</spring-boot.version>
         <org.projectlombok.version>1.18.30</org.projectlombok.version>
         <org.projectlombok.lombok-mapstruct-binding.version>0.2.0</org.projectlombok.lombok-mapstruct-binding.version>
         <mapstruct-processor.version>1.5.5.Final</mapstruct-processor.version>

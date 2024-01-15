@@ -1,4 +1,4 @@
-package com.victor.kochnev.rest.presenters.advice;
+package com.victor.kochnev.rest.presenters.controller.advice;
 
 import com.victor.kochnev.core.exception.UserRegistrationException;
 import com.victor.kochnev.rest.presenters.controller.ControllerScanMarker;

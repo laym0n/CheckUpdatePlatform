@@ -1,4 +1,4 @@
-package com.victor.kochnev.rest.presenters.security;
+package com.victor.kochnev.rest.presenters.security.entity;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;

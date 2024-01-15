@@ -30,9 +30,4 @@ public class UserController implements UserApi {
         return ResponseEntity.ok().build();
     }
 
-//    @GetMapping("sign/in1")
-//    public String sdfs() {
-//        return "sdfsfd";
-//    }
-
 }

@@ -1,4 +1,4 @@
-package com.victor.kochnev.rest.presenters.security;
+package com.victor.kochnev.rest.presenters.security.service;
 
 import com.victor.kochnev.core.dto.UserDto;
 import com.victor.kochnev.core.exception.ResourceNotFound;
@@ -22,7 +22,7 @@ public class SecurityUserService implements UserDetailsService {
         try {
             userByEmail = userFacade.findUserByEmail(username);
         } catch (ResourceNotFound ex) {
-            throw new UsernameNotFoundException("User not found");
+            throw new UsernameNotFoundException(ex.getMessage());
         }
         return userDtoMapper.mapToSecurityUser(userByEmail);
     }

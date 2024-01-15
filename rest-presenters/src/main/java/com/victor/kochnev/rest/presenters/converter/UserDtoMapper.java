@@ -1,7 +1,7 @@
 package com.victor.kochnev.rest.presenters.converter;
 
 import com.victor.kochnev.core.dto.UserDto;
-import com.victor.kochnev.rest.presenters.security.UserSecurity;
+import com.victor.kochnev.rest.presenters.security.entity.UserSecurity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

@@ -1,4 +1,4 @@
-package com.victor.kochnev.rest.presenters;
+package com.victor.kochnev.application.listener;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;

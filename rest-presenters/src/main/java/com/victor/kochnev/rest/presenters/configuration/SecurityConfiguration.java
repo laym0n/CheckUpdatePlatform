@@ -1,14 +1,12 @@
 package com.victor.kochnev.rest.presenters.configuration;
 
 import com.victor.kochnev.core.service.user.PasswordCoder;
-import com.victor.kochnev.rest.presenters.security.JwtAuthenticationFilter;
-import org.springframework.context.ApplicationEventPublisher;
+import com.victor.kochnev.rest.presenters.security.filter.JwtAuthenticationFilter;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.AuthenticationEventPublisher;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.DefaultAuthenticationEventPublisher;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -22,6 +20,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
+@EnableConfigurationProperties(JwtConfigurationProperties.class)
 public class SecurityConfiguration {
 
     @Bean
@@ -38,12 +37,6 @@ public class SecurityConfiguration {
                 .sessionManagement(configurer -> configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
-    }
-
-    @Bean
-    public AuthenticationEventPublisher authenticationEventPublisher
-            (ApplicationEventPublisher applicationEventPublisher) {
-        return new DefaultAuthenticationEventPublisher(applicationEventPublisher);
     }
 
     @Bean
