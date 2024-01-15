@@ -34,10 +34,6 @@
         </dependency>
         <dependency>
             <groupId>com.victor.kochnev</groupId>
-            <artifactId>api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.victor.kochnev</groupId>
             <artifactId>dal</artifactId>
         </dependency>
         <dependency>

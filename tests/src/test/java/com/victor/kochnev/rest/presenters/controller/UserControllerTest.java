@@ -39,6 +39,7 @@ public class UserControllerTest extends BaseControllerTest {
         assertTrue(optionalCreatedUser.isPresent());
         UserEntity createdUser = optionalCreatedUser.get();
         assertEquals(REQUEST_EMAIL, createdUser.getEmail());
+        assertTrue(createdUser.isEnabled());
     }
 
     @Test

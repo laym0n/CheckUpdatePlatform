@@ -23,16 +23,16 @@
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
         <release>1.0.0-SNAPSHOT</release>
+
         <org.projectlombok.version>1.18.30</org.projectlombok.version>
         <org.projectlombok.lombok-mapstruct-binding.version>0.2.0</org.projectlombok.lombok-mapstruct-binding.version>
         <mapstruct-processor.version>1.5.5.Final</mapstruct-processor.version>
+        <jjwt-api.version>0.12.3</jjwt-api.version>
     </properties>
 
     <modules>
-        <module>api</module>
         <module>application</module>
         <module>core</module>
-        <module>core-dto</module>
         <module>dal</module>
         <module>domain</module>
         <module>integration</module>
@@ -44,22 +44,12 @@
         <dependencies>
             <dependency>
                 <groupId>com.victor.kochnev</groupId>
-                <artifactId>api</artifactId>
-                <version>${release}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.victor.kochnev</groupId>
                 <artifactId>application</artifactId>
                 <version>${release}</version>
             </dependency>
             <dependency>
                 <groupId>com.victor.kochnev</groupId>
                 <artifactId>core</artifactId>
-                <version>${release}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.victor.kochnev</groupId>
-                <artifactId>core-dto</artifactId>
                 <version>${release}</version>
             </dependency>
             <dependency>
@@ -144,6 +134,21 @@
                 <groupId>jakarta.servlet</groupId>
                 <artifactId>jakarta.servlet-api</artifactId>
                 <version>6.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-api</artifactId>
+                <version>${jjwt-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-impl</artifactId>
+                <version>${jjwt-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-jackson</artifactId>
+                <version>${jjwt-api.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
