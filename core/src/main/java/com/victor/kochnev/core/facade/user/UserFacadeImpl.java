@@ -1,5 +1,6 @@
 package com.victor.kochnev.core.facade.user;
 
+import com.victor.kochnev.core.dto.UserDto;
 import com.victor.kochnev.core.dto.UserRegistrationRequestDto;
 import com.victor.kochnev.core.service.user.UserService;
 import lombok.RequiredArgsConstructor;
@@ -13,5 +14,10 @@ public class UserFacadeImpl implements UserFacade {
     @Override
     public void registerUser(UserRegistrationRequestDto request) {
         userService.createUser(request);
+    }
+
+    @Override
+    public UserDto findUserByEmail(String email) {
+        return userService.findUserByEmail(email);
     }
 }

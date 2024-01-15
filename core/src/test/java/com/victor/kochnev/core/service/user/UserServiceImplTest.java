@@ -1,15 +1,14 @@
 package com.victor.kochnev.core.service.user;
 
 import base.BaseCoreTest;
+import com.victor.kochnev.core.dto.UserDto;
 import com.victor.kochnev.core.dto.UserRegistrationRequestDto;
+import com.victor.kochnev.core.exception.ResourceNotFound;
 import com.victor.kochnev.core.exception.UserRegistrationException;
 import com.victor.kochnev.domain.entity.User;
 import com.victor.kochnev.domain.entity.builder.UserDomainBuilder;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
-import org.mockito.InjectMocks;
-import org.mockito.Mockito;
+import org.mockito.*;
 
 import java.util.Optional;
 
@@ -22,6 +21,8 @@ import static org.mockito.Mockito.when;
 public class UserServiceImplTest extends BaseCoreTest {
     private static final String REQUEST_EMAIL = "victor_k02@mail.ru";
     private static final String REQUEST_PASSWORD = "pass";
+    @Spy
+    private PasswordCoder passwordCoder = new PasswordCoderImpl();
     @InjectMocks
     private UserServiceImpl userService;
     @Captor
@@ -48,16 +49,43 @@ public class UserServiceImplTest extends BaseCoreTest {
         User createdUser = userCaptor.getValue();
 
         assertEquals(REQUEST_EMAIL, createdUser.getEmail());
-        assertEquals(REQUEST_PASSWORD, createdUser.getPassword());
+        String encodedPassword = passwordCoder.encode(REQUEST_PASSWORD);
+        assertEquals(encodedPassword, createdUser.getPassword());
     }
 
     @Test
-    public void testCreateExistedUser_expectIllegalArgumentException() {
+    public void testCreateExistedUser_expectUserRegistrationException() {
         //Assign
         when(userRepository.findUserByEmail(eq(REQUEST_EMAIL))).thenReturn(Optional.of(UserDomainBuilder.persistedDefaultUser().build()));
         UserRegistrationRequestDto request = prepareRequest();
 
         //Action
         assertThrows(UserRegistrationException.class, () -> userService.createUser(request));
+    }
+
+    @Test
+    public void testFindExistedUserByEmail() {
+        //Assign
+        User existedUser = UserDomainBuilder.persistedDefaultUser().build();
+        when(userRepository.findUserByEmail(eq(REQUEST_EMAIL))).thenReturn(Optional.of(existedUser));
+
+        //Action
+        UserDto userDto = userService.findUserByEmail(REQUEST_EMAIL);
+
+        //Assert
+        assertEquals(existedUser.getId(), userDto.getId());
+        assertEquals(existedUser.getEmail(), userDto.getEmail());
+        assertEquals(existedUser.getPassword(), userDto.getPassword());
+        assertEquals(existedUser.isEnabled(), userDto.getEnabled());
+    }
+
+    @Test
+    public void testFindNotExistedUserByEmail_expectResourceNotFound() {
+        //Assign
+        when(userRepository.findUserByEmail(eq(REQUEST_EMAIL))).thenReturn(Optional.empty());
+        UserRegistrationRequestDto request = prepareRequest();
+
+        //Action
+        assertThrows(ResourceNotFound.class, () -> userService.findUserByEmail(REQUEST_EMAIL));
     }
 }

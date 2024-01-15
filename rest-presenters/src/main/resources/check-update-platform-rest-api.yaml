@@ -1,0 +1,95 @@
+openapi: 3.0.3
+info:
+  title: CheckUpdatePlatform
+  description: API дипломного проекта на тему "Платформа по отслеживанию обновлений веб-ресурсов"
+  contact:
+    email: victor_k02@mail.ru
+    name: Victor Kochnev
+    url: https://vk.com/laym0n
+  version: 1.0.0
+paths:
+  /user/register:
+    post:
+      tags:
+        - User
+      summary: Регистарация нового пользователя
+      operationId: register
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRegistrationRequestBody'
+      responses:
+        '200':
+          description: успешная регистрация
+        '400':
+          description: ошибка валидации данных
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ErrorMessageDto'
+        '409':
+          description: email уже используется
+  /authentication:
+    post:
+      tags:
+        - Authentication
+      summary: Аутентификация пользователя
+      operationId: authentication
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthenticationRequestBody'
+      responses:
+        '200':
+          description: успешная аутентификация
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/JwtToken'
+        '400':
+          description: неуспешная аутентификация
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ErrorMessageDto'
+components:
+  schemas:
+    UserRegistrationRequestBody:
+      type: object
+      properties:
+        email:
+          type: string
+          description: email для регистрации
+          format: email
+        password:
+          type: string
+          description: Пароль
+      required:
+        - email
+        - password
+    AuthenticationRequestBody:
+      type: object
+      properties:
+        principal:
+          type: string
+        credentials:
+          type: string
+      required:
+        - principal
+        - credentials
+    JwtToken:
+      type: object
+      properties:
+        token:
+          type: string
+      required:
+        - token
+    ErrorMessageDto:
+      description: Сообщение с ошибкой
+      properties:
+        message:
+          type: string
+      required:
+        - message

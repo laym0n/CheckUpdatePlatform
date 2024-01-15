@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS USERS
     version          BIGINT                   NOT NULL,
 
     email            VARCHAR(50)              NOT NULL,
-    password         VARCHAR(50)              NOT NULL,
+    password         VARCHAR(500)             NOT NULL,
     enabled          BOOLEAN                  NOT NULL
 );
 

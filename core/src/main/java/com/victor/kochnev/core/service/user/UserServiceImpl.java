@@ -1,7 +1,9 @@
 package com.victor.kochnev.core.service.user;
 
 import com.victor.kochnev.core.converter.DomainUserMapper;
+import com.victor.kochnev.core.dto.UserDto;
 import com.victor.kochnev.core.dto.UserRegistrationRequestDto;
+import com.victor.kochnev.core.exception.ResourceNotFound;
 import com.victor.kochnev.core.exception.UserRegistrationException;
 import com.victor.kochnev.core.repository.UserRepository;
 import com.victor.kochnev.domain.entity.User;
@@ -17,6 +19,7 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final DomainUserMapper domainUserMapper;
+    private final PasswordCoder passwordCoder;
 
     @Override
     public void createUser(UserRegistrationRequestDto request) {
@@ -27,6 +30,14 @@ public class UserServiceImpl implements UserService {
 
         log.info("Create new User {}", request.getEmail());
         User newUser = domainUserMapper.mapToEntity(request);
+        String encodedPassword = passwordCoder.encode(newUser.getPassword());
+        newUser.setPassword(encodedPassword);
         userRepository.create(newUser);
+    }
+
+    @Override
+    public UserDto findUserByEmail(String email) {
+        Optional<User> optionalUser = userRepository.findUserByEmail(email);
+        return optionalUser.map(domainUserMapper::mapToUserDto).orElseThrow(() -> ResourceNotFound.create(User.class, email, "email"));
     }
 }
