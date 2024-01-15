@@ -1,8 +1,7 @@
-package com.victor.kochnev.rest.presenters.controller;
+package com.victor.kochnev.tests.base;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.victor.kochnev.base.BaseIntegrationTest;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Assertions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +13,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import java.nio.charset.StandardCharsets;
 
 @AutoConfigureMockMvc(addFilters = false)
 public abstract class BaseControllerTest extends BaseIntegrationTest {
@@ -41,5 +42,14 @@ public abstract class BaseControllerTest extends BaseIntegrationTest {
                 .content(objectMapper.writeValueAsString(request))
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON);
+    }
+
+    protected <T> T getResponseDto(MvcResult mvcResult, Class<T> clazz) {
+        try {
+            String content = mvcResult.getResponse().getContentAsString(StandardCharsets.UTF_8);
+            return objectMapper.readValue(content, clazz);
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

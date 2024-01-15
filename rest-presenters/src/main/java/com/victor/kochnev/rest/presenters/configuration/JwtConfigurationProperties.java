@@ -5,9 +5,15 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.time.Duration;
 
-@ConfigurationProperties("rest.presenters.jwt")
+@ConfigurationProperties("rest.presenters.security.jwt")
 @Data
 public class JwtConfigurationProperties {
-    private final Duration duration;
-    private final String secret;
+    /**
+     * Длительность жизни Jwt токена
+     */
+    private Duration duration;
+    /**
+     * Секрет для генерации Jwt токена
+     */
+    private String secret;
 }

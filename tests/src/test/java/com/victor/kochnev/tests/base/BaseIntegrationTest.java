@@ -1,4 +1,4 @@
-package com.victor.kochnev.base;
+package com.victor.kochnev.tests.base;
 
 import com.github.dockerjava.api.command.CreateContainerCmd;
 import com.github.dockerjava.api.model.ExposedPort;
@@ -16,7 +16,6 @@ import org.springframework.boot.testcontainers.service.connection.ServiceConnect
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
@@ -28,13 +27,17 @@ import java.util.function.Consumer;
 @Sql("classpath:initdata/clean_db.sql")
 public abstract class BaseIntegrationTest {
 
-    @Container
     @ServiceConnection
-    public static PostgreSQLContainer postgreSQLContainer = (PostgreSQLContainer) new PostgreSQLContainer(DockerImageName.parse("postgres:15"))
+    public static final PostgreSQLContainer postgreSQLContainer = (PostgreSQLContainer) new PostgreSQLContainer(DockerImageName.parse("postgres:15"))
             .withCreateContainerCmdModifier((Consumer<CreateContainerCmd>) cmd -> cmd
                     .withHostConfig(
                             new HostConfig().withPortBindings(new PortBinding(Ports.Binding.bindPort(65419), new ExposedPort(5432)))
                     ));
+
+    static {
+        postgreSQLContainer.start();
+    }
+
     @Autowired
     protected UserEntityRepository userEntityRepository;
 

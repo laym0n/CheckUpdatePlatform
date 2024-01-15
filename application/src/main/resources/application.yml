@@ -12,6 +12,7 @@ spring:
 
 rest:
   presenters:
-    jwt:
-      duration: ${ev.rest.presenters.jwt.duration}
-      secret: ${ev.rest.presenters.jwt.secret}
+    security:
+      jwt:
+        duration: ${ev.rest.presenters.security.jwt.duration}
+        secret: ${ev.rest.presenters.security.jwt.secret}

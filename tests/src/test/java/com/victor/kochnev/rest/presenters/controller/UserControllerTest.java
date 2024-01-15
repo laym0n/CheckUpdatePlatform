@@ -4,8 +4,11 @@ import com.victor.kochnev.core.dto.UserRegistrationRequestDto;
 import com.victor.kochnev.dal.entity.UserEntity;
 import com.victor.kochnev.dal.entity.builder.UserEntityBuilder;
 import com.victor.kochnev.domain.entity.builder.UserDomainBuilder;
+import com.victor.kochnev.tests.base.BaseControllerTest;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.Optional;
@@ -13,24 +16,27 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class UserControllerTest extends BaseControllerTest {
-    private static final String SIGN_UP_ENDPOINT = "/sign/up";
+class UserControllerTest extends BaseControllerTest {
+    private static final String USER_REGISTRATION_ENDPOINT = "/user/register";
     private static final String REQUEST_EMAIL = UserDomainBuilder.DEFAULT_EMAIL;
+    private static final String REQUEST_PASSWORD = "password";
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     private static UserRegistrationRequestDto prepareRequest() {
         UserRegistrationRequestDto request = new UserRegistrationRequestDto();
         request.setEmail(REQUEST_EMAIL);
-        request.setPassword("password");
+        request.setPassword(REQUEST_PASSWORD);
         return request;
     }
 
     @Test
-    public void testSuccessRegistration() {
+    void testSuccessRegistration() {
         //Assign
         UserRegistrationRequestDto request = prepareRequest();
 
         //Action
-        MvcResult result = post(SIGN_UP_ENDPOINT, request);
+        MvcResult result = post(USER_REGISTRATION_ENDPOINT, request);
 
         //Assert
         assertHttpStatusOk(result);
@@ -39,30 +45,31 @@ public class UserControllerTest extends BaseControllerTest {
         assertTrue(optionalCreatedUser.isPresent());
         UserEntity createdUser = optionalCreatedUser.get();
         assertEquals(REQUEST_EMAIL, createdUser.getEmail());
+        assertTrue(passwordEncoder.matches(REQUEST_PASSWORD, createdUser.getPassword()));
         assertTrue(createdUser.isEnabled());
     }
 
     @Test
-    public void testRegistration_WithAlreadyExistEmail_Expect409() {
+    void testRegistration_WithAlreadyExistEmail_Expect409() {
         //Assign
         userEntityRepository.save(UserEntityBuilder.defaultEntityUser().email(REQUEST_EMAIL).build());
         UserRegistrationRequestDto request = prepareRequest();
 
         //Action
-        MvcResult result = post(SIGN_UP_ENDPOINT, request);
+        MvcResult result = post(USER_REGISTRATION_ENDPOINT, request);
 
         //Assert
         assertHttpStatus(result, HttpStatus.CONFLICT);
     }
 
     @Test
-    public void testRegistration_WithNotValidRequest_Expect400() {
+    void testRegistration_WithNotValidRequest_Expect400() {
         //Assign
         UserRegistrationRequestDto request = prepareRequest();
         request.setEmail(null);
 
         //Action
-        MvcResult result = post(SIGN_UP_ENDPOINT, request);
+        MvcResult result = post(USER_REGISTRATION_ENDPOINT, request);
 
         //Assert
         assertHttpStatus(result, HttpStatus.BAD_REQUEST);
