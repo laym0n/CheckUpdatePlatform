@@ -5,11 +5,10 @@
     <parent>
         <artifactId>check-update-platform</artifactId>
         <groupId>com.victor.kochnev</groupId>
-        <version>${release}</version>
+        <version>${revision}</version>
     </parent>
 
     <artifactId>domain</artifactId>
-    <version>${release}</version>
 
     <name>domain</name>
 

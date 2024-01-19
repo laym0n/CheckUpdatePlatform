@@ -13,7 +13,7 @@
 
     <groupId>com.victor.kochnev</groupId>
     <artifactId>check-update-platform</artifactId>
-    <version>${release}</version>
+    <version>${revision}</version>
 
     <name>check-update-platform</name>
     <packaging>pom</packaging>
@@ -22,7 +22,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
-        <release>1.0.0-SNAPSHOT</release>
+        <revision>1.0.0-SNAPSHOT</revision>
 
         <spring-boot.version>3.2.1</spring-boot.version>
         <org.projectlombok.version>1.18.30</org.projectlombok.version>
@@ -46,44 +46,44 @@
             <dependency>
                 <groupId>com.victor.kochnev</groupId>
                 <artifactId>application</artifactId>
-                <version>${release}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.victor.kochnev</groupId>
                 <artifactId>core</artifactId>
-                <version>${release}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.victor.kochnev</groupId>
                 <artifactId>dal</artifactId>
-                <version>${release}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.victor.kochnev</groupId>
                 <artifactId>dal</artifactId>
-                <version>${release}</version>
+                <version>${revision}</version>
                 <type>test-jar</type>
             </dependency>
             <dependency>
                 <groupId>com.victor.kochnev</groupId>
                 <artifactId>domain</artifactId>
-                <version>${release}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.victor.kochnev</groupId>
                 <artifactId>domain</artifactId>
                 <type>test-jar</type>
-                <version>${release}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.victor.kochnev</groupId>
                 <artifactId>integration</artifactId>
-                <version>${release}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.victor.kochnev</groupId>
                 <artifactId>rest-presenters</artifactId>
-                <version>${release}</version>
+                <version>${revision}</version>
             </dependency>
 
             <dependency>
@@ -184,8 +184,38 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>3.8.1</version>
                 </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>flatten-maven-plugin</artifactId>
+                    <version>1.6.0</version>
+                </plugin>
             </plugins>
         </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <configuration>
+                    <updatePomFile>true</updatePomFile>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>flatten</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>flatten</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>flatten.clean</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
     </build>
 
 </project>

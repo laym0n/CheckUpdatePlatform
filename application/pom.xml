@@ -5,11 +5,10 @@
     <parent>
         <artifactId>check-update-platform</artifactId>
         <groupId>com.victor.kochnev</groupId>
-        <version>${release}</version>
+        <version>${revision}</version>
     </parent>
 
     <artifactId>application</artifactId>
-    <version>${release}</version>
 
     <name>application</name>
 
@@ -26,11 +25,6 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.victor.kochnev</groupId>
@@ -61,8 +55,8 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.testcontainers</groupId>
-            <artifactId>postgresql</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-test</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

@@ -16,3 +16,5 @@
 /domain/target/
 /rest-presenters/target/
 /tests/target/
+
+*.flattened-pom.xml
