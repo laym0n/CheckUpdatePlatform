@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import java.util.Collection;
 import java.util.List;
 
 @Data
@@ -33,9 +34,13 @@ public class Plugin extends BaseEntity {
     /**
      * Способы распространения плагина
      */
-    private List<DistributionMethod> distributionMethodsList;
+    private Collection<DistributionMethod> distributionMethodsCollection;
     /**
      * Владелец плагина
      */
     private User ownerUser;
+    /**
+     * Отслеживаемые ресурсы
+     */
+    private Collection<WebResource> webResourcesCollection;
 }

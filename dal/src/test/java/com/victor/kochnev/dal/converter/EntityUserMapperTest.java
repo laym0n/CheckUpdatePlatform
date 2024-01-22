@@ -15,10 +15,10 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class EntityUserMapperTest extends BaseDalTest {
+class EntityUserMapperTest extends BaseDalTest {
     @ParameterizedTest
     @ArgumentsSource(MapToEntityUserArgumentProvider.class)
-    public void testMapToEntity(User userForMap, User expectedUser) {
+    void testMapToEntity(User userForMap, User expectedUser) {
         //Action
         UserEntity mappedUserEntity = entityUserMapper.mapToEntity(userForMap);
 
@@ -34,7 +34,7 @@ public class EntityUserMapperTest extends BaseDalTest {
 
     @ParameterizedTest
     @ArgumentsSource(MapToDomainUserArgumentProvider.class)
-    public void testMapToDomain(UserEntity userForMap, UserEntity expectedUser) {
+    void testMapToDomain(UserEntity userForMap, UserEntity expectedUser) {
         //Action
         User mappedUser = entityUserMapper.mapToDomain(userForMap);
 
@@ -67,9 +67,11 @@ public class EntityUserMapperTest extends BaseDalTest {
         public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) throws Exception {
             UserEntity notPersistedUser = UserEntityBuilder.defaultEntityUser().build();
             UserEntity persistedUser = UserEntityBuilder.persistedDefaultEntityUser().build();
+            UserEntity persistedUserWithoutRoles = UserEntityBuilder.persistedDefaultEntityUser().roles("").build();
             return Stream.of(
                     Arguments.of(notPersistedUser, notPersistedUser.toBuilder().build()),
-                    Arguments.of(persistedUser, persistedUser.toBuilder().build())
+                    Arguments.of(persistedUser, persistedUser.toBuilder().build()),
+                    Arguments.of(persistedUserWithoutRoles, persistedUserWithoutRoles.toBuilder().build())
             );
         }
     }

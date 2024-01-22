@@ -1,18 +1,21 @@
 package com.victor.kochnev.dal.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.ZonedDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 @MappedSuperclass
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @SuperBuilder(toBuilder = true)
 public abstract class BaseEntity {
@@ -42,5 +45,18 @@ public abstract class BaseEntity {
         ZonedDateTime now = ZonedDateTime.now();
         setCreateDate(now);
         setLastChangeDate(now);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BaseEntity that = (BaseEntity) o;
+        return Objects.equals(getId(), that.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
     }
 }

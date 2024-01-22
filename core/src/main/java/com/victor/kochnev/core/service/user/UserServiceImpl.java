@@ -7,6 +7,7 @@ import com.victor.kochnev.core.exception.ResourceNotFound;
 import com.victor.kochnev.core.exception.UserRegistrationException;
 import com.victor.kochnev.core.repository.UserRepository;
 import com.victor.kochnev.domain.entity.User;
+import com.victor.kochnev.domain.enums.UserRole;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,7 @@ public class UserServiceImpl implements UserService {
         User newUser = domainUserMapper.mapToEntity(request);
         String encodedPassword = passwordCoder.encode(newUser.getPassword());
         newUser.setPassword(encodedPassword);
+        newUser.addRole(UserRole.SIMPLE_USER);
         userRepository.create(newUser);
     }
 

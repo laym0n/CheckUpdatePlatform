@@ -1,6 +1,7 @@
 package com.victor.kochnev.dal.entity.builder;
 
 import com.victor.kochnev.dal.entity.UserEntity;
+import com.victor.kochnev.domain.enums.UserRole;
 
 import java.time.ZonedDateTime;
 import java.util.UUID;
@@ -16,6 +17,7 @@ public class UserEntityBuilder {
         return UserEntity.builder()
                 .email(DEFAULT_EMAIL)
                 .password(DEFAULT_PASSWORD)
+                .roles(UserRole.SIMPLE_USER.name())
                 .enabled(true);
     }
 

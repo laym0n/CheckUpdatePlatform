@@ -4,6 +4,7 @@ import com.victor.kochnev.core.dto.request.UserRegistrationRequestDto;
 import com.victor.kochnev.dal.entity.UserEntity;
 import com.victor.kochnev.dal.entity.builder.UserEntityBuilder;
 import com.victor.kochnev.domain.entity.builder.UserDomainBuilder;
+import com.victor.kochnev.domain.enums.UserRole;
 import com.victor.kochnev.tests.base.BaseControllerTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,7 @@ class UserControllerTest extends BaseControllerTest {
         assertEquals(REQUEST_EMAIL, createdUser.getEmail());
         assertTrue(passwordEncoder.matches(REQUEST_PASSWORD, createdUser.getPassword()));
         assertTrue(createdUser.isEnabled());
+        assertEquals(UserRole.SIMPLE_USER.name(), createdUser.getRoles());
     }
 
     @Test

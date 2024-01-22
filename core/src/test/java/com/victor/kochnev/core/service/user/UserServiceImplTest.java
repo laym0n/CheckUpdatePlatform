@@ -7,18 +7,19 @@ import com.victor.kochnev.core.exception.ResourceNotFound;
 import com.victor.kochnev.core.exception.UserRegistrationException;
 import com.victor.kochnev.domain.entity.User;
 import com.victor.kochnev.domain.entity.builder.UserDomainBuilder;
+import com.victor.kochnev.domain.enums.UserRole;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class UserServiceImplTest extends BaseCoreTest {
+class UserServiceImplTest extends BaseCoreTest {
     private static final String REQUEST_EMAIL = "victor_k02@mail.ru";
     private static final String REQUEST_PASSWORD = "pass";
     @Spy
@@ -36,9 +37,9 @@ public class UserServiceImplTest extends BaseCoreTest {
     }
 
     @Test
-    public void testCreateNotExistedUser() {
+    void testCreateNotExistedUser() {
         //Assign
-        when(userRepository.findUserByEmail(eq(REQUEST_EMAIL))).thenReturn(Optional.empty());
+        when(userRepository.findUserByEmail(REQUEST_EMAIL)).thenReturn(Optional.empty());
         UserRegistrationRequestDto request = prepareRequest();
 
         //Action
@@ -51,12 +52,13 @@ public class UserServiceImplTest extends BaseCoreTest {
         assertEquals(REQUEST_EMAIL, createdUser.getEmail());
         String encodedPassword = passwordCoder.encode(REQUEST_PASSWORD);
         assertEquals(encodedPassword, createdUser.getPassword());
+        assertEquals(List.of(UserRole.SIMPLE_USER), createdUser.getRolesCollection());
     }
 
     @Test
-    public void testCreateExistedUser_expectUserRegistrationException() {
+    void testCreateExistedUser_expectUserRegistrationException() {
         //Assign
-        when(userRepository.findUserByEmail(eq(REQUEST_EMAIL))).thenReturn(Optional.of(UserDomainBuilder.persistedDefaultUser().build()));
+        when(userRepository.findUserByEmail(REQUEST_EMAIL)).thenReturn(Optional.of(UserDomainBuilder.persistedDefaultUser().build()));
         UserRegistrationRequestDto request = prepareRequest();
 
         //Action
@@ -64,10 +66,10 @@ public class UserServiceImplTest extends BaseCoreTest {
     }
 
     @Test
-    public void testFindExistedUserByEmail() {
+    void testFindExistedUserByEmail() {
         //Assign
         User existedUser = UserDomainBuilder.persistedDefaultUser().build();
-        when(userRepository.findUserByEmail(eq(REQUEST_EMAIL))).thenReturn(Optional.of(existedUser));
+        when(userRepository.findUserByEmail(REQUEST_EMAIL)).thenReturn(Optional.of(existedUser));
 
         //Action
         UserDto userDto = userService.findUserByEmail(REQUEST_EMAIL);
@@ -80,10 +82,9 @@ public class UserServiceImplTest extends BaseCoreTest {
     }
 
     @Test
-    public void testFindNotExistedUserByEmail_expectResourceNotFound() {
+    void testFindNotExistedUserByEmail_expectResourceNotFound() {
         //Assign
-        when(userRepository.findUserByEmail(eq(REQUEST_EMAIL))).thenReturn(Optional.empty());
-        UserRegistrationRequestDto request = prepareRequest();
+        when(userRepository.findUserByEmail(REQUEST_EMAIL)).thenReturn(Optional.empty());
 
         //Action
         assertThrows(ResourceNotFound.class, () -> userService.findUserByEmail(REQUEST_EMAIL));
