@@ -1,4 +1,4 @@
-package com.victor.kochnev.core.dto;
+package com.victor.kochnev.core.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

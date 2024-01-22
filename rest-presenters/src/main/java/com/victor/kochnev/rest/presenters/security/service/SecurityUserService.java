@@ -1,6 +1,6 @@
 package com.victor.kochnev.rest.presenters.security.service;
 
-import com.victor.kochnev.core.dto.UserDto;
+import com.victor.kochnev.core.dto.domain.UserDto;
 import com.victor.kochnev.core.exception.ResourceNotFound;
 import com.victor.kochnev.core.facade.user.UserFacade;
 import com.victor.kochnev.rest.presenters.converter.UserDtoMapper;

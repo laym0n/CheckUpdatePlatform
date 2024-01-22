@@ -1,6 +1,6 @@
 package com.victor.kochnev.rest.presenters.controller;
 
-import com.victor.kochnev.core.dto.UserRegistrationRequestDto;
+import com.victor.kochnev.core.dto.request.UserRegistrationRequestDto;
 import com.victor.kochnev.dal.entity.UserEntity;
 import com.victor.kochnev.dal.entity.builder.UserEntityBuilder;
 import com.victor.kochnev.domain.entity.builder.UserDomainBuilder;
