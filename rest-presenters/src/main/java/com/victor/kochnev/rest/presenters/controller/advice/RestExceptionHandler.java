@@ -5,6 +5,7 @@ import com.victor.kochnev.rest.presenters.api.dto.ErrorMessageDto;
 import com.victor.kochnev.rest.presenters.controller.ControllerScanMarker;
 import io.jsonwebtoken.JwtException;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -23,38 +24,38 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(UserRegistrationException.class)
     public ResponseEntity<Object> handleUserRegistrationException(UserRegistrationException ex, WebRequest request) {
-        log.error(ex.getMessage());
+        log.error(ExceptionUtils.getMessage(ex));
         return ResponseEntity.status(HttpStatusCode.valueOf(409)).build();
     }
 
     @ExceptionHandler({AuthenticationException.class, JwtException.class})
     public ResponseEntity<Object> handleUserAuthorizationException(Exception ex, WebRequest request) {
-        log.error(ex.getMessage());
+        log.error(ExceptionUtils.getMessage(ex));
         return ResponseEntity.status(HttpStatusCode.valueOf(400))
                 .body(new ErrorMessageDto().message("Проваленная аутентификация"));
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleTopLevelException(Exception ex, WebRequest request) {
-        log.error(ex.getMessage());
+        log.error(ExceptionUtils.getMessage(ex));
         return ResponseEntity.internalServerError().build();
     }
 
     @Override
     protected ResponseEntity<Object> handleErrorResponseException(ErrorResponseException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-        log.error(ex.getMessage());
+        log.error(ExceptionUtils.getMessage(ex));
         return super.handleErrorResponseException(ex, headers, status, request);
     }
 
     @Override
     protected ResponseEntity<Object> handleMissingServletRequestParameter(MissingServletRequestParameterException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-        log.error(ex.getMessage());
+        log.error(ExceptionUtils.getMessage(ex));
         return super.handleMissingServletRequestParameter(ex, headers, status, request);
     }
 
     @Override
     protected ResponseEntity<Object> handleMissingServletRequestPart(MissingServletRequestPartException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-        log.error(ex.getMessage());
+        log.error(ExceptionUtils.getMessage(ex));
         return super.handleMissingServletRequestPart(ex, headers, status, request);
     }
 
