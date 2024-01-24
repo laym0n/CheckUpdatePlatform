@@ -12,7 +12,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -41,5 +43,10 @@ public class UserServiceImpl implements UserService {
     public UserDto findUserByEmail(String email) {
         Optional<User> optionalUser = userRepository.findUserByEmail(email);
         return optionalUser.map(domainUserMapper::mapToUserDto).orElseThrow(() -> ResourceNotFound.create(User.class, email, "email"));
+    }
+
+    @Override
+    public List<User> findAllObserversOfWebResource(UUID pluginId, String webResourceName) {
+        return userRepository.findAllObserversOfWebResource(pluginId, webResourceName);
     }
 }
