@@ -8,8 +8,10 @@ import com.victor.kochnev.domain.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 @RequiredArgsConstructor
@@ -29,5 +31,10 @@ public class UserRepositoryImpl implements UserRepository {
         }
         UserEntity savedUser = userEntityRepository.save(entityUserMapper.mapToEntity(user));
         return entityUserMapper.mapToDomain(savedUser);
+    }
+
+    @Override
+    public List<User> findAllObserversOfWebResource(UUID pluginId, String webResourceName) {
+        return null;
     }
 }
