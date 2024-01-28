@@ -3,7 +3,7 @@ package com.victor.kochnev.core.service.user;
 import base.BaseCoreTest;
 import com.victor.kochnev.core.dto.domain.UserDto;
 import com.victor.kochnev.core.dto.request.UserRegistrationRequestDto;
-import com.victor.kochnev.core.exception.ResourceNotFound;
+import com.victor.kochnev.core.exception.ResourceNotFoundException;
 import com.victor.kochnev.core.exception.UserRegistrationException;
 import com.victor.kochnev.domain.entity.User;
 import com.victor.kochnev.domain.entity.builder.UserDomainBuilder;
@@ -87,6 +87,6 @@ class UserServiceImplTest extends BaseCoreTest {
         when(userRepository.findUserByEmail(REQUEST_EMAIL)).thenReturn(Optional.empty());
 
         //Action
-        assertThrows(ResourceNotFound.class, () -> userService.findUserByEmail(REQUEST_EMAIL));
+        assertThrows(ResourceNotFoundException.class, () -> userService.findUserByEmail(REQUEST_EMAIL));
     }
 }
