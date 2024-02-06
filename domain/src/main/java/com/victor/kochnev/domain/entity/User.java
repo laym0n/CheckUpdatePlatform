@@ -22,14 +22,9 @@ public class User extends BaseEntity {
     /**
      * Роли пользователя
      */
-    private Collection<UserRole> rolesCollection;
+    @Builder.Default
+    private Collection<UserRole> rolesCollection = new ArrayList<>();
 
-    public Collection<UserRole> getRolesCollection() {
-        if (rolesCollection == null) {
-            rolesCollection = new ArrayList<>();
-        }
-        return rolesCollection;
-    }
 
     public void addRole(UserRole userRole) {
         getRolesCollection().add(userRole);
