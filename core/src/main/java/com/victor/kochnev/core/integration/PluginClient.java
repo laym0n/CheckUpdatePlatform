@@ -8,5 +8,5 @@ public interface PluginClient {
 
     void removeResource(String resourceName);
 
-    WebResourcePluginDto getResourceState();
+    WebResourcePluginDto getResourceState(String resourceName);
 }

@@ -20,7 +20,7 @@ public class PluginClientImpl implements PluginClient {
     }
 
     @Override
-    public WebResourcePluginDto getResourceState() {
+    public WebResourcePluginDto getResourceState(String resourceName) {
         return null;
     }
 }
