@@ -19,6 +19,7 @@
         <dependency>
             <groupId>com.victor.kochnev</groupId>
             <artifactId>core</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.victor.kochnev</groupId>
@@ -33,6 +34,10 @@
         <dependency>
             <groupId>com.victor.kochnev</groupId>
             <artifactId>rest-presenters</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.victor.kochnev</groupId>
+            <artifactId>integration-plugin</artifactId>
         </dependency>
 
 

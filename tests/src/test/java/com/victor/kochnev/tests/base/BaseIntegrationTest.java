@@ -8,6 +8,7 @@ import com.github.dockerjava.api.model.Ports;
 import com.victor.kochnev.core.configuration.CoreConfiguration;
 import com.victor.kochnev.dal.configuration.DalConfiguration;
 import com.victor.kochnev.dal.repository.jpa.UserEntityRepository;
+import com.victor.kochnev.integration.plugin.configuration.PluginIntegrationConfiguration;
 import com.victor.kochnev.rest.presenters.configuration.RestPresentersConfiguration;
 import com.victor.kochnev.rest.presenters.configuration.SecurityConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,12 @@ import org.testcontainers.utility.DockerImageName;
 import java.util.function.Consumer;
 
 @ActiveProfiles({"default", "production", "test"})
-@SpringBootTest(classes = {CoreConfiguration.class, DalConfiguration.class, RestPresentersConfiguration.class, SecurityConfiguration.class})
+@SpringBootTest(classes = {
+        CoreConfiguration.class,
+        DalConfiguration.class,
+        RestPresentersConfiguration.class,
+        SecurityConfiguration.class,
+        PluginIntegrationConfiguration.class})
 @Testcontainers
 @Sql("classpath:initdata/clean_db.sql")
 public abstract class BaseIntegrationTest {

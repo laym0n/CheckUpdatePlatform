@@ -1,4 +1,4 @@
-package com.victor.kochnev.integration.web.client;
+package com.victor.kochnev.integration.plugin.client;
 
 import com.victor.kochnev.core.dto.plugin.WebResourcePluginDto;
 import com.victor.kochnev.core.integration.PluginClient;
