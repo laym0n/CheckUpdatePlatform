@@ -16,4 +16,7 @@
     <properties>
     </properties>
 
+    <modules>
+        <module>integration-plugin</module>
+    </modules>
 </project>
