@@ -19,12 +19,10 @@
         <dependency>
             <groupId>com.victor.kochnev</groupId>
             <artifactId>core</artifactId>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.victor.kochnev</groupId>
             <artifactId>dal</artifactId>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.victor.kochnev</groupId>
@@ -35,7 +33,6 @@
         <dependency>
             <groupId>com.victor.kochnev</groupId>
             <artifactId>rest-presenters</artifactId>
-            <scope>test</scope>
         </dependency>
 
 
@@ -102,5 +99,24 @@
         </dependency>
 
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco.version}</version>
+                <executions>
+                    <execution>
+                        <id>report-aggregate</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>report-aggregate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
