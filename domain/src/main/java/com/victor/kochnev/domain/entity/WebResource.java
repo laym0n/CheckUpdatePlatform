@@ -1,5 +1,6 @@
 package com.victor.kochnev.domain.entity;
 
+import com.victor.kochnev.domain.enums.WebResourceStatus;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -22,11 +23,12 @@ public class WebResource extends BaseEntity {
      */
     private String description;
     /**
+     * Статус веб ресурса
+     */
+    private WebResourceStatus status;
+    /**
      * Плагин, отслеживающий ресурс
      */
     private Plugin plugin;
-    /**
-     * Пользователи, отслеживающие ресурс
-     */
-    private Collection<User> usersCollection;
+    private Collection<WebResourceObserving> webResourceObservingCollection;
 }
