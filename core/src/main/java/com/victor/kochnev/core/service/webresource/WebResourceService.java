@@ -1,17 +1,13 @@
 package com.victor.kochnev.core.service.webresource;
 
-import com.victor.kochnev.core.dto.domain.WebResourceDto;
-import com.victor.kochnev.core.dto.request.AddWebResourceRequest;
+import com.victor.kochnev.core.dto.plugin.WebResourcePluginDto;
+import com.victor.kochnev.domain.entity.WebResource;
+import com.victor.kochnev.domain.enums.WebResourceStatus;
 
-/**
- * Сервис для управления сущностью {@link com.victor.kochnev.domain.entity.WebResource}
- */
+import java.util.UUID;
+
 public interface WebResourceService {
-    /**
-     * Добавить ресурс для отслеживания
-     *
-     * @param request запрос отслеживания ресурса
-     * @return dto вебресурса
-     */
-    WebResourceDto addWebResource(AddWebResourceRequest request);
+    WebResource updateOrCreate(UUID pluginId, WebResourcePluginDto webResourcePluginDto);
+
+    void setStatus(WebResourceStatus status, UUID webResourcesId);
 }

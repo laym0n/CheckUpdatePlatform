@@ -1,7 +1,7 @@
 package com.victor.kochnev.core.converter;
 
-import base.BaseCoreTest;
-import com.victor.kochnev.core.dto.domain.UserDto;
+import com.victor.kochnev.core.base.BaseCoreTest;
+import com.victor.kochnev.core.dto.domain.entity.UserDto;
 import com.victor.kochnev.core.dto.request.UserRegistrationRequestDto;
 import com.victor.kochnev.domain.entity.User;
 import com.victor.kochnev.domain.entity.builder.UserDomainBuilder;
@@ -11,10 +11,10 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class DomainUserMapperTest extends BaseCoreTest {
+class DomainUserMapperTest extends BaseCoreTest {
 
     @Test
-    public void testMapToEntity() {
+    void testMapToEntity() {
         //Assign
         String email = "victor_k02@mail.ru";
         String password = "password";
@@ -39,7 +39,7 @@ public class DomainUserMapperTest extends BaseCoreTest {
 
     @ParameterizedTest
     @ValueSource(booleans = {true, false})
-    public void testMapToUserDto(boolean isEnabled) {
+    void testMapToUserDto(boolean isEnabled) {
         //Assign
         User user = UserDomainBuilder.persistedDefaultUser().enabled(isEnabled).build();
 

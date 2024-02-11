@@ -1,4 +1,4 @@
-package com.victor.kochnev.core.dto.domain;
+package com.victor.kochnev.core.dto.domain.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

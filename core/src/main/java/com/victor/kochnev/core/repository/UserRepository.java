@@ -12,4 +12,6 @@ public interface UserRepository {
     User create(User user);
 
     List<User> findAllObserversOfWebResource(UUID pluginId, String webResourceName);
+
+    User findById(UUID id);
 }

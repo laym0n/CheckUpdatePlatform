@@ -4,7 +4,9 @@ import com.victor.kochnev.core.dto.plugin.WebResourcePluginDto;
 
 public interface PluginClient {
 
-    WebResourcePluginDto addResource(String baseUrl, String resourceDescription);
+    WebResourcePluginDto canObserve(String baseUrl, String resourceDescription);
+
+    WebResourcePluginDto addResourceForObserving(String baseUrl, String resourceDescription);
 
     void removeResource(String resourceName);
 
