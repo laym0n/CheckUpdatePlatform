@@ -15,6 +15,7 @@
 /dal/target/
 /domain/target/
 /integration/integration-plugin/target/
+/integration/target/
 /rest-presenters/target/
 /tests/target/
 /target/
