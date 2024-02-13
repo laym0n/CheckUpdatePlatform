@@ -1,6 +1,6 @@
 package com.victor.kochnev.core.service.user;
 
-import com.victor.kochnev.core.base.BaseCoreTest;
+import com.victor.kochnev.core.base.BaseCoreUnitTest;
 import com.victor.kochnev.core.dto.domain.entity.UserDto;
 import com.victor.kochnev.core.dto.request.UserRegistrationRequestDto;
 import com.victor.kochnev.core.exception.ResourceNotFoundException;
@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-class UserServiceImplTest extends BaseCoreTest {
+class UserServiceImplUnitTest extends BaseCoreUnitTest {
     private static final String REQUEST_EMAIL = "victor_k02@mail.ru";
     private static final String REQUEST_PASSWORD = "pass";
     @Spy

@@ -22,7 +22,7 @@ public class WebResourceRepositoryImpl implements WebResourceRepository {
     }
 
     @Override
-    public void update(WebResource webResource) {
-
+    public WebResource findById(UUID webResourcesId) {
+        return null;
     }
 }

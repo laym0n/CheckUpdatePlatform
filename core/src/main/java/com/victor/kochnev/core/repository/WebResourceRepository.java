@@ -10,7 +10,5 @@ public interface WebResourceRepository {
 
     Optional<WebResource> findByNameAndPluginId(String name, UUID pluginId);
 
-    void update(WebResource webResource);
-
     WebResource findById(UUID webResourcesId);
 }

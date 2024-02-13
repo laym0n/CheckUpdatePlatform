@@ -1,6 +1,6 @@
 package com.victor.kochnev.core.converter;
 
-import com.victor.kochnev.core.base.BaseCoreTest;
+import com.victor.kochnev.core.base.BaseCoreUnitTest;
 import com.victor.kochnev.core.dto.domain.entity.UserDto;
 import com.victor.kochnev.core.dto.request.UserRegistrationRequestDto;
 import com.victor.kochnev.domain.entity.User;
@@ -11,7 +11,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class DomainUserMapperTest extends BaseCoreTest {
+class DomainUserMapperUnitTest extends BaseCoreUnitTest {
 
     @Test
     void testMapToEntity() {

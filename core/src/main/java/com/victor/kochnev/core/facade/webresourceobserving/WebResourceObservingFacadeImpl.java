@@ -4,6 +4,7 @@ import com.victor.kochnev.core.dto.domain.entity.WebResourceObservingDto;
 import com.victor.kochnev.core.dto.plugin.WebResourcePluginDto;
 import com.victor.kochnev.core.dto.request.AddWebResourceForObservingRequest;
 import com.victor.kochnev.core.exception.PluginUsageNotPermittedException;
+import com.victor.kochnev.core.exception.ResourceNotFoundException;
 import com.victor.kochnev.core.integration.PluginClient;
 import com.victor.kochnev.core.service.plugin.PluginService;
 import com.victor.kochnev.core.service.pluginusage.PluginUsageService;
@@ -31,7 +32,12 @@ public class WebResourceObservingFacadeImpl implements WebResourceObservingFacad
 
     @Override
     public WebResourceObservingDto addWebResourceForObserving(AddWebResourceForObservingRequest request) {
-        PluginUsage lastPluginUsage = pluginUsageService.findLastPluginUsageForUser(request.getPluginId(), request.getUserId());
+        PluginUsage lastPluginUsage;
+        try {
+            lastPluginUsage = pluginUsageService.findLastPluginUsageForUser(request.getPluginId(), request.getUserId());
+        } catch (ResourceNotFoundException e) {
+            throw new PluginUsageNotPermittedException(request.getPluginId(), e);
+        }
         if (!lastPluginUsage.canUse(ZonedDateTime.now())) {
             throw new PluginUsageNotPermittedException(request.getPluginId());
         }

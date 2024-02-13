@@ -1,5 +1,6 @@
 package com.victor.kochnev.dal.repository.core;
 
+import com.victor.kochnev.core.exception.ResourceNotFoundException;
 import com.victor.kochnev.core.repository.UserRepository;
 import com.victor.kochnev.dal.converter.EntityUserMapper;
 import com.victor.kochnev.dal.entity.UserEntity;
@@ -36,5 +37,12 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public List<User> findAllObserversOfWebResource(UUID pluginId, String webResourceName) {
         return null;
+    }
+
+    @Override
+    public User findById(UUID id) {
+        UserEntity userEntity = userEntityRepository.findById(id)
+                .orElseThrow(() -> ResourceNotFoundException.create(User.class, id.toString(), "id"));
+        return entityUserMapper.mapToDomain(userEntity);
     }
 }

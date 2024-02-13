@@ -1,6 +1,6 @@
 package com.victor.kochnev.core.converter;
 
-import com.victor.kochnev.core.base.BaseCoreTest;
+import com.victor.kochnev.core.base.BaseCoreUnitTest;
 import com.victor.kochnev.core.dto.domain.entity.WebResourceDto;
 import com.victor.kochnev.core.dto.plugin.WebResourcePluginDto;
 import com.victor.kochnev.core.dto.plugin.WebResourcePluginDtoBuilder;
@@ -14,7 +14,7 @@ import java.time.ZonedDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class DomainWebResourceMapperImplTest extends BaseCoreTest {
+class DomainWebResourceMapperImplUnitTest extends BaseCoreUnitTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"description"})
@@ -67,7 +67,7 @@ class DomainWebResourceMapperImplTest extends BaseCoreTest {
     @ParameterizedTest
     @ValueSource(strings = {"description"})
     @NullSource
-    void testMapToUserDto(String description) {
+    void testMapToDto(String description) {
         //Assign
         WebResource webResource = WebResourceBuilder.persistedDefaultBuilder().description(description).build();
 

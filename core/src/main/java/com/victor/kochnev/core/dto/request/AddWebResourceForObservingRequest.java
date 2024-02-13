@@ -1,6 +1,6 @@
 package com.victor.kochnev.core.dto.request;
 
-import com.victor.kochnev.core.dto.domain.value.object.ObserveSettingsDto;
+import com.victor.kochnev.domain.value.object.ObserveSettings;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,5 +17,5 @@ public class AddWebResourceForObservingRequest {
     private UUID pluginId;
     private String resourceDescription;
     private UUID userId;
-    private Optional<ObserveSettingsDto> observeSettingsDto;
+    private Optional<ObserveSettings> observeSettings;
 }

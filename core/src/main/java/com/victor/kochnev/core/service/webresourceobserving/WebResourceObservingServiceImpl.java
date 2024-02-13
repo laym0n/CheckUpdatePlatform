@@ -31,11 +31,12 @@ public class WebResourceObservingServiceImpl implements WebResourceObservingServ
         WebResourceObserving webResourceObserving;
         if (webResourceObservingOptional.isPresent()) {
             webResourceObserving = webResourceObservingOptional.get();
+            webResourceObserving.setObserveSettings(request.getObserveSettings());
         } else {
             webResourceObserving = new WebResourceObserving();
             webResourceObserving.setUser(userRepository.findById(request.getUserId()));
             webResourceObserving.setWebResource(webResource);
-            Optional<ObserveSettings> observeSettings = request.getObserveSettingsDto().map(webResourceObservingMapper::mapToDomain);
+            Optional<ObserveSettings> observeSettings = request.getObserveSettings();
             webResourceObserving.setObserveSettings(observeSettings);
             webResourceObserving = webResourceObservingRepository.create(webResourceObserving);
         }
