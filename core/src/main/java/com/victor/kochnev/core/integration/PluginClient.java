@@ -8,7 +8,7 @@ public interface PluginClient {
 
     WebResourcePluginDto addResourceForObserving(String baseUrl, String resourceDescription);
 
-    void removeResource(String resourceName);
+    void removeResourceFromObserve(String resourceName);
 
     WebResourcePluginDto getResourceState(String resourceName);
 }
