@@ -9,13 +9,19 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class PluginClientImpl implements PluginClient {
+
     @Override
-    public WebResourcePluginDto addResource(String baseUrl, String resourceDescription) {
+    public WebResourcePluginDto canObserve(String baseUrl, String resourceDescription) {
         return null;
     }
 
     @Override
-    public void removeResource(String resourceName) {
+    public WebResourcePluginDto addResourceForObserving(String baseUrl, String resourceDescription) {
+        return null;
+    }
+
+    @Override
+    public void removeResourceFromObserve(String resourceName) {
 
     }
 

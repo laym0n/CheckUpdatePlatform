@@ -17,5 +17,6 @@
 /integration/integration-plugin/target/
 /rest-presenters/target/
 /tests/target/
+/target/
 
 *.flattened-pom.xml
