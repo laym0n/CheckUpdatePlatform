@@ -33,7 +33,9 @@
         <jacoco.version>0.8.11</jacoco.version>
 
         <!-- SonarQube -->
-        <sonar.coverage.jacoco.xmlReportPaths>${maven.multiModuleProjectDirectory}/tests/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+        <sonar.coverage.jacoco.xmlReportPaths>
+            ${maven.multiModuleProjectDirectory}/tests/target/site/jacoco-aggregate/jacoco.xml
+        </sonar.coverage.jacoco.xmlReportPaths>
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
         <sonar.java.binaries>target/classes</sonar.java.binaries>
         <maven.wagon.http.ssl.insecure>true</maven.wagon.http.ssl.insecure>

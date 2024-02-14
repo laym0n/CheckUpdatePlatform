@@ -3,10 +3,10 @@ package com.victor.kochnev.core.converter;
 import com.victor.kochnev.core.dto.domain.entity.WebResourceDto;
 import com.victor.kochnev.core.dto.plugin.WebResourcePluginDto;
 import com.victor.kochnev.domain.entity.WebResource;
-import com.victor.kochnev.domain.enums.WebResourceStatus;
+import com.victor.kochnev.domain.enums.ObserveStatus;
 import org.mapstruct.*;
 
-@Mapper(imports = {WebResourceStatus.class},
+@Mapper(imports = {ObserveStatus.class},
         componentModel = "spring",
         unmappedTargetPolicy = ReportingPolicy.ERROR,
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
@@ -14,7 +14,7 @@ public interface DomainWebResourceMapper {
     @BlankEntityMapping
     @Mapping(target = "plugin", ignore = true)
     @Mapping(target = "webResourceObservingCollection", ignore = true)
-    @Mapping(target = "status", expression = "java(WebResourceStatus.NOT_OBSERVED)")
+    @Mapping(target = "status", expression = "java(ObserveStatus.NOT_OBSERVE)")
     WebResource mapToEntity(WebResourcePluginDto webResourcePluginDto);
 
     WebResourceDto mapToDto(WebResource webResource);

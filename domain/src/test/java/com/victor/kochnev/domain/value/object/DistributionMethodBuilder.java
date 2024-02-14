@@ -7,8 +7,10 @@ import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 
 public class DistributionMethodBuilder {
-    private DistributionMethodBuilder() {}
     public static final Duration DEFAULT_DURATION = Duration.of(10, ChronoUnit.DAYS);
+
+    private DistributionMethodBuilder() {
+    }
 
     public static DistributionMethod defaultPurchaseDistribution() {
         return new DistributionMethod(DistributionPlanType.PURCHASE, null, BigDecimal.TEN);

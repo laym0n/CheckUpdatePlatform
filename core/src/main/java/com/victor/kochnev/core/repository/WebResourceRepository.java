@@ -1,6 +1,7 @@
 package com.victor.kochnev.core.repository;
 
 import com.victor.kochnev.domain.entity.WebResource;
+import com.victor.kochnev.domain.enums.ObserveStatus;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -11,4 +12,6 @@ public interface WebResourceRepository {
     Optional<WebResource> findByNameAndPluginId(String name, UUID pluginId);
 
     WebResource findById(UUID webResourcesId);
+
+    int countObserversWithStatus(UUID webResourceId, ObserveStatus status);
 }

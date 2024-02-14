@@ -4,7 +4,7 @@ import com.victor.kochnev.core.converter.DomainWebResourceMapper;
 import com.victor.kochnev.core.dto.plugin.WebResourcePluginDto;
 import com.victor.kochnev.core.repository.WebResourceRepository;
 import com.victor.kochnev.domain.entity.WebResource;
-import com.victor.kochnev.domain.enums.WebResourceStatus;
+import com.victor.kochnev.domain.enums.ObserveStatus;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,8 +37,19 @@ public class WebResourceServiceImpl implements WebResourceService {
 
     @Override
     @Transactional
-    public void setStatus(WebResourceStatus status, UUID webResourcesId) {
-        WebResource webResource = webResourceRepository.findById(webResourcesId);
+    public void setStatus(ObserveStatus status, UUID webResourceId) {
+        WebResource webResource = webResourceRepository.findById(webResourceId);
         webResource.setStatus(status);
+    }
+
+    @Override
+    @Transactional
+    public boolean isNeedStopObserve(UUID webResourceId) {
+        WebResource webResource = webResourceRepository.findById(webResourceId);
+        if (ObserveStatus.NOT_OBSERVE == webResource.getStatus()) {
+            return false;
+        }
+        int count = webResourceRepository.countObserversWithStatus(webResourceId, ObserveStatus.OBSERVE);
+        return count == 0;
     }
 }

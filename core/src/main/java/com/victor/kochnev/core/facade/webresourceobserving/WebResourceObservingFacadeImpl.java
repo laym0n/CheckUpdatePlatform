@@ -3,6 +3,7 @@ package com.victor.kochnev.core.facade.webresourceobserving;
 import com.victor.kochnev.core.dto.domain.entity.WebResourceObservingDto;
 import com.victor.kochnev.core.dto.plugin.WebResourcePluginDto;
 import com.victor.kochnev.core.dto.request.AddWebResourceForObservingRequest;
+import com.victor.kochnev.core.dto.request.RemoveWebResourceFromObservingRequest;
 import com.victor.kochnev.core.exception.PluginUsageNotPermittedException;
 import com.victor.kochnev.core.exception.ResourceNotFoundException;
 import com.victor.kochnev.core.integration.PluginClient;
@@ -13,7 +14,7 @@ import com.victor.kochnev.core.service.webresourceobserving.WebResourceObserving
 import com.victor.kochnev.domain.entity.Plugin;
 import com.victor.kochnev.domain.entity.PluginUsage;
 import com.victor.kochnev.domain.entity.WebResource;
-import com.victor.kochnev.domain.enums.WebResourceStatus;
+import com.victor.kochnev.domain.enums.ObserveStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -45,11 +46,21 @@ public class WebResourceObservingFacadeImpl implements WebResourceObservingFacad
         String baseUrl = plugin.getBaseUrl();
         WebResourcePluginDto webResourceDto = pluginClient.canObserve(baseUrl, request.getResourceDescription());
         WebResource webResource = webResourceService.updateOrCreate(plugin.getId(), webResourceDto);
-        if (WebResourceStatus.NOT_OBSERVED == webResource.getStatus()) {
+        if (ObserveStatus.NOT_OBSERVE == webResource.getStatus()) {
             pluginClient.addResourceForObserving(baseUrl, request.getResourceDescription());
-            webResourceService.setStatus(WebResourceStatus.OBSERVED, webResource.getId());
+            webResourceService.setStatus(ObserveStatus.OBSERVE, webResource.getId());
         }
-        WebResourceObservingDto webResourceObservingDto = webResourceObservingService.updateOrCreate(webResource, request);
+        return webResourceObservingService.updateOrCreate(webResource, request);
+    }
+
+    @Override
+    public WebResourceObservingDto removeWebResourceFromObserving(RemoveWebResourceFromObservingRequest request) {
+        WebResourceObservingDto webResourceObservingDto = webResourceObservingService.setStatusByUserIdAndWebResourceId(request.getUserId(), request.getWebResourceId(), ObserveStatus.NOT_OBSERVE);
+        boolean isNeedChangeStatus = webResourceService.isNeedStopObserve(request.getWebResourceId());
+        if (isNeedChangeStatus) {
+            pluginClient.removeResourceFromObserve(webResourceObservingDto.getWebResourceDto().getName());
+            webResourceService.setStatus(ObserveStatus.NOT_OBSERVE, request.getWebResourceId());
+        }
         return webResourceObservingDto;
     }
 }

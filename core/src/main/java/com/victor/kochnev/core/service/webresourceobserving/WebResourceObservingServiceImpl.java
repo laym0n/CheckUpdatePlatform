@@ -3,17 +3,19 @@ package com.victor.kochnev.core.service.webresourceobserving;
 import com.victor.kochnev.core.converter.DomainWebResourceObservingMapper;
 import com.victor.kochnev.core.dto.domain.entity.WebResourceObservingDto;
 import com.victor.kochnev.core.dto.request.AddWebResourceForObservingRequest;
+import com.victor.kochnev.core.exception.ResourceNotFoundException;
 import com.victor.kochnev.core.repository.UserRepository;
 import com.victor.kochnev.core.repository.WebResourceObservingRepository;
 import com.victor.kochnev.domain.entity.WebResource;
 import com.victor.kochnev.domain.entity.WebResourceObserving;
-import com.victor.kochnev.domain.value.object.ObserveSettings;
+import com.victor.kochnev.domain.enums.ObserveStatus;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -28,18 +30,27 @@ public class WebResourceObservingServiceImpl implements WebResourceObservingServ
     public WebResourceObservingDto updateOrCreate(WebResource webResource, AddWebResourceForObservingRequest request) {
         Optional<WebResourceObserving> webResourceObservingOptional = webResourceObservingRepository.findByWebResourceIdAndUserId(webResource.getId(), request.getUserId());
 
-        WebResourceObserving webResourceObserving;
-        if (webResourceObservingOptional.isPresent()) {
-            webResourceObserving = webResourceObservingOptional.get();
-            webResourceObserving.setObserveSettings(request.getObserveSettings());
-        } else {
-            webResourceObserving = new WebResourceObserving();
-            webResourceObserving.setUser(userRepository.findById(request.getUserId()));
-            webResourceObserving.setWebResource(webResource);
-            Optional<ObserveSettings> observeSettings = request.getObserveSettings();
-            webResourceObserving.setObserveSettings(observeSettings);
+        WebResourceObserving webResourceObserving = webResourceObservingOptional.orElseGet(() -> {
+            WebResourceObserving newObserving = new WebResourceObserving();
+            newObserving.setUser(userRepository.findById(request.getUserId()));
+            newObserving.setWebResource(webResource);
+            return newObserving;
+        });
+        webResourceObserving.setObserveSettings(request.getObserveSettings());
+        webResourceObserving.setStatus(ObserveStatus.OBSERVE);
+        if (webResourceObservingOptional.isEmpty()) {
             webResourceObserving = webResourceObservingRepository.create(webResourceObserving);
         }
+        return webResourceObservingMapper.mapToDto(webResourceObserving);
+    }
+
+    @Override
+    @Transactional
+    public WebResourceObservingDto setStatusByUserIdAndWebResourceId(UUID userId, UUID webResourceId, ObserveStatus status) {
+        Optional<WebResourceObserving> optionalWebResourceObserving = webResourceObservingRepository.findByWebResourceIdAndUserId(webResourceId, userId);
+        WebResourceObserving webResourceObserving = optionalWebResourceObserving
+                .orElseThrow(() -> ResourceNotFoundException.create(WebResourceObserving.class, userId + " " + webResourceId, "userId webResourceId"));
+        webResourceObserving.setStatus(status);
         return webResourceObservingMapper.mapToDto(webResourceObserving);
     }
 }

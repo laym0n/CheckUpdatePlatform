@@ -1,5 +1,6 @@
 package com.victor.kochnev.domain.entity;
 
+import com.victor.kochnev.domain.enums.ObserveStatus;
 import com.victor.kochnev.domain.value.object.ObserveSettings;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -24,6 +25,10 @@ public class WebResourceObserving extends BaseEntity {
      * Отслеживаемый веб ресурс
      */
     private WebResource webResource;
+    /**
+     * Отслеживаемый веб ресурс
+     */
+    private ObserveStatus status;
     /**
      * Настройки отслеживания веб ресурса
      */

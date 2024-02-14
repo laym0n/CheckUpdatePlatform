@@ -7,9 +7,10 @@ import java.time.Duration;
 
 /**
  * План распространения плагина
- * @param type тип плана распростронения
+ *
+ * @param type     тип плана распростронения
  * @param duration длительность действия плана распростронения
- * @param cost стоимость плана распростронения
+ * @param cost     стоимость плана распростронения
  */
 public record DistributionMethod(DistributionPlanType type, Duration duration, BigDecimal cost) {
 }

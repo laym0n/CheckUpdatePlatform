@@ -6,15 +6,16 @@ import com.victor.kochnev.core.dto.plugin.WebResourcePluginDtoBuilder;
 import com.victor.kochnev.core.exception.ResourceNotFoundException;
 import com.victor.kochnev.domain.entity.WebResource;
 import com.victor.kochnev.domain.entity.builder.WebResourceBuilder;
-import com.victor.kochnev.domain.enums.WebResourceStatus;
+import com.victor.kochnev.domain.enums.ObserveStatus;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class WebResourceServiceImplUnitTest extends BaseCoreUnitTest {
@@ -24,10 +25,10 @@ class WebResourceServiceImplUnitTest extends BaseCoreUnitTest {
     @Test
     void testSetStatus() {
         //Assign
-        WebResourceStatus expectedStatus = WebResourceStatus.OBSERVED;
+        ObserveStatus expectedStatus = ObserveStatus.OBSERVE;
         UUID webResourceId = UUID.randomUUID();
         WebResource webResource = WebResourceBuilder.persistedDefaultBuilder()
-                .status(WebResourceStatus.NOT_OBSERVED)
+                .status(ObserveStatus.NOT_OBSERVE)
                 .build();
         when(webResourceRepository.findById(webResourceId)).thenReturn(webResource);
 
@@ -45,7 +46,7 @@ class WebResourceServiceImplUnitTest extends BaseCoreUnitTest {
         when(webResourceRepository.findById(webResourceId)).thenThrow(ResourceNotFoundException.class);
 
         //Action
-        assertThrows(ResourceNotFoundException.class, () -> webResourceService.setStatus(WebResourceStatus.NOT_OBSERVED, webResourceId));
+        assertThrows(ResourceNotFoundException.class, () -> webResourceService.setStatus(ObserveStatus.NOT_OBSERVE, webResourceId));
     }
 
     @Test
@@ -84,5 +85,59 @@ class WebResourceServiceImplUnitTest extends BaseCoreUnitTest {
         assertEquals(webResourcePluginDto.getName(), actualWebResource.getName());
         assertEquals(webResourcePluginDto.getDescription(), actualWebResource.getDescription());
         verify(webResourceRepository, times(0)).create(any());
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {1, 2, 5})
+    void testIsNeedStopObserve_WhenNotNeedStopObserve_ExpectFalse(int countObserves) {
+        //Assign
+        WebResource webResource = WebResourceBuilder.persistedDefaultBuilder()
+                .status(ObserveStatus.OBSERVE)
+                .description(WebResourcePluginDtoBuilder.DEFAULT_DESCRIPTION)
+                .build();
+        UUID webResourceId = webResource.getId();
+        when(webResourceRepository.findById(webResourceId)).thenReturn(webResource);
+        when(webResourceRepository.countObserversWithStatus(webResourceId, ObserveStatus.OBSERVE)).thenReturn(countObserves);
+
+        //Action
+        boolean actualResult = webResourceService.isNeedStopObserve(webResourceId);
+
+        //Assert
+        assertFalse(actualResult);
+    }
+
+    @Test
+    void testIsNeedStopObserve_WhenNotObserversExist_ExpectFalse() {
+        //Assign
+        WebResource webResource = WebResourceBuilder.persistedDefaultBuilder()
+                .status(ObserveStatus.OBSERVE)
+                .description(WebResourcePluginDtoBuilder.DEFAULT_DESCRIPTION)
+                .build();
+        UUID webResourceId = webResource.getId();
+        when(webResourceRepository.findById(webResourceId)).thenReturn(webResource);
+        when(webResourceRepository.countObserversWithStatus(webResourceId, ObserveStatus.OBSERVE)).thenReturn(0);
+
+        //Action
+        boolean actualResult = webResourceService.isNeedStopObserve(webResourceId);
+
+        //Assert
+        assertTrue(actualResult);
+    }
+
+    @Test
+    void testIsNeedStopObserve_WhenNotObserved_ExpectedTrue() {
+        //Assign
+        WebResource webResource = WebResourceBuilder.persistedDefaultBuilder()
+                .status(ObserveStatus.OBSERVE)
+                .description(WebResourcePluginDtoBuilder.DEFAULT_DESCRIPTION)
+                .build();
+        UUID webResourceId = webResource.getId();
+        when(webResourceRepository.findById(webResourceId)).thenReturn(webResource);
+
+        //Action
+        boolean actualResult = webResourceService.isNeedStopObserve(webResourceId);
+
+        //Assert
+        assertTrue(actualResult);
     }
 }
