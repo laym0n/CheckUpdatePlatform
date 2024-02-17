@@ -1,9 +1,9 @@
 package com.victor.kochnev.rest.presenters.controller;
 
+import com.victor.kochnev.api.dto.UserRegistrationRequestBody;
+import com.victor.kochnev.api.rest.UserApi;
 import com.victor.kochnev.core.dto.request.UserRegistrationRequestDto;
 import com.victor.kochnev.core.facade.user.UserFacade;
-import com.victor.kochnev.rest.presenters.api.UserApi;
-import com.victor.kochnev.rest.presenters.api.dto.UserRegistrationRequestBody;
 import com.victor.kochnev.rest.presenters.converter.UserRequestMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

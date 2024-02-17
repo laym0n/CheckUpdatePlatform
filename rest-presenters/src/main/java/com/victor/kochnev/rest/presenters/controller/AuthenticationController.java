@@ -1,8 +1,8 @@
 package com.victor.kochnev.rest.presenters.controller;
 
-import com.victor.kochnev.rest.presenters.api.AuthenticationApi;
-import com.victor.kochnev.rest.presenters.api.dto.AuthenticationRequestBody;
-import com.victor.kochnev.rest.presenters.api.dto.JwtToken;
+import com.victor.kochnev.api.dto.AuthenticationRequestBody;
+import com.victor.kochnev.api.dto.JwtToken;
+import com.victor.kochnev.api.rest.AuthenticationApi;
 import com.victor.kochnev.rest.presenters.security.entity.UserSecurity;
 import com.victor.kochnev.rest.presenters.security.service.JwtService;
 import lombok.RequiredArgsConstructor;

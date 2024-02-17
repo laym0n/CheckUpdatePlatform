@@ -1,11 +1,11 @@
 package com.victor.kochnev.rest.presenters.controller;
 
+import com.victor.kochnev.api.dto.AuthenticationRequestBody;
+import com.victor.kochnev.api.dto.ErrorMessageDto;
+import com.victor.kochnev.api.dto.JwtToken;
 import com.victor.kochnev.core.service.user.PasswordCoder;
 import com.victor.kochnev.dal.entity.builder.UserEntityBuilder;
 import com.victor.kochnev.domain.entity.builder.UserDomainBuilder;
-import com.victor.kochnev.rest.presenters.api.dto.AuthenticationRequestBody;
-import com.victor.kochnev.rest.presenters.api.dto.ErrorMessageDto;
-import com.victor.kochnev.rest.presenters.api.dto.JwtToken;
 import com.victor.kochnev.rest.presenters.security.service.JwtService;
 import com.victor.kochnev.tests.base.BaseControllerTest;
 import org.junit.jupiter.api.Test;

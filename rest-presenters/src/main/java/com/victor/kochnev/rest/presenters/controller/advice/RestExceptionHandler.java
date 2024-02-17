@@ -1,7 +1,7 @@
 package com.victor.kochnev.rest.presenters.controller.advice;
 
+import com.victor.kochnev.api.dto.ErrorMessageDto;
 import com.victor.kochnev.core.exception.UserRegistrationException;
-import com.victor.kochnev.rest.presenters.api.dto.ErrorMessageDto;
 import com.victor.kochnev.rest.presenters.controller.ControllerScanMarker;
 import io.jsonwebtoken.JwtException;
 import lombok.extern.slf4j.Slf4j;
