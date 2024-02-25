@@ -8,16 +8,6 @@
 /dataSources.local.xml
 /.idea/
 
-/api/target/
-/application/target/
-/core/target/
-/core-dto/target/
-/dal/target/
-/domain/target/
-/integration/integration-plugin/target/
-/integration/target/
-/rest-presenters/target/
-/tests/target/
-/target/
+*/target/
 
 *.flattened-pom.xml

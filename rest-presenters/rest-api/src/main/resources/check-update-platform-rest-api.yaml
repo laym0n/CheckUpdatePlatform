@@ -30,6 +30,7 @@ paths:
                 $ref: '#/components/schemas/ErrorMessageDto'
         '409':
           description: email уже используется
+
   /authentication:
     post:
       tags:
@@ -69,6 +70,7 @@ components:
       required:
         - email
         - password
+
     AuthenticationRequestBody:
       type: object
       properties:
@@ -79,6 +81,7 @@ components:
       required:
         - principal
         - credentials
+
     JwtToken:
       type: object
       properties:
@@ -86,6 +89,7 @@ components:
           type: string
       required:
         - token
+
     ErrorMessageDto:
       description: Сообщение с ошибкой
       properties:

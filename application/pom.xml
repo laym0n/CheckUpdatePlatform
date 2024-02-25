@@ -26,11 +26,19 @@
         </dependency>
         <dependency>
             <groupId>com.victor.kochnev</groupId>
-            <artifactId>rest-presenters</artifactId>
+            <artifactId>rest-impl</artifactId>
         </dependency>
         <dependency>
             <groupId>com.victor.kochnev</groupId>
-            <artifactId>integration-plugin</artifactId>
+            <artifactId>plugin-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.victor.kochnev</groupId>
+            <artifactId>integration-mail</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.victor.kochnev</groupId>
+            <artifactId>integration-telegram</artifactId>
         </dependency>
         <dependency>
             <groupId>org.liquibase</groupId>

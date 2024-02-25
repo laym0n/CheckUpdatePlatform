@@ -8,7 +8,9 @@ import com.github.dockerjava.api.model.Ports;
 import com.victor.kochnev.core.configuration.CoreConfiguration;
 import com.victor.kochnev.dal.configuration.DalConfiguration;
 import com.victor.kochnev.dal.repository.jpa.UserEntityRepository;
+import com.victor.kochnev.integration.mail.config.MailIntegrationConfiguration;
 import com.victor.kochnev.integration.plugin.configuration.PluginIntegrationConfiguration;
+import com.victor.kochnev.integration.telegram.config.TelegramIntegrationConfiguration;
 import com.victor.kochnev.rest.presenters.configuration.RestPresentersConfiguration;
 import com.victor.kochnev.rest.presenters.configuration.SecurityConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +30,9 @@ import java.util.function.Consumer;
         DalConfiguration.class,
         RestPresentersConfiguration.class,
         SecurityConfiguration.class,
-        PluginIntegrationConfiguration.class})
+        PluginIntegrationConfiguration.class,
+        MailIntegrationConfiguration.class,
+        TelegramIntegrationConfiguration.class})
 @Testcontainers
 @Sql("classpath:initdata/clean_db.sql")
 public abstract class BaseIntegrationTest {
