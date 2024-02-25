@@ -18,5 +18,7 @@
 
     <modules>
         <module>integration-plugin</module>
+        <module>integration-mail</module>
+        <module>integration-telegram</module>
     </modules>
 </project>
