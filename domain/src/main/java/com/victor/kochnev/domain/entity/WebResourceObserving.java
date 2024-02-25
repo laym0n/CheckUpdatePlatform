@@ -7,8 +7,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-import java.util.Optional;
-
 /**
  * Сущность отслеживания веб ресурса пользователем
  */
@@ -32,5 +30,5 @@ public class WebResourceObserving extends BaseEntity {
     /**
      * Настройки отслеживания веб ресурса
      */
-    private Optional<ObserveSettings> observeSettings;
+    private ObserveSettings observeSettings;
 }

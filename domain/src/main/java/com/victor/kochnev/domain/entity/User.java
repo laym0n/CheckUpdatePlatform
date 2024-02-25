@@ -16,6 +16,7 @@ import java.util.Collection;
 @SuperBuilder(toBuilder = true)
 public class User extends BaseEntity {
     private String email;
+    private String telegramInfo;
     private String password;
     @Builder.Default
     private boolean enabled = true;

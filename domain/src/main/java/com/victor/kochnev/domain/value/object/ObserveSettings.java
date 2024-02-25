@@ -2,9 +2,7 @@ package com.victor.kochnev.domain.value.object;
 
 /**
  * Настройки отслеживания веб ресурса
- *
- * @param email    email, на который должно приходить уведомление
- * @param telegram telegram, на который должно приходить уведомление
+ * @needNotify необходимость уведомлять
  */
-public record ObserveSettings(String email, String telegram) {
+public record ObserveSettings(boolean needNotify) {
 }

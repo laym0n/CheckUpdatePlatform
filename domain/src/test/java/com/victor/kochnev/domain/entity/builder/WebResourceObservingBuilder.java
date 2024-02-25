@@ -4,7 +4,6 @@ import com.victor.kochnev.domain.entity.WebResourceObserving;
 import com.victor.kochnev.domain.value.object.ObserveSettingsBuilder;
 
 import java.time.ZonedDateTime;
-import java.util.Optional;
 import java.util.UUID;
 
 public class WebResourceObservingBuilder {
@@ -13,7 +12,7 @@ public class WebResourceObservingBuilder {
 
     public static WebResourceObserving.WebResourceObservingBuilder<?, ?> defaultBuilder() {
         return WebResourceObserving.builder()
-                .observeSettings(Optional.of(ObserveSettingsBuilder.defaultObserveSettings()))
+                .observeSettings(ObserveSettingsBuilder.defaultObserveSettings())
                 .webResource(WebResourceBuilder.persistedDefaultBuilder().build());
     }
 
