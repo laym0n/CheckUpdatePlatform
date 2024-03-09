@@ -9,6 +9,27 @@ spring:
     username: ${ev.spring.datasource.username}
     password: ${ev.spring.datasource.password}
     url: ${ev.spring.datasource.url}
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${ev.spring.mail.username}
+    password: ${ev.spring.mail.password}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+app:
+  integration:
+    mail:
+      enabled: true
+      mail-from: ${spring.mail.username}
+    telegram:
+      enabled: true
+      bot-token: ${ev.app.integration.telegram.bot-token}
+      bot-user-name:  ${ev.app.integration.telegram.bot-user-name}
 
 rest:
   presenters:

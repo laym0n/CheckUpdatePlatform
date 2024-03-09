@@ -6,5 +6,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "app.integration.mail")
 @Data
 public class MailConfigurationProperties {
+    private boolean enabled;
     private String mailFrom;
 }
