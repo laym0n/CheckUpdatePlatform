@@ -1,5 +1,6 @@
 package com.victor.kochnev.core.service.plugin;
 
+import com.victor.kochnev.core.exception.ResourceNotFoundException;
 import com.victor.kochnev.core.repository.PluginRepository;
 import com.victor.kochnev.domain.entity.Plugin;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,17 @@ public class PluginServiceImpl implements PluginService {
 
     @Override
     public Plugin findById(UUID id) {
-        return pluginRepository.findById(id);
+        return pluginRepository.getById(id);
+    }
+
+    @Override
+    public Plugin findByWebResourceObservingId(UUID webResourceId) {
+        return pluginRepository.findByWebResourceId(webResourceId);
+    }
+
+    @Override
+    public Plugin findByAccessToken(String accessToken) {
+        return pluginRepository.findByAccessToken(accessToken)
+                .orElseThrow(() -> ResourceNotFoundException.create(Plugin.class, accessToken, "accessToken"));
     }
 }

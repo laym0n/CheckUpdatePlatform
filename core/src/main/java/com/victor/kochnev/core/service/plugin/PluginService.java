@@ -6,4 +6,8 @@ import java.util.UUID;
 
 public interface PluginService {
     Plugin findById(UUID id);
+
+    Plugin findByWebResourceObservingId(UUID webResourceId);
+
+    Plugin findByAccessToken(String accessToken);
 }

@@ -1,0 +1,138 @@
+openapi: 3.0.3
+info:
+  title: CheckUpdatePlugin
+  description: API плагина, отслеживающего веб-ресурсы проекта на тему "Платформа по отслеживанию обновлений веб-ресурсов"
+  contact:
+    email: victor_k02@mail.ru
+    name: Victor Kochnev
+    url: https://vk.com/laym0n
+  version: 1.0.0
+paths:
+  /webresource:
+    post:
+      tags:
+        - WebResource
+      summary: Добавить веб ресурс в отслеживаемые
+      operationId: add
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebResourceAddRequest'
+      responses:
+        200:
+          description: успешное добавление
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/WebResourceDto'
+        400:
+          description: ошибка валидации данных
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ErrorMessageDto'
+    delete:
+      tags:
+        - WebResource
+      summary: Удаление веб ресурса из отслеживаемых
+      operationId: remove
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebResourceRemoveRequest'
+      responses:
+        200:
+          description: ресурс больше не отслеживается
+        400:
+          description: ошибка валидации данных
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ErrorMessageDto'
+
+  /webresource/can/observe:
+    post:
+      tags:
+        - WebResource
+      summary: Проверка можно ли отслеживать веб ресурс
+      operationId: canObserve
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CanObserveRequest'
+      responses:
+        200:
+          description: успешный ответ
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/CanObserveResponse'
+        400:
+          description: ошибка валидации данных
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ErrorMessageDto'
+
+components:
+  schemas:
+    WebResourceAddRequest:
+      type: object
+      properties:
+        description:
+          type: string
+          description: описание веб ресурса для отслеживания
+      required:
+        - description
+
+    WebResourceRemoveRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: название веб ресурса для удаления
+      required:
+        - name
+
+    CanObserveRequest:
+      type: object
+      properties:
+        description:
+          type: string
+          description: описание веб ресурса для проверки можно ли отслеживать
+      required:
+        - description
+
+    CanObserveResponse:
+      type: object
+      properties:
+        isObservable:
+          type: boolean
+          description: true - если можно отслеживать плагином, иначе - false
+        webResource:
+          $ref: '#/components/schemas/WebResourceDto'
+      required:
+        - isObservable
+
+    WebResourceDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: название веб ресурса
+        description:
+          type: string
+          description: описание веб ресурса
+      required:
+        - name
+
+    ErrorMessageDto:
+      description: Сообщение с ошибкой
+      properties:
+        message:
+          type: string
+      required:
+        - message

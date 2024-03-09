@@ -2,9 +2,10 @@ package com.victor.kochnev.core.repository;
 
 import com.victor.kochnev.domain.entity.PluginUsage;
 
-import java.util.Optional;
+import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.UUID;
 
 public interface PluginUsageRepository {
-    Optional<PluginUsage> findLastPluginUsage(UUID userId, UUID pluginId);
+    List<PluginUsage> findPluginUsageWithExpiredDateAfterOrNull(UUID userId, UUID pluginId, ZonedDateTime expiredDate);
 }

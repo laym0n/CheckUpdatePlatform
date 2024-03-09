@@ -20,16 +20,69 @@ paths:
             schema:
               $ref: '#/components/schemas/UserRegistrationRequestBody'
       responses:
-        '200':
+        200:
           description: успешная регистрация
-        '400':
+        400:
           description: ошибка валидации данных
           content:
             'application/json':
               schema:
                 $ref: '#/components/schemas/ErrorMessageDto'
-        '409':
+        409:
           description: email уже используется
+  /webresource/observing:
+    post:
+      tags:
+        - WebResourceObserving
+      summary: Добавление нового веб ресурса для отслеживания
+      operationId: create
+      security:
+        - JwtToken: [ ]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebResourceObservingAddRequestBody'
+      responses:
+        200:
+          description: успешное добавление
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/WebResourceObserving'
+        400:
+          description: ошибка валидации данных
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ErrorMessageDto'
+  /webresource/observing/stop:
+    put:
+      tags:
+        - WebResourceObserving
+      summary: Остановка отслеживания веб ресурса
+      operationId: stopObserve
+      security:
+        - JwtToken: [ ]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebResourceObservingStopRequestBody'
+      responses:
+        200:
+          description: успешное удаление
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/WebResourceObserving'
+        400:
+          description: ошибка валидации данных
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ErrorMessageDto'
+
 
   /authentication:
     post:
@@ -43,19 +96,24 @@ paths:
             schema:
               $ref: '#/components/schemas/AuthenticationRequestBody'
       responses:
-        '200':
+        200:
           description: успешная аутентификация
           content:
             'application/json':
               schema:
-                $ref: '#/components/schemas/JwtToken'
-        '400':
+                $ref: '#/components/schemas/JwtTokenResponse'
+        400:
           description: неуспешная аутентификация
           content:
             'application/json':
               schema:
                 $ref: '#/components/schemas/ErrorMessageDto'
 components:
+  securitySchemes:
+    JwtToken:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   schemas:
     UserRegistrationRequestBody:
       type: object
@@ -82,13 +140,76 @@ components:
         - principal
         - credentials
 
-    JwtToken:
+    JwtTokenResponse:
       type: object
       properties:
         token:
           type: string
       required:
         - token
+
+    WebResourceObservingAddRequestBody:
+      type: object
+      properties:
+        resourceDescription:
+          type: string
+          description: описание вебресурса
+        pluginId:
+          type: string
+          format: uuid
+          description: id плагина
+
+    WebResourceObservingStopRequestBody:
+      type: object
+      properties:
+        webResourceObservingId:
+          type: string
+          format: uuid
+          description: id веб ресурса
+      required:
+        - webResourceObservingId
+
+    WebResourceObserving:
+      type: object
+      properties:
+        webResourceDto:
+          $ref: '#/components/schemas/WebResource'
+        observeSettings:
+          $ref: '#/components/schemas/ObserveSettings'
+        status:
+          $ref: '#/components/schemas/ObserveStatusEnum'
+      required:
+        - webResourceDto
+        - observeSettings
+        - status
+
+    ObserveSettings:
+      type: object
+      properties:
+        needNotify:
+          type: boolean
+      required:
+        - needNotify
+
+    ObserveStatusEnum:
+      type: string
+      enum:
+        - OBSERVE
+        - NOT_OBSERVE
+
+    WebResource:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+      required:
+        - id
+        - name
 
     ErrorMessageDto:
       description: Сообщение с ошибкой

@@ -1,13 +1,13 @@
 package com.victor.kochnev.rest.presenters.controller;
 
+import com.victor.kochnev.BaseControllerTest;
 import com.victor.kochnev.api.dto.AuthenticationRequestBody;
 import com.victor.kochnev.api.dto.ErrorMessageDto;
-import com.victor.kochnev.api.dto.JwtToken;
+import com.victor.kochnev.api.dto.JwtTokenResponse;
 import com.victor.kochnev.core.service.user.PasswordCoder;
-import com.victor.kochnev.dal.entity.builder.UserEntityBuilder;
+import com.victor.kochnev.dal.entity.UserEntityBuilder;
 import com.victor.kochnev.domain.entity.builder.UserDomainBuilder;
 import com.victor.kochnev.rest.presenters.security.service.JwtService;
-import com.victor.kochnev.tests.base.BaseControllerTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,7 +16,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class AuthenticationControllerTest extends BaseControllerTest {
+class AuthenticationControllerTest extends BaseControllerTest {
     private static final String AUTHENTICATION_ENDPOINT = "/authentication";
     private static final String REQUEST_EMAIL = UserDomainBuilder.DEFAULT_EMAIL;
     private static final String REQUEST_PASSWORD = UserDomainBuilder.DEFAULT_PASSWORD;
@@ -29,8 +29,8 @@ public class AuthenticationControllerTest extends BaseControllerTest {
     @Test
     void testSuccessAuthentication() {
         //Assign
-        userEntityRepository.save(UserEntityBuilder
-                .defaultEntityUser()
+        userRepository.save(UserEntityBuilder
+                .defaultBuilder()
                 .email(REQUEST_EMAIL)
                 .password(passwordCoder.encode(REQUEST_PASSWORD))
                 .build());
@@ -42,7 +42,7 @@ public class AuthenticationControllerTest extends BaseControllerTest {
         //Assert
         assertHttpStatusOk(result);
 
-        JwtToken responseDto = getResponseDto(result, JwtToken.class);
+        JwtTokenResponse responseDto = getResponseDto(result, JwtTokenResponse.class);
         assertNotNull(responseDto.getToken());
 
         String usernameFromToken = jwtService.getUsernameFromToken(responseDto.getToken());
@@ -52,8 +52,8 @@ public class AuthenticationControllerTest extends BaseControllerTest {
     @Test
     void testBadCredentialsPasswordAuthentication_expect400() {
         //Assign
-        userEntityRepository.save(UserEntityBuilder
-                .defaultEntityUser()
+        userRepository.save(UserEntityBuilder
+                .defaultBuilder()
                 .email(REQUEST_EMAIL)
                 .password(passwordCoder.encode(REQUEST_PASSWORD + "1"))
                 .build());
@@ -70,8 +70,8 @@ public class AuthenticationControllerTest extends BaseControllerTest {
     @Test
     void testBadCredentialsEmailAuthentication_expect400() {
         //Assign
-        userEntityRepository.save(UserEntityBuilder
-                .defaultEntityUser()
+        userRepository.save(UserEntityBuilder
+                .defaultBuilder()
                 .email(REQUEST_EMAIL + "1")
                 .password(passwordCoder.encode(REQUEST_PASSWORD))
                 .build());
@@ -88,8 +88,8 @@ public class AuthenticationControllerTest extends BaseControllerTest {
     @Test
     void testBadValidation_expect400() {
         //Assign
-        userEntityRepository.save(UserEntityBuilder
-                .defaultEntityUser()
+        userRepository.save(UserEntityBuilder
+                .defaultBuilder()
                 .email(REQUEST_EMAIL + "1")
                 .build());
         var request = prepareRequest();

@@ -13,5 +13,7 @@ public interface WebResourceRepository {
 
     WebResource findById(UUID webResourcesId);
 
-    int countObserversWithStatus(UUID webResourceId, ObserveStatus status);
+    WebResource update(WebResource webResource);
+
+    WebResource setStatus(ObserveStatus status, UUID webResourceId);
 }

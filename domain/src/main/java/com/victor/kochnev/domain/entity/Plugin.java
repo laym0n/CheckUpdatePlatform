@@ -24,6 +24,10 @@ public class Plugin extends BaseEntity {
      */
     private String baseUrl;
     /**
+     * Токен для доступа
+     */
+    private String accessToken;
+    /**
      * Пути до файлов изображений плагина
      */
     private List<String> imagePathsList;
@@ -39,8 +43,8 @@ public class Plugin extends BaseEntity {
      * Владелец плагина
      */
     private User ownerUser;
-    /**
-     * Отслеживаемые ресурсы
-     */
-    private Collection<WebResource> webResourcesCollection;
+//    /**
+//     * Отслеживаемые ресурсы
+//     */
+//    private Collection<WebResource> webResourcesCollection;
 }

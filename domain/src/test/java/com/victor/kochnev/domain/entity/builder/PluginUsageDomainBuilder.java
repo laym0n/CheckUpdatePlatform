@@ -25,4 +25,10 @@ public class PluginUsageDomainBuilder {
                 .lastChangeDate(ZonedDateTime.now())
                 .version(0L);
     }
+
+    public static PluginUsage.PluginUsageBuilder<?, ?> purchaseUsage() {
+        return persistedDefaultUser()
+                .distributionMethod(DistributionMethodBuilder.defaultPurchaseDistribution());
+    }
 }
+

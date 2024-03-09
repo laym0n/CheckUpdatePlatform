@@ -13,7 +13,6 @@ import org.mapstruct.*;
 public interface DomainWebResourceMapper {
     @BlankEntityMapping
     @Mapping(target = "plugin", ignore = true)
-    @Mapping(target = "webResourceObservingCollection", ignore = true)
     @Mapping(target = "status", expression = "java(ObserveStatus.NOT_OBSERVE)")
     WebResource mapToEntity(WebResourcePluginDto webResourcePluginDto);
 
@@ -21,7 +20,6 @@ public interface DomainWebResourceMapper {
 
     @BlankEntityMapping
     @Mapping(target = "plugin", ignore = true)
-    @Mapping(target = "webResourceObservingCollection", ignore = true)
     @Mapping(target = "status", ignore = true)
     void update(@MappingTarget WebResource webResource, WebResourcePluginDto webResourcePluginDto);
 }

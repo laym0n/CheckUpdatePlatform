@@ -1,25 +1,27 @@
 package com.victor.kochnev.core.facade.webresourceobserving;
 
+import com.victor.kochnev.core.converter.DomainWebResourceObservingMapper;
 import com.victor.kochnev.core.dto.domain.entity.WebResourceObservingDto;
+import com.victor.kochnev.core.dto.plugin.CanObserveResponseDto;
 import com.victor.kochnev.core.dto.plugin.WebResourcePluginDto;
 import com.victor.kochnev.core.dto.request.AddWebResourceForObservingRequest;
-import com.victor.kochnev.core.dto.request.RemoveWebResourceFromObservingRequest;
-import com.victor.kochnev.core.exception.PluginUsageNotPermittedException;
-import com.victor.kochnev.core.exception.ResourceNotFoundException;
+import com.victor.kochnev.core.dto.request.StopWebResourceObservingRequest;
+import com.victor.kochnev.core.exception.AccessNotPermittedException;
+import com.victor.kochnev.core.exception.ResourceDescriptionParseException;
 import com.victor.kochnev.core.integration.PluginClient;
 import com.victor.kochnev.core.service.plugin.PluginService;
 import com.victor.kochnev.core.service.pluginusage.PluginUsageService;
 import com.victor.kochnev.core.service.webresource.WebResourceService;
 import com.victor.kochnev.core.service.webresourceobserving.WebResourceObservingService;
 import com.victor.kochnev.domain.entity.Plugin;
-import com.victor.kochnev.domain.entity.PluginUsage;
 import com.victor.kochnev.domain.entity.WebResource;
+import com.victor.kochnev.domain.entity.WebResourceObserving;
 import com.victor.kochnev.domain.enums.ObserveStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.time.ZonedDateTime;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -30,37 +32,44 @@ public class WebResourceObservingFacadeImpl implements WebResourceObservingFacad
     private final PluginClient pluginClient;
     private final PluginUsageService pluginUsageService;
     private final WebResourceObservingService webResourceObservingService;
+    private final DomainWebResourceObservingMapper observingMapper;
 
-    @Override
-    public WebResourceObservingDto addWebResourceForObserving(AddWebResourceForObservingRequest request) {
-        PluginUsage lastPluginUsage;
-        try {
-            lastPluginUsage = pluginUsageService.findLastPluginUsageForUser(request.getPluginId(), request.getUserId());
-        } catch (ResourceNotFoundException e) {
-            throw new PluginUsageNotPermittedException(request.getPluginId(), e);
-        }
-        if (!lastPluginUsage.canUse(ZonedDateTime.now())) {
-            throw new PluginUsageNotPermittedException(request.getPluginId());
-        }
-        Plugin plugin = pluginService.findById(request.getPluginId());
-        String baseUrl = plugin.getBaseUrl();
-        WebResourcePluginDto webResourceDto = pluginClient.canObserve(baseUrl, request.getResourceDescription());
-        WebResource webResource = webResourceService.updateOrCreate(plugin.getId(), webResourceDto);
-        if (ObserveStatus.NOT_OBSERVE == webResource.getStatus()) {
-            pluginClient.addResourceForObserving(baseUrl, request.getResourceDescription());
-            webResourceService.setStatus(ObserveStatus.OBSERVE, webResource.getId());
-        }
-        return webResourceObservingService.updateOrCreate(webResource, request);
+    private static Boolean checkIsNotObserved(Optional<WebResource> optionalWebResource) {
+        return optionalWebResource
+                .map(webResource -> ObserveStatus.NOT_OBSERVE == webResource.getStatus())
+                .orElse(true);
     }
 
     @Override
-    public WebResourceObservingDto removeWebResourceFromObserving(RemoveWebResourceFromObservingRequest request) {
-        WebResourceObservingDto webResourceObservingDto = webResourceObservingService.setStatusByUserIdAndWebResourceId(request.getUserId(), request.getWebResourceId(), ObserveStatus.NOT_OBSERVE);
-        boolean isNeedChangeStatus = webResourceService.isNeedStopObserve(request.getWebResourceId());
-        if (isNeedChangeStatus) {
-            pluginClient.removeResourceFromObserve(webResourceObservingDto.getWebResourceDto().getName());
-            webResourceService.setStatus(ObserveStatus.NOT_OBSERVE, request.getWebResourceId());
+    public WebResourceObservingDto addWebResourceForObserving(AddWebResourceForObservingRequest request) {
+        pluginUsageService.verifyUserCanUsePlugin(request.getPluginId(), request.getUserId());
+        Plugin plugin = pluginService.findById(request.getPluginId());
+        String baseUrl = plugin.getBaseUrl();
+        CanObserveResponseDto response = pluginClient.canObserve(baseUrl, request.getResourceDescription());
+        if (!response.isObservable()) {
+            throw new ResourceDescriptionParseException(request.getResourceDescription(), request.getPluginId());
         }
-        return webResourceObservingDto;
+        WebResourcePluginDto webResourcePluginDto = response.getWebResource();
+        Optional<WebResource> optionalWebResource = webResourceService.findByNameAndPluginId(webResourcePluginDto.getName(), request.getPluginId());
+        Boolean isNotObserved = checkIsNotObserved(optionalWebResource);
+        if (isNotObserved) {
+            webResourcePluginDto = pluginClient.addResourceForObserving(baseUrl, request.getResourceDescription());
+        }
+        return webResourceObservingService.addObservingCascade(webResourcePluginDto, request);
+    }
+
+    @Override
+    public WebResourceObservingDto stopWebResourceObserving(StopWebResourceObservingRequest request) {
+        WebResourceObserving observing = webResourceObservingService.getById(request.getWebResourceObservingId());
+        if (!request.getUserId().equals(observing.getUser().getId())) {
+            throw new AccessNotPermittedException("User with id " + request.getUserId() + " can not modify observing with id " + request.getWebResourceObservingId());
+        }
+        boolean isNeedChangeStatus = webResourceObservingService.stopObservingCascade(request.getWebResourceObservingId());
+        if (isNeedChangeStatus) {
+            Plugin plugin = observing.getWebResource().getPlugin();
+            pluginClient.removeResourceFromObserve(plugin.getBaseUrl(), observing.getWebResource().getName());
+        }
+        observing = webResourceObservingService.getById(request.getWebResourceObservingId());
+        return observingMapper.mapToDto(observing);
     }
 }

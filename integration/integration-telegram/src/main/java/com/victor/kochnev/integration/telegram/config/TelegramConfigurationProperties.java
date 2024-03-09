@@ -6,6 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "app.integration.telegram")
 @Data
 public class TelegramConfigurationProperties {
+    boolean enabled;
     private String botUserName;
     private String botToken;
 }

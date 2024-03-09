@@ -97,12 +97,13 @@
             </dependency>
             <dependency>
                 <groupId>com.victor.kochnev</groupId>
-                <artifactId>integration-mail</artifactId>
+                <artifactId>plugin-client</artifactId>
                 <version>${revision}</version>
+                <type>test-jar</type>
             </dependency>
             <dependency>
                 <groupId>com.victor.kochnev</groupId>
-                <artifactId>integration-telegram</artifactId>
+                <artifactId>integration-mail</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>
@@ -114,6 +115,12 @@
                 <groupId>com.victor.kochnev</groupId>
                 <artifactId>rest-impl</artifactId>
                 <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.victor.kochnev</groupId>
+                <artifactId>rest-impl</artifactId>
+                <version>${revision}</version>
+                <type>test-jar</type>
             </dependency>
 
             <dependency>
@@ -186,7 +193,11 @@
                 <artifactId>telegrambots-spring-boot-starter</artifactId>
                 <version>6.9.7.1</version>
             </dependency>
-
+            <dependency>
+                <groupId>org.wiremock</groupId>
+                <artifactId>wiremock-standalone</artifactId>
+                <version>3.4.0</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -262,6 +273,41 @@
             </plugins>
         </pluginManagement>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.springframework.boot</groupId>
+                            <artifactId>spring-boot-configuration-processor</artifactId>
+                            <version>${spring-boot.version}</version>
+                        </path>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>${mapstruct-processor.version}</version>
+                        </path>
+                        <path>
+                            <groupId>org.hibernate.orm</groupId>
+                            <artifactId>hibernate-jpamodelgen</artifactId>
+                            <version>6.4.4.Final</version>
+                        </path>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${org.projectlombok.version}</version>
+                        </path>
+                        <!-- This is needed when using Lombok 1.18.16 and above -->
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok-mapstruct-binding</artifactId>
+                            <version>${org.projectlombok.lombok-mapstruct-binding.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+
             <plugin>
                 <groupId>org.sonarsource.scanner.maven</groupId>
                 <artifactId>sonar-maven-plugin</artifactId>

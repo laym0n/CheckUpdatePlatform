@@ -8,4 +8,20 @@
         <sqlFile path="001_create_user_table.sql" relativeToChangelogFile="true" splitStatements="true"
                  dbms="postgresql, h2"/>
     </changeSet>
+    <changeSet id="002_create_plugin_table" author="Victor Kochnev" runAlways="false" failOnError="true">
+        <sqlFile path="002_create_plugin_table.sql" relativeToChangelogFile="true" splitStatements="true"
+                 dbms="postgresql, h2"/>
+    </changeSet>
+    <changeSet id="003_create_plugin_usage_table" author="Victor Kochnev" runAlways="false" failOnError="true">
+        <sqlFile path="003_create_plugin_usage_table.sql" relativeToChangelogFile="true" splitStatements="true"
+                 dbms="postgresql, h2"/>
+    </changeSet>
+    <changeSet id="004_create_webresource_table" author="Victor Kochnev" runAlways="false" failOnError="true">
+        <sqlFile path="004_create_webresource_table.sql" relativeToChangelogFile="true" splitStatements="true"
+                 dbms="postgresql, h2"/>
+    </changeSet>
+    <changeSet id="005_create_webresource_observing_table" author="Victor Kochnev" runAlways="false" failOnError="true">
+        <sqlFile path="005_create_webresource_observing_table.sql" relativeToChangelogFile="true" splitStatements="true"
+                 dbms="postgresql, h2"/>
+    </changeSet>
 </databaseChangeLog>

@@ -1,8 +1,8 @@
 package com.victor.kochnev.dal.converter;
 
-import com.victor.kochnev.dal.base.BaseDalTest;
+import com.victor.kochnev.dal.BaseDalTest;
 import com.victor.kochnev.dal.entity.UserEntity;
-import com.victor.kochnev.dal.entity.builder.UserEntityBuilder;
+import com.victor.kochnev.dal.entity.UserEntityBuilder;
 import com.victor.kochnev.domain.entity.User;
 import com.victor.kochnev.domain.entity.builder.UserDomainBuilder;
 import org.junit.jupiter.api.extension.ExtensionContext;
@@ -65,9 +65,9 @@ class EntityUserMapperTest extends BaseDalTest {
 
         @Override
         public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) throws Exception {
-            UserEntity notPersistedUser = UserEntityBuilder.defaultEntityUser().build();
-            UserEntity persistedUser = UserEntityBuilder.persistedDefaultEntityUser().build();
-            UserEntity persistedUserWithoutRoles = UserEntityBuilder.persistedDefaultEntityUser().roles("").build();
+            UserEntity notPersistedUser = UserEntityBuilder.defaultBuilder().build();
+            UserEntity persistedUser = UserEntityBuilder.persistedDefaultBuilder().build();
+            UserEntity persistedUserWithoutRoles = UserEntityBuilder.persistedDefaultBuilder().roles("").build();
             return Stream.of(
                     Arguments.of(notPersistedUser, notPersistedUser.toBuilder().build()),
                     Arguments.of(persistedUser, persistedUser.toBuilder().build()),

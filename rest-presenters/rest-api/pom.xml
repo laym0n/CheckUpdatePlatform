@@ -37,16 +37,24 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>
-                                ${project.basedir}/src/main/resources/check-update-platform-rest-api.yaml
+                            <inputSpec>${project.basedir}/src/main/resources/check-update-platform-rest-api.yaml
                             </inputSpec>
                             <generatorName>spring</generatorName>
+
                             <apiPackage>com.victor.kochnev.api.rest</apiPackage>
                             <modelPackage>com.victor.kochnev.api.dto</modelPackage>
+
                             <generateSupportingFiles>false</generateSupportingFiles>
+
+                            <generateApis>true</generateApis>
+                            <generateApiDocumentation>false</generateApiDocumentation>
                             <generateApiTests>false</generateApiTests>
+
+                            <generateModels>true</generateModels>
+                            <generateModelDocumentation>false</generateModelDocumentation>
                             <generateModelTests>false</generateModelTests>
                             <configOptions>
+                                <useTags>true</useTags>
                                 <interfaceOnly>true</interfaceOnly>
                                 <skipDefaultInterface>true</skipDefaultInterface>
                                 <useSpringBoot3>true</useSpringBoot3>

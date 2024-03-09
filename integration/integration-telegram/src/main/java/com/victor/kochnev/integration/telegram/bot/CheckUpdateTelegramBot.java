@@ -4,6 +4,7 @@ import com.victor.kochnev.integration.telegram.config.TelegramConfigurationPrope
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
@@ -12,6 +13,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
+@ConditionalOnProperty(name = "app.integration.telegram.enabled", havingValue = "true")
 @Component
 @RequiredArgsConstructor
 public class CheckUpdateTelegramBot extends TelegramLongPollingBot {

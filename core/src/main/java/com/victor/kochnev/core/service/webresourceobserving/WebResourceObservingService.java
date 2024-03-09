@@ -1,24 +1,22 @@
 package com.victor.kochnev.core.service.webresourceobserving;
 
 import com.victor.kochnev.core.dto.domain.entity.WebResourceObservingDto;
+import com.victor.kochnev.core.dto.plugin.WebResourcePluginDto;
 import com.victor.kochnev.core.dto.request.AddWebResourceForObservingRequest;
-import com.victor.kochnev.domain.entity.WebResource;
-import com.victor.kochnev.domain.enums.ObserveStatus;
+import com.victor.kochnev.domain.entity.WebResourceObserving;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
- * Сервис для управления сущностью {@link com.victor.kochnev.domain.entity.WebResource}
+ * Сервис для управления сущностью {@link com.victor.kochnev.domain.entity.WebResourceObserving}
  */
 public interface WebResourceObservingService {
-    /**
-     * Добавить ресурс для отслеживания
-     *
-     * @param webResource
-     * @param request     запрос отслеживания ресурса
-     * @return dto вебресурса
-     */
-    WebResourceObservingDto updateOrCreate(WebResource webResource, AddWebResourceForObservingRequest request);
+    WebResourceObservingDto addObservingCascade(WebResourcePluginDto webResource, AddWebResourceForObservingRequest request);
 
-    WebResourceObservingDto setStatusByUserIdAndWebResourceId(UUID userId, UUID webResourceId, ObserveStatus status);
+    List<WebResourceObserving> findAllActualObservers(String name);
+
+    WebResourceObserving getById(UUID observingId);
+
+    boolean stopObservingCascade(UUID observingId);
 }

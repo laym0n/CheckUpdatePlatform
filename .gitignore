@@ -8,6 +8,6 @@
 /dataSources.local.xml
 /.idea/
 
-*/target/
+**/target/
 
-*.flattened-pom.xml
+**.flattened-pom.xml

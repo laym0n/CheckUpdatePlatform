@@ -20,8 +20,8 @@ public class PluginDomainBuilder {
                 .imagePathsList(List.of("example"))
                 .description(new PluginDescription())
                 .distributionMethodsCollection(List.of(DistributionMethodBuilder.defaultPurchaseDistribution(), DistributionMethodBuilder.defaultSubscribeDistribution()))
-                .ownerUser(UserDomainBuilder.defaultUser().build())
-                .webResourcesCollection(List.of());
+                .ownerUser(UserDomainBuilder.defaultUser().build());
+//                .webResourcesCollection(List.of());
     }
 
     public static Plugin.PluginBuilder<?, ?> persistedDefaultUser() {

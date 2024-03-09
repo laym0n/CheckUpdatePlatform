@@ -1,11 +1,11 @@
 package com.victor.kochnev.rest.presenters.controller;
 
+import com.victor.kochnev.BaseControllerTest;
 import com.victor.kochnev.core.dto.request.UserRegistrationRequestDto;
 import com.victor.kochnev.dal.entity.UserEntity;
-import com.victor.kochnev.dal.entity.builder.UserEntityBuilder;
+import com.victor.kochnev.dal.entity.UserEntityBuilder;
 import com.victor.kochnev.domain.entity.builder.UserDomainBuilder;
 import com.victor.kochnev.domain.enums.UserRole;
-import com.victor.kochnev.tests.base.BaseControllerTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -42,19 +42,19 @@ class UserControllerTest extends BaseControllerTest {
         //Assert
         assertHttpStatusOk(result);
 
-        Optional<UserEntity> optionalCreatedUser = userEntityRepository.findByEmail(REQUEST_EMAIL);
+        Optional<UserEntity> optionalCreatedUser = userRepository.findByEmail(REQUEST_EMAIL);
         assertTrue(optionalCreatedUser.isPresent());
         UserEntity createdUser = optionalCreatedUser.get();
         assertEquals(REQUEST_EMAIL, createdUser.getEmail());
         assertTrue(passwordEncoder.matches(REQUEST_PASSWORD, createdUser.getPassword()));
-        assertTrue(createdUser.isEnabled());
+        assertTrue(createdUser.getEnabled());
         assertEquals(UserRole.SIMPLE_USER.name(), createdUser.getRoles());
     }
 
     @Test
     void testRegistration_WithAlreadyExistEmail_Expect409() {
         //Assign
-        userEntityRepository.save(UserEntityBuilder.defaultEntityUser().email(REQUEST_EMAIL).build());
+        userRepository.save(UserEntityBuilder.defaultBuilder().email(REQUEST_EMAIL).build());
         UserRegistrationRequestDto request = prepareRequest();
 
         //Action

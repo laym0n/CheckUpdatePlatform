@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS USERS
     version          BIGINT                   NOT NULL,
 
     email            VARCHAR(50)              NOT NULL,
+    telegram_info    VARCHAR(50),
     password         VARCHAR(500)             NOT NULL,
     enabled          BOOLEAN                  NOT NULL,
     roles            VARCHAR(50)              NOT NULL

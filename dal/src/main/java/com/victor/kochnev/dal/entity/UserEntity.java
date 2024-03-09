@@ -11,16 +11,18 @@ import lombok.experimental.SuperBuilder;
 @Entity
 @Getter
 @Setter
-@Table(name = "users")
+@Table(name = "USERS")
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor
-public class UserEntity extends BaseEntity {
+public class UserEntity extends BaseDalEntity {
     @Column(name = "email", nullable = false)
     private String email;
     @Column(name = "password", nullable = false)
     private String password;
+    @Column(name = "telegram_info")
+    private String telegramInfo;
     @Column(name = "enabled", nullable = false)
-    private boolean enabled;
+    private Boolean enabled;
     @Column(name = "roles", nullable = false)
     private String roles;
 }

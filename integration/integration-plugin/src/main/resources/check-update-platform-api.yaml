@@ -1,0 +1,46 @@
+openapi: 3.0.3
+info:
+  title: CheckUpdatePlatform
+  description: API платформы по отслеживанию обновлений для плагина
+  contact:
+    email: victor_k02@mail.ru
+    name: Victor Kochnev
+    url: https://vk.com/laym0n
+  version: 1.0.0
+paths:
+  /notification/create:
+    post:
+      tags:
+        - Notification
+      summary: Отправить уведомление
+      operationId: create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NotificationCreateRequestBody'
+      responses:
+        200:
+          description: успешное добавление
+
+components:
+  schemas:
+    NotificationCreateRequestBody:
+      type: object
+      properties:
+        updatedResource:
+          $ref: 'plugin-api.yaml#/components/schemas/WebResourceDto'
+        notification:
+          $ref: '#/components/schemas/NotificationDto'
+      required:
+        - updatedResource
+        - notification
+
+    NotificationDto:
+      type: object
+      properties:
+        message:
+          type: string
+          description: название веб ресурса
+      required:
+        - message

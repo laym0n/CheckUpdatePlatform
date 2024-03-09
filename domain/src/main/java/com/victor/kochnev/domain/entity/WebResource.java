@@ -6,8 +6,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-import java.util.Collection;
-
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = true)
 @NoArgsConstructor
@@ -30,5 +28,5 @@ public class WebResource extends BaseEntity {
      * Плагин, отслеживающий ресурс
      */
     private Plugin plugin;
-    private Collection<WebResourceObserving> webResourceObservingCollection;
+//    private Collection<WebResourceObserving> webResourceObservingCollection;
 }

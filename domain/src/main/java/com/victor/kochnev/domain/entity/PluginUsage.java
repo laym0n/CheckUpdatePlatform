@@ -18,6 +18,10 @@ public class PluginUsage extends BaseEntity {
      */
     private DistributionMethod distributionMethod;
     /**
+     * Дата и время, когда разрешение использования плагина заканчивается
+     */
+    private ZonedDateTime expiredDate;
+    /**
      * Пользователь, использующий плагин
      */
     private User user;
@@ -25,9 +29,4 @@ public class PluginUsage extends BaseEntity {
      * Плагин, котоорый используют
      */
     private Plugin plugin;
-
-    /**
-     * Дата и время, когда разрешение использования плагина заканчивается
-     */
-    private ZonedDateTime expiredDate;
 }

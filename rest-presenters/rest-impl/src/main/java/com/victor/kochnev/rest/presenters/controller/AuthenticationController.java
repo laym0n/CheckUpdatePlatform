@@ -1,7 +1,7 @@
 package com.victor.kochnev.rest.presenters.controller;
 
 import com.victor.kochnev.api.dto.AuthenticationRequestBody;
-import com.victor.kochnev.api.dto.JwtToken;
+import com.victor.kochnev.api.dto.JwtTokenResponse;
 import com.victor.kochnev.api.rest.AuthenticationApi;
 import com.victor.kochnev.rest.presenters.security.entity.UserSecurity;
 import com.victor.kochnev.rest.presenters.security.service.JwtService;
@@ -22,17 +22,17 @@ public class AuthenticationController implements AuthenticationApi {
     private final JwtService jwtService;
 
     @Override
-    public ResponseEntity<JwtToken> authentication(AuthenticationRequestBody requestBody) {
+    public ResponseEntity<JwtTokenResponse> authentication(AuthenticationRequestBody requestBody) {
         log.info("Request: {}", AUTHENTICATION_ENDPOINT);
         log.debug("Request: {} {}", AUTHENTICATION_ENDPOINT, requestBody);
 
         var authenticationToken = new UsernamePasswordAuthenticationToken(requestBody.getPrincipal(), requestBody.getCredentials());
-        Authentication authenticated = authenticationManager.authenticate(authenticationToken);
-        UserSecurity userSecurity = (UserSecurity) authenticated.getPrincipal();
+        Authentication authentication = authenticationManager.authenticate(authenticationToken);
+        UserSecurity userSecurity = (UserSecurity) authentication.getPrincipal();
         String token = jwtService.generateToken(userSecurity);
 
         log.info("Request: {} proccesed", AUTHENTICATION_ENDPOINT);
-        return ResponseEntity.ok(new JwtToken().token(token));
+        return ResponseEntity.ok(new JwtTokenResponse().token(token));
     }
 
 }

@@ -13,7 +13,7 @@ public class WebResourceObservingBuilder {
     public static WebResourceObserving.WebResourceObservingBuilder<?, ?> defaultBuilder() {
         return WebResourceObserving.builder()
                 .observeSettings(ObserveSettingsBuilder.defaultObserveSettings())
-                .webResource(WebResourceBuilder.persistedDefaultBuilder().build());
+                .webResource(WebResourceDomainBuilder.persistedDefaultBuilder().build());
     }
 
     public static WebResourceObserving.WebResourceObservingBuilder<?, ?> persistedDefaultBuilder() {
