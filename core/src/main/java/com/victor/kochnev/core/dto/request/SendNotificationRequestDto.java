@@ -15,6 +15,6 @@ import java.util.UUID;
 @AllArgsConstructor
 public class SendNotificationRequestDto {
     private UUID pluginId;
-    private NotificationPluginDto notificationDto;
-    private WebResourcePluginDto updatedWebResourceDto;
+    private NotificationPluginDto notification;
+    private WebResourcePluginDto updatedResource;
 }

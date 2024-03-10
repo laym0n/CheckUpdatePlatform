@@ -23,10 +23,10 @@ public class NotificationFacadeImpl implements NotificationFacade {
 
     @Override
     public void sendNotification(SendNotificationRequestDto request) {
-        webResourceService.update(request.getPluginId(), request.getUpdatedWebResourceDto());
-        List<WebResourceObserving> observingList = webResourceObservingService.findAllActualObservings(request.getUpdatedWebResourceDto().getName());
+        webResourceService.update(request.getPluginId(), request.getUpdatedResource());
+        List<WebResourceObserving> observingList = webResourceObservingService.findAllActualObservings(request.getUpdatedResource().getName());
         List<User> userList = observingList.stream().map(WebResourceObserving::getUser).toList();
-        notificationService.createNotifications(userList, request.getNotificationDto());
-        notificationHandlerList.forEach(notificationHandler -> notificationHandler.notify(observingList, request.getNotificationDto()));
+        notificationService.createNotifications(userList, request.getNotification());
+        notificationHandlerList.forEach(notificationHandler -> notificationHandler.notify(observingList, request.getNotification()));
     }
 }

@@ -24,4 +24,8 @@
         <sqlFile path="005_create_webresource_observing_table.sql" relativeToChangelogFile="true" splitStatements="true"
                  dbms="postgresql, h2"/>
     </changeSet>
+    <changeSet id="006_create_notification_table" author="Victor Kochnev" runAlways="false" failOnError="true">
+        <sqlFile path="006_create_notification_table.sql" relativeToChangelogFile="true" splitStatements="true"
+                 dbms="postgresql, h2"/>
+    </changeSet>
 </databaseChangeLog>
