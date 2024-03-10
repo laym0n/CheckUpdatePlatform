@@ -14,7 +14,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -40,7 +39,6 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/webresource/observing/**").hasRole(UserRole.SIMPLE_USER.name())
                         .requestMatchers("/user/register", "/authentication").permitAll()
-                        .anyRequest().denyAll()
                 )
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
@@ -59,14 +57,6 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(auth -> auth
                         .anyRequest().denyAll()
                 ).build();
-    }
-
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http.authorizeHttpRequests(request -> request.anyRequest()
-                        .authenticated())
-                .httpBasic(Customizer.withDefaults())
-                .build();
     }
 
     @Bean

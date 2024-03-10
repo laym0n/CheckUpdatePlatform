@@ -2,6 +2,7 @@ package com.victor.kochnev.integration.telegram.client;
 
 import com.victor.kochnev.core.integration.TelegramClient;
 import com.victor.kochnev.integration.telegram.bot.CheckUpdateTelegramBot;
+import com.victor.kochnev.integration.telegram.exception.TelegramIntegrationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,7 @@ public class TelegramClientImpl implements TelegramClient {
         try {
             telegramBot.execute(new SendMessage(telegramInfo, message));
         } catch (TelegramApiException e) {
-            throw new RuntimeException(e);
+            throw new TelegramIntegrationException(e);
         }
     }
 }

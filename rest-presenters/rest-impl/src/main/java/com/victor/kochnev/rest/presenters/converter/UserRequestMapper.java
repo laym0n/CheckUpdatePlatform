@@ -13,5 +13,5 @@ import java.util.Collections;
         unmappedTargetPolicy = ReportingPolicy.ERROR,
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface UserRequestMapper {
-    UserRegistrationRequestDto mapToUserRegistrationRequestDto(UserRegistrationRequestBody requestBody);
+    UserRegistrationRequestDto mapToCoreRequest(UserRegistrationRequestBody requestBody);
 }

@@ -22,6 +22,11 @@ spring:
             enable: true
 
 app:
+  rest:
+    security:
+      jwt:
+        duration: ${ev.app.rest.security.jwt.duration}
+        secret: ${ev.app.rest.security.jwt.secret}
   integration:
     mail:
       enabled: true
@@ -29,11 +34,6 @@ app:
     telegram:
       enabled: true
       bot-token: ${ev.app.integration.telegram.bot-token}
-      bot-user-name:  ${ev.app.integration.telegram.bot-user-name}
-
-rest:
-  presenters:
-    security:
-      jwt:
-        duration: ${ev.rest.presenters.security.jwt.duration}
-        secret: ${ev.rest.presenters.security.jwt.secret}
+      bot-user-name: ${ev.app.integration.telegram.bot-user-name}
+    plugin:
+      enabled: true

@@ -26,7 +26,6 @@ public class User extends BaseEntity {
     @Builder.Default
     private Collection<UserRole> rolesCollection = new ArrayList<>();
 
-
     public void addRole(UserRole userRole) {
         getRolesCollection().add(userRole);
     }

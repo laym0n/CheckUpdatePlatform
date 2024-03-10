@@ -8,9 +8,4 @@ import org.springframework.security.core.GrantedAuthority;
 @AllArgsConstructor
 public class UserAuthoritySecurity implements GrantedAuthority {
     private String authority;
-
-    @Override
-    public String getAuthority() {
-        return authority;
-    }
 }

@@ -24,7 +24,7 @@ public class WebResourceObserving extends BaseEntity {
      */
     private WebResource webResource;
     /**
-     * Отслеживаемый веб ресурс
+     * Статус отслеживания
      */
     private ObserveStatus status;
     /**

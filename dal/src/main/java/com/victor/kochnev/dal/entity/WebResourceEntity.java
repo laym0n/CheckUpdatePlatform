@@ -24,5 +24,4 @@ public class WebResourceEntity extends BaseDalEntity {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "plugin_id")
     private PluginEntity plugin;
-//    private Collection<WebResourceObservingEntity> webResourceObservingCollection;
 }

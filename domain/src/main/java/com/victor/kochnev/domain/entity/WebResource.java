@@ -28,5 +28,4 @@ public class WebResource extends BaseEntity {
      * Плагин, отслеживающий ресурс
      */
     private Plugin plugin;
-//    private Collection<WebResourceObserving> webResourceObservingCollection;
 }

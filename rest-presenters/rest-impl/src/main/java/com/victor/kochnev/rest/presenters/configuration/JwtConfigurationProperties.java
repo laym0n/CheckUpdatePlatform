@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.time.Duration;
 
-@ConfigurationProperties("rest.presenters.security.jwt")
+@ConfigurationProperties("app.rest.security.jwt")
 @Data
 public class JwtConfigurationProperties {
     /**

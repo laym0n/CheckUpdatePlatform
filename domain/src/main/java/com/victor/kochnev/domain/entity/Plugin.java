@@ -43,8 +43,4 @@ public class Plugin extends BaseEntity {
      * Владелец плагина
      */
     private User ownerUser;
-//    /**
-//     * Отслеживаемые ресурсы
-//     */
-//    private Collection<WebResource> webResourcesCollection;
 }

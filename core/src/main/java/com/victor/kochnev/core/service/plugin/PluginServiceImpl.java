@@ -21,11 +21,6 @@ public class PluginServiceImpl implements PluginService {
     }
 
     @Override
-    public Plugin findByWebResourceObservingId(UUID webResourceId) {
-        return pluginRepository.findByWebResourceId(webResourceId);
-    }
-
-    @Override
     public Plugin findByAccessToken(String accessToken) {
         return pluginRepository.findByAccessToken(accessToken)
                 .orElseThrow(() -> ResourceNotFoundException.create(Plugin.class, accessToken, "accessToken"));

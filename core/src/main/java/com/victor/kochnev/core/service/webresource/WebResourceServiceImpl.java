@@ -52,20 +52,10 @@ public class WebResourceServiceImpl implements WebResourceService {
 
     @Override
     @Transactional
-    public boolean isNeedStopObserve(UUID webResourceId) {
-        WebResource webResource = webResourceRepository.findById(webResourceId);
-        if (ObserveStatus.NOT_OBSERVE == webResource.getStatus()) {
-            return false;
-        }
-        int count = webResourceObservingRepository.countActualObserversWithStatus(webResourceId, ObserveStatus.OBSERVE);
-        return count == 0;
-    }
-
-    @Override
-    @Transactional
     public void update(UUID pluginId, WebResourcePluginDto updatedWebResourceDto) {
         Optional<WebResource> optionalWebResource = findByNameAndPluginId(updatedWebResourceDto.getName(), pluginId);
-        WebResource webResource = optionalWebResource.orElseThrow(() -> ResourceNotFoundException.create(WebResource.class, pluginId + " " + updatedWebResourceDto.getName(), "pluginId name"));
+        WebResource webResource = optionalWebResource
+                .orElseThrow(() -> ResourceNotFoundException.create(WebResource.class, pluginId + " " + updatedWebResourceDto.getName(), "pluginId name"));
         domainWebResourceMapper.update(webResource, updatedWebResourceDto);
         webResourceRepository.update(webResource);
     }

@@ -23,7 +23,7 @@ public class UserController implements UserApi {
         log.info("Request: {}", USER_REGISTER_ENDPOINT);
         log.debug("Request: {} {}", USER_REGISTER_ENDPOINT, requestBody);
 
-        UserRegistrationRequestDto registrationRequest = userRequestMapper.mapToUserRegistrationRequestDto(requestBody);
+        UserRegistrationRequestDto registrationRequest = userRequestMapper.mapToCoreRequest(requestBody);
         userFacade.registerUser(registrationRequest);
 
         log.info("Request: {} proccesed", USER_REGISTER_ENDPOINT);

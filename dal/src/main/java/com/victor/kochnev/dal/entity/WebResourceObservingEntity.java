@@ -23,7 +23,7 @@ public class WebResourceObservingEntity extends BaseDalEntity {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private UserEntity user;
-    @ManyToOne(fetch = FetchType.EAGER/*, cascade = {CascadeType.MERGE, CascadeType.PERSIST}*/)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "webresource_id")
     private WebResourceEntity webResource;
 }

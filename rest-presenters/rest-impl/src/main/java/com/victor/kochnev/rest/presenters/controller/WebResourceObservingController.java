@@ -35,7 +35,7 @@ public class WebResourceObservingController implements WebResourceObservingApi {
         log.info("Request: {}", WEB_RESOURCE_OBSERVING_CREATE_ENDPOINT);
         log.debug("Request: {} {}", WEB_RESOURCE_OBSERVING_CREATE_ENDPOINT, requestBody);
 
-        AddWebResourceForObservingRequest request = requestMapper.mapToAddRequest(requestBody);
+        AddWebResourceForObservingRequest request = requestMapper.mapToCoreRequest(requestBody);
         UserSecurity currentUser = securityUserService.getCurrentUser();
         request.setUserId(currentUser.getId());
 
@@ -51,7 +51,7 @@ public class WebResourceObservingController implements WebResourceObservingApi {
         log.info("Request: {}", WEB_RESOURCE_OBSERVING_STOP_ENDPOINT);
         log.debug("Request: {} {}", WEB_RESOURCE_OBSERVING_STOP_ENDPOINT, requestBody);
 
-        StopWebResourceObservingRequest request = requestMapper.mapToStopObserveRequest(requestBody);
+        StopWebResourceObservingRequest request = requestMapper.mapToCoreRequest(requestBody);
         UserSecurity currentUser = securityUserService.getCurrentUser();
         request.setUserId(currentUser.getId());
 

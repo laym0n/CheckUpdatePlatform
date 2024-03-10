@@ -14,7 +14,7 @@ import org.testcontainers.utility.DockerImageName;
 import java.util.function.Consumer;
 
 @TestConfiguration(proxyBeanMethods = false)
-public class LocalDevTestcontainersConfig {
+public class LocalDevTestcontainersConfiguration {
     @Bean
     @ServiceConnection
     public PostgreSQLContainer mongoDBContainer() {

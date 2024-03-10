@@ -15,8 +15,8 @@ import org.mapstruct.ReportingPolicy;
 public interface WebResourceObservingRequestMapper {
 
     @Mapping(target = "userId", ignore = true)
-    AddWebResourceForObservingRequest mapToAddRequest(WebResourceObservingAddRequestBody requestBody);
+    AddWebResourceForObservingRequest mapToCoreRequest(WebResourceObservingAddRequestBody requestBody);
 
     @Mapping(target = "userId", ignore = true)
-    StopWebResourceObservingRequest mapToStopObserveRequest(WebResourceObservingStopRequestBody requestBody);
+    StopWebResourceObservingRequest mapToCoreRequest(WebResourceObservingStopRequestBody requestBody);
 }

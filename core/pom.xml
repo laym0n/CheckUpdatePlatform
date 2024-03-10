@@ -12,9 +12,6 @@
 
     <name>core</name>
 
-    <properties>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>com.victor.kochnev</groupId>
