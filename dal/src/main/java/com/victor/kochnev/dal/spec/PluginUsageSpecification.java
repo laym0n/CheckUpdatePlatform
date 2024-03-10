@@ -34,6 +34,14 @@ public final class PluginUsageSpecification {
         };
     }
 
+    public static Specification<PluginUsageEntity> byWebResourceName(String name) {
+        return (root, query, cb) -> {
+            Join<PluginUsageEntity, PluginEntity> pluginJoin = root.join(PluginUsageEntity_.plugin);
+            ListJoin<PluginEntity, WebResourceEntity> webResourceJoin = pluginJoin.join(PluginEntity_.webResourcesList);
+            return cb.equal(webResourceJoin.get(WebResourceEntity_.name), name);
+        };
+    }
+
     private static Specification<PluginUsageEntity> byExpiredDateAfter(ZonedDateTime expiredDate) {
         return (root, query, cb) -> cb.greaterThanOrEqualTo(root.get(PluginUsageEntity_.EXPIRED_DATE), expiredDate);
     }

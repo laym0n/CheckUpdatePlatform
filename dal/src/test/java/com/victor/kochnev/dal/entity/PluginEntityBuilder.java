@@ -37,4 +37,23 @@ public class PluginEntityBuilder {
                 .lastChangeDate(ZonedDateTime.now())
                 .version(0L);
     }
+
+    public static PluginEntity.PluginEntityBuilder<?, ?> postfixBuilder(int postfix) {
+        return PluginEntity.builder()
+                .name(DEFAULT_NAME + postfix)
+                .baseUrl(DEFAULT_BASE_URL)
+                .accessToken(DEFAULT_ACCESS_TOKEN)
+                .imagePathsList(DEFAULT_IMAGE_PATHS_LIST)
+                .description(DEFAULT_DESCRIPTION)
+                .distributionMethodsCollection(DEFAULT_DISTRIBUTION_METHODS_COLLECTION)
+                .ownerUser(UserEntityBuilder.defaultBuilder().build());
+    }
+
+    public static PluginEntity.PluginEntityBuilder<?, ?> persistedPostfixBuilder(int postfix) {
+        return postfixBuilder(postfix)
+                .id(UUID.randomUUID())
+                .createDate(ZonedDateTime.now())
+                .lastChangeDate(ZonedDateTime.now())
+                .version(0L);
+    }
 }

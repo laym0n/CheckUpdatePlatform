@@ -37,13 +37,19 @@ public class WebResourceObservingRepositoryImpl implements WebResourceObservingR
     }
 
     @Override
-    public List<WebResourceObserving> findAllWithExpiredDateAfterOrNull(String name, ZonedDateTime now) {
-        return null;
+    public List<WebResourceObserving> findAllWithExpiredDateAfterOrNull(String name, ZonedDateTime expiredDate) {
+        Specification<WebResourceObservingEntity> spec = Specification.where(WebResourceObservingSpecification.getAllObservers());
+        spec = spec.and(WebResourceObservingSpecification.byWebResourceName(name));
+        spec = spec.and(WebResourceObservingSpecification.byExpiredDateNullOrAfter(expiredDate));
+        return observingRepository.findAll(spec)
+                .stream().map(observingMapper::mapToDomain).toList();
     }
 
     @Override
     public int countActualObserversWithStatus(UUID webResourceId, ObserveStatus observeStatus) {
-        Specification<WebResourceObservingEntity> spec = WebResourceObservingSpecification.withUserIdPluginIdAndExpiredDateNullOrAfter(webResourceId, ZonedDateTime.now());
+        Specification<WebResourceObservingEntity> spec = Specification.where(WebResourceObservingSpecification.getAllObservers());
+        spec = spec.and(WebResourceObservingSpecification.byWebResourceId(webResourceId));
+        spec = spec.and(WebResourceObservingSpecification.byExpiredDateNullOrAfter(ZonedDateTime.now()));
         return (int) observingRepository.count(spec);
     }
 

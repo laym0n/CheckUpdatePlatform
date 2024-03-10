@@ -1,7 +1,7 @@
 package com.victor.kochnev.integration.plugin.configuration;
 
 import com.victor.kochnev.integration.plugin.security.entity.PluginAuthority;
-import com.victor.kochnev.integration.plugin.security.service.SecurityPluginService;
+import com.victor.kochnev.integration.plugin.security.service.PluginSecurityServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
@@ -37,7 +37,7 @@ public class PluginIntegrationSecurityConfiguration {
     }
 
     @Bean
-    public DaoAuthenticationProvider pluginAuthenticationProvider(PasswordEncoder passwordEncoder, SecurityPluginService securityPluginService) {
+    public DaoAuthenticationProvider pluginAuthenticationProvider(PasswordEncoder passwordEncoder, PluginSecurityServiceImpl securityPluginService) {
         DaoAuthenticationProvider userAuthenticationProvider = new DaoAuthenticationProvider();
         userAuthenticationProvider.setPasswordEncoder(passwordEncoder);
         userAuthenticationProvider.setUserDetailsService(securityPluginService);

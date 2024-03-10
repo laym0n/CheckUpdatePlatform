@@ -14,7 +14,7 @@ import java.util.UUID;
 public interface WebResourceObservingService {
     WebResourceObservingDto addObservingCascade(WebResourcePluginDto webResource, AddWebResourceForObservingRequest request);
 
-    List<WebResourceObserving> findAllActualObservers(String name);
+    List<WebResourceObserving> findAllActualObservings(String name);
 
     WebResourceObserving getById(UUID observingId);
 

@@ -9,8 +9,11 @@ import com.victor.kochnev.integration.plugin.api.dto.CanObserveResponseBuilder;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.time.ZonedDateTime;
 import java.util.UUID;
 
+import static com.github.tomakehurst.wiremock.client.WireMock.deleteRequestedFor;
+import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 import static org.junit.jupiter.api.Assertions.*;
 
 class WebResourceObservingStopControllerTest extends BaseControllerTest {
@@ -48,6 +51,8 @@ class WebResourceObservingStopControllerTest extends BaseControllerTest {
         assertNotNull(responseDto);
 
         assertResponse(responseDto, webResourceEntity);
+
+        wireMockServer.verify(1, deleteRequestedFor(urlEqualTo(PLUGIN_WEBRESOURCE_ENDPOINT)));
     }
 
     @Test
@@ -55,6 +60,10 @@ class WebResourceObservingStopControllerTest extends BaseControllerTest {
         //Assign
         prepareDb();
         UUID userId1 = userRepository.save(UserEntityBuilder.postfixPersistedBuilder(1).build()).getId();
+        pluginUsageRepository.save(pluginUsageRepository.save(PluginUsageEntityBuilder.persistedDefaultBuilder()
+                .user(userRepository.findById(userId1).get())
+                .plugin(pluginRepository.findById(PLUGIN_ID).get())
+                .expiredDate(ZonedDateTime.now().plusMinutes(5)).build()));
         observingRepository.save(WebResourceObservingEntityBuilder.persistedDefaultBuilder()
                 .user(userRepository.findById(userId1).get())
                 .webResource(webResourceRepository.findById(WEBRESOURCE_ID).get())

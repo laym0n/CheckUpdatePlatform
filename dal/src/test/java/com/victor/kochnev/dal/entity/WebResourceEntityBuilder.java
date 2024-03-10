@@ -28,4 +28,20 @@ public class WebResourceEntityBuilder {
                 .lastChangeDate(ZonedDateTime.now())
                 .version(0L);
     }
+
+    public static WebResourceEntity.WebResourceEntityBuilder<?, ?> postfixBuilder(int postfix) {
+        return WebResourceEntity.builder()
+                .description(DEFAULT_DESCRIPTION)
+                .name(DEFAULT_NAME + postfix)
+                .status(DEFAULT_STATUS)
+                .plugin(PluginEntityBuilder.defaultBuilder().build());
+    }
+
+    public static WebResourceEntity.WebResourceEntityBuilder<?, ?> persistedPostfixBuilder(int postfix) {
+        return postfixBuilder(postfix)
+                .id(UUID.randomUUID())
+                .createDate(ZonedDateTime.now())
+                .lastChangeDate(ZonedDateTime.now())
+                .version(0L);
+    }
 }
