@@ -19,5 +19,5 @@ public interface PluginEntityRepository extends JpaRepository<PluginEntity, UUID
             """)
     Optional<PluginEntity> findByWebResourceId(@Param("webResourceId") UUID webResourceId);
 
-    Optional<PluginEntity> findByAccessToken(String accessToken);
+    Optional<PluginEntity> findByName(String name);
 }

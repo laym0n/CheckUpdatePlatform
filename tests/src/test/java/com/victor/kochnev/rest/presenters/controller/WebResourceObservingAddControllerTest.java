@@ -59,7 +59,7 @@ class WebResourceObservingAddControllerTest extends BaseControllerTest {
         stubSuccessWebResourceAdd(expectedName);
 
         //Action
-        MvcResult mvcResult = post(WEBRESOURCE_OBSERVING_ENDPOINT, requestBody, prepareHeaders());
+        MvcResult mvcResult = post(WEBRESOURCE_OBSERVING_ENDPOINT, requestBody, prepareUserHeaders());
 
         //Assert
         assertHttpStatusOk(mvcResult);
@@ -93,7 +93,7 @@ class WebResourceObservingAddControllerTest extends BaseControllerTest {
         stubSuccessWebResourceAdd(WebResourceEntityBuilder.DEFAULT_NAME);
 
         //Action
-        MvcResult mvcResult = post(WEBRESOURCE_OBSERVING_ENDPOINT, requestBody, prepareHeaders());
+        MvcResult mvcResult = post(WEBRESOURCE_OBSERVING_ENDPOINT, requestBody, prepareUserHeaders());
 
         //Assert
         assertHttpStatusOk(mvcResult);
@@ -133,7 +133,7 @@ class WebResourceObservingAddControllerTest extends BaseControllerTest {
         stubSuccessWebResourceAdd(WebResourceEntityBuilder.DEFAULT_NAME);
 
         //Action
-        MvcResult mvcResult = post(WEBRESOURCE_OBSERVING_ENDPOINT, requestBody, prepareHeaders());
+        MvcResult mvcResult = post(WEBRESOURCE_OBSERVING_ENDPOINT, requestBody, prepareUserHeaders());
 
         //Assert
         assertHttpStatusOk(mvcResult);
@@ -173,7 +173,7 @@ class WebResourceObservingAddControllerTest extends BaseControllerTest {
         stubSuccessCanObserve(WebResourceEntityBuilder.DEFAULT_NAME);
 
         //Action
-        MvcResult mvcResult = post(WEBRESOURCE_OBSERVING_ENDPOINT, requestBody, prepareHeaders());
+        MvcResult mvcResult = post(WEBRESOURCE_OBSERVING_ENDPOINT, requestBody, prepareUserHeaders());
 
         //Assert
         assertHttpStatusOk(mvcResult);
@@ -208,7 +208,7 @@ class WebResourceObservingAddControllerTest extends BaseControllerTest {
                 .plugin(pluginRepository.findById(PLUGIN_ID).get())
                 .status(ObserveStatus.OBSERVE)
                 .build()).getId();
-        UUID observingId = observingRepository.save(WebResourceObservingEntityBuilder.persistedDefaultBuilder()
+        observingRepository.save(WebResourceObservingEntityBuilder.persistedDefaultBuilder()
                 .webResource(webResourceRepository.findById(webResourceId).get())
                 .user(userRepository.findById(userId1).get())
                 .status(ObserveStatus.OBSERVE)
@@ -218,7 +218,7 @@ class WebResourceObservingAddControllerTest extends BaseControllerTest {
         stubSuccessCanObserve(WebResourceEntityBuilder.DEFAULT_NAME);
 
         //Action
-        MvcResult mvcResult = post(WEBRESOURCE_OBSERVING_ENDPOINT, requestBody, prepareHeaders());
+        MvcResult mvcResult = post(WEBRESOURCE_OBSERVING_ENDPOINT, requestBody, prepareUserHeaders());
 
         //Assert
         assertHttpStatusOk(mvcResult);
@@ -260,7 +260,7 @@ class WebResourceObservingAddControllerTest extends BaseControllerTest {
                 .willReturn(wireMockResponse(pluginCanObserveResponse)));
 
         //Action
-        MvcResult mvcResult = post(WEBRESOURCE_OBSERVING_ENDPOINT, requestBody, prepareHeaders());
+        MvcResult mvcResult = post(WEBRESOURCE_OBSERVING_ENDPOINT, requestBody, prepareUserHeaders());
 
         //Assert
         assertHttpStatus(mvcResult, HttpStatus.BAD_REQUEST);
@@ -269,7 +269,6 @@ class WebResourceObservingAddControllerTest extends BaseControllerTest {
         assertTrue(optionalWebResource.isPresent());
         WebResourceEntity webResourceEntity = optionalWebResource.get();
         assertEquals(ObserveStatus.NOT_OBSERVE, webResourceEntity.getStatus());
-        ;
 
         var optionalObservingEntity = observingRepository.findByWebResourceIdAndUserId(webResourceId, USER_ID);
         var observingEntity = optionalObservingEntity.get();

@@ -32,8 +32,8 @@ public class PluginRepositoryImpl implements PluginRepository {
     }
 
     @Override
-    public Optional<Plugin> findByAccessToken(String accessToken) {
-        return pluginEntityRepository.findByAccessToken(accessToken)
+    public Optional<Plugin> findByName(String accessToken) {
+        return pluginEntityRepository.findByName(accessToken)
                 .map(pluginMapper::mapToDomain);
     }
 }

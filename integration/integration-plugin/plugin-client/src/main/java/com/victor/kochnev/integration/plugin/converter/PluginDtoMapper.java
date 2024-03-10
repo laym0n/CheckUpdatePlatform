@@ -15,6 +15,6 @@ import java.util.List;
         unmappedTargetPolicy = ReportingPolicy.ERROR,
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface PluginDtoMapper {
-    @Mapping(target = "authorities", expression = "java(List.of(PluginAuthority.PLUGIN_AUTHORITY))")
+    @Mapping(target = "authorities", expression = "java(List.of(PluginAuthority.PLUGIN))")
     PluginSecurity mapToSecurity(PluginDto pluginDto);
 }

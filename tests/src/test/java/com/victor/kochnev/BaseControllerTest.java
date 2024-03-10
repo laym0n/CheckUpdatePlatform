@@ -74,9 +74,15 @@ public abstract class BaseControllerTest extends BaseBootTest {
         }
     }
 
-    protected HttpHeaders prepareHeaders() {
+    protected HttpHeaders prepareUserHeaders() {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(HttpHeaders.AUTHORIZATION, "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ2aWN0b3JfazAyQG1haWwucnUiLCJpYXQiOjE3MDk0NjQ2MzIsImV4cCI6MTg2NzE0NDYzMn0.H28RAopSE55Opd2Jj8zhrWofMB0lY6_Jprn4r9fZAB_CKJ3YpnYQ4e-RX_j7oE_SnesI9dN4M-qdtUdZQKHA6Q");
+        return httpHeaders;
+    }
+
+    protected HttpHeaders preparePluginHeaders() {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add(HttpHeaders.AUTHORIZATION, "Basic bmFtZTphY2Nlc3NUb2tlbg==");
         return httpHeaders;
     }
 }

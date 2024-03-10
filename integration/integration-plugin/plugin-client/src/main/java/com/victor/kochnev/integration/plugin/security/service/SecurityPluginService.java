@@ -20,7 +20,7 @@ public class SecurityPluginService implements UserDetailsService {
     public UserDetails loadUserByUsername(String pluginName) throws UsernameNotFoundException {
         PluginDto pluginByName;
         try {
-            pluginByName = pluginFacade.findByAccessToken(pluginName);
+            pluginByName = pluginFacade.findByName(pluginName);
         } catch (ResourceNotFoundException ex) {
             throw new UsernameNotFoundException(ex.getMessage());
         }

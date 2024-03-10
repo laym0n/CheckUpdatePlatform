@@ -36,6 +36,7 @@ public class SecurityConfiguration {
     @Order(Ordered.HIGHEST_PRECEDENCE)
     public SecurityFilterChain restPresentersSecurityFilterChain(HttpSecurity http, JwtAuthenticationFilter filter) throws Exception {
         return http
+                .securityMatcher("/webresource/observing/**", "/user/register", "/authentication")
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/webresource/observing/**").hasRole(UserRole.SIMPLE_USER.name())
                         .requestMatchers("/user/register", "/authentication").permitAll()

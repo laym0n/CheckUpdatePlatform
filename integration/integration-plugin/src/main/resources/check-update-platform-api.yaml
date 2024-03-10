@@ -8,8 +8,10 @@ info:
     url: https://vk.com/laym0n
   version: 1.0.0
 paths:
-  /notification/create:
+  /notification:
     post:
+      security:
+        - Bearer: [ ]
       tags:
         - Notification
       summary: Отправить уведомление
@@ -24,6 +26,11 @@ paths:
           description: успешное добавление
 
 components:
+  securitySchemes:
+    Bearer:
+      type: apiKey
+      name: Authorization
+      in: header
   schemas:
     NotificationCreateRequestBody:
       type: object

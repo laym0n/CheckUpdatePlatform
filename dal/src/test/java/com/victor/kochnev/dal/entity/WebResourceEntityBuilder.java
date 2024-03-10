@@ -18,7 +18,7 @@ public class WebResourceEntityBuilder {
                 .description(DEFAULT_DESCRIPTION)
                 .name(DEFAULT_NAME)
                 .status(DEFAULT_STATUS)
-                .plugin(PluginEntityBuilder.defaultPlugin().build());
+                .plugin(PluginEntityBuilder.defaultBuilder().build());
     }
 
     public static WebResourceEntity.WebResourceEntityBuilder<?, ?> persistedDefaultBuilder() {

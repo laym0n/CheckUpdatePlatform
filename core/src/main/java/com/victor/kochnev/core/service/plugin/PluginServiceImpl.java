@@ -21,8 +21,8 @@ public class PluginServiceImpl implements PluginService {
     }
 
     @Override
-    public Plugin findByAccessToken(String accessToken) {
-        return pluginRepository.findByAccessToken(accessToken)
-                .orElseThrow(() -> ResourceNotFoundException.create(Plugin.class, accessToken, "accessToken"));
+    public Plugin findByName(String name) {
+        return pluginRepository.findByName(name)
+                .orElseThrow(() -> ResourceNotFoundException.create(Plugin.class, name, "accessToken"));
     }
 }

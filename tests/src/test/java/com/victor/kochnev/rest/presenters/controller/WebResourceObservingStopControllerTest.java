@@ -30,7 +30,7 @@ class WebResourceObservingStopControllerTest extends BaseControllerTest {
         stubSuccessWebResourceRemove();
 
         //Action
-        MvcResult mvcResult = put(WEBRESOURCE_OBSERVING_STOP_ENDPOINT, requestBody, prepareHeaders());
+        MvcResult mvcResult = put(WEBRESOURCE_OBSERVING_STOP_ENDPOINT, requestBody, prepareUserHeaders());
 
         //Assert
         assertHttpStatusOk(mvcResult);
@@ -63,7 +63,7 @@ class WebResourceObservingStopControllerTest extends BaseControllerTest {
         WebResourceObservingStopRequestBody requestBody = prepareObservingStopRequest();
 
         //Action
-        MvcResult mvcResult = put(WEBRESOURCE_OBSERVING_STOP_ENDPOINT, requestBody, prepareHeaders());
+        MvcResult mvcResult = put(WEBRESOURCE_OBSERVING_STOP_ENDPOINT, requestBody, prepareUserHeaders());
 
         //Assert
         assertHttpStatusOk(mvcResult);

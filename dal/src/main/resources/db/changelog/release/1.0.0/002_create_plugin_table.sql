@@ -18,3 +18,5 @@ ALTER TABLE PLUGIN
     ADD CONSTRAINT fk_plugin_user_owner_user_id
         FOREIGN KEY (owner_user_id)
             REFERENCES USERS (id);
+
+CREATE UNIQUE INDEX idx_plugin_name ON PLUGIN (name);

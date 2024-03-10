@@ -7,5 +7,5 @@ import java.util.UUID;
 public interface PluginService {
     Plugin findById(UUID id);
 
-    Plugin findByAccessToken(String accessToken);
+    Plugin findByName(String name);
 }

@@ -21,7 +21,7 @@ class PluginRepositoryTest extends BaseBootTest {
     @Test
     void testSuccessFindById() {
         //Assign
-        UUID pluginId = pluginEntityRepository.save(PluginEntityBuilder.defaultPlugin().build()).getId();
+        UUID pluginId = pluginEntityRepository.save(PluginEntityBuilder.defaultBuilder().build()).getId();
 
         //Action
         Plugin plugin = pluginRepository.getById(pluginId);
@@ -48,12 +48,12 @@ class PluginRepositoryTest extends BaseBootTest {
     }
 
     @Test
-    void testSuccessFindByAccessToken() {
+    void testSuccessFindByName() {
         //Assign
-        String accessToken = pluginEntityRepository.save(PluginEntityBuilder.defaultPlugin().build()).getAccessToken();
+        String name = pluginEntityRepository.save(PluginEntityBuilder.defaultBuilder().build()).getName();
 
         //Action
-        Optional<Plugin> optionalPlugin = pluginRepository.findByAccessToken(accessToken);
+        Optional<Plugin> optionalPlugin = pluginRepository.findByName(name);
 
         //Assert
         assertTrue(optionalPlugin.isPresent());
@@ -70,12 +70,12 @@ class PluginRepositoryTest extends BaseBootTest {
     }
 
     @Test
-    void testFindByAccessToken_WhenNotExists_ExpectResourceNotFoundException() {
+    void testFindByName_WhenNotExists_ExpectResourceNotFoundException() {
         //Assert
-        String accessToken = UUID.randomUUID().toString();
+        String name = UUID.randomUUID().toString();
 
         //Action
-        Optional<Plugin> optionalPlugin = pluginRepository.findByAccessToken(accessToken);
+        Optional<Plugin> optionalPlugin = pluginRepository.findByName(name);
 
         //Assert
         assertTrue(optionalPlugin.isEmpty());
@@ -84,7 +84,7 @@ class PluginRepositoryTest extends BaseBootTest {
     @Test
     void testSuccessFindByWebResourceId() {
         //Assign
-        UUID pluginId = pluginEntityRepository.save(PluginEntityBuilder.defaultPlugin().build()).getId();
+        UUID pluginId = pluginEntityRepository.save(PluginEntityBuilder.defaultBuilder().build()).getId();
         UUID webResourceId = webResourceEntityRepository.save(WebResourceEntityBuilder.persistedDefaultBuilder()
                 .plugin(pluginEntityRepository.findById(pluginId).get()).build()).getId();
 

@@ -14,8 +14,8 @@ public class PluginFacadeImpl implements PluginFacade {
     private final DomainPluginMapper domainPluginMapper;
 
     @Override
-    public PluginDto findByAccessToken(String accessToken) {
-        Plugin plugin = pluginService.findByAccessToken(accessToken);
+    public PluginDto findByName(String accessToken) {
+        Plugin plugin = pluginService.findByName(accessToken);
         return domainPluginMapper.mapToDto(plugin);
     }
 }

@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public class PluginEntityBuilder {
     public static final String DEFAULT_BASE_URL = "http://localhost:9988";
-    public static final String DEFAULT_ACCESS_TOKEN = "accessToken";
+    public static final String DEFAULT_ACCESS_TOKEN = "$2a$10$/1AcC1IGap3HYgXHsLCNkOXZybUL.vTc8mlY1mVk63NJwb2qh80Di";
     public static final String DEFAULT_NAME = "name";
     public static final List<String> DEFAULT_IMAGE_PATHS_LIST = List.of("example");
     public static final EmbeddablePluginDescription DEFAULT_DESCRIPTION = EmbeddablePluginDescription.builder().description("description").build();
@@ -19,7 +19,7 @@ public class PluginEntityBuilder {
     private PluginEntityBuilder() {
     }
 
-    public static PluginEntity.PluginEntityBuilder<?, ?> defaultPlugin() {
+    public static PluginEntity.PluginEntityBuilder<?, ?> defaultBuilder() {
         return PluginEntity.builder()
                 .name(DEFAULT_NAME)
                 .baseUrl(DEFAULT_BASE_URL)
@@ -31,7 +31,7 @@ public class PluginEntityBuilder {
     }
 
     public static PluginEntity.PluginEntityBuilder<?, ?> persistedDefaultBuilder() {
-        return defaultPlugin()
+        return defaultBuilder()
                 .id(UUID.randomUUID())
                 .createDate(ZonedDateTime.now())
                 .lastChangeDate(ZonedDateTime.now())

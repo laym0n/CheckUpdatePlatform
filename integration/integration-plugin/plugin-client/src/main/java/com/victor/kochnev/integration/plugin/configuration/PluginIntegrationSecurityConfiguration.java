@@ -25,7 +25,7 @@ public class PluginIntegrationSecurityConfiguration {
     public SecurityFilterChain pluginSecurityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/notification/create").hasAuthority(PluginAuthority.PLUGIN_AUTHORITY.getAuthority())
+                        .requestMatchers("/notification").hasRole(PluginAuthority.PLUGIN.name())
                         .anyRequest().denyAll()
                 )
                 .httpBasic(Customizer.withDefaults())
