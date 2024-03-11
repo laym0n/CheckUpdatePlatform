@@ -1,5 +1,5 @@
 server:
-  port: ${ev.port:8080}
+  port: ${ev.server.port:8080}
 
 spring:
   liquibase:
