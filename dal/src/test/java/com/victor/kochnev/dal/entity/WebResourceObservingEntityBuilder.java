@@ -27,4 +27,12 @@ public class WebResourceObservingEntityBuilder {
                 .lastChangeDate(ZonedDateTime.now())
                 .version(0L);
     }
+
+    public static WebResourceObservingEntity.WebResourceObservingEntityBuilder<?, ?> persistedPostfixBuilder(int postfix) {
+        return defaultBuilder()
+                .id(UUID.randomUUID())
+                .createDate(ZonedDateTime.now())
+                .lastChangeDate(ZonedDateTime.now())
+                .version(0L);
+    }
 }
