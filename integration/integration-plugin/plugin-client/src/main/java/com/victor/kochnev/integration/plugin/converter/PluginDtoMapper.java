@@ -21,6 +21,8 @@ import java.util.List;
 public interface PluginDtoMapper {
     @Mapping(target = "authorities", expression = "java(List.of(PluginAuthority.PLUGIN))")
     PluginSecurity mapToSecurity(PluginDto pluginDto);
+
     WebResourcePluginDto mapToCore(WebResourceDto webResourceDto);
+
     NotificationPluginDto mapToCore(NotificationDto notificationDto);
 }

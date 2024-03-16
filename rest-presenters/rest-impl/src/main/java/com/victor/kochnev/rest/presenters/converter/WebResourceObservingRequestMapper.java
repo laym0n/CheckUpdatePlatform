@@ -1,9 +1,7 @@
 package com.victor.kochnev.rest.presenters.converter;
 
 import com.victor.kochnev.api.dto.WebResourceObservingAddRequestBody;
-import com.victor.kochnev.api.dto.WebResourceObservingStopRequestBody;
 import com.victor.kochnev.core.dto.request.AddWebResourceForObservingRequest;
-import com.victor.kochnev.core.dto.request.StopWebResourceObservingRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.NullValuePropertyMappingStrategy;
@@ -16,7 +14,4 @@ public interface WebResourceObservingRequestMapper {
 
     @Mapping(target = "userId", ignore = true)
     AddWebResourceForObservingRequest mapToCoreRequest(WebResourceObservingAddRequestBody requestBody);
-
-    @Mapping(target = "userId", ignore = true)
-    StopWebResourceObservingRequest mapToCoreRequest(WebResourceObservingStopRequestBody requestBody);
 }

@@ -16,7 +16,7 @@ public class PluginServiceImpl implements PluginService {
     private final PluginRepository pluginRepository;
 
     @Override
-    public Plugin findById(UUID id) {
+    public Plugin getById(UUID id) {
         return pluginRepository.getById(id);
     }
 

@@ -2,11 +2,15 @@ package com.victor.kochnev.rest.presenters.controller;
 
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.victor.kochnev.BaseControllerTest;
-import com.victor.kochnev.api.dto.*;
+import com.victor.kochnev.api.dto.ObserveSettings;
+import com.victor.kochnev.api.dto.ObserveStatusEnum;
+import com.victor.kochnev.api.dto.WebResource;
+import com.victor.kochnev.api.dto.WebResourceObserving;
 import com.victor.kochnev.dal.entity.*;
 import com.victor.kochnev.domain.enums.ObserveStatus;
 import com.victor.kochnev.integration.plugin.api.dto.CanObserveResponseBuilder;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpStatus;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.time.ZonedDateTime;
@@ -17,7 +21,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 import static org.junit.jupiter.api.Assertions.*;
 
 class WebResourceObservingStopControllerTest extends BaseControllerTest {
-    private final String WEBRESOURCE_OBSERVING_STOP_ENDPOINT = "/webresource/observing/stop";
+    private final String WEBRESOURCE_OBSERVING_STOP_ENDPOINT = "/webresource/observing/%s/stop";
     private final String PLUGIN_WEBRESOURCE_ENDPOINT = "/webresource";
     private UUID USER_ID;
     private UUID PLUGIN_ID;
@@ -28,12 +32,11 @@ class WebResourceObservingStopControllerTest extends BaseControllerTest {
     void removeWebResourceObserving_WhenUserAndPluginExists() {
         //Assign
         prepareDb();
-        WebResourceObservingStopRequestBody requestBody = prepareObservingStopRequest();
-
         stubSuccessWebResourceRemove();
+        String url = String.format(WEBRESOURCE_OBSERVING_STOP_ENDPOINT, WEBRESOURCE_OBSERVING_ID);
 
         //Action
-        MvcResult mvcResult = put(WEBRESOURCE_OBSERVING_STOP_ENDPOINT, requestBody, prepareUserHeaders());
+        MvcResult mvcResult = put(url, null, prepareUserHeaders());
 
         //Assert
         assertHttpStatusOk(mvcResult);
@@ -56,7 +59,7 @@ class WebResourceObservingStopControllerTest extends BaseControllerTest {
     }
 
     @Test
-    void removeWebResourceObserving_WhenUserAndPluginExists1() {
+    void removeWebResourceObserving_WhenMultipleObservings() {
         //Assign
         prepareDb();
         UUID userId1 = userRepository.save(UserEntityBuilder.postfixPersistedBuilder(1).build()).getId();
@@ -69,10 +72,10 @@ class WebResourceObservingStopControllerTest extends BaseControllerTest {
                 .webResource(webResourceRepository.findById(WEBRESOURCE_ID).get())
                 .status(ObserveStatus.OBSERVE)
                 .build()).getId();
-        WebResourceObservingStopRequestBody requestBody = prepareObservingStopRequest();
+        String url = String.format(WEBRESOURCE_OBSERVING_STOP_ENDPOINT, WEBRESOURCE_OBSERVING_ID);
 
         //Action
-        MvcResult mvcResult = put(WEBRESOURCE_OBSERVING_STOP_ENDPOINT, requestBody, prepareUserHeaders());
+        MvcResult mvcResult = put(url, null, prepareUserHeaders());
 
         //Assert
         assertHttpStatusOk(mvcResult);
@@ -92,6 +95,39 @@ class WebResourceObservingStopControllerTest extends BaseControllerTest {
         assertResponse(responseDto, webResourceEntity);
     }
 
+    @Test
+    void removeWebResourceObserving_WhenRemoveNotPermittedObserving() {
+        //Assign
+        prepareDb();
+        UUID userId1 = userRepository.save(UserEntityBuilder.postfixPersistedBuilder(1).build()).getId();
+        pluginUsageRepository.save(pluginUsageRepository.save(PluginUsageEntityBuilder.persistedDefaultBuilder()
+                .user(userRepository.findById(userId1).get())
+                .plugin(pluginRepository.findById(PLUGIN_ID).get())
+                .expiredDate(ZonedDateTime.now().plusMinutes(5)).build()));
+        UUID notPermittedObservingId = observingRepository.save(WebResourceObservingEntityBuilder.persistedDefaultBuilder()
+                .user(userRepository.findById(userId1).get())
+                .webResource(webResourceRepository.findById(WEBRESOURCE_ID).get())
+                .status(ObserveStatus.OBSERVE)
+                .build()).getId();
+        String url = String.format(WEBRESOURCE_OBSERVING_STOP_ENDPOINT, notPermittedObservingId);
+
+        //Action
+        MvcResult mvcResult = put(url, null, prepareUserHeaders());
+
+        //Assert
+        assertHttpStatus(mvcResult, HttpStatus.FORBIDDEN);
+
+        var optionalWebResource = webResourceRepository.findById(WEBRESOURCE_ID);
+        assertTrue(optionalWebResource.isPresent());
+        WebResourceEntity webResourceEntity = optionalWebResource.get();
+        assertEquals(ObserveStatus.OBSERVE, webResourceEntity.getStatus());
+
+        var optionalObservingEntity = observingRepository.findByWebResourceIdAndUserId(WEBRESOURCE_ID, userId1);
+        assertTrue(optionalObservingEntity.isPresent());
+        WebResourceObservingEntity observingEntity = optionalObservingEntity.get();
+        assertEquals(ObserveStatus.OBSERVE, observingEntity.getStatus());
+    }
+
     private void assertResponse(WebResourceObserving responseDto, WebResourceEntity webResourceEntity) {
         WebResource webResourceDto = responseDto.getWebResourceDto();
         assertNotNull(webResourceDto);
@@ -103,11 +139,6 @@ class WebResourceObservingStopControllerTest extends BaseControllerTest {
         assertEquals(ObserveStatusEnum.NOT_OBSERVE, responseDto.getStatus());
         assertNotNull(observeSettings);
         assertEquals(true, observeSettings.getNeedNotify());
-    }
-
-    private WebResourceObservingStopRequestBody prepareObservingStopRequest() {
-        return new WebResourceObservingStopRequestBody()
-                .webResourceObservingId(WEBRESOURCE_OBSERVING_ID);
     }
 
     private void stubSuccessWebResourceRemove() {

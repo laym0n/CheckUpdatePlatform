@@ -5,9 +5,9 @@ CREATE TABLE IF NOT EXISTS WEBRESOURCE
     last_change_date TIMESTAMP WITH TIME ZONE NOT NULL,
     version          BIGINT                   NOT NULL,
 
-    name             VARCHAR(500)              NOT NULL,
+    name             VARCHAR(500)             NOT NULL,
     description      VARCHAR(500),
-    status           VARCHAR(500)              NOT NULL,
+    status           VARCHAR(500)             NOT NULL,
     plugin_id        UUID                     NOT NULL
 );
 

@@ -4,6 +4,7 @@ import com.victor.kochnev.core.dto.domain.entity.UserDto;
 import com.victor.kochnev.core.exception.ResourceNotFoundException;
 import com.victor.kochnev.core.facade.user.UserFacade;
 import com.victor.kochnev.rest.presenters.converter.UserDtoMapper;
+import com.victor.kochnev.rest.presenters.exception.RestPresentersException;
 import com.victor.kochnev.rest.presenters.security.entity.UserSecurity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -34,5 +35,13 @@ public class SecurityUserServiceImpl implements UserDetailsService, SecurityUser
     public UserSecurity getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return (UserSecurity) authentication.getPrincipal();
+    }
+
+    @Override
+    public UserSecurity getUserFromAuthentication(Authentication authentication) {
+        if (authentication.getPrincipal() instanceof UserSecurity userSecurity) {
+            return userSecurity;
+        }
+        throw new RestPresentersException("Can not parse Authentication " + authentication + " to " + UserSecurity.class.getName());
     }
 }

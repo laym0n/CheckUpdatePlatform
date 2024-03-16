@@ -11,7 +11,7 @@ paths:
   /notification:
     post:
       security:
-        - BasicAuth: []
+        - BasicAuth: [ ]
       tags:
         - Notification
       summary: Отправить уведомление

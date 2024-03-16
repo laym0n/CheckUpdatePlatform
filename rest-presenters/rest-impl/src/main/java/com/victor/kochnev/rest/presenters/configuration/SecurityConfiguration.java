@@ -5,6 +5,7 @@ import com.victor.kochnev.domain.enums.UserRole;
 import com.victor.kochnev.rest.presenters.security.filter.JwtAuthenticationFilter;
 import com.victor.kochnev.rest.presenters.security.service.SecurityUserServiceImpl;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
@@ -21,6 +22,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.expression.DefaultHttpSecurityExpressionHandler;
+import org.springframework.security.web.access.expression.WebExpressionAuthorizationManager;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -34,10 +37,16 @@ public class SecurityConfiguration {
 
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
-    public SecurityFilterChain restPresentersSecurityFilterChain(HttpSecurity http, JwtAuthenticationFilter filter) throws Exception {
+    public SecurityFilterChain restPresentersSecurityFilterChain(HttpSecurity http, JwtAuthenticationFilter filter, ApplicationContext context) throws Exception {
+        DefaultHttpSecurityExpressionHandler expressionHandler = new DefaultHttpSecurityExpressionHandler();
+        expressionHandler.setApplicationContext(context);
+        WebExpressionAuthorizationManager observingAuthorization = new WebExpressionAuthorizationManager("@authorizationHelper.checkWebResourceObservingAccess(authentication,#id)");
+        observingAuthorization.setExpressionHandler(expressionHandler);
+
         return http
                 .securityMatcher("/webresource/observing/**", "/user/register", "/authentication")
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/webresource/observing/{id}/**").access(observingAuthorization)
                         .requestMatchers("/webresource/observing/**").hasRole(UserRole.SIMPLE_USER.name())
                         .requestMatchers("/user/register", "/authentication").permitAll()
                 )

@@ -56,7 +56,7 @@ paths:
             'application/json':
               schema:
                 $ref: '#/components/schemas/ErrorMessageDto'
-  /webresource/observing/stop:
+  /webresource/observing/{observingId}/stop:
     put:
       tags:
         - WebResourceObserving
@@ -64,11 +64,8 @@ paths:
       operationId: stopObserve
       security:
         - JwtToken: [ ]
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/WebResourceObservingStopRequestBody'
+      parameters:
+        - $ref: '#/components/parameters/WebResourceObservingId'
       responses:
         200:
           description: успешное удаление
@@ -109,6 +106,16 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorMessageDto'
 components:
+  parameters:
+    WebResourceObservingId:
+      name: observingId
+      in: path
+      description: id отслеживания веб ресурса
+      required: true
+      schema:
+        type: string
+        format: uuid
+
   securitySchemes:
     JwtToken:
       type: http
@@ -158,16 +165,6 @@ components:
           type: string
           format: uuid
           description: id плагина
-
-    WebResourceObservingStopRequestBody:
-      type: object
-      properties:
-        webResourceObservingId:
-          type: string
-          format: uuid
-          description: id веб ресурса
-      required:
-        - webResourceObservingId
 
     WebResourceObserving:
       type: object

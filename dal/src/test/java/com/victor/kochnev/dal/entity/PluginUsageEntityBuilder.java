@@ -2,7 +2,6 @@ package com.victor.kochnev.dal.entity;
 
 import com.victor.kochnev.dal.embeddable.object.EmbeddableDistributionMethodBuilder;
 
-import java.sql.ConnectionBuilder;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 

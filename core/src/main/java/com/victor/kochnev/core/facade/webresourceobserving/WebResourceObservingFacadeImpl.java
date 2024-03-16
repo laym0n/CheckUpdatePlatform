@@ -6,7 +6,6 @@ import com.victor.kochnev.core.dto.plugin.CanObserveResponseDto;
 import com.victor.kochnev.core.dto.plugin.WebResourcePluginDto;
 import com.victor.kochnev.core.dto.request.AddWebResourceForObservingRequest;
 import com.victor.kochnev.core.dto.request.StopWebResourceObservingRequest;
-import com.victor.kochnev.core.exception.AccessNotPermittedException;
 import com.victor.kochnev.core.exception.ResourceDescriptionParseException;
 import com.victor.kochnev.core.integration.PluginClient;
 import com.victor.kochnev.core.service.plugin.PluginService;
@@ -22,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -34,16 +34,10 @@ public class WebResourceObservingFacadeImpl implements WebResourceObservingFacad
     private final WebResourceObservingService webResourceObservingService;
     private final DomainWebResourceObservingMapper observingMapper;
 
-    private static Boolean checkIsNotObserved(Optional<WebResource> optionalWebResource) {
-        return optionalWebResource
-                .map(webResource -> ObserveStatus.NOT_OBSERVE == webResource.getStatus())
-                .orElse(true);
-    }
-
     @Override
     public WebResourceObservingDto addWebResourceForObserving(AddWebResourceForObservingRequest request) {
         pluginUsageService.verifyUserCanUsePlugin(request.getPluginId(), request.getUserId());
-        Plugin plugin = pluginService.findById(request.getPluginId());
+        Plugin plugin = pluginService.getById(request.getPluginId());
         String baseUrl = plugin.getBaseUrl();
         CanObserveResponseDto response = pluginClient.canObserve(baseUrl, request.getResourceDescription());
         if (!response.isObservable()) {
@@ -51,7 +45,7 @@ public class WebResourceObservingFacadeImpl implements WebResourceObservingFacad
         }
         WebResourcePluginDto webResourcePluginDto = response.getWebResource();
         Optional<WebResource> optionalWebResource = webResourceService.findByNameAndPluginId(webResourcePluginDto.getName(), request.getPluginId());
-        Boolean isNotObserved = checkIsNotObserved(optionalWebResource);
+        boolean isNotObserved = checkIsNotObserved(optionalWebResource);
         if (isNotObserved) {
             webResourcePluginDto = pluginClient.addResourceForObserving(baseUrl, request.getResourceDescription());
         }
@@ -60,16 +54,25 @@ public class WebResourceObservingFacadeImpl implements WebResourceObservingFacad
 
     @Override
     public WebResourceObservingDto stopWebResourceObserving(StopWebResourceObservingRequest request) {
-        WebResourceObserving observing = webResourceObservingService.getById(request.getWebResourceObservingId());
-        if (!request.getUserId().equals(observing.getUser().getId())) {
-            throw new AccessNotPermittedException("User with id " + request.getUserId() + " can not modify observing with id " + request.getWebResourceObservingId());
-        }
         boolean isNeedChangeStatus = webResourceObservingService.stopObservingCascade(request.getWebResourceObservingId());
         if (isNeedChangeStatus) {
+            WebResourceObserving observing = webResourceObservingService.getById(request.getWebResourceObservingId());
             Plugin plugin = observing.getWebResource().getPlugin();
             pluginClient.removeResourceFromObserve(plugin.getBaseUrl(), observing.getWebResource().getName());
         }
-        observing = webResourceObservingService.getById(request.getWebResourceObservingId());
+        WebResourceObserving observing = webResourceObservingService.getById(request.getWebResourceObservingId());
         return observingMapper.mapToDto(observing);
+    }
+
+    @Override
+    public boolean checkAccess(UUID userId, UUID webResourceObservingId) {
+        WebResourceObserving observing = webResourceObservingService.getById(webResourceObservingId);
+        return observing.getUser().getId().equals(userId);
+    }
+
+    private boolean checkIsNotObserved(Optional<WebResource> optionalWebResource) {
+        return optionalWebResource
+                .map(webResource -> ObserveStatus.NOT_OBSERVE == webResource.getStatus())
+                .orElse(true);
     }
 }

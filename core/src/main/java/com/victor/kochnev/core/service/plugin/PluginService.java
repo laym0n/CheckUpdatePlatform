@@ -5,7 +5,7 @@ import com.victor.kochnev.domain.entity.Plugin;
 import java.util.UUID;
 
 public interface PluginService {
-    Plugin findById(UUID id);
+    Plugin getById(UUID id);
 
     Plugin findByName(String name);
 }

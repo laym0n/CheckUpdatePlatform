@@ -2,7 +2,6 @@ package com.victor.kochnev.rest.presenters.controller;
 
 import com.victor.kochnev.api.dto.WebResourceObserving;
 import com.victor.kochnev.api.dto.WebResourceObservingAddRequestBody;
-import com.victor.kochnev.api.dto.WebResourceObservingStopRequestBody;
 import com.victor.kochnev.api.rest.WebResourceObservingApi;
 import com.victor.kochnev.core.dto.domain.entity.WebResourceObservingDto;
 import com.victor.kochnev.core.dto.request.AddWebResourceForObservingRequest;
@@ -17,6 +16,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.UUID;
 
 @RestController
 @Validated
@@ -47,13 +48,13 @@ public class WebResourceObservingController implements WebResourceObservingApi {
     }
 
     @Override
-    public ResponseEntity<WebResourceObserving> stopObserve(WebResourceObservingStopRequestBody requestBody) {
+    public ResponseEntity<WebResourceObserving> stopObserve(UUID observingId) {
         log.info("Request: {}", WEB_RESOURCE_OBSERVING_STOP_ENDPOINT);
-        log.debug("Request: {} {}", WEB_RESOURCE_OBSERVING_STOP_ENDPOINT, requestBody);
+        log.debug("Request: {} {}", WEB_RESOURCE_OBSERVING_STOP_ENDPOINT, observingId);
 
-        StopWebResourceObservingRequest request = requestMapper.mapToCoreRequest(requestBody);
         UserSecurity currentUser = securityUserService.getCurrentUser();
-        request.setUserId(currentUser.getId());
+        UUID userId = currentUser.getId();
+        StopWebResourceObservingRequest request = new StopWebResourceObservingRequest(observingId, userId);
 
         WebResourceObservingDto webResourceObservingDto = webResourceObservingFacade.stopWebResourceObserving(request);
         WebResourceObserving webResourceObserving = dtoMapper.mapToRestDto(webResourceObservingDto);

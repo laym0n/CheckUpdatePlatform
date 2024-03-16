@@ -19,11 +19,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class NotificationControllerTest extends BaseControllerTest {
     private final String NOTIFICATION_CREATE_ENDPOINT = "/notification";
+    private final String WEBRESOURCE_NAME = "webResourceName1";
     private UUID USER_ID1;
     private UUID USER_ID2;
     private UUID USER_ID3;
     private UUID USER_ID4;
-    private final String WEBRESOURCE_NAME1 = "webResourceName1";
 
     @Test
     void createNotification() {
@@ -36,7 +36,7 @@ class NotificationControllerTest extends BaseControllerTest {
         requestBody.setNotification(notificationDto);
 
         WebResourceDto webResourceDto = WebResourceDtoBuilder.defaultWebResourceDto()
-                .name(WEBRESOURCE_NAME1);
+                .name(WEBRESOURCE_NAME);
         requestBody.setUpdatedResource(webResourceDto);
 
         //Action
@@ -106,7 +106,7 @@ class NotificationControllerTest extends BaseControllerTest {
                 .ownerUser(userRepository.findById(ownerUserId).get()).build()).getId();
 
         UUID webResourceId1 = webResourceRepository.save(WebResourceEntityBuilder.postfixBuilder(1)
-                .name(WEBRESOURCE_NAME1)
+                .name(WEBRESOURCE_NAME)
                 .plugin(pluginRepository.findById(pluginId1).get()).build()).getId();
         UUID webResourceId2 = webResourceRepository.save(WebResourceEntityBuilder.postfixBuilder(2)
                 .plugin(pluginRepository.findById(pluginId2).get()).build()).getId();
