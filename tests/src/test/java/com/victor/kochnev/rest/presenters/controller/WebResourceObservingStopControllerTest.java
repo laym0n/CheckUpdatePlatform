@@ -59,10 +59,10 @@ class WebResourceObservingStopControllerTest extends BaseControllerTest {
     }
 
     @Test
-    void removeWebResourceObserving_WhenMultipleObservings() {
+    void removeWebResourceObserving_WhenMultipleObservings_ExpectWebResourceObserve() {
         //Assign
         prepareDb();
-        UUID userId1 = userRepository.save(UserEntityBuilder.postfixPersistedBuilder(1).build()).getId();
+        UUID userId1 = userRepository.save(UserEntityBuilder.persistedPostfixBuilder(1).build()).getId();
         pluginUsageRepository.save(pluginUsageRepository.save(PluginUsageEntityBuilder.persistedDefaultBuilder()
                 .user(userRepository.findById(userId1).get())
                 .plugin(pluginRepository.findById(PLUGIN_ID).get())
@@ -96,10 +96,49 @@ class WebResourceObservingStopControllerTest extends BaseControllerTest {
     }
 
     @Test
+    void removeWebResourceObserving_WhenMultipleObservings_ExpectWebResourceNotObserve() {
+        //Assign
+        prepareDb();
+        stubSuccessWebResourceRemove();
+        UUID userId1 = userRepository.save(UserEntityBuilder.persistedPostfixBuilder(1).build()).getId();
+        pluginUsageRepository.save(pluginUsageRepository.save(PluginUsageEntityBuilder.persistedDefaultBuilder()
+                .user(userRepository.findById(userId1).get())
+                .plugin(pluginRepository.findById(PLUGIN_ID).get())
+                .expiredDate(ZonedDateTime.now().plusMinutes(5)).build()));
+        observingRepository.save(WebResourceObservingEntityBuilder.persistedDefaultBuilder()
+                .user(userRepository.findById(userId1).get())
+                .webResource(webResourceRepository.findById(WEBRESOURCE_ID).get())
+                .status(ObserveStatus.NOT_OBSERVE)
+                .build()).getId();
+        String url = String.format(WEBRESOURCE_OBSERVING_STOP_ENDPOINT, WEBRESOURCE_OBSERVING_ID);
+
+        //Action
+        MvcResult mvcResult = put(url, null, prepareUserHeaders());
+
+        //Assert
+        assertHttpStatusOk(mvcResult);
+
+        var optionalWebResource = webResourceRepository.findById(WEBRESOURCE_ID);
+        assertTrue(optionalWebResource.isPresent());
+        WebResourceEntity webResourceEntity = optionalWebResource.get();
+        assertEquals(ObserveStatus.NOT_OBSERVE, webResourceEntity.getStatus());
+
+        var optionalObservingEntity = observingRepository.findByWebResourceIdAndUserId(webResourceEntity.getId(), USER_ID);
+        var observingEntity = optionalObservingEntity.get();
+        assertEquals(ObserveStatus.NOT_OBSERVE, observingEntity.getStatus());
+
+        WebResourceObserving responseDto = getResponseDto(mvcResult, WebResourceObserving.class);
+        assertNotNull(responseDto);
+
+        assertResponse(responseDto, webResourceEntity);
+        wireMockServer.verify(1, deleteRequestedFor(urlEqualTo(PLUGIN_WEBRESOURCE_ENDPOINT)));
+    }
+
+    @Test
     void removeWebResourceObserving_WhenRemoveNotPermittedObserving() {
         //Assign
         prepareDb();
-        UUID userId1 = userRepository.save(UserEntityBuilder.postfixPersistedBuilder(1).build()).getId();
+        UUID userId1 = userRepository.save(UserEntityBuilder.persistedPostfixBuilder(1).build()).getId();
         pluginUsageRepository.save(pluginUsageRepository.save(PluginUsageEntityBuilder.persistedDefaultBuilder()
                 .user(userRepository.findById(userId1).get())
                 .plugin(pluginRepository.findById(PLUGIN_ID).get())

@@ -199,7 +199,7 @@ class WebResourceObservingAddControllerTest extends BaseControllerTest {
     void addWebResourceObserving_WhenWebResourceObservedByOtherUserExists() {
         //Assign
         prepareDb();
-        UUID userId1 = userRepository.save(UserEntityBuilder.postfixPersistedBuilder(1).build()).getId();
+        UUID userId1 = userRepository.save(UserEntityBuilder.persistedPostfixBuilder(1).build()).getId();
         pluginUsageRepository.save(PluginUsageEntityBuilder.persistedDefaultBuilder()
                 .user(userRepository.findById(userId1).get())
                 .plugin(pluginRepository.findById(PLUGIN_ID).get())

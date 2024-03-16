@@ -36,7 +36,7 @@ public class UserEntityBuilder {
                 .enabled(true);
     }
 
-    public static UserEntity.UserEntityBuilder<?, ?> postfixPersistedBuilder(int postfix) {
+    public static UserEntity.UserEntityBuilder<?, ?> persistedPostfixBuilder(int postfix) {
         return postfixBuilder(postfix)
                 .id(UUID.randomUUID())
                 .createDate(ZonedDateTime.now())

@@ -1,6 +1,7 @@
 package com.victor.kochnev.dal.spec;
 
 import com.victor.kochnev.dal.entity.*;
+import com.victor.kochnev.domain.enums.ObserveStatus;
 import jakarta.persistence.criteria.ListJoin;
 import jakarta.persistence.criteria.Path;
 import org.springframework.data.jpa.domain.Specification;
@@ -40,11 +41,15 @@ public final class WebResourceObservingSpecification {
                     .join(PluginEntity_.pluginUsageEntityList);
             Path<UUID> pluginUsageUserId = pluginUsageJoin
                     .get(PluginUsageEntity_.user)
-                    .get(UserEntity_.ID);
+                    .get(UserEntity_.id);
             Path<UUID> observingUserId = root.get(WebResourceObservingEntity_.user).get(UserEntity_.id);
             Path<ZonedDateTime> zonedDateTimePath = pluginUsageJoin
                     .get(PluginUsageEntity_.expiredDate);
             return cb.and(cb.equal(pluginUsageUserId, observingUserId), cb.or(zonedDateTimePath.isNull(), cb.greaterThanOrEqualTo(zonedDateTimePath, expiredDate)));
         };
+    }
+
+    public static Specification<WebResourceObservingEntity> byStatus(ObserveStatus status) {
+        return (root, query, cb) -> cb.equal(root.get(WebResourceObservingEntity_.status), status);
     }
 }
