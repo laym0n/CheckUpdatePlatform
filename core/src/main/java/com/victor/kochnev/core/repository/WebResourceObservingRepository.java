@@ -15,7 +15,7 @@ public interface WebResourceObservingRepository {
 
     List<WebResourceObserving> findAllWithExpiredDateAfterOrNull(String name, ZonedDateTime now);
 
-    int countActualObserversWithStatus(UUID webResourceId, ObserveStatus observeStatus);
+    int countObserversWithStatus(UUID webResourceId, ObserveStatus observeStatus);
 
     WebResourceObserving update(WebResourceObserving webResourceObserving);
 

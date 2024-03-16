@@ -83,7 +83,8 @@ public class WebResourceObservingServiceImpl implements WebResourceObservingServ
 
     private boolean stopObserveCascade(WebResource webResource) {
         boolean isChangedCascade = false;
-        int countObservers = observingRepository.countActualObserversWithStatus(webResource.getId(), ObserveStatus.OBSERVE);
+        int countObservers = observingRepository.countObserversWithStatus(webResource.getId(), ObserveStatus.OBSERVE);
+        log.info("COUNT ACTUAL OBSERVERS {}", countObservers);
         if (countObservers == 1) {
             webResource.setStatus(ObserveStatus.NOT_OBSERVE);
             webResourceService.setStatus(ObserveStatus.NOT_OBSERVE, webResource.getId());

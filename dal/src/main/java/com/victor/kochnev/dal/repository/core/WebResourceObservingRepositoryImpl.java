@@ -46,10 +46,10 @@ public class WebResourceObservingRepositoryImpl implements WebResourceObservingR
     }
 
     @Override
-    public int countActualObserversWithStatus(UUID webResourceId, ObserveStatus status) {
+    public int countObserversWithStatus(UUID webResourceId, ObserveStatus status) {
         Specification<WebResourceObservingEntity> spec = Specification.where(WebResourceObservingSpecification.getAllObservers());
         spec = spec.and(WebResourceObservingSpecification.byWebResourceId(webResourceId));
-        spec = spec.and(WebResourceObservingSpecification.byExpiredDateNullOrAfter(ZonedDateTime.now()));
+//        spec = spec.and(WebResourceObservingSpecification.byExpiredDateNullOrAfter(ZonedDateTime.now()));
         spec = spec.and(WebResourceObservingSpecification.byStatus(status));
         return (int) observingRepository.count(spec);
     }

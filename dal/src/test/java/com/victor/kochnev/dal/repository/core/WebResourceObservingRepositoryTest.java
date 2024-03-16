@@ -4,7 +4,12 @@ import com.victor.kochnev.core.repository.WebResourceObservingRepository;
 import com.victor.kochnev.dal.BaseBootTest;
 import com.victor.kochnev.dal.entity.*;
 import com.victor.kochnev.domain.entity.WebResourceObserving;
+import com.victor.kochnev.domain.enums.ObserveStatus;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.ZonedDateTime;
@@ -127,5 +132,52 @@ class WebResourceObservingRepositoryTest extends BaseBootTest {
 
         assertTrue(observingList.stream().anyMatch(i -> i.getId().equals(observingId1)));
         assertTrue(observingList.stream().anyMatch(i -> i.getId().equals(observingId3)));
+    }
+
+    @ParameterizedTest
+    @CsvSource(value = {"OBSERVE,NOT_OBSERVE", "NOT_OBSERVE,OBSERVE"})
+    void testCountObserversWithStatus(ObserveStatus targetStatus, ObserveStatus otherStatus) {
+        //Assign
+        UUID userId1 = userEntityRepository.save(UserEntityBuilder.postfixBuilder(1).build()).getId();
+        UUID userId2 = userEntityRepository.save(UserEntityBuilder.postfixBuilder(2).build()).getId();
+        UUID userId3 = userEntityRepository.save(UserEntityBuilder.postfixBuilder(3).build()).getId();
+        UUID ownerUserId = userEntityRepository.save(UserEntityBuilder.postfixBuilder(9).build()).getId();
+
+        UUID pluginId = pluginEntityRepository.save(PluginEntityBuilder.persistedDefaultBuilder()
+                .ownerUser(userEntityRepository.findById(ownerUserId).get()).build()).getId();
+        UUID webResourceId = webResourceEntityRepository.save(WebResourceEntityBuilder.persistedDefaultBuilder()
+                .plugin(pluginEntityRepository.findById(pluginId).get()).build()).getId();
+
+        pluginUsageEntityRepository.save(PluginUsageEntityBuilder.persistedPostfixBuilder(1)
+                .user(userEntityRepository.findById(userId1).get())
+                .plugin(pluginEntityRepository.findById(pluginId).get())
+                .expiredDate(null).build());
+        pluginUsageEntityRepository.save(PluginUsageEntityBuilder.persistedPostfixBuilder(2)
+                .user(userEntityRepository.findById(userId2).get())
+                .plugin(pluginEntityRepository.findById(pluginId).get())
+                .expiredDate(ZonedDateTime.now().minusMinutes(5)).build());
+        pluginUsageEntityRepository.save(PluginUsageEntityBuilder.persistedPostfixBuilder(3)
+                .user(userEntityRepository.findById(userId3).get())
+                .plugin(pluginEntityRepository.findById(pluginId).get())
+                .expiredDate(ZonedDateTime.now().plusMinutes(5)).build()).getId();
+
+        UUID observingId1 = webResourceObservingEntityRepository.save(WebResourceObservingEntityBuilder.persistedDefaultBuilder()
+                .user(userEntityRepository.findById(userId1).get())
+                .webResource(webResourceEntityRepository.findById(webResourceId).get())
+                .status(targetStatus).build()).getId();
+        webResourceObservingEntityRepository.save(WebResourceObservingEntityBuilder.persistedDefaultBuilder()
+                .user(userEntityRepository.findById(userId2).get())
+                .webResource(webResourceEntityRepository.findById(webResourceId).get())
+                .status(targetStatus).build());
+        UUID observingId3 = webResourceObservingEntityRepository.save(WebResourceObservingEntityBuilder.persistedDefaultBuilder()
+                .user(userEntityRepository.findById(userId3).get())
+                .webResource(webResourceEntityRepository.findById(webResourceId).get())
+                .status(otherStatus).build()).getId();
+
+        //Action
+        int count = webResourceObservingRepository.countObserversWithStatus(webResourceId, targetStatus);
+
+        //Assert
+        assertEquals(2, count);
     }
 }
