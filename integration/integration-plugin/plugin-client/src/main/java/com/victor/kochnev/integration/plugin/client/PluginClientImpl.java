@@ -8,9 +8,11 @@ import com.victor.kochnev.integration.plugin.api.dto.WebResourceAddRequest;
 import com.victor.kochnev.integration.plugin.api.dto.WebResourceRemoveRequest;
 import com.victor.kochnev.integration.plugin.client.factory.WebResourceClientFactory;
 import com.victor.kochnev.integration.plugin.converter.PluginResponseMapper;
+import com.victor.kochnev.integration.plugin.exception.PluginIntegrationException;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
@@ -28,8 +30,19 @@ public class PluginClientImpl implements PluginClient {
         WebResourceClient webResourceClient = clientFactory.webResourceClient(baseUrl);
         var request = new CanObserveRequest();
         request.setDescription(resourceDescription);
-        return webResourceClient.canObserve(request)
-                .map(pluginResponseMapper::mapToCore).block();
+
+        log.info("Send request to plugin {} {}", baseUrl, request);
+        CanObserveResponseDto responseDto;
+        try {
+            responseDto = webResourceClient.canObserve(request)
+                    .map(pluginResponseMapper::mapToCore).block();
+        } catch (Exception e) {
+            String msg = ExceptionUtils.getMessage(e);
+            log.error("Send can observe request to {} with error {}", baseUrl, msg);
+            throw new PluginIntegrationException(msg, e);
+        }
+        log.info("Send request to plugin {} successful {}", baseUrl, responseDto);
+        return responseDto;
     }
 
     @SneakyThrows
@@ -38,9 +51,20 @@ public class PluginClientImpl implements PluginClient {
         WebResourceClient webResourceClient = clientFactory.webResourceClient(baseUrl);
         var request = new WebResourceAddRequest();
         request.setDescription(resourceDescription);
-        return webResourceClient.add(request)
-                .map(pluginResponseMapper::mapToCore)
-                .block();
+
+        log.info("Send request to plugin {} {}", baseUrl, request);
+        WebResourcePluginDto response;
+        try {
+            response = webResourceClient.add(request)
+                    .map(pluginResponseMapper::mapToCore)
+                    .block();
+        } catch (Exception e) {
+            String msg = ExceptionUtils.getMessage(e);
+            log.error("Send addResourceForObserving request to {} with error {}", baseUrl, msg);
+            throw new PluginIntegrationException(msg, e);
+        }
+        log.info("Send request to plugin {} successful {}", baseUrl, response);
+        return response;
     }
 
     @SneakyThrows
@@ -49,6 +73,15 @@ public class PluginClientImpl implements PluginClient {
         WebResourceClient webResourceClient = clientFactory.webResourceClient(baseUrl);
         var request = new WebResourceRemoveRequest();
         request.setName(resourceName);
-        webResourceClient.remove(request).block();
+
+        log.info("Send request to plugin {} {}", baseUrl, request);
+        try {
+            webResourceClient.remove(request).block();
+        } catch (Exception e) {
+            String msg = ExceptionUtils.getMessage(e);
+            log.error("Send removeResourceFromObserve request to {} with error {}", baseUrl, msg);
+            throw new PluginIntegrationException(msg, e);
+        }
+        log.info("Send request to plugin {} successful", baseUrl);
     }
 }
