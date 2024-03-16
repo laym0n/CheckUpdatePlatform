@@ -3,6 +3,7 @@ package com.victor.kochnev.rest.presenters.controller;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.victor.kochnev.BaseControllerTest;
 import com.victor.kochnev.api.dto.*;
+import com.victor.kochnev.dal.embeddable.object.EmbeddableDistributionMethodBuilder;
 import com.victor.kochnev.dal.entity.*;
 import com.victor.kochnev.domain.enums.ObserveStatus;
 import com.victor.kochnev.integration.plugin.api.dto.CanObserveResponse;
@@ -13,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.time.ZonedDateTime;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -23,30 +25,6 @@ class WebResourceObservingAddControllerTest extends BaseControllerTest {
     private final String PLUGIN_CAN_OBSERVE_ENDPOINT = "/webresource/can/observe";
     private UUID USER_ID;
     private UUID PLUGIN_ID;
-
-    private static void assertResponse(WebResourceObserving responseDto, WebResourceEntity webResourceEntity) {
-        WebResource webResourceDto = responseDto.getWebResourceDto();
-        assertNotNull(webResourceDto);
-        assertEquals(webResourceEntity.getId(), webResourceDto.getId());
-        assertEquals(CanObserveResponseBuilder.DEFAULT_WEB_RESOURCE.getName(), webResourceDto.getName());
-        assertEquals(CanObserveResponseBuilder.DEFAULT_WEB_RESOURCE.getDescription(), webResourceDto.getDescription());
-
-        ObserveSettings observeSettings = responseDto.getObserveSettings();
-        assertNotNull(observeSettings);
-        assertEquals(true, observeSettings.getNeedNotify());
-    }
-
-    private static void assertWebResourceEntity(WebResourceEntity webResourceEntity) {
-        assertEquals(CanObserveResponseBuilder.DEFAULT_WEB_RESOURCE.getName(), webResourceEntity.getName());
-        assertEquals(CanObserveResponseBuilder.DEFAULT_WEB_RESOURCE.getDescription(), webResourceEntity.getDescription());
-        assertEquals(ObserveStatus.OBSERVE, webResourceEntity.getStatus());
-    }
-
-    private static void assertWebResourceObservingEntity(WebResourceObservingEntity observingEntity) {
-        assertNotNull(observingEntity.getObserveSettings());
-        assertTrue(observingEntity.getObserveSettings().getNeedNotify());
-        assertEquals(ObserveStatus.OBSERVE, observingEntity.getStatus());
-    }
 
     @Test
     void addWebResourceObserving_WhenUserAndPluginExists() {
@@ -77,6 +55,48 @@ class WebResourceObservingAddControllerTest extends BaseControllerTest {
         assertNotNull(responseDto);
 
         assertResponse(responseDto, webResourceEntity);
+    }
+
+    @Test
+    void addWebResourceObserving_PluginUsageNotPermited_Expect403() {
+        //Assign
+        prepareDb();
+        pluginUsageRepository.deleteAll();
+        WebResourceObservingAddRequestBody requestBody = prepareAddRequest();
+
+        String expectedName = WebResourceDtoBuilder.DEFAULT_NAME;
+        stubSuccessCanObserve(expectedName);
+        stubSuccessWebResourceAdd(expectedName);
+
+        //Action
+        MvcResult mvcResult = post(WEBRESOURCE_OBSERVING_ENDPOINT, requestBody, prepareUserHeaders());
+
+        //Assert
+        assertHttpStatus(mvcResult, HttpStatus.UNAUTHORIZED);
+    }
+
+    @Test
+    void addWebResourceObserving_PluginUsageNotPermited1_Expect403() {
+        //Assign
+        prepareDb();
+        pluginUsageRepository.deleteAll();
+        pluginUsageRepository.save(PluginUsageEntityBuilder.persistedPostfixBuilder(1)
+                .plugin(pluginRepository.findById(PLUGIN_ID).get())
+                .user(userRepository.findById(USER_ID).get())
+                .expiredDate(ZonedDateTime.now().minusMinutes(5))
+                .distributionMethod(EmbeddableDistributionMethodBuilder.defaultSubscribeDistribution().build())
+                .build());
+        WebResourceObservingAddRequestBody requestBody = prepareAddRequest();
+
+        String expectedName = WebResourceDtoBuilder.DEFAULT_NAME;
+        stubSuccessCanObserve(expectedName);
+        stubSuccessWebResourceAdd(expectedName);
+
+        //Action
+        MvcResult mvcResult = post(WEBRESOURCE_OBSERVING_ENDPOINT, requestBody, prepareUserHeaders());
+
+        //Assert
+        assertHttpStatus(mvcResult, HttpStatus.UNAUTHORIZED);
     }
 
     @Test
@@ -303,5 +323,29 @@ class WebResourceObservingAddControllerTest extends BaseControllerTest {
         pluginUsageRepository.save(PluginUsageEntityBuilder.persistedDefaultBuilder()
                 .plugin(pluginRepository.findById(PLUGIN_ID).get())
                 .user(userRepository.findById(USER_ID).get()).build());
+    }
+
+    private void assertResponse(WebResourceObserving responseDto, WebResourceEntity webResourceEntity) {
+        WebResource webResourceDto = responseDto.getWebResourceDto();
+        assertNotNull(webResourceDto);
+        assertEquals(webResourceEntity.getId(), webResourceDto.getId());
+        assertEquals(CanObserveResponseBuilder.DEFAULT_WEB_RESOURCE.getName(), webResourceDto.getName());
+        assertEquals(CanObserveResponseBuilder.DEFAULT_WEB_RESOURCE.getDescription(), webResourceDto.getDescription());
+
+        ObserveSettings observeSettings = responseDto.getObserveSettings();
+        assertNotNull(observeSettings);
+        assertEquals(true, observeSettings.getNeedNotify());
+    }
+
+    private void assertWebResourceEntity(WebResourceEntity webResourceEntity) {
+        assertEquals(CanObserveResponseBuilder.DEFAULT_WEB_RESOURCE.getName(), webResourceEntity.getName());
+        assertEquals(CanObserveResponseBuilder.DEFAULT_WEB_RESOURCE.getDescription(), webResourceEntity.getDescription());
+        assertEquals(ObserveStatus.OBSERVE, webResourceEntity.getStatus());
+    }
+
+    private void assertWebResourceObservingEntity(WebResourceObservingEntity observingEntity) {
+        assertNotNull(observingEntity.getObserveSettings());
+        assertTrue(observingEntity.getObserveSettings().getNeedNotify());
+        assertEquals(ObserveStatus.OBSERVE, observingEntity.getStatus());
     }
 }

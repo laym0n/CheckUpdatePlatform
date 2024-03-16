@@ -10,6 +10,7 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.ErrorResponseException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -34,6 +35,14 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         log.error(ExceptionUtils.getMessage(ex), ex);
         return ResponseEntity.status(HttpStatusCode.valueOf(400))
                 .body(new ErrorMessageDto().message("Проваленная аутентификация"));
+    }
+
+    @ExceptionHandler({AccessDeniedException.class})
+    public ResponseEntity<Object> handleUserAuthorizationException(AccessDeniedException ex, WebRequest request) {
+        String msg = ExceptionUtils.getMessage(ex);
+        log.error(msg, ex);
+        return ResponseEntity.status(HttpStatusCode.valueOf(401))
+                .body(new ErrorMessageDto().message(msg));
     }
 
     @ExceptionHandler({ResourceDescriptionParseException.class})

@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS PLUGIN_USAGE
 
     expired_date          TIMESTAMP WITH TIME ZONE,
     distribution_type     VARCHAR(50)              NOT NULL,
-    distribution_duration INTEGER,
+    distribution_duration BIGINT,
     distribution_cost     NUMERIC(20, 2)           NOT NULL,
     user_id               UUID                     NOT NULL,
     plugin_id             UUID                     NOT NULL

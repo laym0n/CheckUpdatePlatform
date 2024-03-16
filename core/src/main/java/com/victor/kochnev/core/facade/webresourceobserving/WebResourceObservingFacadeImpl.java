@@ -9,7 +9,6 @@ import com.victor.kochnev.core.dto.request.StopWebResourceObservingRequest;
 import com.victor.kochnev.core.exception.ResourceDescriptionParseException;
 import com.victor.kochnev.core.integration.PluginClient;
 import com.victor.kochnev.core.service.plugin.PluginService;
-import com.victor.kochnev.core.service.pluginusage.PluginUsageService;
 import com.victor.kochnev.core.service.webresource.WebResourceService;
 import com.victor.kochnev.core.service.webresourceobserving.WebResourceObservingService;
 import com.victor.kochnev.domain.entity.Plugin;
@@ -18,6 +17,7 @@ import com.victor.kochnev.domain.entity.WebResourceObserving;
 import com.victor.kochnev.domain.enums.ObserveStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -30,13 +30,12 @@ public class WebResourceObservingFacadeImpl implements WebResourceObservingFacad
     private final WebResourceService webResourceService;
     private final PluginService pluginService;
     private final PluginClient pluginClient;
-    private final PluginUsageService pluginUsageService;
     private final WebResourceObservingService webResourceObservingService;
     private final DomainWebResourceObservingMapper observingMapper;
 
+    @PreAuthorize("@pluginUsageAuthorizationService.verifyUserCanUsePlugin(#request.pluginId, #request.userId)")
     @Override
     public WebResourceObservingDto addWebResourceForObserving(AddWebResourceForObservingRequest request) {
-        pluginUsageService.verifyUserCanUsePlugin(request.getPluginId(), request.getUserId());
         Plugin plugin = pluginService.getById(request.getPluginId());
         String baseUrl = plugin.getBaseUrl();
         CanObserveResponseDto response = pluginClient.canObserve(baseUrl, request.getResourceDescription());
