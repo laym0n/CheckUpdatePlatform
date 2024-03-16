@@ -18,6 +18,7 @@ import com.victor.kochnev.domain.enums.ObserveStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -33,9 +34,9 @@ public class WebResourceObservingFacadeImpl implements WebResourceObservingFacad
     private final WebResourceObservingService webResourceObservingService;
     private final DomainWebResourceObservingMapper observingMapper;
 
-    @PreAuthorize("@pluginUsageAuthorizationService.verifyUserCanUsePlugin(#request.pluginId, #request.userId)")
+    @PreAuthorize("@pluginUsageAuthorizationService.verifyUserCanUsePlugin(#request.getPluginId(), #request.getUserId())")
     @Override
-    public WebResourceObservingDto addWebResourceForObserving(AddWebResourceForObservingRequest request) {
+    public WebResourceObservingDto addWebResourceForObserving(@P("request") AddWebResourceForObservingRequest request) {
         Plugin plugin = pluginService.getById(request.getPluginId());
         String baseUrl = plugin.getBaseUrl();
         CanObserveResponseDto response = pluginClient.canObserve(baseUrl, request.getResourceDescription());
