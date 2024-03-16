@@ -72,7 +72,9 @@ public class WebResourceObservingServiceImpl implements WebResourceObservingServ
     @Override
     @Transactional
     public List<WebResourceObserving> findAllActualObservings(String name) {
-        return observingRepository.findAllWithExpiredDateAfterOrNull(name, ZonedDateTime.now());
+        return observingRepository.findAllWithExpiredDateAfterOrNull(name, ZonedDateTime.now())
+                .stream().filter(observing -> observing.getStatus() == ObserveStatus.OBSERVE)
+                .toList();
     }
 
     @Override
