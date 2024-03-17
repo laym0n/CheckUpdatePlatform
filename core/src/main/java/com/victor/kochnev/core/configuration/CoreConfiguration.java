@@ -2,7 +2,8 @@ package com.victor.kochnev.core.configuration;
 
 import com.victor.kochnev.core.CoreBeanScanMarker;
 import com.victor.kochnev.core.converter.DomainUserMapper;
-import com.victor.kochnev.core.security.service.SecurityUserService;
+import com.victor.kochnev.core.security.service.plugin.PluginSecurityService;
+import com.victor.kochnev.core.security.service.user.SecurityUserService;
 import com.victor.kochnev.domain.enums.UserRole;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -60,6 +61,14 @@ public class CoreConfiguration {
         DaoAuthenticationProvider userAuthenticationProvider = new DaoAuthenticationProvider();
         userAuthenticationProvider.setPasswordEncoder(passwordEncoder);
         userAuthenticationProvider.setUserDetailsService(securityUserService);
+        return userAuthenticationProvider;
+    }
+
+    @Bean
+    public DaoAuthenticationProvider pluginAuthenticationProvider(PasswordEncoder passwordEncoder, PluginSecurityService pluginSecurityService) {
+        DaoAuthenticationProvider userAuthenticationProvider = new DaoAuthenticationProvider();
+        userAuthenticationProvider.setPasswordEncoder(passwordEncoder);
+        userAuthenticationProvider.setUserDetailsService(pluginSecurityService);
         return userAuthenticationProvider;
     }
 

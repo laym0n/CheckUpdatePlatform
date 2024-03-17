@@ -1,32 +1,31 @@
-package com.victor.kochnev.integration.plugin.security.service;
+package com.victor.kochnev.core.security.service.plugin;
 
-import com.victor.kochnev.core.dto.domain.entity.PluginDto;
+import com.victor.kochnev.core.converter.DomainPluginMapper;
 import com.victor.kochnev.core.exception.ResourceNotFoundException;
-import com.victor.kochnev.core.facade.plugin.PluginFacade;
-import com.victor.kochnev.integration.plugin.converter.PluginDtoMapper;
-import com.victor.kochnev.integration.plugin.security.entity.PluginSecurity;
+import com.victor.kochnev.core.security.entity.PluginSecurity;
+import com.victor.kochnev.core.service.plugin.PluginService;
+import com.victor.kochnev.domain.entity.Plugin;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class PluginSecurityServiceImpl implements UserDetailsService, PluginSecurityService {
-    private final PluginFacade pluginFacade;
-    private final PluginDtoMapper pluginDtoMapper;
+public class PluginSecurityServiceImpl implements PluginSecurityService {
+    private final PluginService pluginService;
+    private final DomainPluginMapper pluginMapper;
 
     @Override
     public UserDetails loadUserByUsername(String pluginName) throws UsernameNotFoundException {
-        PluginDto pluginByName;
+        Plugin pluginByName;
         try {
-            pluginByName = pluginFacade.findByName(pluginName);
+            pluginByName = pluginService.findByName(pluginName);
         } catch (ResourceNotFoundException ex) {
             throw new UsernameNotFoundException(ex.getMessage());
         }
-        return pluginDtoMapper.mapToSecurity(pluginByName);
+        return pluginMapper.mapToSecurity(pluginByName);
     }
 
     @Override

@@ -2,11 +2,11 @@ package com.victor.kochnev.integration.plugin.controllers;
 
 import com.victor.kochnev.core.dto.request.SendNotificationRequestDto;
 import com.victor.kochnev.core.facade.notification.NotificationFacade;
+import com.victor.kochnev.core.security.entity.PluginSecurity;
+import com.victor.kochnev.core.security.service.plugin.PluginSecurityService;
 import com.victor.kochnev.integration.plugin.api.NotificationApi;
 import com.victor.kochnev.integration.plugin.api.dto.NotificationCreateRequestBody;
 import com.victor.kochnev.integration.plugin.converter.PluginRequestMapper;
-import com.victor.kochnev.integration.plugin.security.entity.PluginSecurity;
-import com.victor.kochnev.integration.plugin.security.service.PluginSecurityService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

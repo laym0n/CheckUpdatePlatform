@@ -1,4 +1,4 @@
-package com.victor.kochnev.core.security.service;
+package com.victor.kochnev.core.security.service.user;
 
 import com.victor.kochnev.core.security.entity.UserSecurity;
 import org.springframework.security.core.Authentication;

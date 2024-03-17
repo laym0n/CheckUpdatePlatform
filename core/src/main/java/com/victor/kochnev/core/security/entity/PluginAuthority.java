@@ -1,4 +1,4 @@
-package com.victor.kochnev.integration.plugin.security.entity;
+package com.victor.kochnev.core.security.entity;
 
 import org.springframework.security.core.GrantedAuthority;
 

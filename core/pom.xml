@@ -17,11 +17,6 @@
             <groupId>com.victor.kochnev</groupId>
             <artifactId>domain</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.victor.kochnev</groupId>
-            <artifactId>domain</artifactId>
-            <type>test-jar</type>
-        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -40,10 +35,17 @@
             <groupId>jakarta.transaction</groupId>
             <artifactId>jakarta.transaction-api</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.victor.kochnev</groupId>
+            <artifactId>domain</artifactId>
+            <scope>test</scope>
+            <type>test-jar</type>
         </dependency>
     </dependencies>
 

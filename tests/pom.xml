@@ -33,6 +33,12 @@
         </dependency>
         <dependency>
             <groupId>com.victor.kochnev</groupId>
+            <artifactId>domain</artifactId>
+            <scope>test</scope>
+            <type>test-jar</type>
+        </dependency>
+        <dependency>
+            <groupId>com.victor.kochnev</groupId>
             <artifactId>rest-impl</artifactId>
         </dependency>
         <dependency>

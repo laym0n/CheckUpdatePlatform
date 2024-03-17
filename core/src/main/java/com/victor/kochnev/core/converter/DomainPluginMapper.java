@@ -1,17 +1,22 @@
 package com.victor.kochnev.core.converter;
 
 import com.victor.kochnev.core.dto.domain.entity.PluginDto;
+import com.victor.kochnev.core.security.entity.PluginAuthority;
+import com.victor.kochnev.core.security.entity.PluginSecurity;
 import com.victor.kochnev.domain.entity.Plugin;
-import org.mapstruct.InjectionStrategy;
-import org.mapstruct.Mapper;
-import org.mapstruct.NullValuePropertyMappingStrategy;
-import org.mapstruct.ReportingPolicy;
+import org.mapstruct.*;
 
-@Mapper(injectionStrategy = InjectionStrategy.CONSTRUCTOR,
+import java.util.List;
+
+@Mapper(imports = {PluginAuthority.class, List.class},
+        injectionStrategy = InjectionStrategy.CONSTRUCTOR,
         componentModel = "spring",
         unmappedTargetPolicy = ReportingPolicy.ERROR,
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface DomainPluginMapper {
 
     PluginDto mapToDto(Plugin plugin);
+
+    @Mapping(target = "authorities", expression = "java(List.of(PluginAuthority.PLUGIN))")
+    PluginSecurity mapToSecurity(Plugin plugin);
 }

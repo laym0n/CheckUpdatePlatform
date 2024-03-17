@@ -8,7 +8,7 @@ import com.victor.kochnev.core.dto.request.AddWebResourceForObservingRequest;
 import com.victor.kochnev.core.dto.request.StopWebResourceObservingRequest;
 import com.victor.kochnev.core.facade.webresourceobserving.WebResourceObservingFacade;
 import com.victor.kochnev.core.security.entity.UserSecurity;
-import com.victor.kochnev.core.security.service.SecurityUserService;
+import com.victor.kochnev.core.security.service.user.SecurityUserService;
 import com.victor.kochnev.rest.presenters.converter.WebResourceObservingDtoMapper;
 import com.victor.kochnev.rest.presenters.converter.WebResourceObservingRequestMapper;
 import lombok.RequiredArgsConstructor;
