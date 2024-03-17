@@ -10,12 +10,13 @@ import com.victor.kochnev.domain.entity.builder.UserDomainBuilder;
 import com.victor.kochnev.domain.enums.UserRole;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -23,7 +24,7 @@ class UserServiceImplUnitTest extends BaseCoreUnitTest {
     private static final String REQUEST_EMAIL = "victor_k02@mail.ru";
     private static final String REQUEST_PASSWORD = "pass";
     @Spy
-    private PasswordCoder passwordCoder = new PasswordCoderImpl();
+    private PasswordEncoder passwordCoder = new BCryptPasswordEncoder();
     @InjectMocks
     private UserServiceImpl userService;
     @Captor
@@ -51,7 +52,7 @@ class UserServiceImplUnitTest extends BaseCoreUnitTest {
 
         assertEquals(REQUEST_EMAIL, createdUser.getEmail());
         String encodedPassword = passwordCoder.encode(REQUEST_PASSWORD);
-        assertEquals(encodedPassword, createdUser.getPassword());
+        assertTrue(passwordCoder.matches(REQUEST_PASSWORD, createdUser.getPassword()));
         assertEquals(List.of(UserRole.SIMPLE_USER), createdUser.getRolesCollection());
     }
 

@@ -1,6 +1,5 @@
 package com.victor.kochnev.rest.presenters.configuration;
 
-import com.victor.kochnev.core.service.user.PasswordCoder;
 import com.victor.kochnev.domain.enums.UserRole;
 import com.victor.kochnev.rest.presenters.security.filter.JwtAuthenticationFilter;
 import com.victor.kochnev.rest.presenters.security.service.SecurityUserServiceImpl;
@@ -19,7 +18,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.expression.DefaultHttpSecurityExpressionHandler;
@@ -70,25 +68,15 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public PasswordCoder passwordcoder(PasswordEncoder passwordEncoder) {
-        return passwordEncoder::encode;
-    }
-
-    @Bean
-    public DaoAuthenticationProvider userAuthenticationProvider(SecurityUserServiceImpl securityUserServiceImpl) {
+    public DaoAuthenticationProvider userAuthenticationProvider(SecurityUserServiceImpl securityUserServiceImpl, PasswordEncoder passwordEncoder) {
         DaoAuthenticationProvider userAuthenticationProvider = new DaoAuthenticationProvider();
-        userAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+        userAuthenticationProvider.setPasswordEncoder(passwordEncoder);
         userAuthenticationProvider.setUserDetailsService(securityUserServiceImpl);
         return userAuthenticationProvider;
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(List<AuthenticationProvider> authenticationProviderList) throws Exception {
+    public AuthenticationManager authenticationManager(List<AuthenticationProvider> authenticationProviderList) {
         return new ProviderManager(authenticationProviderList);
     }
 }

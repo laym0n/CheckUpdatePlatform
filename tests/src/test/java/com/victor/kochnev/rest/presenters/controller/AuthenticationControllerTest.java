@@ -4,13 +4,13 @@ import com.victor.kochnev.BaseControllerTest;
 import com.victor.kochnev.api.dto.AuthenticationRequestBody;
 import com.victor.kochnev.api.dto.ErrorMessageDto;
 import com.victor.kochnev.api.dto.JwtTokenResponse;
-import com.victor.kochnev.core.service.user.PasswordCoder;
 import com.victor.kochnev.dal.entity.UserEntityBuilder;
 import com.victor.kochnev.domain.entity.builder.UserDomainBuilder;
 import com.victor.kochnev.rest.presenters.security.service.JwtService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MvcResult;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -22,7 +22,7 @@ class AuthenticationControllerTest extends BaseControllerTest {
     private static final String REQUEST_PASSWORD = UserDomainBuilder.DEFAULT_PASSWORD;
 
     @Autowired
-    PasswordCoder passwordCoder;
+    PasswordEncoder passwordEncoder;
     @Autowired
     JwtService jwtService;
 
@@ -32,7 +32,7 @@ class AuthenticationControllerTest extends BaseControllerTest {
         userRepository.save(UserEntityBuilder
                 .defaultBuilder()
                 .email(REQUEST_EMAIL)
-                .password(passwordCoder.encode(REQUEST_PASSWORD))
+                .password(passwordEncoder.encode(REQUEST_PASSWORD))
                 .build());
         var request = prepareRequest();
 
@@ -55,7 +55,7 @@ class AuthenticationControllerTest extends BaseControllerTest {
         userRepository.save(UserEntityBuilder
                 .defaultBuilder()
                 .email(REQUEST_EMAIL)
-                .password(passwordCoder.encode(REQUEST_PASSWORD + "1"))
+                .password(passwordEncoder.encode(REQUEST_PASSWORD + "1"))
                 .build());
         var request = prepareRequest();
 
@@ -73,7 +73,7 @@ class AuthenticationControllerTest extends BaseControllerTest {
         userRepository.save(UserEntityBuilder
                 .defaultBuilder()
                 .email(REQUEST_EMAIL + "1")
-                .password(passwordCoder.encode(REQUEST_PASSWORD))
+                .password(passwordEncoder.encode(REQUEST_PASSWORD))
                 .build());
         var request = prepareRequest();
 

@@ -10,6 +10,7 @@ import com.victor.kochnev.domain.entity.User;
 import com.victor.kochnev.domain.enums.UserRole;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -20,7 +21,7 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final DomainUserMapper domainUserMapper;
-    private final PasswordCoder passwordCoder;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public void createUser(UserRegistrationRequestDto request) {
@@ -31,7 +32,7 @@ public class UserServiceImpl implements UserService {
 
         log.info("Create new User {}", request.getEmail());
         User newUser = domainUserMapper.mapToEntity(request);
-        String encodedPassword = passwordCoder.encode(newUser.getPassword());
+        String encodedPassword = passwordEncoder.encode(newUser.getPassword());
         newUser.setPassword(encodedPassword);
         newUser.addRole(UserRole.SIMPLE_USER);
         userRepository.create(newUser);
