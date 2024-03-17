@@ -1,14 +1,11 @@
 package com.victor.kochnev.domain.entity;
 
-import com.victor.kochnev.domain.value.object.DistributionMethod;
+import com.victor.kochnev.domain.enums.PluginStatus;
 import com.victor.kochnev.domain.value.object.PluginDescription;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-
-import java.util.Collection;
-import java.util.List;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = true)
@@ -28,17 +25,13 @@ public class Plugin extends BaseEntity {
      */
     private String accessToken;
     /**
-     * Пути до файлов изображений плагина
+     * Статус плагина
      */
-    private List<String> imagePathsList;
+    private PluginStatus status;
     /**
      * Подробное описание плагина
      */
     private PluginDescription description;
-    /**
-     * Способы распространения плагина
-     */
-    private Collection<DistributionMethod> distributionMethodsCollection;
     /**
      * Владелец плагина
      */

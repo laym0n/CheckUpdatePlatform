@@ -1,11 +1,9 @@
 package com.victor.kochnev.domain.entity.builder;
 
 import com.victor.kochnev.domain.entity.Plugin;
-import com.victor.kochnev.domain.value.object.DistributionMethodBuilder;
-import com.victor.kochnev.domain.value.object.PluginDescription;
+import com.victor.kochnev.domain.value.object.PluginDescriptionBuilder;
 
 import java.time.ZonedDateTime;
-import java.util.List;
 import java.util.UUID;
 
 public class PluginDomainBuilder {
@@ -17,11 +15,8 @@ public class PluginDomainBuilder {
         return Plugin.builder()
                 .name("name")
                 .baseUrl("baseUrl")
-                .imagePathsList(List.of("example"))
-                .description(new PluginDescription())
-                .distributionMethodsCollection(List.of(DistributionMethodBuilder.defaultPurchaseDistribution(), DistributionMethodBuilder.defaultSubscribeDistribution()))
+                .description(PluginDescriptionBuilder.defaultBuilder().build())
                 .ownerUser(UserDomainBuilder.defaultUser().build());
-//                .webResourcesCollection(List.of());
     }
 
     public static Plugin.PluginBuilder<?, ?> persistedDefaultUser() {
