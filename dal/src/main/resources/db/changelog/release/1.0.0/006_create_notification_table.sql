@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS NOTIFICATION
     last_change_date TIMESTAMP WITH TIME ZONE NOT NULL,
     version          BIGINT                   NOT NULL,
 
-    message          VARCHAR(50)              NOT NULL,
+    message          VARCHAR(512)             NOT NULL,
     user_id          UUID                     NOT NULL
 );
 

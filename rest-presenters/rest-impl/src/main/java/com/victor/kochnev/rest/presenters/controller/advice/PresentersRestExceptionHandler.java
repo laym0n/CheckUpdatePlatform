@@ -23,7 +23,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 @RestControllerAdvice(basePackageClasses = ControllerScanMarker.class)
 @Slf4j
-public class RestExceptionHandler extends ResponseEntityExceptionHandler {
+public class PresentersRestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(UserRegistrationException.class)
     public ResponseEntity<Object> handleUserRegistrationException(UserRegistrationException ex, WebRequest request) {
         log.error(ExceptionUtils.getMessage(ex), ex);
