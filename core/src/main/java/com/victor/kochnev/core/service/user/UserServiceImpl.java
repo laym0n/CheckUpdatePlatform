@@ -1,7 +1,6 @@
 package com.victor.kochnev.core.service.user;
 
 import com.victor.kochnev.core.converter.DomainUserMapper;
-import com.victor.kochnev.core.dto.domain.entity.UserDto;
 import com.victor.kochnev.core.dto.request.UserRegistrationRequestDto;
 import com.victor.kochnev.core.exception.ResourceNotFoundException;
 import com.victor.kochnev.core.exception.UserRegistrationException;
@@ -39,9 +38,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto findUserByEmail(String email) {
+    public User findUserByEmail(String email) {
         Optional<User> optionalUser = userRepository.findUserByEmail(email);
-        return optionalUser.map(domainUserMapper::mapToUserDto)
+        return optionalUser
                 .orElseThrow(() -> ResourceNotFoundException.create(User.class, email, "email"));
     }
 }

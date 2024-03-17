@@ -1,7 +1,7 @@
-package com.victor.kochnev.rest.presenters.security.service;
+package com.victor.kochnev.core.security.service;
 
 import com.victor.kochnev.core.facade.webresourceobserving.WebResourceObservingFacade;
-import com.victor.kochnev.rest.presenters.security.entity.UserSecurity;
+import com.victor.kochnev.core.security.entity.UserSecurity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;

@@ -9,6 +9,10 @@ public enum UserRole {
      */
     SIMPLE_USER,
     /**
+     * Работник
+     */
+    EMPLOYEE,
+    /**
      * Администратор
      */
     ADMIN;

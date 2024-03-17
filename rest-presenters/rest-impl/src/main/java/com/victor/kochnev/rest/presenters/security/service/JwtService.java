@@ -1,7 +1,7 @@
 package com.victor.kochnev.rest.presenters.security.service;
 
+import com.victor.kochnev.core.security.entity.UserSecurity;
 import com.victor.kochnev.rest.presenters.configuration.JwtConfigurationProperties;
-import com.victor.kochnev.rest.presenters.security.entity.UserSecurity;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

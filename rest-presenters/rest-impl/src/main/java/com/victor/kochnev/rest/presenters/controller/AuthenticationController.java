@@ -3,7 +3,7 @@ package com.victor.kochnev.rest.presenters.controller;
 import com.victor.kochnev.api.dto.AuthenticationRequestBody;
 import com.victor.kochnev.api.dto.JwtTokenResponse;
 import com.victor.kochnev.api.rest.AuthenticationApi;
-import com.victor.kochnev.rest.presenters.security.entity.UserSecurity;
+import com.victor.kochnev.core.security.entity.UserSecurity;
 import com.victor.kochnev.rest.presenters.security.service.JwtService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

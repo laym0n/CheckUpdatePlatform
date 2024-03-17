@@ -67,22 +67,6 @@ class UserServiceImplUnitTest extends BaseCoreUnitTest {
     }
 
     @Test
-    void testFindExistedUserByEmail() {
-        //Assign
-        User existedUser = UserDomainBuilder.persistedDefaultUser().build();
-        when(userRepository.findUserByEmail(REQUEST_EMAIL)).thenReturn(Optional.of(existedUser));
-
-        //Action
-        UserDto userDto = userService.findUserByEmail(REQUEST_EMAIL);
-
-        //Assert
-        assertEquals(existedUser.getId(), userDto.getId());
-        assertEquals(existedUser.getEmail(), userDto.getEmail());
-        assertEquals(existedUser.getPassword(), userDto.getPassword());
-        assertEquals(existedUser.isEnabled(), userDto.getEnabled());
-    }
-
-    @Test
     void testFindNotExistedUserByEmail_expectResourceNotFound() {
         //Assign
         when(userRepository.findUserByEmail(REQUEST_EMAIL)).thenReturn(Optional.empty());

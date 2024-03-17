@@ -1,4 +1,4 @@
-package com.victor.kochnev.rest.presenters.security.entity;
+package com.victor.kochnev.core.security.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

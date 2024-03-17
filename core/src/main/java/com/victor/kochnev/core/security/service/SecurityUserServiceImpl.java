@@ -1,34 +1,33 @@
-package com.victor.kochnev.rest.presenters.security.service;
+package com.victor.kochnev.core.security.service;
 
-import com.victor.kochnev.core.dto.domain.entity.UserDto;
+import com.victor.kochnev.core.converter.DomainUserMapper;
+import com.victor.kochnev.core.exception.CoreException;
 import com.victor.kochnev.core.exception.ResourceNotFoundException;
-import com.victor.kochnev.core.facade.user.UserFacade;
-import com.victor.kochnev.rest.presenters.converter.UserDtoMapper;
-import com.victor.kochnev.rest.presenters.exception.RestPresentersException;
-import com.victor.kochnev.rest.presenters.security.entity.UserSecurity;
+import com.victor.kochnev.core.security.entity.UserSecurity;
+import com.victor.kochnev.core.service.user.UserService;
+import com.victor.kochnev.domain.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class SecurityUserServiceImpl implements UserDetailsService, SecurityUserService {
-    private final UserFacade userFacade;
-    private final UserDtoMapper userDtoMapper;
+public class SecurityUserServiceImpl implements SecurityUserService {
+    private final UserService userService;
+    private final DomainUserMapper userMapper;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserDto userByEmail;
+        User userByEmail;
         try {
-            userByEmail = userFacade.findUserByEmail(username);
+            userByEmail = userService.findUserByEmail(username);
         } catch (ResourceNotFoundException ex) {
             throw new UsernameNotFoundException(ex.getMessage());
         }
-        return userDtoMapper.mapToSecurityUser(userByEmail);
+        return userMapper.mapToSecurityUser(userByEmail);
     }
 
     @Override
@@ -42,6 +41,6 @@ public class SecurityUserServiceImpl implements UserDetailsService, SecurityUser
         if (authentication.getPrincipal() instanceof UserSecurity userSecurity) {
             return userSecurity;
         }
-        throw new RestPresentersException("Can not parse Authentication " + authentication + " to " + UserSecurity.class.getName());
+        throw new CoreException("Can not parse Authentication " + authentication + " to " + UserSecurity.class.getName());
     }
 }
