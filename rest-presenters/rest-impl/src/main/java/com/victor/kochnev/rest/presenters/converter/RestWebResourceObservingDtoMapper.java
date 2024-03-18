@@ -7,11 +7,11 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
 
 @Mapper(componentModel = "spring",
-        uses = WebResourceDtoMapper.class,
-        imports = WebResourceDtoMapper.class,
+        uses = RestWebResourceDtoMapper.class,
+        imports = RestWebResourceDtoMapper.class,
         unmappedTargetPolicy = ReportingPolicy.ERROR,
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-public interface WebResourceObservingDtoMapper {
+public interface RestWebResourceObservingDtoMapper {
 
     WebResourceObserving mapToRestDto(WebResourceObservingDto webResourceObservingDto);
 }

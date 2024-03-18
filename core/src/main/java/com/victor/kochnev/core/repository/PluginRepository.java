@@ -11,4 +11,6 @@ public interface PluginRepository {
     Plugin findByWebResourceId(UUID webResourceId);
 
     Optional<Plugin> findByName(String accessToken);
+
+    Plugin create(Plugin newPlugin);
 }

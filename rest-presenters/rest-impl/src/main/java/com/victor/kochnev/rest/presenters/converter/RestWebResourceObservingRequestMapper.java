@@ -10,7 +10,7 @@ import org.mapstruct.ReportingPolicy;
 @Mapper(componentModel = "spring",
         unmappedTargetPolicy = ReportingPolicy.ERROR,
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-public interface WebResourceObservingRequestMapper {
+public interface RestWebResourceObservingRequestMapper {
 
     @Mapping(target = "userId", ignore = true)
     AddWebResourceForObservingRequest mapToCoreRequest(WebResourceObservingAddRequestBody requestBody);

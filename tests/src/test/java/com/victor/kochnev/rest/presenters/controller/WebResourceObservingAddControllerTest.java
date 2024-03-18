@@ -6,6 +6,7 @@ import com.victor.kochnev.api.dto.*;
 import com.victor.kochnev.dal.embeddable.object.EmbeddableDistributionMethodBuilder;
 import com.victor.kochnev.dal.entity.*;
 import com.victor.kochnev.domain.enums.ObserveStatus;
+import com.victor.kochnev.domain.enums.PluginStatus;
 import com.victor.kochnev.integration.plugin.api.dto.CanObserveResponse;
 import com.victor.kochnev.integration.plugin.api.dto.CanObserveResponseBuilder;
 import com.victor.kochnev.integration.plugin.api.dto.WebResourceDto;
@@ -293,6 +294,27 @@ class WebResourceObservingAddControllerTest extends BaseControllerTest {
         var optionalObservingEntity = observingRepository.findByWebResourceIdAndUserId(webResourceId, USER_ID);
         var observingEntity = optionalObservingEntity.get();
         assertEquals(ObserveStatus.NOT_OBSERVE, observingEntity.getStatus());
+    }
+
+    @Test
+    void addWebResourceObserving_WhenPluginStatusCreated_Expect401() {
+        //Assign
+        prepareDb();
+        PluginEntity pluginEntity = pluginRepository.findById(PLUGIN_ID).get();
+        pluginEntity.setStatus(PluginStatus.CREATED);
+        pluginRepository.save(pluginEntity);
+        WebResourceObservingAddRequestBody requestBody = prepareAddRequest();
+
+        CanObserveResponse pluginCanObserveResponse = CanObserveResponseBuilder.defaultWebResourceDto()
+                .isObservable(false);
+        wireMockServer.stubFor(WireMock.post(PLUGIN_CAN_OBSERVE_ENDPOINT)
+                .willReturn(wireMockResponse(pluginCanObserveResponse)));
+
+        //Action
+        MvcResult mvcResult = post(WEBRESOURCE_OBSERVING_ENDPOINT, requestBody, prepareUserHeaders());
+
+        //Assert
+        assertHttpStatus(mvcResult, HttpStatus.UNAUTHORIZED);
     }
 
     private WebResourceObservingAddRequestBody prepareAddRequest() {

@@ -6,7 +6,7 @@ import com.victor.kochnev.core.security.entity.PluginSecurity;
 import com.victor.kochnev.core.security.service.plugin.PluginSecurityService;
 import com.victor.kochnev.integration.plugin.api.NotificationApi;
 import com.victor.kochnev.integration.plugin.api.dto.NotificationCreateRequestBody;
-import com.victor.kochnev.integration.plugin.converter.PluginRequestMapper;
+import com.victor.kochnev.integration.plugin.converter.PluginIntegrationRequestMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +21,7 @@ public class NotificationController implements NotificationApi {
     private static final String NOTIFICATION_ENDPOINT = "POST /notification";
     private final NotificationFacade notificationFacade;
     private final PluginSecurityService pluginSecurityService;
-    private final PluginRequestMapper pluginRequestMapper;
+    private final PluginIntegrationRequestMapper pluginRequestMapper;
 
     @Override
     public ResponseEntity<Void> create(NotificationCreateRequestBody requestBody) {

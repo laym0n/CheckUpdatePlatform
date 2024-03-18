@@ -30,57 +30,6 @@ paths:
                 $ref: '#/components/schemas/ErrorMessageDto'
         409:
           description: email уже используется
-  /webresource/observing:
-    post:
-      tags:
-        - WebResourceObserving
-      summary: Добавление нового веб ресурса для отслеживания
-      operationId: create
-      security:
-        - JwtToken: [ ]
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/WebResourceObservingAddRequestBody'
-      responses:
-        200:
-          description: успешное добавление
-          content:
-            'application/json':
-              schema:
-                $ref: '#/components/schemas/WebResourceObserving'
-        400:
-          description: ошибка валидации данных
-          content:
-            'application/json':
-              schema:
-                $ref: '#/components/schemas/ErrorMessageDto'
-  /webresource/observing/{observingId}/stop:
-    put:
-      tags:
-        - WebResourceObserving
-      summary: Остановка отслеживания веб ресурса
-      operationId: stopObserve
-      security:
-        - JwtToken: [ ]
-      parameters:
-        - $ref: '#/components/parameters/WebResourceObservingId'
-      responses:
-        200:
-          description: успешное удаление
-          content:
-            'application/json':
-              schema:
-                $ref: '#/components/schemas/WebResourceObserving'
-        400:
-          description: ошибка валидации данных
-          content:
-            'application/json':
-              schema:
-                $ref: '#/components/schemas/ErrorMessageDto'
-
-
   /authentication:
     post:
       tags:
@@ -105,6 +54,85 @@ paths:
             'application/json':
               schema:
                 $ref: '#/components/schemas/ErrorMessageDto'
+
+  /webresource/observing:
+    post:
+      tags:
+        - WebResourceObserving
+      summary: Добавление нового веб ресурса для отслеживания
+      operationId: createObserving
+      security:
+        - JwtToken: [ ]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebResourceObservingAddRequestBody'
+      responses:
+        200:
+          description: успешное добавление
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/WebResourceObserving'
+        400:
+          description: ошибка валидации данных
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ErrorMessageDto'
+
+  /webresource/observing/{observingId}/stop:
+    put:
+      tags:
+        - WebResourceObserving
+      summary: Остановка отслеживания веб ресурса
+      operationId: stopObserve
+      security:
+        - JwtToken: [ ]
+      parameters:
+        - $ref: '#/components/parameters/WebResourceObservingId'
+      responses:
+        200:
+          description: успешное удаление
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/WebResourceObserving'
+        400:
+          description: ошибка валидации данных
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ErrorMessageDto'
+
+  /plugin:
+    post:
+      tags:
+        - Plugin
+      summary: Добавить плагин на платформу
+      operationId: createPlugin
+      security:
+        - JwtToken: [ ]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddPluginRequestBody'
+      responses:
+        200:
+          description: успешное создание
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Plugin'
+        400:
+          description: ошибка валидации данных
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ErrorMessageDto'
+
 components:
   parameters:
     WebResourceObservingId:
@@ -166,6 +194,19 @@ components:
           format: uuid
           description: id плагина
 
+    AddPluginRequestBody:
+      type: object
+      properties:
+        name:
+          type: string
+          description: название плагина
+        baseUrl:
+          type: string
+          description: Префикс URL для взаимодействия с плагином
+      required:
+        - name
+        - baseUrl
+
     WebResourceObserving:
       type: object
       properties:
@@ -179,6 +220,21 @@ components:
         - webResourceDto
         - observeSettings
         - status
+
+    Plugin:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        baseUrl:
+          type: string
+      required:
+        - id
+        - name
+        - baseUrl
 
     ObserveSettings:
       type: object

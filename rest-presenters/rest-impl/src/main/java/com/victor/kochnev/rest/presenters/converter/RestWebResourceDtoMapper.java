@@ -9,6 +9,6 @@ import org.mapstruct.ReportingPolicy;
 @Mapper(componentModel = "spring",
         unmappedTargetPolicy = ReportingPolicy.ERROR,
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-public interface WebResourceDtoMapper {
+public interface RestWebResourceDtoMapper {
     WebResource mapToRestDto(WebResourceDto webResourceDto);
 }

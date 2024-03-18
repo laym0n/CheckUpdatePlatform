@@ -7,14 +7,16 @@ import java.time.ZonedDateTime;
 import java.util.UUID;
 
 public class PluginDomainBuilder {
+    public static final String DEFAULT_BASE_URL = "http://localhost:9988";
+    public static final String DEFAULT_NAME = "name";
 
     private PluginDomainBuilder() {
     }
 
     public static Plugin.PluginBuilder<?, ?> defaultPlugin() {
         return Plugin.builder()
-                .name("name")
-                .baseUrl("baseUrl")
+                .name(DEFAULT_NAME)
+                .baseUrl(DEFAULT_BASE_URL)
                 .description(PluginDescriptionBuilder.defaultBuilder().build())
                 .ownerUser(UserDomainBuilder.defaultUser().build());
     }

@@ -11,7 +11,7 @@ import org.mapstruct.ReportingPolicy;
         componentModel = "spring",
         unmappedTargetPolicy = ReportingPolicy.ERROR,
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-public interface PluginRequestMapper {
+public interface PluginIntegrationRequestMapper {
 
     @Mapping(target = "pluginId", ignore = true)
     SendNotificationRequestDto mapToCore(NotificationCreateRequestBody requestBody);

@@ -1,3 +1,7 @@
 ALTER TABLE PLUGIN
     ADD COLUMN
         status VARCHAR(50) NOT NULL;
+
+ALTER TABLE PLUGIN
+    ALTER COLUMN
+        distribution_methods DROP NOT NULL;

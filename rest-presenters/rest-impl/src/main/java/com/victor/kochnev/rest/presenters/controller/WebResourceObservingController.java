@@ -9,8 +9,8 @@ import com.victor.kochnev.core.dto.request.StopWebResourceObservingRequest;
 import com.victor.kochnev.core.facade.webresourceobserving.WebResourceObservingFacade;
 import com.victor.kochnev.core.security.entity.UserSecurity;
 import com.victor.kochnev.core.security.service.user.SecurityUserService;
-import com.victor.kochnev.rest.presenters.converter.WebResourceObservingDtoMapper;
-import com.victor.kochnev.rest.presenters.converter.WebResourceObservingRequestMapper;
+import com.victor.kochnev.rest.presenters.converter.RestWebResourceObservingDtoMapper;
+import com.victor.kochnev.rest.presenters.converter.RestWebResourceObservingRequestMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -27,12 +27,12 @@ public class WebResourceObservingController implements WebResourceObservingApi {
     private static final String WEB_RESOURCE_OBSERVING_CREATE_ENDPOINT = "POST /webresource/observing";
     private static final String WEB_RESOURCE_OBSERVING_STOP_ENDPOINT = "PUT /webresource/observing/stop";
     private final WebResourceObservingFacade webResourceObservingFacade;
-    private final WebResourceObservingRequestMapper requestMapper;
-    private final WebResourceObservingDtoMapper dtoMapper;
+    private final RestWebResourceObservingRequestMapper requestMapper;
+    private final RestWebResourceObservingDtoMapper dtoMapper;
     private final SecurityUserService securityUserService;
 
     @Override
-    public ResponseEntity<WebResourceObserving> create(WebResourceObservingAddRequestBody requestBody) {
+    public ResponseEntity<WebResourceObserving> createObserving(WebResourceObservingAddRequestBody requestBody) {
         log.info("Request: {}", WEB_RESOURCE_OBSERVING_CREATE_ENDPOINT);
         log.debug("Request: {} {}", WEB_RESOURCE_OBSERVING_CREATE_ENDPOINT, requestBody);
 
