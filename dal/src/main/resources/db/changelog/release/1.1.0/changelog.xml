@@ -9,7 +9,7 @@
                  dbms="postgresql, h2"/>
     </changeSet>
     <changeSet id="002_create_table_plugin_update_request" author="Victor Kochnev" runAlways="false" failOnError="true">
-        <sqlFile path="002_create_table_plugin_update_request.sql" relativeToChangelogFile="true" splitStatements="true"
+        <sqlFile path="002_create_table_task.sql" relativeToChangelogFile="true" splitStatements="true"
                  dbms="postgresql, h2"/>
     </changeSet>
 </databaseChangeLog>

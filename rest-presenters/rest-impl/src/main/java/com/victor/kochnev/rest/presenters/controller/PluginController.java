@@ -1,10 +1,11 @@
 package com.victor.kochnev.rest.presenters.controller;
 
 import com.victor.kochnev.api.dto.AddPluginRequestBody;
+import com.victor.kochnev.api.dto.AddPluginResponseBody;
 import com.victor.kochnev.api.dto.Plugin;
 import com.victor.kochnev.api.rest.PluginApi;
-import com.victor.kochnev.core.dto.domain.entity.PluginDto;
 import com.victor.kochnev.core.dto.request.AddPluginRequestDto;
+import com.victor.kochnev.core.dto.response.AddPluginResponseDto;
 import com.victor.kochnev.core.facade.plugin.PluginFacade;
 import com.victor.kochnev.rest.presenters.converter.RestPluginDtoMapper;
 import com.victor.kochnev.rest.presenters.converter.RestPluginRequestMapper;
@@ -25,15 +26,15 @@ public class PluginController implements PluginApi {
     private final RestPluginDtoMapper restPluginDtoMapper;
 
     @Override
-    public ResponseEntity<Plugin> createPlugin(AddPluginRequestBody requestBody) {
+    public ResponseEntity<AddPluginResponseBody> createPlugin(AddPluginRequestBody requestBody) {
         log.info("Request: {}", CREATE_PLUGIN_ENDPOINT);
         log.debug("Request: {} {}", CREATE_PLUGIN_ENDPOINT, requestBody);
 
         AddPluginRequestDto requestDto = requestMapper.mapToCoreRequest(requestBody);
-        PluginDto pluginDto = pluginFacade.addPlugin(requestDto);
-        Plugin plugin = restPluginDtoMapper.mapToRestDto(pluginDto);
+        AddPluginResponseDto addPluginResponseDto = pluginFacade.addPlugin(requestDto);
+        var responseBody = restPluginDtoMapper.mapToRestDto(addPluginResponseDto);
 
-        log.info("Request: {} proccesed {}", CREATE_PLUGIN_ENDPOINT, pluginDto);
-        return ResponseEntity.ok(plugin);
+        log.info("Request: {} proccesed {}", CREATE_PLUGIN_ENDPOINT, addPluginResponseDto);
+        return ResponseEntity.ok(responseBody);
     }
 }

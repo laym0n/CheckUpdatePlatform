@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS PLUGIN_UPDATE_REQUEST
+CREATE TABLE IF NOT EXISTS TASK
 (
     id                   UUID                     NOT NULL PRIMARY KEY,
     create_date          TIMESTAMP WITH TIME ZONE NOT NULL,
@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS PLUGIN_UPDATE_REQUEST
     plugin_id            UUID                     NOT NULL
 );
 
-ALTER TABLE PLUGIN_UPDATE_REQUEST
+ALTER TABLE TASK
     ADD CONSTRAINT fk_plugin_update_request_plugin_plugin_id
         FOREIGN KEY (plugin_id)
             REFERENCES PLUGIN (id);

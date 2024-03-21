@@ -17,8 +17,8 @@ public class PluginEntityBuilder {
     public static final List<DistributionMethod> DEFAULT_DISTRIBUTION_METHODS_COLLECTION = List.of(DistributionMethodBuilder.defaultPurchaseDistribution(), DistributionMethodBuilder.defaultSubscribeDistribution());
     public static final EmbeddablePluginDescription DEFAULT_DESCRIPTION = EmbeddablePluginDescription.builder()
             .description("description")
-            .distributionMethodsCollection(DEFAULT_DISTRIBUTION_METHODS_COLLECTION)
-            .imagePathsList(DEFAULT_IMAGE_PATHS_LIST).build();
+            .distributionMethods(DEFAULT_DISTRIBUTION_METHODS_COLLECTION)
+            .imagePaths(DEFAULT_IMAGE_PATHS_LIST).build();
 
     private PluginEntityBuilder() {
     }

@@ -36,6 +36,7 @@ public class PluginRestExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatusCode.valueOf(401))
                 .body(new ErrorMessageDto().message(msg));
     }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleTopLevelException(Exception ex, WebRequest request) {
         log.error(ExceptionUtils.getMessage(ex), ex);

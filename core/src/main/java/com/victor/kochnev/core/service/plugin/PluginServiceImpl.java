@@ -2,6 +2,7 @@ package com.victor.kochnev.core.service.plugin;
 
 import com.victor.kochnev.core.converter.DomainPluginMapper;
 import com.victor.kochnev.core.dto.request.AddPluginRequestDto;
+import com.victor.kochnev.core.dto.response.AddPluginResponseDto;
 import com.victor.kochnev.core.exception.ResourceNotFoundException;
 import com.victor.kochnev.core.repository.PluginRepository;
 import com.victor.kochnev.core.repository.UserRepository;
@@ -22,7 +23,7 @@ import java.util.UUID;
 public class PluginServiceImpl implements PluginService {
     private final PluginRepository pluginRepository;
     private final UserRepository userRepository;
-    private final DomainPluginMapper domainPluginMapper;
+    private final DomainPluginMapper pluginMapper;
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -40,12 +41,17 @@ public class PluginServiceImpl implements PluginService {
 
     @Override
     @Transactional
-    public Plugin create(UUID userId, AddPluginRequestDto requestDto) {
+    public AddPluginResponseDto create(UUID userId, AddPluginRequestDto requestDto) {
         User ownerUser = userRepository.getById(userId);
-        Plugin newPlugin = domainPluginMapper.mapToDomain(requestDto);
+        Plugin newPlugin = pluginMapper.mapToDomain(requestDto);
         newPlugin.setOwnerUser(ownerUser);
         newPlugin.setStatus(PluginStatus.CREATED);
-        newPlugin.setAccessToken(passwordEncoder.encode(UUID.randomUUID().toString()));
-        return pluginRepository.create(newPlugin);
+        String accessToken = UUID.randomUUID().toString();
+        newPlugin.setAccessToken(passwordEncoder.encode(accessToken));
+        Plugin createdPlugin = pluginRepository.create(newPlugin);
+
+        AddPluginResponseDto responseDto = pluginMapper.mapToAddPluginResponseDto(createdPlugin);
+        responseDto.setAccessToken(accessToken);
+        return responseDto;
     }
 }

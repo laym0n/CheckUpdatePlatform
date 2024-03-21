@@ -125,7 +125,7 @@ paths:
           content:
             'application/json':
               schema:
-                $ref: '#/components/schemas/Plugin'
+                $ref: '#/components/schemas/AddPluginResponseBody'
         400:
           description: ошибка валидации данных
           content:
@@ -206,6 +206,18 @@ components:
       required:
         - name
         - baseUrl
+
+    AddPluginResponseBody:
+      type: object
+      properties:
+        plugin:
+          $ref: "#/components/schemas/Plugin"
+        accessToken:
+          type: string
+          description: Токен для доступа
+      required:
+        - plugin
+        - accessToken
 
     WebResourceObserving:
       type: object

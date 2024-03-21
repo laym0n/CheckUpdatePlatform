@@ -1,23 +1,25 @@
 package com.victor.kochnev.dal.entity;
 
 import com.victor.kochnev.dal.embeddable.object.EmbeddablePluginDescription;
-import com.victor.kochnev.domain.enums.UpdateType;
+import com.victor.kochnev.domain.enums.TaskType;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 @Entity
 @Getter
 @Setter
-@Table(name = "PLUGIN_UPDATE_REQUEST")
+@Table(name = "TASK")
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor
-public class PluginUpdateRequestEntity extends BaseDalEntity {
+public class TaskEntity extends BaseDalEntity {
     @Embedded
     private EmbeddablePluginDescription description;
     @Column(name = "type")
     @Enumerated(EnumType.STRING)
-    private UpdateType type;
+    private TaskType type;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "plugin_id")
     private PluginEntity plugin;

@@ -17,6 +17,7 @@ import java.util.List;
 public interface DomainPluginMapper {
 
     @Mapping(target = "plugin", source = ".")
+    @Mapping(target = "accessToken", ignore = true)
     AddPluginResponseDto mapToAddPluginResponseDto(Plugin plugin);
 
     @Mapping(target = "authorities", expression = "java(List.of(PluginAuthority.PLUGIN))")

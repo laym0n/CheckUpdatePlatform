@@ -26,8 +26,8 @@ public class EmbeddablePluginDescription {
     private String description;
     @Column(name = "distribution_methods")
     @Convert(converter = DistributionMethodListConverter.class)
-    private List<DistributionMethod> distributionMethodsCollection;
+    private List<DistributionMethod> distributionMethods;
     @Column(name = "image_paths")
     @Convert(converter = StringListConverter.class)
-    private List<String> imagePathsList;
+    private List<String> imagePaths;
 }

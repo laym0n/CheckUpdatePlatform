@@ -32,9 +32,9 @@ class PluginRepositoryTest extends BaseBootTest {
         assertEquals(PluginEntityBuilder.DEFAULT_NAME, plugin.getName());
         assertEquals(PluginEntityBuilder.DEFAULT_BASE_URL, plugin.getBaseUrl());
         assertEquals(PluginEntityBuilder.DEFAULT_ACCESS_TOKEN, plugin.getAccessToken());
-        assertEquals(PluginEntityBuilder.DEFAULT_IMAGE_PATHS_LIST, plugin.getDescription().getImagePathsList());
+        assertEquals(PluginEntityBuilder.DEFAULT_IMAGE_PATHS_LIST, plugin.getDescription().getImagePaths());
         assertEquals(PluginEntityBuilder.DEFAULT_DESCRIPTION.getDescription(), plugin.getDescription().getDescription());
-        assertEquals(PluginEntityBuilder.DEFAULT_DISTRIBUTION_METHODS_COLLECTION, plugin.getDescription().getDistributionMethodsCollection());
+        assertEquals(PluginEntityBuilder.DEFAULT_DISTRIBUTION_METHODS_COLLECTION, plugin.getDescription().getDistributionMethods());
         assertNotNull(plugin.getOwnerUser());
     }
 
@@ -63,9 +63,9 @@ class PluginRepositoryTest extends BaseBootTest {
         assertEquals(PluginEntityBuilder.DEFAULT_NAME, plugin.getName());
         assertEquals(PluginEntityBuilder.DEFAULT_BASE_URL, plugin.getBaseUrl());
         assertEquals(PluginEntityBuilder.DEFAULT_ACCESS_TOKEN, plugin.getAccessToken());
-        assertEquals(PluginEntityBuilder.DEFAULT_IMAGE_PATHS_LIST, plugin.getDescription().getImagePathsList());
+        assertEquals(PluginEntityBuilder.DEFAULT_IMAGE_PATHS_LIST, plugin.getDescription().getImagePaths());
         assertEquals(PluginEntityBuilder.DEFAULT_DESCRIPTION.getDescription(), plugin.getDescription().getDescription());
-        assertEquals(PluginEntityBuilder.DEFAULT_DISTRIBUTION_METHODS_COLLECTION, plugin.getDescription().getDistributionMethodsCollection());
+        assertEquals(PluginEntityBuilder.DEFAULT_DISTRIBUTION_METHODS_COLLECTION, plugin.getDescription().getDistributionMethods());
         assertNotNull(plugin.getOwnerUser());
     }
 
@@ -98,9 +98,9 @@ class PluginRepositoryTest extends BaseBootTest {
         assertEquals(PluginEntityBuilder.DEFAULT_NAME, plugin.getName());
         assertEquals(PluginEntityBuilder.DEFAULT_BASE_URL, plugin.getBaseUrl());
         assertEquals(PluginEntityBuilder.DEFAULT_ACCESS_TOKEN, plugin.getAccessToken());
-        assertEquals(PluginEntityBuilder.DEFAULT_IMAGE_PATHS_LIST, plugin.getDescription().getImagePathsList());
+        assertEquals(PluginEntityBuilder.DEFAULT_IMAGE_PATHS_LIST, plugin.getDescription().getImagePaths());
         assertEquals(PluginEntityBuilder.DEFAULT_DESCRIPTION.getDescription(), plugin.getDescription().getDescription());
-        assertEquals(PluginEntityBuilder.DEFAULT_DISTRIBUTION_METHODS_COLLECTION, plugin.getDescription().getDistributionMethodsCollection());
+        assertEquals(PluginEntityBuilder.DEFAULT_DISTRIBUTION_METHODS_COLLECTION, plugin.getDescription().getDistributionMethods());
         assertNotNull(plugin.getOwnerUser());
     }
 
