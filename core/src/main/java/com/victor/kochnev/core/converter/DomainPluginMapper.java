@@ -1,7 +1,7 @@
 package com.victor.kochnev.core.converter;
 
-import com.victor.kochnev.core.dto.domain.entity.PluginDto;
 import com.victor.kochnev.core.dto.request.AddPluginRequestDto;
+import com.victor.kochnev.core.dto.response.AddPluginResponseDto;
 import com.victor.kochnev.core.security.entity.PluginAuthority;
 import com.victor.kochnev.core.security.entity.PluginSecurity;
 import com.victor.kochnev.domain.entity.Plugin;
@@ -16,7 +16,8 @@ import java.util.List;
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface DomainPluginMapper {
 
-    PluginDto mapToDto(Plugin plugin);
+    @Mapping(target = "plugin", source = ".")
+    AddPluginResponseDto mapToAddPluginResponseDto(Plugin plugin);
 
     @Mapping(target = "authorities", expression = "java(List.of(PluginAuthority.PLUGIN))")
     PluginSecurity mapToSecurity(Plugin plugin);

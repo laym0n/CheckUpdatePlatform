@@ -34,7 +34,7 @@ public class WebResourceObservingFacadeImpl implements WebResourceObservingFacad
     private final WebResourceObservingService webResourceObservingService;
     private final DomainWebResourceObservingMapper observingMapper;
 
-    @PreAuthorize("@pluginUsageAuthorizationService.verifyUserCanUsePlugin(#request.getPluginId(), #request.getUserId())")
+    @PreAuthorize("@authorizationService.verifyUserCanUsePlugin(#request.getPluginId(), #request.getUserId())")
     @Override
     public WebResourceObservingDto addWebResourceForObserving(@P("request") AddWebResourceForObservingRequest request) {
         Plugin plugin = pluginService.getById(request.getPluginId());

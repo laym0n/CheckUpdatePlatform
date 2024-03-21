@@ -10,13 +10,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-class PluginUsageAuthorizationServiceImplUnitTest extends BaseCoreUnitTest {
+class AuthorizationServiceImplUnitTest extends BaseCoreUnitTest {
     @InjectMocks
-    PluginUsageAuthorizationServiceImpl pluginUsageService;
+    AuthorizationServiceImpl pluginUsageService;
 
     @Test
     void testFindLastPluginUsageForUser_ThrowExceptionIfNotFind() {

@@ -1,5 +1,6 @@
 package com.victor.kochnev.core.dto.domain.entity;
 
+import com.victor.kochnev.core.dto.domain.value.object.PluginDescriptionDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,8 +12,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PluginDto {
+public class TaskDto {
     private UUID id;
-    private String name;
-    private String baseUrl;
+    private PluginDescriptionDto description;
 }

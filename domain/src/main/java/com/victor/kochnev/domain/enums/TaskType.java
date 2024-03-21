@@ -1,6 +1,6 @@
 package com.victor.kochnev.domain.enums;
 
-public enum UpdateType {
+public enum TaskType {
     INITIALIZE,
     UPDATE,
     DELETE;

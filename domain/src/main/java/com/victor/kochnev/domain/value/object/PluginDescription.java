@@ -21,9 +21,9 @@ public class PluginDescription {
     /**
      * Пути до файлов изображений плагина
      */
-    private List<String> imagePathsList;
+    private List<String> imagePaths;
     /**
      * Способы распространения плагина
      */
-    private Collection<DistributionMethod> distributionMethodsCollection;
+    private Collection<DistributionMethod> distributionMethods;
 }

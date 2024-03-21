@@ -1,6 +1,6 @@
 package com.victor.kochnev.domain.entity;
 
-import com.victor.kochnev.domain.enums.UpdateType;
+import com.victor.kochnev.domain.enums.TaskType;
 import com.victor.kochnev.domain.value.object.PluginDescription;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -11,7 +11,7 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = true)
 @NoArgsConstructor
 @SuperBuilder(toBuilder = true)
-public class PluginUpdateRequest extends BaseEntity {
+public class Task extends BaseEntity {
     /**
      * Обновляемое описание плагина
      */
@@ -19,7 +19,7 @@ public class PluginUpdateRequest extends BaseEntity {
     /**
      * Тип запроса обновления
      */
-    private UpdateType type;
+    private TaskType type;
     /**
      * Плагин
      */

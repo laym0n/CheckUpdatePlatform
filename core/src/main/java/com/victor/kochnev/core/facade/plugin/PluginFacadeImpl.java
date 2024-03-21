@@ -1,8 +1,8 @@
 package com.victor.kochnev.core.facade.plugin;
 
 import com.victor.kochnev.core.converter.DomainPluginMapper;
-import com.victor.kochnev.core.dto.domain.entity.PluginDto;
 import com.victor.kochnev.core.dto.request.AddPluginRequestDto;
+import com.victor.kochnev.core.dto.response.AddPluginResponseDto;
 import com.victor.kochnev.core.security.entity.UserSecurity;
 import com.victor.kochnev.core.security.service.user.SecurityUserService;
 import com.victor.kochnev.core.service.plugin.PluginService;
@@ -20,10 +20,10 @@ public class PluginFacadeImpl implements PluginFacade {
     private final DomainPluginMapper domainPluginMapper;
 
     @Override
-    public PluginDto addPlugin(AddPluginRequestDto requestDto) {
+    public AddPluginResponseDto addPlugin(AddPluginRequestDto requestDto) {
         UserSecurity user = securityUserService.getCurrentUser();
         UUID userId = user.getId();
         Plugin plugin = pluginService.create(userId, requestDto);
-        return domainPluginMapper.mapToDto(plugin);
+        return domainPluginMapper.mapToAddPluginResponseDto(plugin);
     }
 }

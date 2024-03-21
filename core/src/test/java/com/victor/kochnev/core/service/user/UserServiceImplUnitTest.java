@@ -1,7 +1,6 @@
 package com.victor.kochnev.core.service.user;
 
 import com.victor.kochnev.core.BaseCoreUnitTest;
-import com.victor.kochnev.core.dto.domain.entity.UserDto;
 import com.victor.kochnev.core.dto.request.UserRegistrationRequestDto;
 import com.victor.kochnev.core.exception.ResourceNotFoundException;
 import com.victor.kochnev.core.exception.UserRegistrationException;
