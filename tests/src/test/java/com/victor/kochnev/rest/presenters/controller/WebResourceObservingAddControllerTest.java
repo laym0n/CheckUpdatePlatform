@@ -38,7 +38,7 @@ class WebResourceObservingAddControllerTest extends BaseControllerTest {
         stubSuccessWebResourceAdd(expectedName);
 
         //Action
-        MvcResult mvcResult = post(WEBRESOURCE_OBSERVING_ENDPOINT, requestBody, prepareUserHeaders());
+        MvcResult mvcResult = post(WEBRESOURCE_OBSERVING_ENDPOINT, requestBody, prepareSimpleUserHeaders());
 
         //Assert
         assertHttpStatusOk(mvcResult);
@@ -70,7 +70,7 @@ class WebResourceObservingAddControllerTest extends BaseControllerTest {
         stubSuccessWebResourceAdd(expectedName);
 
         //Action
-        MvcResult mvcResult = post(WEBRESOURCE_OBSERVING_ENDPOINT, requestBody, prepareUserHeaders());
+        MvcResult mvcResult = post(WEBRESOURCE_OBSERVING_ENDPOINT, requestBody, prepareSimpleUserHeaders());
 
         //Assert
         assertHttpStatus(mvcResult, HttpStatus.UNAUTHORIZED);
@@ -94,7 +94,7 @@ class WebResourceObservingAddControllerTest extends BaseControllerTest {
         stubSuccessWebResourceAdd(expectedName);
 
         //Action
-        MvcResult mvcResult = post(WEBRESOURCE_OBSERVING_ENDPOINT, requestBody, prepareUserHeaders());
+        MvcResult mvcResult = post(WEBRESOURCE_OBSERVING_ENDPOINT, requestBody, prepareSimpleUserHeaders());
 
         //Assert
         assertHttpStatus(mvcResult, HttpStatus.UNAUTHORIZED);
@@ -114,7 +114,7 @@ class WebResourceObservingAddControllerTest extends BaseControllerTest {
         stubSuccessWebResourceAdd(WebResourceEntityBuilder.DEFAULT_NAME);
 
         //Action
-        MvcResult mvcResult = post(WEBRESOURCE_OBSERVING_ENDPOINT, requestBody, prepareUserHeaders());
+        MvcResult mvcResult = post(WEBRESOURCE_OBSERVING_ENDPOINT, requestBody, prepareSimpleUserHeaders());
 
         //Assert
         assertHttpStatusOk(mvcResult);
@@ -154,7 +154,7 @@ class WebResourceObservingAddControllerTest extends BaseControllerTest {
         stubSuccessWebResourceAdd(WebResourceEntityBuilder.DEFAULT_NAME);
 
         //Action
-        MvcResult mvcResult = post(WEBRESOURCE_OBSERVING_ENDPOINT, requestBody, prepareUserHeaders());
+        MvcResult mvcResult = post(WEBRESOURCE_OBSERVING_ENDPOINT, requestBody, prepareSimpleUserHeaders());
 
         //Assert
         assertHttpStatusOk(mvcResult);
@@ -194,7 +194,7 @@ class WebResourceObservingAddControllerTest extends BaseControllerTest {
         stubSuccessCanObserve(WebResourceEntityBuilder.DEFAULT_NAME);
 
         //Action
-        MvcResult mvcResult = post(WEBRESOURCE_OBSERVING_ENDPOINT, requestBody, prepareUserHeaders());
+        MvcResult mvcResult = post(WEBRESOURCE_OBSERVING_ENDPOINT, requestBody, prepareSimpleUserHeaders());
 
         //Assert
         assertHttpStatusOk(mvcResult);
@@ -239,7 +239,7 @@ class WebResourceObservingAddControllerTest extends BaseControllerTest {
         stubSuccessCanObserve(WebResourceEntityBuilder.DEFAULT_NAME);
 
         //Action
-        MvcResult mvcResult = post(WEBRESOURCE_OBSERVING_ENDPOINT, requestBody, prepareUserHeaders());
+        MvcResult mvcResult = post(WEBRESOURCE_OBSERVING_ENDPOINT, requestBody, prepareSimpleUserHeaders());
 
         //Assert
         assertHttpStatusOk(mvcResult);
@@ -281,7 +281,7 @@ class WebResourceObservingAddControllerTest extends BaseControllerTest {
                 .willReturn(wireMockResponse(pluginCanObserveResponse)));
 
         //Action
-        MvcResult mvcResult = post(WEBRESOURCE_OBSERVING_ENDPOINT, requestBody, prepareUserHeaders());
+        MvcResult mvcResult = post(WEBRESOURCE_OBSERVING_ENDPOINT, requestBody, prepareSimpleUserHeaders());
 
         //Assert
         assertHttpStatus(mvcResult, HttpStatus.BAD_REQUEST);
@@ -311,7 +311,7 @@ class WebResourceObservingAddControllerTest extends BaseControllerTest {
                 .willReturn(wireMockResponse(pluginCanObserveResponse)));
 
         //Action
-        MvcResult mvcResult = post(WEBRESOURCE_OBSERVING_ENDPOINT, requestBody, prepareUserHeaders());
+        MvcResult mvcResult = post(WEBRESOURCE_OBSERVING_ENDPOINT, requestBody, prepareSimpleUserHeaders());
 
         //Assert
         assertHttpStatus(mvcResult, HttpStatus.UNAUTHORIZED);

@@ -23,7 +23,7 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class TaskControllerTest extends BaseControllerTest {
+class TaskControllerCreateTaskTest extends BaseControllerTest {
     private final String TASK_CREATE_ENDPOINT = "/task";
     private UUID USER_ID;
     private UUID PLUGIN_ID;
@@ -49,7 +49,7 @@ class TaskControllerTest extends BaseControllerTest {
         requestBody.setDescription(descriptionRequestBody);
 
         //Action
-        MvcResult mvcResult = post(TASK_CREATE_ENDPOINT, requestBody, prepareUserHeaders());
+        MvcResult mvcResult = post(TASK_CREATE_ENDPOINT, requestBody, prepareSimpleUserHeaders());
 
         //Assert
         assertHttpStatusOk(mvcResult);
@@ -97,7 +97,7 @@ class TaskControllerTest extends BaseControllerTest {
         requestBody.setDescription(descriptionRequestBody);
 
         //Action
-        MvcResult mvcResult = post(TASK_CREATE_ENDPOINT, requestBody, prepareUserHeaders());
+        MvcResult mvcResult = post(TASK_CREATE_ENDPOINT, requestBody, prepareSimpleUserHeaders());
 
         //Assert
         assertHttpStatusOk(mvcResult);

@@ -44,6 +44,7 @@ public class TaskController implements TaskApi {
         log.debug("Request: {} {}", MAKE_DECISION_ENDPOINT, requestBody);
 
         var requestDto = requestMapper.mapToCoreRequest(requestBody);
+        requestDto.setTaskId(taskId);
         TaskDto taskDto = taskFacade.makeDecision(requestDto);
         Task task = taskMapper.mapToRestDto(taskDto);
 

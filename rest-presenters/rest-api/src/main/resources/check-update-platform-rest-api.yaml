@@ -292,9 +292,7 @@ components:
       type: object
       properties:
         decision:
-          type: string
-          description: принятое решение
-          enum: [ APPROVE, REJECT ]
+          $ref: "#/components/schemas/TaskDecisionEnum"
         comment:
           type: string
           description: комментарий
@@ -308,6 +306,11 @@ components:
           $ref: "#/components/schemas/Plugin"
         description:
           $ref: "#/components/schemas/PluginDescription"
+        decision:
+          $ref: "#/components/schemas/TaskDecisionEnum"
+        comment:
+          type: string
+          description: Комментарий при принятии решений
       required:
         - plugin
         - description
@@ -382,6 +385,11 @@ components:
       enum:
         - SUBSCRIBE
         - PURCHASE
+
+    TaskDecisionEnum:
+      enum:
+        - APPROVE
+        - REJECT
 
     ObserveSettings:
       type: object

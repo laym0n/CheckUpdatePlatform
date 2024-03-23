@@ -9,7 +9,6 @@ import com.victor.kochnev.core.repository.UserRepository;
 import com.victor.kochnev.domain.entity.Plugin;
 import com.victor.kochnev.domain.entity.User;
 import com.victor.kochnev.domain.enums.PluginStatus;
-import com.victor.kochnev.domain.value.object.PluginDescription;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -58,9 +57,7 @@ public class PluginServiceImpl implements PluginService {
 
     @Override
     @Transactional
-    public Plugin updateDescription(UUID id, PluginDescription description) {
-        Plugin plugin = pluginRepository.getById(id);
-        plugin.setDescription(description);
+    public Plugin update(Plugin plugin) {
         return pluginRepository.update(plugin);
     }
 }

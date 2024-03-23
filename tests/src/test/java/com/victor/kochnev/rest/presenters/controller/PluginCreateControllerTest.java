@@ -28,7 +28,7 @@ class PluginCreateControllerTest extends BaseControllerTest {
         var requestBody = prepareAddRequest();
 
         //Action
-        MvcResult mvcResult = post(PLUGIN_ENDPOINT, requestBody, prepareUserHeaders());
+        MvcResult mvcResult = post(PLUGIN_ENDPOINT, requestBody, prepareSimpleUserHeaders());
 
         //Assert
         assertHttpStatusOk(mvcResult);

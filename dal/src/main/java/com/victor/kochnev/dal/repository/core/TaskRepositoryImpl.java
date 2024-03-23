@@ -8,6 +8,7 @@ import com.victor.kochnev.dal.entity.TaskEntity;
 import com.victor.kochnev.dal.repository.jpa.PluginEntityRepository;
 import com.victor.kochnev.dal.repository.jpa.TaskEntityRepository;
 import com.victor.kochnev.domain.entity.Task;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -33,13 +34,21 @@ public class TaskRepositoryImpl implements TaskRepository {
 
     @Override
     public Task getById(UUID id) {
-        TaskEntity taskEntity = taskRepository.findById(id)
-                .orElseThrow(() -> ResourceNotFoundException.create(Task.class, id.toString(), "id"));
+        TaskEntity taskEntity = getTaskEntityByById(id);
         return taskMapper.mapToDomain(taskEntity);
     }
 
     @Override
+    @Transactional
     public Task update(Task task) {
-        return null;
+        TaskEntity dbTaskEntity = getTaskEntityByById(task.getId());
+        TaskEntity updatedTask = taskMapper.mapToEntity(task);
+        taskMapper.update(dbTaskEntity, updatedTask);
+        return taskMapper.mapToDomain(dbTaskEntity);
+    }
+
+    private TaskEntity getTaskEntityByById(UUID id) {
+        return taskRepository.findById(id)
+                .orElseThrow(() -> ResourceNotFoundException.create(Task.class, id.toString(), "id"));
     }
 }

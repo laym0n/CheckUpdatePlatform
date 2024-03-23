@@ -36,7 +36,7 @@ class WebResourceObservingStopControllerTest extends BaseControllerTest {
         String url = String.format(WEBRESOURCE_OBSERVING_STOP_ENDPOINT, WEBRESOURCE_OBSERVING_ID);
 
         //Action
-        MvcResult mvcResult = put(url, null, prepareUserHeaders());
+        MvcResult mvcResult = put(url, null, prepareSimpleUserHeaders());
 
         //Assert
         assertHttpStatusOk(mvcResult);
@@ -75,7 +75,7 @@ class WebResourceObservingStopControllerTest extends BaseControllerTest {
         String url = String.format(WEBRESOURCE_OBSERVING_STOP_ENDPOINT, WEBRESOURCE_OBSERVING_ID);
 
         //Action
-        MvcResult mvcResult = put(url, null, prepareUserHeaders());
+        MvcResult mvcResult = put(url, null, prepareSimpleUserHeaders());
 
         //Assert
         assertHttpStatusOk(mvcResult);
@@ -113,7 +113,7 @@ class WebResourceObservingStopControllerTest extends BaseControllerTest {
         String url = String.format(WEBRESOURCE_OBSERVING_STOP_ENDPOINT, WEBRESOURCE_OBSERVING_ID);
 
         //Action
-        MvcResult mvcResult = put(url, null, prepareUserHeaders());
+        MvcResult mvcResult = put(url, null, prepareSimpleUserHeaders());
 
         //Assert
         assertHttpStatusOk(mvcResult);
@@ -151,7 +151,7 @@ class WebResourceObservingStopControllerTest extends BaseControllerTest {
         String url = String.format(WEBRESOURCE_OBSERVING_STOP_ENDPOINT, notPermittedObservingId);
 
         //Action
-        MvcResult mvcResult = put(url, null, prepareUserHeaders());
+        MvcResult mvcResult = put(url, null, prepareSimpleUserHeaders());
 
         //Assert
         assertHttpStatus(mvcResult, HttpStatus.FORBIDDEN);

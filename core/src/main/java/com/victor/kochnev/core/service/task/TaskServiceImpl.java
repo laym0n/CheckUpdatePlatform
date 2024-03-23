@@ -9,6 +9,7 @@ import com.victor.kochnev.core.repository.TaskRepository;
 import com.victor.kochnev.core.service.plugin.PluginService;
 import com.victor.kochnev.domain.entity.Plugin;
 import com.victor.kochnev.domain.entity.Task;
+import com.victor.kochnev.domain.enums.PluginStatus;
 import com.victor.kochnev.domain.enums.TaskDecision;
 import com.victor.kochnev.domain.enums.TaskType;
 import jakarta.transaction.Transactional;
@@ -41,7 +42,10 @@ public class TaskServiceImpl implements TaskService {
     public TaskDto makeDecision(MakeDecisionRequestDto requestDto) {
         Task task = taskRepository.getById(requestDto.getTaskId());
         if (requestDto.getDecision() == TaskDecision.APPROVE) {
-            pluginService.updateDescription(task.getPlugin().getId(), task.getDescription());
+            Plugin plugin = task.getPlugin();
+            plugin.setDescription(task.getDescription());
+            plugin.setStatus(PluginStatus.ACTIVE);
+            pluginService.update(plugin);
         }
 
         taskMapper.update(task, requestDto);

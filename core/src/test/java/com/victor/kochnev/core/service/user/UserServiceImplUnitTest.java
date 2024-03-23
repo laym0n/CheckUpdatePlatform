@@ -52,7 +52,7 @@ class UserServiceImplUnitTest extends BaseCoreUnitTest {
         assertEquals(REQUEST_EMAIL, createdUser.getEmail());
         String encodedPassword = passwordCoder.encode(REQUEST_PASSWORD);
         assertTrue(passwordCoder.matches(REQUEST_PASSWORD, createdUser.getPassword()));
-        assertEquals(List.of(UserRole.SIMPLE_USER), createdUser.getRolesCollection());
+        assertEquals(List.of(UserRole.SIMPLE_USER), createdUser.getRoles());
     }
 
     @Test

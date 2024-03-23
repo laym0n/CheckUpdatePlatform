@@ -18,12 +18,12 @@ public interface DomainUserMapper {
     @BlankEntityMapping
     @Mapping(target = "enabled", expression = "java(true)")
     @Mapping(target = "telegramInfo", ignore = true)
-    @Mapping(target = "rolesCollection", ignore = true)
+    @Mapping(target = "roles", ignore = true)
     User mapToEntity(UserRegistrationRequestDto request);
 
     UserDto mapToUserDto(User user);
 
-    @Mapping(target = "authorities", source = "rolesCollection")
+    @Mapping(target = "authorities", source = "roles")
     UserSecurity mapToSecurityUser(User userByEmail);
 
     @Mapping(target = "authority", expression = "java(\"ROLE_\" + userRole.name())")

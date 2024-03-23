@@ -1,11 +1,9 @@
 package com.victor.kochnev.dal.converter;
 
+import com.victor.kochnev.core.converter.BlankEntityMapping;
 import com.victor.kochnev.dal.entity.TaskEntity;
 import com.victor.kochnev.domain.entity.Task;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.NullValuePropertyMappingStrategy;
-import org.mapstruct.ReportingPolicy;
+import org.mapstruct.*;
 
 @Mapper(componentModel = "spring",
         uses = EntityUserMapper.class,
@@ -16,4 +14,8 @@ public interface EntityTaskMapper {
 
     @Mapping(target = "plugin", ignore = true)
     TaskEntity mapToEntity(Task task);
+
+    @BlankEntityMapping
+    @Mapping(target = "plugin", ignore = true)
+    void update(@MappingTarget TaskEntity dbTaskEntity, TaskEntity updatedTask);
 }

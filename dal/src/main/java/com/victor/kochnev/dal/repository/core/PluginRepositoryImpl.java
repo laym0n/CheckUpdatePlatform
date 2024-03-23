@@ -9,6 +9,7 @@ import com.victor.kochnev.dal.repository.jpa.PluginEntityRepository;
 import com.victor.kochnev.dal.repository.jpa.UserEntityRepository;
 import com.victor.kochnev.domain.entity.Plugin;
 import com.victor.kochnev.domain.entity.User;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -24,9 +25,8 @@ public class PluginRepositoryImpl implements PluginRepository {
 
     @Override
     public Plugin getById(UUID id) {
-        return pluginEntityRepository.findById(id)
-                .map(pluginMapper::mapToDomain)
-                .orElseThrow(() -> ResourceNotFoundException.create(Plugin.class, id.toString(), "id"));
+        PluginEntity pluginEntity = getPluginEntityById(id);
+        return pluginMapper.mapToDomain(pluginEntity);
     }
 
     @Override
@@ -54,7 +54,16 @@ public class PluginRepositoryImpl implements PluginRepository {
     }
 
     @Override
+    @Transactional
     public Plugin update(Plugin plugin) {
-        return null;
+        PluginEntity dbPluginEntity = getPluginEntityById(plugin.getId());
+        PluginEntity updatedPluginEntity = pluginMapper.mapToEntity(plugin);
+        pluginMapper.update(dbPluginEntity, updatedPluginEntity);
+        return pluginMapper.mapToDomain(dbPluginEntity);
+    }
+
+    private PluginEntity getPluginEntityById(UUID id) {
+        return pluginEntityRepository.findById(id)
+                .orElseThrow(() -> ResourceNotFoundException.create(Plugin.class, id.toString(), "id"));
     }
 }

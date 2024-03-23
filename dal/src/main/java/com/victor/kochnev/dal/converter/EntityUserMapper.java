@@ -13,10 +13,10 @@ import java.util.List;
         unmappedTargetPolicy = ReportingPolicy.ERROR,
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface EntityUserMapper {
-    @Mapping(target = "rolesCollection", source = "roles", qualifiedByName = "mapStringToRolesCollection")
+    @Mapping(target = "roles", qualifiedByName = "mapStringToRolesCollection")
     User mapToDomain(UserEntity user);
 
-    @Mapping(target = "roles", source = "rolesCollection", qualifiedByName = "mapRolesCollectionToString")
+    @Mapping(target = "roles", qualifiedByName = "mapRolesCollectionToString")
     UserEntity mapToEntity(User user);
 
     @Named("mapRolesCollectionToString")

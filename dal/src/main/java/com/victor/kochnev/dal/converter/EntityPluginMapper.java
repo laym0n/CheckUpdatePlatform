@@ -1,11 +1,9 @@
 package com.victor.kochnev.dal.converter;
 
+import com.victor.kochnev.core.converter.BlankEntityMapping;
 import com.victor.kochnev.dal.entity.PluginEntity;
 import com.victor.kochnev.domain.entity.Plugin;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.NullValuePropertyMappingStrategy;
-import org.mapstruct.ReportingPolicy;
+import org.mapstruct.*;
 
 @Mapper(componentModel = "spring",
         uses = EntityUserMapper.class,
@@ -17,4 +15,10 @@ public interface EntityPluginMapper {
     @Mapping(target = "webResourcesList", ignore = true)
     @Mapping(target = "pluginUsageEntityList", ignore = true)
     PluginEntity mapToEntity(Plugin plugin);
+
+    @BlankEntityMapping
+    @Mapping(target = "webResourcesList", ignore = true)
+    @Mapping(target = "pluginUsageEntityList", ignore = true)
+    @Mapping(target = "ownerUser", ignore = true)
+    void update(@MappingTarget PluginEntity dbPluginEntity, PluginEntity updatedPluginEntity);
 }

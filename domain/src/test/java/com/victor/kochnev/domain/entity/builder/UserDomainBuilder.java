@@ -21,7 +21,7 @@ public class UserDomainBuilder {
         return User.builder()
                 .email(DEFAULT_EMAIL)
                 .password(DEFAULT_PASSWORD)
-                .rolesCollection(rolesList)
+                .roles(rolesList)
                 .enabled(true);
     }
 
