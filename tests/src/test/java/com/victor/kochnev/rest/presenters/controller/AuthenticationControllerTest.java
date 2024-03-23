@@ -1,7 +1,7 @@
 package com.victor.kochnev.rest.presenters.controller;
 
 import com.victor.kochnev.BaseControllerTest;
-import com.victor.kochnev.api.dto.AuthenticationRequestBody;
+import com.victor.kochnev.api.dto.AuthenticationRequest;
 import com.victor.kochnev.api.dto.ErrorMessageDto;
 import com.victor.kochnev.api.dto.JwtTokenResponse;
 import com.victor.kochnev.dal.entity.UserEntityBuilder;
@@ -101,8 +101,8 @@ class AuthenticationControllerTest extends BaseControllerTest {
         assertHttpStatus(result, HttpStatus.BAD_REQUEST);
     }
 
-    private AuthenticationRequestBody prepareRequest() {
-        AuthenticationRequestBody request = new AuthenticationRequestBody();
+    private AuthenticationRequest prepareRequest() {
+        var request = new AuthenticationRequest();
         request.setPrincipal(REQUEST_EMAIL);
         request.setCredentials(REQUEST_PASSWORD);
         return request;

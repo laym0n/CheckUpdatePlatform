@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -48,7 +49,7 @@ class UserControllerTest extends BaseControllerTest {
         assertEquals(REQUEST_EMAIL, createdUser.getEmail());
         assertTrue(passwordEncoder.matches(REQUEST_PASSWORD, createdUser.getPassword()));
         assertTrue(createdUser.getEnabled());
-        assertEquals(UserRole.SIMPLE_USER.name(), createdUser.getRoles());
+        assertEquals(List.of(UserRole.SIMPLE_USER), createdUser.getRoles());
     }
 
     @Test

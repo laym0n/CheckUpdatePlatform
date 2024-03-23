@@ -11,7 +11,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AddWebResourceForObservingRequest {
+public class AddWebResourceForObservingRequestDto {
     private UUID pluginId;
     private String resourceDescription;
     private UUID userId;

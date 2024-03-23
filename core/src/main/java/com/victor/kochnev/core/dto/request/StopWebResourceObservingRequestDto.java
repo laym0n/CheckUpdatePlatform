@@ -11,7 +11,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class StopWebResourceObservingRequest {
+public class StopWebResourceObservingRequestDto {
     private UUID webResourceObservingId;
     private UUID userId;
 }

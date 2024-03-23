@@ -1,7 +1,7 @@
 package com.victor.kochnev.rest.presenters.controller;
 
 import com.victor.kochnev.BaseControllerTest;
-import com.victor.kochnev.api.dto.CreateTaskRequestBody;
+import com.victor.kochnev.api.dto.CreateTaskRequest;
 import com.victor.kochnev.api.dto.DistributionMethod;
 import com.victor.kochnev.api.dto.DistributionPlanTypeEnum;
 import com.victor.kochnev.api.dto.PluginDescription;
@@ -33,7 +33,7 @@ class TaskControllerCreateTaskTest extends BaseControllerTest {
         //Assign
         prepareDb();
 
-        CreateTaskRequestBody requestBody = new CreateTaskRequestBody();
+        var requestBody = new CreateTaskRequest();
         requestBody.setPluginId(PLUGIN_ID);
 
         var descriptionRequestBody = new PluginDescription();
@@ -81,7 +81,7 @@ class TaskControllerCreateTaskTest extends BaseControllerTest {
         pluginForSave.setStatus(PluginStatus.ACTIVE);
         pluginRepository.save(pluginForSave);
 
-        CreateTaskRequestBody requestBody = new CreateTaskRequestBody();
+        var requestBody = new CreateTaskRequest();
         requestBody.setPluginId(PLUGIN_ID);
 
         var descriptionRequestBody = new PluginDescription();

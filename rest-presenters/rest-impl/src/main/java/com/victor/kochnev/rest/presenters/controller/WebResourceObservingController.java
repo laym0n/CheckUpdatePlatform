@@ -1,11 +1,11 @@
 package com.victor.kochnev.rest.presenters.controller;
 
 import com.victor.kochnev.api.dto.WebResourceObserving;
-import com.victor.kochnev.api.dto.WebResourceObservingAddRequestBody;
+import com.victor.kochnev.api.dto.WebResourceObservingAddRequest;
 import com.victor.kochnev.api.rest.WebResourceObservingApi;
 import com.victor.kochnev.core.dto.domain.entity.WebResourceObservingDto;
-import com.victor.kochnev.core.dto.request.AddWebResourceForObservingRequest;
-import com.victor.kochnev.core.dto.request.StopWebResourceObservingRequest;
+import com.victor.kochnev.core.dto.request.AddWebResourceForObservingRequestDto;
+import com.victor.kochnev.core.dto.request.StopWebResourceObservingRequestDto;
 import com.victor.kochnev.core.facade.webresourceobserving.WebResourceObservingFacade;
 import com.victor.kochnev.core.security.entity.UserSecurity;
 import com.victor.kochnev.core.security.service.user.SecurityUserService;
@@ -32,11 +32,11 @@ public class WebResourceObservingController implements WebResourceObservingApi {
     private final SecurityUserService securityUserService;
 
     @Override
-    public ResponseEntity<WebResourceObserving> createObserving(WebResourceObservingAddRequestBody requestBody) {
+    public ResponseEntity<WebResourceObserving> createObserving(WebResourceObservingAddRequest requestBody) {
         log.info("Request: {}", WEB_RESOURCE_OBSERVING_CREATE_ENDPOINT);
         log.debug("Request: {} {}", WEB_RESOURCE_OBSERVING_CREATE_ENDPOINT, requestBody);
 
-        AddWebResourceForObservingRequest request = requestMapper.mapToCoreRequest(requestBody);
+        AddWebResourceForObservingRequestDto request = requestMapper.mapToCoreRequest(requestBody);
         UserSecurity currentUser = securityUserService.getCurrentUser();
         request.setUserId(currentUser.getId());
 
@@ -54,7 +54,7 @@ public class WebResourceObservingController implements WebResourceObservingApi {
 
         UserSecurity currentUser = securityUserService.getCurrentUser();
         UUID userId = currentUser.getId();
-        StopWebResourceObservingRequest request = new StopWebResourceObservingRequest(observingId, userId);
+        StopWebResourceObservingRequestDto request = new StopWebResourceObservingRequestDto(observingId, userId);
 
         WebResourceObservingDto webResourceObservingDto = webResourceObservingFacade.stopWebResourceObserving(request);
         WebResourceObserving webResourceObserving = dtoMapper.mapToRestDto(webResourceObservingDto);

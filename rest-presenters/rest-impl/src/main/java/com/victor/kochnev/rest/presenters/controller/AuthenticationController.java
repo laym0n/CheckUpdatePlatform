@@ -1,6 +1,6 @@
 package com.victor.kochnev.rest.presenters.controller;
 
-import com.victor.kochnev.api.dto.AuthenticationRequestBody;
+import com.victor.kochnev.api.dto.AuthenticationRequest;
 import com.victor.kochnev.api.dto.JwtTokenResponse;
 import com.victor.kochnev.api.rest.AuthenticationApi;
 import com.victor.kochnev.core.security.entity.UserSecurity;
@@ -22,7 +22,7 @@ public class AuthenticationController implements AuthenticationApi {
     private final JwtService jwtService;
 
     @Override
-    public ResponseEntity<JwtTokenResponse> authentication(AuthenticationRequestBody requestBody) {
+    public ResponseEntity<JwtTokenResponse> authentication(AuthenticationRequest requestBody) {
         log.info("Request: {}", AUTHENTICATION_ENDPOINT);
         log.debug("Request: {} {}", AUTHENTICATION_ENDPOINT, requestBody);
 

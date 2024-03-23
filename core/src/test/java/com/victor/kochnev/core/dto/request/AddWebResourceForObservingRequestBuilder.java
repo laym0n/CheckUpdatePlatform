@@ -10,8 +10,8 @@ public class AddWebResourceForObservingRequestBuilder {
     private AddWebResourceForObservingRequestBuilder() {
     }
 
-    public static AddWebResourceForObservingRequest.AddWebResourceForObservingRequestBuilder defaultBuilder() {
-        return AddWebResourceForObservingRequest.builder()
+    public static AddWebResourceForObservingRequestDto.AddWebResourceForObservingRequestDtoBuilder defaultBuilder() {
+        return AddWebResourceForObservingRequestDto.builder()
                 .pluginId(DEFAULT_PLUGIN_ID)
                 .userId(DEFAULT_USER_ID)
                 .resourceDescription(DEFAULT_RESOURCE_DESCRIPTION);

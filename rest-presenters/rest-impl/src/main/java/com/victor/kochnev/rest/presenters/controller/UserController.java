@@ -1,6 +1,6 @@
 package com.victor.kochnev.rest.presenters.controller;
 
-import com.victor.kochnev.api.dto.UserRegistrationRequestBody;
+import com.victor.kochnev.api.dto.UserRegistrationRequest;
 import com.victor.kochnev.api.rest.UserApi;
 import com.victor.kochnev.core.dto.request.UserRegistrationRequestDto;
 import com.victor.kochnev.core.facade.user.UserFacade;
@@ -19,7 +19,7 @@ public class UserController implements UserApi {
     private final RestUserRequestMapper restUserRequestMapper;
 
     @Override
-    public ResponseEntity<Void> register(UserRegistrationRequestBody requestBody) {
+    public ResponseEntity<Void> register(UserRegistrationRequest requestBody) {
         log.info("Request: {}", USER_REGISTER_ENDPOINT);
         log.debug("Request: {} {}", USER_REGISTER_ENDPOINT, requestBody);
 

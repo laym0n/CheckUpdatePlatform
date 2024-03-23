@@ -11,6 +11,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -67,7 +68,7 @@ class EntityUserMapperTest extends BaseDalTest {
         public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) throws Exception {
             UserEntity notPersistedUser = UserEntityBuilder.defaultBuilder().build();
             UserEntity persistedUser = UserEntityBuilder.persistedDefaultBuilder().build();
-            UserEntity persistedUserWithoutRoles = UserEntityBuilder.persistedDefaultBuilder().roles("").build();
+            UserEntity persistedUserWithoutRoles = UserEntityBuilder.persistedDefaultBuilder().roles(List.of()).build();
             return Stream.of(
                     Arguments.of(notPersistedUser, notPersistedUser.toBuilder().build()),
                     Arguments.of(persistedUser, persistedUser.toBuilder().build()),

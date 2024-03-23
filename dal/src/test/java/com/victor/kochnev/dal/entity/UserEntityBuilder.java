@@ -3,6 +3,7 @@ package com.victor.kochnev.dal.entity;
 import com.victor.kochnev.domain.enums.UserRole;
 
 import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.UUID;
 
 public class UserEntityBuilder {
@@ -16,7 +17,7 @@ public class UserEntityBuilder {
         return UserEntity.builder()
                 .email(DEFAULT_EMAIL)
                 .password(DEFAULT_PASSWORD)
-                .roles(UserRole.SIMPLE_USER.name())
+                .roles(List.of(UserRole.SIMPLE_USER))
                 .enabled(true);
     }
 
@@ -32,7 +33,7 @@ public class UserEntityBuilder {
         return UserEntity.builder()
                 .email(DEFAULT_EMAIL + postfix)
                 .password(DEFAULT_PASSWORD)
-                .roles(UserRole.SIMPLE_USER.name())
+                .roles(List.of(UserRole.SIMPLE_USER))
                 .enabled(true);
     }
 

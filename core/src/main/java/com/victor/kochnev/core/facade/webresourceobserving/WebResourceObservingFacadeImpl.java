@@ -4,8 +4,8 @@ import com.victor.kochnev.core.converter.DomainWebResourceObservingMapper;
 import com.victor.kochnev.core.dto.domain.entity.WebResourceObservingDto;
 import com.victor.kochnev.core.dto.plugin.CanObserveResponseDto;
 import com.victor.kochnev.core.dto.plugin.WebResourcePluginDto;
-import com.victor.kochnev.core.dto.request.AddWebResourceForObservingRequest;
-import com.victor.kochnev.core.dto.request.StopWebResourceObservingRequest;
+import com.victor.kochnev.core.dto.request.AddWebResourceForObservingRequestDto;
+import com.victor.kochnev.core.dto.request.StopWebResourceObservingRequestDto;
 import com.victor.kochnev.core.exception.ResourceDescriptionParseException;
 import com.victor.kochnev.core.integration.PluginClient;
 import com.victor.kochnev.core.service.plugin.PluginService;
@@ -36,7 +36,7 @@ public class WebResourceObservingFacadeImpl implements WebResourceObservingFacad
 
     @PreAuthorize("@authorizationService.verifyUserCanUsePlugin(#request.getPluginId(), #request.getUserId())")
     @Override
-    public WebResourceObservingDto addWebResourceForObserving(@P("request") AddWebResourceForObservingRequest request) {
+    public WebResourceObservingDto addWebResourceForObserving(@P("request") AddWebResourceForObservingRequestDto request) {
         Plugin plugin = pluginService.getById(request.getPluginId());
         String baseUrl = plugin.getBaseUrl();
         CanObserveResponseDto response = pluginClient.canObserve(baseUrl, request.getResourceDescription());
@@ -53,7 +53,7 @@ public class WebResourceObservingFacadeImpl implements WebResourceObservingFacad
     }
 
     @Override
-    public WebResourceObservingDto stopWebResourceObserving(StopWebResourceObservingRequest request) {
+    public WebResourceObservingDto stopWebResourceObserving(StopWebResourceObservingRequestDto request) {
         boolean isNeedChangeStatus = webResourceObservingService.stopObservingCascade(request.getWebResourceObservingId());
         if (isNeedChangeStatus) {
             WebResourceObserving observing = webResourceObservingService.getById(request.getWebResourceObservingId());

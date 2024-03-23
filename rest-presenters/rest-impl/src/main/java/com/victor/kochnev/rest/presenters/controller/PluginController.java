@@ -1,7 +1,7 @@
 package com.victor.kochnev.rest.presenters.controller;
 
-import com.victor.kochnev.api.dto.AddPluginRequestBody;
-import com.victor.kochnev.api.dto.AddPluginResponseBody;
+import com.victor.kochnev.api.dto.AddPluginRequest;
+import com.victor.kochnev.api.dto.AddPluginResponse;
 import com.victor.kochnev.api.rest.PluginApi;
 import com.victor.kochnev.core.dto.request.AddPluginRequestDto;
 import com.victor.kochnev.core.dto.response.AddPluginResponseDto;
@@ -25,7 +25,7 @@ public class PluginController implements PluginApi {
     private final RestPluginDtoMapper restPluginDtoMapper;
 
     @Override
-    public ResponseEntity<AddPluginResponseBody> createPlugin(AddPluginRequestBody requestBody) {
+    public ResponseEntity<AddPluginResponse> createPlugin(AddPluginRequest requestBody) {
         log.info("Request: {}", CREATE_PLUGIN_ENDPOINT);
         log.debug("Request: {} {}", CREATE_PLUGIN_ENDPOINT, requestBody);
 

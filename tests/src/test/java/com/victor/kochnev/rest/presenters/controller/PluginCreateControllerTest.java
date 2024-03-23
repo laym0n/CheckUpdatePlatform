@@ -1,8 +1,8 @@
 package com.victor.kochnev.rest.presenters.controller;
 
 import com.victor.kochnev.BaseControllerTest;
-import com.victor.kochnev.api.dto.AddPluginRequestBody;
-import com.victor.kochnev.api.dto.AddPluginResponseBody;
+import com.victor.kochnev.api.dto.AddPluginRequest;
+import com.victor.kochnev.api.dto.AddPluginResponse;
 import com.victor.kochnev.api.dto.Plugin;
 import com.victor.kochnev.dal.entity.PluginEntity;
 import com.victor.kochnev.dal.entity.UserEntityBuilder;
@@ -38,7 +38,7 @@ class PluginCreateControllerTest extends BaseControllerTest {
         assertEquals(requestBody.getBaseUrl(), pluginEntity.getBaseUrl());
         assertEquals(PluginStatus.CREATED, pluginEntity.getStatus());
 
-        var responseBody = getResponseDto(mvcResult, AddPluginResponseBody.class);
+        var responseBody = getResponseDto(mvcResult, AddPluginResponse.class);
         assertNotNull(responseBody);
 
         assertNotNull(responseBody.getAccessToken());
@@ -50,8 +50,8 @@ class PluginCreateControllerTest extends BaseControllerTest {
         assertEquals(requestBody.getBaseUrl(), pluginResponseDto.getBaseUrl());
     }
 
-    private AddPluginRequestBody prepareAddRequest() {
-        return new AddPluginRequestBody()
+    private AddPluginRequest prepareAddRequest() {
+        return new AddPluginRequest()
                 .baseUrl(PluginDomainBuilder.DEFAULT_BASE_URL)
                 .name(PluginDomainBuilder.DEFAULT_NAME);
     }

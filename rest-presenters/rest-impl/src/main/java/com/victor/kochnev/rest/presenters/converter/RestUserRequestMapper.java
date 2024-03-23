@@ -1,6 +1,6 @@
 package com.victor.kochnev.rest.presenters.converter;
 
-import com.victor.kochnev.api.dto.UserRegistrationRequestBody;
+import com.victor.kochnev.api.dto.UserRegistrationRequest;
 import com.victor.kochnev.core.dto.request.UserRegistrationRequestDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValuePropertyMappingStrategy;
@@ -13,5 +13,5 @@ import java.util.Collections;
         unmappedTargetPolicy = ReportingPolicy.ERROR,
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface RestUserRequestMapper {
-    UserRegistrationRequestDto mapToCoreRequest(UserRegistrationRequestBody requestBody);
+    UserRegistrationRequestDto mapToCoreRequest(UserRegistrationRequest requestBody);
 }

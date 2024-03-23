@@ -1,7 +1,7 @@
 package com.victor.kochnev.rest.presenters.controller;
 
 import com.victor.kochnev.BaseControllerTest;
-import com.victor.kochnev.api.dto.MakeDecisionRequestBody;
+import com.victor.kochnev.api.dto.MakeDecisionRequest;
 import com.victor.kochnev.api.dto.TaskDecisionEnum;
 import com.victor.kochnev.dal.entity.*;
 import com.victor.kochnev.domain.enums.PluginStatus;
@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -77,7 +78,7 @@ class TaskControllerDecisionMakingTest extends BaseControllerTest {
         //Assign
         prepareDb();
         UserEntity user = userRepository.findById(USER_ID).get();
-        user.setRoles(UserRole.SIMPLE_USER.name());
+        user.setRoles(List.of(UserRole.SIMPLE_USER));
         userRepository.save(user);
 
         var requestBody = prepareRequest(TaskDecisionEnum.APPROVE);
@@ -94,8 +95,8 @@ class TaskControllerDecisionMakingTest extends BaseControllerTest {
         assertNull(taskEntity.getDecision());
     }
 
-    private MakeDecisionRequestBody prepareRequest(TaskDecisionEnum decision) {
-        var requestBody = new MakeDecisionRequestBody();
+    private MakeDecisionRequest prepareRequest(TaskDecisionEnum decision) {
+        var requestBody = new MakeDecisionRequest();
         requestBody.setDecision(decision);
         requestBody.setComment(COMMENT);
         return requestBody;
@@ -103,7 +104,7 @@ class TaskControllerDecisionMakingTest extends BaseControllerTest {
 
     private void prepareDb() {
         USER_ID = userRepository.save(UserEntityBuilder.defaultBuilder()
-                .roles(UserRole.EMPLOYEE.name()).build()).getId();
+                .roles(List.of(UserRole.EMPLOYEE)).build()).getId();
         PLUGIN_ID = pluginRepository.save(PluginEntityBuilder.persistedDefaultBuilder()
                 .ownerUser(userRepository.findById(USER_ID).get())
                 .status(PluginStatus.CREATED)

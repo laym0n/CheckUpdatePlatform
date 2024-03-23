@@ -18,7 +18,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserRegistrationRequestBody'
+              $ref: '#/components/schemas/UserRegistrationRequest'
       responses:
         200:
           description: успешная регистрация
@@ -40,7 +40,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AuthenticationRequestBody'
+              $ref: '#/components/schemas/AuthenticationRequest'
       responses:
         200:
           description: успешная аутентификация
@@ -67,7 +67,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/WebResourceObservingAddRequestBody'
+              $ref: '#/components/schemas/WebResourceObservingAddRequest'
       responses:
         200:
           description: успешное добавление
@@ -118,14 +118,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AddPluginRequestBody'
+              $ref: '#/components/schemas/AddPluginRequest'
       responses:
         200:
           description: успешное создание
           content:
             'application/json':
               schema:
-                $ref: '#/components/schemas/AddPluginResponseBody'
+                $ref: '#/components/schemas/AddPluginResponse'
         400:
           description: ошибка валидации данных
           content:
@@ -145,7 +145,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateTaskRequestBody'
+              $ref: '#/components/schemas/CreateTaskRequest'
       responses:
         200:
           description: успешное добавление
@@ -174,7 +174,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/MakeDecisionRequestBody'
+              $ref: '#/components/schemas/MakeDecisionRequest'
       responses:
         200:
           description: успешное принятие решение
@@ -206,7 +206,7 @@ components:
       scheme: bearer
       bearerFormat: JWT
   schemas:
-    UserRegistrationRequestBody:
+    UserRegistrationRequest:
       type: object
       properties:
         email:
@@ -220,7 +220,7 @@ components:
         - email
         - password
 
-    AuthenticationRequestBody:
+    AuthenticationRequest:
       type: object
       properties:
         principal:
@@ -239,7 +239,7 @@ components:
       required:
         - token
 
-    WebResourceObservingAddRequestBody:
+    WebResourceObservingAddRequest:
       type: object
       properties:
         resourceDescription:
@@ -250,7 +250,7 @@ components:
           format: uuid
           description: id плагина
 
-    AddPluginRequestBody:
+    AddPluginRequest:
       type: object
       properties:
         name:
@@ -263,7 +263,7 @@ components:
         - name
         - baseUrl
 
-    AddPluginResponseBody:
+    AddPluginResponse:
       type: object
       properties:
         plugin:
@@ -275,7 +275,7 @@ components:
         - plugin
         - accessToken
 
-    CreateTaskRequestBody:
+    CreateTaskRequest:
       type: object
       properties:
         pluginId:
@@ -288,7 +288,7 @@ components:
         - pluginId
         - description
 
-    MakeDecisionRequestBody:
+    MakeDecisionRequest:
       type: object
       properties:
         decision:

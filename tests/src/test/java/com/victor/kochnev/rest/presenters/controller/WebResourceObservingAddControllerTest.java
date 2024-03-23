@@ -31,7 +31,7 @@ class WebResourceObservingAddControllerTest extends BaseControllerTest {
     void addWebResourceObserving_WhenUserAndPluginExists() {
         //Assign
         prepareDb();
-        WebResourceObservingAddRequestBody requestBody = prepareAddRequest();
+        var requestBody = prepareAddRequest();
 
         String expectedName = WebResourceDtoBuilder.DEFAULT_NAME;
         stubSuccessCanObserve(expectedName);
@@ -63,7 +63,7 @@ class WebResourceObservingAddControllerTest extends BaseControllerTest {
         //Assign
         prepareDb();
         pluginUsageRepository.deleteAll();
-        WebResourceObservingAddRequestBody requestBody = prepareAddRequest();
+        var requestBody = prepareAddRequest();
 
         String expectedName = WebResourceDtoBuilder.DEFAULT_NAME;
         stubSuccessCanObserve(expectedName);
@@ -87,7 +87,7 @@ class WebResourceObservingAddControllerTest extends BaseControllerTest {
                 .expiredDate(ZonedDateTime.now().minusMinutes(5))
                 .distributionMethod(EmbeddableDistributionMethodBuilder.defaultSubscribeDistribution().build())
                 .build());
-        WebResourceObservingAddRequestBody requestBody = prepareAddRequest();
+        var requestBody = prepareAddRequest();
 
         String expectedName = WebResourceDtoBuilder.DEFAULT_NAME;
         stubSuccessCanObserve(expectedName);
@@ -108,7 +108,7 @@ class WebResourceObservingAddControllerTest extends BaseControllerTest {
                 .plugin(pluginRepository.findById(PLUGIN_ID).get())
                 .status(ObserveStatus.NOT_OBSERVE)
                 .build()).getId();
-        WebResourceObservingAddRequestBody requestBody = prepareAddRequest();
+        var requestBody = prepareAddRequest();
 
         stubSuccessCanObserve(WebResourceEntityBuilder.DEFAULT_NAME);
         stubSuccessWebResourceAdd(WebResourceEntityBuilder.DEFAULT_NAME);
@@ -148,7 +148,7 @@ class WebResourceObservingAddControllerTest extends BaseControllerTest {
                 .user(userRepository.findById(USER_ID).get())
                 .status(ObserveStatus.NOT_OBSERVE)
                 .build()).getId();
-        WebResourceObservingAddRequestBody requestBody = prepareAddRequest();
+        var requestBody = prepareAddRequest();
 
         stubSuccessCanObserve(WebResourceEntityBuilder.DEFAULT_NAME);
         stubSuccessWebResourceAdd(WebResourceEntityBuilder.DEFAULT_NAME);
@@ -189,7 +189,7 @@ class WebResourceObservingAddControllerTest extends BaseControllerTest {
                 .user(userRepository.findById(USER_ID).get())
                 .status(ObserveStatus.OBSERVE)
                 .build()).getId();
-        WebResourceObservingAddRequestBody requestBody = prepareAddRequest();
+        var requestBody = prepareAddRequest();
 
         stubSuccessCanObserve(WebResourceEntityBuilder.DEFAULT_NAME);
 
@@ -234,7 +234,7 @@ class WebResourceObservingAddControllerTest extends BaseControllerTest {
                 .user(userRepository.findById(userId1).get())
                 .status(ObserveStatus.OBSERVE)
                 .build()).getId();
-        WebResourceObservingAddRequestBody requestBody = prepareAddRequest();
+        var requestBody = prepareAddRequest();
 
         stubSuccessCanObserve(WebResourceEntityBuilder.DEFAULT_NAME);
 
@@ -273,7 +273,7 @@ class WebResourceObservingAddControllerTest extends BaseControllerTest {
                 .user(userRepository.findById(USER_ID).get())
                 .status(ObserveStatus.NOT_OBSERVE)
                 .build());
-        WebResourceObservingAddRequestBody requestBody = prepareAddRequest();
+        var requestBody = prepareAddRequest();
 
         CanObserveResponse pluginCanObserveResponse = CanObserveResponseBuilder.defaultWebResourceDto()
                 .isObservable(false);
@@ -303,7 +303,7 @@ class WebResourceObservingAddControllerTest extends BaseControllerTest {
         PluginEntity pluginEntity = pluginRepository.findById(PLUGIN_ID).get();
         pluginEntity.setStatus(PluginStatus.CREATED);
         pluginRepository.save(pluginEntity);
-        WebResourceObservingAddRequestBody requestBody = prepareAddRequest();
+        var requestBody = prepareAddRequest();
 
         CanObserveResponse pluginCanObserveResponse = CanObserveResponseBuilder.defaultWebResourceDto()
                 .isObservable(false);
@@ -317,10 +317,9 @@ class WebResourceObservingAddControllerTest extends BaseControllerTest {
         assertHttpStatus(mvcResult, HttpStatus.UNAUTHORIZED);
     }
 
-    private WebResourceObservingAddRequestBody prepareAddRequest() {
-        WebResourceObservingAddRequestBody requestBody = WebResourceObservingAddRequestBodyBuilder.defaultRequest()
+    private WebResourceObservingAddRequest prepareAddRequest() {
+        return WebResourceObservingAddRequestBuilder.defaultRequest()
                 .pluginId(PLUGIN_ID);
-        return requestBody;
     }
 
     private void stubSuccessCanObserve(String expectedName) {

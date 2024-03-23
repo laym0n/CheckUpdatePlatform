@@ -1,7 +1,7 @@
 package com.victor.kochnev.rest.presenters.controller;
 
-import com.victor.kochnev.api.dto.CreateTaskRequestBody;
-import com.victor.kochnev.api.dto.MakeDecisionRequestBody;
+import com.victor.kochnev.api.dto.CreateTaskRequest;
+import com.victor.kochnev.api.dto.MakeDecisionRequest;
 import com.victor.kochnev.api.dto.Task;
 import com.victor.kochnev.api.rest.TaskApi;
 import com.victor.kochnev.core.dto.domain.entity.TaskDto;
@@ -26,7 +26,7 @@ public class TaskController implements TaskApi {
     private final RestTaskMapper taskMapper;
 
     @Override
-    public ResponseEntity<Task> createTask(CreateTaskRequestBody requestBody) {
+    public ResponseEntity<Task> createTask(CreateTaskRequest requestBody) {
         log.info("Request: {}", CREATE_TASK_ENDPOINT);
         log.debug("Request: {} {}", CREATE_TASK_ENDPOINT, requestBody);
 
@@ -39,7 +39,7 @@ public class TaskController implements TaskApi {
     }
 
     @Override
-    public ResponseEntity<Task> makeDecision(UUID taskId, MakeDecisionRequestBody requestBody) {
+    public ResponseEntity<Task> makeDecision(UUID taskId, MakeDecisionRequest requestBody) {
         log.info("Request: {}", MAKE_DECISION_ENDPOINT);
         log.debug("Request: {} {}", MAKE_DECISION_ENDPOINT, requestBody);
 

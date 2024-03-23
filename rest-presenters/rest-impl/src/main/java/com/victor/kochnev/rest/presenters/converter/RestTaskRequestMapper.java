@@ -1,7 +1,7 @@
 package com.victor.kochnev.rest.presenters.converter;
 
-import com.victor.kochnev.api.dto.CreateTaskRequestBody;
-import com.victor.kochnev.api.dto.MakeDecisionRequestBody;
+import com.victor.kochnev.api.dto.CreateTaskRequest;
+import com.victor.kochnev.api.dto.MakeDecisionRequest;
 import com.victor.kochnev.core.dto.request.CreateTaskRequestDto;
 import com.victor.kochnev.core.dto.request.MakeDecisionRequestDto;
 import org.mapstruct.Mapper;
@@ -16,8 +16,8 @@ import java.util.Collections;
         unmappedTargetPolicy = ReportingPolicy.ERROR,
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface RestTaskRequestMapper {
-    CreateTaskRequestDto mapToCoreRequest(CreateTaskRequestBody requestBody);
+    CreateTaskRequestDto mapToCoreRequest(CreateTaskRequest requestBody);
 
     @Mapping(target = "taskId", ignore = true)
-    MakeDecisionRequestDto mapToCoreRequest(MakeDecisionRequestBody requestBody);
+    MakeDecisionRequestDto mapToCoreRequest(MakeDecisionRequest requestBody);
 }
