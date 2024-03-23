@@ -15,4 +15,5 @@ import java.util.UUID;
 public class TaskDto {
     private UUID id;
     private PluginDescriptionDto description;
+    private PluginDto plugin;
 }

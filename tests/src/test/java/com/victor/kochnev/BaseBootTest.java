@@ -74,6 +74,8 @@ public abstract class BaseBootTest {
     protected WebResourceObservingEntityRepository observingRepository;
     @Autowired
     protected NotificationEntityRepository notificationRepository;
+    @Autowired
+    protected TaskEntityRepository taskRepository;
     protected WireMockServer wireMockServer;
 
     protected static ResponseDefinitionBuilder wireMockResponseJson(String resourceJson) {

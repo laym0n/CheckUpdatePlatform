@@ -2,7 +2,6 @@ package com.victor.kochnev.rest.presenters.controller;
 
 import com.victor.kochnev.api.dto.AddPluginRequestBody;
 import com.victor.kochnev.api.dto.AddPluginResponseBody;
-import com.victor.kochnev.api.dto.Plugin;
 import com.victor.kochnev.api.rest.PluginApi;
 import com.victor.kochnev.core.dto.request.AddPluginRequestDto;
 import com.victor.kochnev.core.dto.response.AddPluginResponseDto;

@@ -18,8 +18,8 @@ public class TaskFacadeImpl implements TaskFacade {
     private final TaskService taskService;
     private final PluginService pluginService;
 
+    @PreAuthorize("@authorizationService.verifyAuthenticatedUserCanManagePlugin(#requestDto.getPluginId())")
     @Override
-    @PreAuthorize("@authorizationService.verifyAuthenticatedUserCanManagePlugin(requestDto.getId())")
     public TaskDto create(@P("requestDto") CreateTaskRequestDto requestDto) {
         Plugin plugin = pluginService.getById(requestDto.getPluginId());
         TaskType taskType;

@@ -34,10 +34,10 @@ public class SecurityConfiguration {
         observingAuthorization.setExpressionHandler(expressionHandler);
 
         return http
-                .securityMatcher("/webresource/observing/**", "/user/register", "/authentication", "/plugin/**")
+                .securityMatcher("/webresource/observing/**", "/user/register", "/authentication", "/plugin/**", "/task")
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/webresource/observing/{id}/**").access(observingAuthorization)
-                        .requestMatchers("/webresource/observing/**", "/plugin/**").hasRole(UserRole.SIMPLE_USER.name())
+                        .requestMatchers("/webresource/observing/**", "/plugin/**", "/task").hasRole(UserRole.SIMPLE_USER.name())
                         .requestMatchers("/user/register", "/authentication").permitAll()
                 )
                 .httpBasic(AbstractHttpConfigurer::disable)

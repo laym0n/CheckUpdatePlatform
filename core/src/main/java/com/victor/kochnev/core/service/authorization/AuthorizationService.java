@@ -1,4 +1,4 @@
-package com.victor.kochnev.core.service.pluginusage;
+package com.victor.kochnev.core.service.authorization;
 
 import java.util.UUID;
 

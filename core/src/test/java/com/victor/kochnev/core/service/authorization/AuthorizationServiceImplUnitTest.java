@@ -1,4 +1,4 @@
-package com.victor.kochnev.core.service.pluginusage;
+package com.victor.kochnev.core.service.authorization;
 
 import com.victor.kochnev.core.BaseCoreUnitTest;
 import com.victor.kochnev.domain.entity.PluginUsage;

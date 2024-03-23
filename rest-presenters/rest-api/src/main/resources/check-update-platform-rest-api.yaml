@@ -133,6 +133,33 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorMessageDto'
 
+  /task:
+    post:
+      tags:
+        - Task
+      summary: Добавить задачу на платформу
+      operationId: createTask
+      security:
+        - JwtToken: [ ]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTaskRequestBody'
+      responses:
+        200:
+          description: успешное добавление
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Task'
+        400:
+          description: ошибка валидации данных
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ErrorMessageDto'
+
 components:
   parameters:
     WebResourceObservingId:
@@ -219,6 +246,30 @@ components:
         - plugin
         - accessToken
 
+    CreateTaskRequestBody:
+      type: object
+      properties:
+        pluginId:
+          type: string
+          format: uuid
+          description: id плагина, для которого создается задача
+        description:
+          $ref: "#/components/schemas/PluginDescription"
+      required:
+        - pluginId
+        - description
+
+    Task:
+      type: object
+      properties:
+        plugin:
+          $ref: "#/components/schemas/Plugin"
+        description:
+          $ref: "#/components/schemas/PluginDescription"
+      required:
+        - plugin
+        - description
+
     WebResourceObserving:
       type: object
       properties:
@@ -247,6 +298,48 @@ components:
         - id
         - name
         - baseUrl
+
+    PluginDescription:
+      type: object
+      properties:
+        description:
+          type: string
+          description: описание плагина
+        imagePaths:
+          type: array
+          description: массив url до изображений
+          items:
+            type: string
+        distributionMethods:
+          type: array
+          description: массив типов распространения плагина
+          items:
+            $ref: "#/components/schemas/DistributionMethod"
+      required:
+        - description
+        - imagePaths
+        - distributionMethods
+
+    DistributionMethod:
+      type: object
+      properties:
+        cost:
+          type: number
+          description: стоимость плагина
+        duration:
+          type: string
+          format: duration
+          description: длительность действия типа распространения
+        type:
+          $ref: "#/components/schemas/DistributionPlanTypeEnum"
+      required:
+        - plugin
+        - accessToken
+
+    DistributionPlanTypeEnum:
+      enum:
+        - SUBSCRIBE
+        - PURCHASE
 
     ObserveSettings:
       type: object

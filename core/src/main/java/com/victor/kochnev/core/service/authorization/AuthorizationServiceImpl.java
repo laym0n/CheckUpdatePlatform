@@ -1,4 +1,4 @@
-package com.victor.kochnev.core.service.pluginusage;
+package com.victor.kochnev.core.service.authorization;
 
 import com.victor.kochnev.core.repository.PluginRepository;
 import com.victor.kochnev.core.repository.PluginUsageRepository;
@@ -36,7 +36,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
     @Override
     public boolean verifyAuthenticatedUserCanManagePlugin(UUID pluginId) {
         UUID userId = securityUserService.getCurrentUser().getId();
-        UUID ownerId = pluginRepository.getById(pluginId).getId();
+        UUID ownerId = pluginRepository.getById(pluginId).getOwnerUser().getId();
         return ownerId.equals(userId);
     }
 }
