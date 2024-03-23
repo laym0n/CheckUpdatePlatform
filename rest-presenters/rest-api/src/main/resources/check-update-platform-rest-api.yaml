@@ -82,7 +82,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorMessageDto'
 
-  /webresource/observing/{observingId}/stop:
+  /webresource/observing/{entityId}/stop:
     put:
       tags:
         - WebResourceObserving
@@ -91,7 +91,7 @@ paths:
       security:
         - JwtToken: [ ]
       parameters:
-        - $ref: '#/components/parameters/WebResourceObservingId'
+        - $ref: '#/components/parameters/EntityId'
       responses:
         200:
           description: успешное удаление
@@ -160,10 +160,39 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorMessageDto'
 
+  /task/{entityId}/decision:
+    post:
+      tags:
+        - Task
+      summary: Решить задачу
+      operationId: makeDecision
+      security:
+        - JwtToken: [ ]
+      parameters:
+        - $ref: '#/components/parameters/EntityId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MakeDecisionRequestBody'
+      responses:
+        200:
+          description: успешное принятие решение
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Task'
+        400:
+          description: ошибка валидации данных
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ErrorMessageDto'
+
 components:
   parameters:
-    WebResourceObservingId:
-      name: observingId
+    EntityId:
+      name: entityId
       in: path
       description: id отслеживания веб ресурса
       required: true
@@ -258,6 +287,19 @@ components:
       required:
         - pluginId
         - description
+
+    MakeDecisionRequestBody:
+      type: object
+      properties:
+        decision:
+          type: string
+          description: принятое решение
+          enum: [ APPROVE, REJECT ]
+        comment:
+          type: string
+          description: комментарий
+      required:
+        - decision
 
     Task:
       type: object

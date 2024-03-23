@@ -1,5 +1,6 @@
 package com.victor.kochnev.domain.entity;
 
+import com.victor.kochnev.domain.enums.TaskDecision;
 import com.victor.kochnev.domain.enums.TaskType;
 import com.victor.kochnev.domain.value.object.PluginDescription;
 import lombok.Data;
@@ -20,6 +21,14 @@ public class Task extends BaseEntity {
      * Тип запроса обновления
      */
     private TaskType type;
+    /**
+     * Принятое решение
+     */
+    private TaskDecision decision;
+    /**
+     * Комментарий сотрудника, принявшего решение
+     */
+    private String comment;
     /**
      * Плагин
      */

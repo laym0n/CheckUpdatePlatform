@@ -2,6 +2,7 @@ package com.victor.kochnev.core.facade.task;
 
 import com.victor.kochnev.core.dto.domain.entity.TaskDto;
 import com.victor.kochnev.core.dto.request.CreateTaskRequestDto;
+import com.victor.kochnev.core.dto.request.MakeDecisionRequestDto;
 import com.victor.kochnev.core.service.plugin.PluginService;
 import com.victor.kochnev.core.service.task.TaskService;
 import com.victor.kochnev.domain.entity.Plugin;
@@ -29,5 +30,10 @@ public class TaskFacadeImpl implements TaskFacade {
             taskType = TaskType.UPDATE;
         }
         return taskService.create(requestDto, taskType);
+    }
+
+    @Override
+    public TaskDto makeDecision(MakeDecisionRequestDto requestDto) {
+        return taskService.makeDecision(requestDto);
     }
 }

@@ -28,14 +28,15 @@ public class SecurityConfiguration {
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
     public SecurityFilterChain restPresentersSecurityFilterChain(HttpSecurity http, JwtAuthenticationFilter filter, ApplicationContext context) throws Exception {
-        DefaultHttpSecurityExpressionHandler expressionHandler = new DefaultHttpSecurityExpressionHandler();
+        var expressionHandler = new DefaultHttpSecurityExpressionHandler();
         expressionHandler.setApplicationContext(context);
-        WebExpressionAuthorizationManager observingAuthorization = new WebExpressionAuthorizationManager("@authorizationHelper.checkWebResourceObservingAccess(authentication,#id)");
+        var observingAuthorization = new WebExpressionAuthorizationManager("@authorizationHelper.checkWebResourceObservingAccess(authentication,#id)");
         observingAuthorization.setExpressionHandler(expressionHandler);
 
         return http
-                .securityMatcher("/webresource/observing/**", "/user/register", "/authentication", "/plugin/**", "/task")
+                .securityMatcher("/webresource/observing/**", "/user/register", "/authentication", "/plugin/**", "/task/**")
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/task/{id}/decision").hasRole(UserRole.EMPLOYEE.name())
                         .requestMatchers("/webresource/observing/{id}/**").access(observingAuthorization)
                         .requestMatchers("/webresource/observing/**", "/plugin/**", "/task").hasRole(UserRole.SIMPLE_USER.name())
                         .requestMatchers("/user/register", "/authentication").permitAll()

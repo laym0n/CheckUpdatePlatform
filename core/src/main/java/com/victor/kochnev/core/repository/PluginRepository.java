@@ -13,4 +13,6 @@ public interface PluginRepository {
     Optional<Plugin> findByName(String accessToken);
 
     Plugin create(Plugin newPlugin);
+
+    Plugin update(Plugin plugin);
 }

@@ -52,4 +52,9 @@ public class PluginRepositoryImpl implements PluginRepository {
         pluginEntity = pluginEntityRepository.save(pluginEntity);
         return pluginMapper.mapToDomain(pluginEntity);
     }
+
+    @Override
+    public Plugin update(Plugin plugin) {
+        return null;
+    }
 }

@@ -9,6 +9,8 @@ CREATE TABLE IF NOT EXISTS TASK
     image_paths          VARCHAR(50),
     description          VARCHAR(50),
     distribution_methods VARCHAR(500)             NOT NULL,
+    decision             VARCHAR(50),
+    comment              VARCHAR(500),
     plugin_id            UUID                     NOT NULL
 );
 
