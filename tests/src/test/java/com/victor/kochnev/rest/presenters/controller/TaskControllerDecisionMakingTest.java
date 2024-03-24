@@ -33,7 +33,7 @@ class TaskControllerDecisionMakingTest extends BaseControllerTest {
         String url = String.format(TASK_CREATE_ENDPOINT, TASK_ID);
 
         //Action
-        MvcResult mvcResult = post(url, requestBody, prepareSimpleUserHeaders());
+        MvcResult mvcResult = put(url, requestBody, prepareSimpleUserHeaders());
 
         //Assert
         assertHttpStatusOk(mvcResult);
@@ -58,7 +58,7 @@ class TaskControllerDecisionMakingTest extends BaseControllerTest {
         String url = String.format(TASK_CREATE_ENDPOINT, TASK_ID);
 
         //Action
-        MvcResult mvcResult = post(url, requestBody, prepareSimpleUserHeaders());
+        MvcResult mvcResult = put(url, requestBody, prepareSimpleUserHeaders());
 
         //Assert
         assertHttpStatusOk(mvcResult);
@@ -70,6 +70,61 @@ class TaskControllerDecisionMakingTest extends BaseControllerTest {
         PluginEntity plugin = pluginRepository.findById(PLUGIN_ID).get();
         assertNull(plugin.getDescription());
         assertEquals(PluginStatus.CREATED, plugin.getStatus());
+    }
+
+    @Test
+    void makeApproveDecision_WhenPluginStatusIsACTIVE() {
+        //Assign
+        prepareDb();
+        PluginEntity pluginEntity = pluginRepository.findById(PLUGIN_ID).get();
+        pluginEntity.setStatus(PluginStatus.ACTIVE);
+        pluginRepository.save(pluginEntity);
+
+        var requestBody = prepareRequest(TaskDecisionEnum.APPROVE);
+
+        String url = String.format(TASK_CREATE_ENDPOINT, TASK_ID);
+
+        //Action
+        MvcResult mvcResult = put(url, requestBody, prepareSimpleUserHeaders());
+
+        //Assert
+        assertHttpStatusOk(mvcResult);
+
+        TaskEntity taskEntity = taskRepository.findById(TASK_ID).get();
+        assertEquals(TaskDecision.APPROVE, taskEntity.getDecision());
+        assertEquals(COMMENT, taskEntity.getComment());
+
+        PluginEntity plugin = pluginRepository.findById(PLUGIN_ID).get();
+        assertNotNull(plugin.getDescription());
+        assertEquals(PluginStatus.ACTIVE, plugin.getStatus());
+        assertEquals(taskEntity.getDescription(), plugin.getDescription());
+    }
+
+    @Test
+    void makeRejectDecision_WhenPluginStatusIsACTIVE() {
+        //Assign
+        prepareDb();
+        PluginEntity pluginEntity = pluginRepository.findById(PLUGIN_ID).get();
+        pluginEntity.setStatus(PluginStatus.ACTIVE);
+        pluginRepository.save(pluginEntity);
+
+        var requestBody = prepareRequest(TaskDecisionEnum.REJECT);
+
+        String url = String.format(TASK_CREATE_ENDPOINT, TASK_ID);
+
+        //Action
+        MvcResult mvcResult = put(url, requestBody, prepareSimpleUserHeaders());
+
+        //Assert
+        assertHttpStatusOk(mvcResult);
+
+        TaskEntity taskEntity = taskRepository.findById(TASK_ID).get();
+        assertEquals(TaskDecision.REJECT, taskEntity.getDecision());
+        assertEquals(COMMENT, taskEntity.getComment());
+
+        PluginEntity plugin = pluginRepository.findById(PLUGIN_ID).get();
+        assertNull(plugin.getDescription());
+        assertEquals(PluginStatus.ACTIVE, plugin.getStatus());
     }
 
 

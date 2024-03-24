@@ -1,7 +1,9 @@
 package com.victor.kochnev.rest.presenters.controller.advice;
 
 import com.victor.kochnev.api.dto.ErrorMessageDto;
+import com.victor.kochnev.core.exception.PluginUsageNotPermittedException;
 import com.victor.kochnev.core.exception.ResourceDescriptionParseException;
+import com.victor.kochnev.core.exception.ResourceNotFoundException;
 import com.victor.kochnev.core.exception.UserRegistrationException;
 import com.victor.kochnev.rest.presenters.controller.ControllerScanMarker;
 import io.jsonwebtoken.JwtException;
@@ -53,6 +55,22 @@ public class PresentersRestExceptionHandler extends ResponseEntityExceptionHandl
                 .body(new ErrorMessageDto().message(msg));
     }
 
+    @ExceptionHandler({ResourceNotFoundException.class})
+    public ResponseEntity<Object> handleResourceNotFoundException(ResourceNotFoundException ex, WebRequest request) {
+        String msg = ExceptionUtils.getMessage(ex);
+        log.error(msg, ex);
+        return ResponseEntity.status(HttpStatusCode.valueOf(404))
+                .body(new ErrorMessageDto().message(msg));
+    }
+
+    @ExceptionHandler({PluginUsageNotPermittedException.class})
+    public ResponseEntity<Object> handlePluginUsageNotPermittedException(PluginUsageNotPermittedException ex, WebRequest request) {
+        String msg = ExceptionUtils.getMessage(ex);
+        log.error(msg, ex);
+        return ResponseEntity.status(HttpStatusCode.valueOf(401))
+                .body(new ErrorMessageDto().message(msg));
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleTopLevelException(Exception ex, WebRequest request) {
         log.error(ExceptionUtils.getMessage(ex), ex);
@@ -76,6 +94,5 @@ public class PresentersRestExceptionHandler extends ResponseEntityExceptionHandl
         log.error(ExceptionUtils.getMessage(ex), ex);
         return super.handleMissingServletRequestPart(ex, headers, status, request);
     }
-
 
 }

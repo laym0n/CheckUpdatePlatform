@@ -8,4 +8,6 @@ import java.util.UUID;
 
 public interface PluginUsageRepository {
     List<PluginUsage> findPluginUsageWithExpiredDateAfterOrNull(UUID userId, UUID pluginId, ZonedDateTime expiredDate);
+
+    PluginUsage create(PluginUsage pluginUsage);
 }

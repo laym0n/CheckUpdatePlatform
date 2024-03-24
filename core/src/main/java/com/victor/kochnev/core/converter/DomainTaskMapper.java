@@ -6,7 +6,8 @@ import com.victor.kochnev.core.dto.request.MakeDecisionRequestDto;
 import com.victor.kochnev.domain.entity.Task;
 import org.mapstruct.*;
 
-@Mapper(injectionStrategy = InjectionStrategy.CONSTRUCTOR,
+@Mapper(uses = DomainPluginMapper.class,
+        injectionStrategy = InjectionStrategy.CONSTRUCTOR,
         componentModel = "spring",
         unmappedTargetPolicy = ReportingPolicy.ERROR,
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

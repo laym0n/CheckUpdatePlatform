@@ -7,7 +7,6 @@ import com.victor.kochnev.api.rest.TaskApi;
 import com.victor.kochnev.core.dto.domain.entity.TaskDto;
 import com.victor.kochnev.core.facade.task.TaskFacade;
 import com.victor.kochnev.rest.presenters.converter.RestTaskMapper;
-import com.victor.kochnev.rest.presenters.converter.RestTaskRequestMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +21,6 @@ public class TaskController implements TaskApi {
     private static final String CREATE_TASK_ENDPOINT = "POST /task";
     private static final String MAKE_DECISION_ENDPOINT = "POST /task/{entityId}/decision";
     private final TaskFacade taskFacade;
-    private final RestTaskRequestMapper requestMapper;
     private final RestTaskMapper taskMapper;
 
     @Override
@@ -30,7 +28,7 @@ public class TaskController implements TaskApi {
         log.info("Request: {}", CREATE_TASK_ENDPOINT);
         log.debug("Request: {} {}", CREATE_TASK_ENDPOINT, requestBody);
 
-        var requestDto = requestMapper.mapToCoreRequest(requestBody);
+        var requestDto = taskMapper.mapToCoreRequest(requestBody);
         TaskDto taskDto = taskFacade.create(requestDto);
         Task task = taskMapper.mapToRestDto(taskDto);
 
@@ -43,7 +41,7 @@ public class TaskController implements TaskApi {
         log.info("Request: {}", MAKE_DECISION_ENDPOINT);
         log.debug("Request: {} {}", MAKE_DECISION_ENDPOINT, requestBody);
 
-        var requestDto = requestMapper.mapToCoreRequest(requestBody);
+        var requestDto = taskMapper.mapToCoreRequest(requestBody);
         requestDto.setTaskId(taskId);
         TaskDto taskDto = taskFacade.makeDecision(requestDto);
         Task task = taskMapper.mapToRestDto(taskDto);

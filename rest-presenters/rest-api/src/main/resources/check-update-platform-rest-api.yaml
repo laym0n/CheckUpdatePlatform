@@ -161,7 +161,7 @@ paths:
                 $ref: '#/components/schemas/ErrorMessageDto'
 
   /task/{entityId}/decision:
-    post:
+    put:
       tags:
         - Task
       summary: Решить задачу
@@ -182,6 +182,33 @@ paths:
             'application/json':
               schema:
                 $ref: '#/components/schemas/Task'
+        400:
+          description: ошибка валидации данных
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ErrorMessageDto'
+
+  /plugin/usage:
+    post:
+      tags:
+        - PluginUsage
+      summary: Начать использовать плагин
+      operationId: createPluginUsage
+      security:
+        - JwtToken: [ ]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePluginUsageRequest'
+      responses:
+        200:
+          description: успешное начало использование плагина
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/PluginUsage'
         400:
           description: ошибка валидации данных
           content:
@@ -299,6 +326,19 @@ components:
       required:
         - decision
 
+    CreatePluginUsageRequest:
+      type: object
+      properties:
+        pluginId:
+          type: string
+          format: uuid
+          description: id плагина для начала использования
+        distributionMethod:
+          $ref: "#/components/schemas/DistributionMethod"
+      required:
+        - pluginId
+        - distributionMethod
+
     Task:
       type: object
       properties:
@@ -328,6 +368,26 @@ components:
         - webResourceDto
         - observeSettings
         - status
+
+    PluginUsage:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        distributionMethod:
+          $ref: "#/components/schemas/DistributionMethod"
+        expiredDate:
+          type: string
+          format: date-time
+          description: Дата и время когда заканчивается использование плагина
+        plugin:
+          $ref: '#/components/schemas/Plugin'
+      required:
+        - id
+        - distributionMethod
+        - expiredDate
+        - plugin
 
     Plugin:
       type: object

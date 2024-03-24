@@ -9,6 +9,7 @@ import com.victor.kochnev.domain.entity.PluginUsage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -25,5 +26,13 @@ public class PluginUsageRepositoryImpl implements PluginUsageRepository {
         Specification<PluginUsageEntity> specification = PluginUsageSpecification.withUserIdPluginIdAndExpiredDateNullOrAfter(userId, pluginId, expiredDate);
         return pluginUsageEntityRepository.findAll(specification)
                 .stream().map(pluginUsageMapper::mapToDomain).toList();
+    }
+
+    @Override
+    @Transactional
+    public PluginUsage create(PluginUsage pluginUsage) {
+        PluginUsageEntity newPluginUsageEntity = pluginUsageMapper.mapToEntity(pluginUsage);
+        newPluginUsageEntity = pluginUsageEntityRepository.save(newPluginUsageEntity);
+        return pluginUsageMapper.mapToDomain(newPluginUsageEntity);
     }
 }
