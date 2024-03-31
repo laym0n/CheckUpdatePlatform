@@ -342,6 +342,10 @@ components:
     Task:
       type: object
       properties:
+        id:
+          type: string
+          format: uuid
+          description: id задачи
         plugin:
           $ref: "#/components/schemas/Plugin"
         description:
@@ -404,6 +408,20 @@ components:
         - name
         - baseUrl
 
+    WebResource:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+      required:
+        - id
+        - name
+
     PluginDescription:
       type: object
       properties:
@@ -464,20 +482,6 @@ components:
       enum:
         - OBSERVE
         - NOT_OBSERVE
-
-    WebResource:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
-        description:
-          type: string
-      required:
-        - id
-        - name
 
     ErrorMessageDto:
       description: Сообщение с ошибкой

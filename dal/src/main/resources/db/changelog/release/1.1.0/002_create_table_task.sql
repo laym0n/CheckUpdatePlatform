@@ -6,8 +6,8 @@ CREATE TABLE IF NOT EXISTS TASK
     version              BIGINT                   NOT NULL,
 
     type                 VARCHAR(50)              NOT NULL,
-    image_paths          VARCHAR(50),
-    description          VARCHAR(50),
+    image_paths          VARCHAR(500),
+    description          VARCHAR(500),
     distribution_methods VARCHAR(500)             NOT NULL,
     decision             VARCHAR(50),
     comment              VARCHAR(500),
