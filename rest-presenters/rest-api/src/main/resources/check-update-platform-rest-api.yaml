@@ -433,6 +433,11 @@ components:
           description: массив url до изображений
           items:
             type: string
+        tags:
+          type: array
+          description: массив тегов плагина
+          items:
+            type: string
         distributionMethods:
           type: array
           description: массив типов распространения плагина

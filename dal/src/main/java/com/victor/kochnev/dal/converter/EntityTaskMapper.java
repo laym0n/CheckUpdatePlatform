@@ -6,7 +6,7 @@ import com.victor.kochnev.domain.entity.Task;
 import org.mapstruct.*;
 
 @Mapper(componentModel = "spring",
-        uses = EntityUserMapper.class,
+        uses = {EntityUserMapper.class, EntityPluginMapper.class},
         unmappedTargetPolicy = ReportingPolicy.ERROR,
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface EntityTaskMapper {

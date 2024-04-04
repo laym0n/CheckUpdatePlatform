@@ -1,6 +1,6 @@
 package com.victor.kochnev.core.dto.request;
 
-import com.victor.kochnev.core.dto.domain.value.object.PluginDescriptionDto;
+import com.victor.kochnev.domain.value.object.PluginDescription;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,5 +14,5 @@ import java.util.UUID;
 @AllArgsConstructor
 public class CreateTaskRequestDto {
     private UUID pluginId;
-    private PluginDescriptionDto description;
+    private PluginDescription description;
 }

@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS TASK
     distribution_methods VARCHAR(500)             NOT NULL,
     decision             VARCHAR(50),
     comment              VARCHAR(500),
+    tags                 JSONB,
     plugin_id            UUID                     NOT NULL
 );
 

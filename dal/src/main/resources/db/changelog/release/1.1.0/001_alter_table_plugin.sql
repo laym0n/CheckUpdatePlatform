@@ -3,6 +3,10 @@ ALTER TABLE PLUGIN
         status VARCHAR(50) NOT NULL;
 
 ALTER TABLE PLUGIN
+    ADD COLUMN
+        tags JSONB;
+
+ALTER TABLE PLUGIN
     ALTER COLUMN
         distribution_methods DROP NOT NULL;
 

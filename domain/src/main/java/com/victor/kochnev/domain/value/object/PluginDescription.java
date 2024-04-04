@@ -23,6 +23,10 @@ public class PluginDescription {
      */
     private List<String> imagePaths;
     /**
+     * Теги плагина
+     */
+    private List<String> tags;
+    /**
      * Способы распространения плагина
      */
     private Collection<DistributionMethod> distributionMethods;

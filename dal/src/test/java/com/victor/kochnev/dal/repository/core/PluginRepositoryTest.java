@@ -35,6 +35,7 @@ class PluginRepositoryTest extends BaseBootTest {
         assertEquals(PluginEntityBuilder.DEFAULT_IMAGE_PATHS_LIST, plugin.getDescription().getImagePaths());
         assertEquals(PluginEntityBuilder.DEFAULT_DESCRIPTION.getDescription(), plugin.getDescription().getDescription());
         assertEquals(PluginEntityBuilder.DEFAULT_DISTRIBUTION_METHODS_COLLECTION, plugin.getDescription().getDistributionMethods());
+        assertEquals(PluginEntityBuilder.DEFAULT_TAGS, plugin.getDescription().getTags());
         assertNotNull(plugin.getOwnerUser());
     }
 
