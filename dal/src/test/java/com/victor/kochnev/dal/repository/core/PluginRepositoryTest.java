@@ -3,12 +3,15 @@ package com.victor.kochnev.dal.repository.core;
 import com.victor.kochnev.core.exception.ResourceNotFoundException;
 import com.victor.kochnev.core.repository.PluginRepository;
 import com.victor.kochnev.dal.BaseBootTest;
+import com.victor.kochnev.dal.embeddable.object.EmbeddablePluginDescriptionBuilder;
 import com.victor.kochnev.dal.entity.PluginEntityBuilder;
 import com.victor.kochnev.dal.entity.WebResourceEntityBuilder;
+import com.victor.kochnev.dal.entity.value.object.TagsInfo;
 import com.victor.kochnev.domain.entity.Plugin;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -103,6 +106,26 @@ class PluginRepositoryTest extends BaseBootTest {
         assertEquals(PluginEntityBuilder.DEFAULT_DESCRIPTION.getDescription(), plugin.getDescription().getDescription());
         assertEquals(PluginEntityBuilder.DEFAULT_DISTRIBUTION_METHODS_COLLECTION, plugin.getDescription().getDistributionMethods());
         assertNotNull(plugin.getOwnerUser());
+    }
+
+    @Test
+    void testSuccessUpdate() {
+        //Assign
+        UUID pluginId = pluginEntityRepository.save(PluginEntityBuilder.defaultBuilder()
+                .description(EmbeddablePluginDescriptionBuilder.defaultBuilder()
+                        .tags(new TagsInfo(List.of("tag1"))).build()).build()).getId();
+
+        Plugin pluginForUpdate = pluginRepository.findByName(PluginEntityBuilder.DEFAULT_NAME).get();
+        List<String> newTags = List.of("tag2");
+        pluginForUpdate.getDescription().setTags(newTags);
+
+        //Action
+        Plugin actualResult = pluginRepository.update(pluginForUpdate);
+
+        //Assert
+        assertNotNull(actualResult);
+        assertEquals(pluginId, actualResult.getId());
+        assertEquals(newTags, actualResult.getDescription().getTags());
     }
 
     @Test

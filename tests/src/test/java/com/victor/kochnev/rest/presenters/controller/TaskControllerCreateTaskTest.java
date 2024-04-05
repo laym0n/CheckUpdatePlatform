@@ -33,20 +33,7 @@ class TaskControllerCreateTaskTest extends BaseControllerTest {
         //Assign
         prepareDb();
 
-        var requestBody = new CreateTaskRequest();
-        requestBody.setPluginId(PLUGIN_ID);
-
-        var descriptionRequestBody = new PluginDescription();
-        descriptionRequestBody.setDescription("decription");
-        descriptionRequestBody.setImagePaths(List.of("first", "second"));
-        descriptionRequestBody.setDistributionMethods(List.of(new DistributionMethod()
-                        .type(DistributionPlanTypeEnum.PURCHASE)
-                        .cost(BigDecimal.valueOf(1234)),
-                new DistributionMethod()
-                        .type(DistributionPlanTypeEnum.SUBSCRIBE)
-                        .cost(BigDecimal.valueOf(4321))
-                        .duration(Duration.of(5, ChronoUnit.DAYS).toString())));
-        requestBody.setDescription(descriptionRequestBody);
+        var requestBody = prepareRequestBody();
 
         //Action
         MvcResult mvcResult = post(TASK_CREATE_ENDPOINT, requestBody, prepareSimpleUserHeaders());
@@ -65,11 +52,12 @@ class TaskControllerCreateTaskTest extends BaseControllerTest {
 
         EmbeddablePluginDescription embeddableDescription = taskEntity.getDescription();
         assertNotNull(embeddableDescription);
-        assertEquals(descriptionRequestBody.getDescription(), embeddableDescription.getDescription());
-        assertEquals(descriptionRequestBody.getImagePaths(), embeddableDescription.getImagePaths());
-        assertEquals(descriptionRequestBody.getDistributionMethods().size(), embeddableDescription.getDistributionMethods().size());
-        for (int i = 0; i < descriptionRequestBody.getDistributionMethods().size(); i++) {
-            assertEqualsDistributionMethod(descriptionRequestBody.getDistributionMethods().get(i), embeddableDescription.getDistributionMethods().get(i));
+        assertEquals(requestBody.getDescription().getDescription(), embeddableDescription.getDescription());
+        assertEquals(requestBody.getDescription().getImagePaths(), embeddableDescription.getImagePaths());
+        assertEquals(requestBody.getDescription().getTags(), embeddableDescription.getTags().getTags());
+        assertEquals(requestBody.getDescription().getDistributionMethods().size(), embeddableDescription.getDistributionMethods().size());
+        for (int i = 0; i < requestBody.getDescription().getDistributionMethods().size(); i++) {
+            assertEqualsDistributionMethod(requestBody.getDescription().getDistributionMethods().get(i), embeddableDescription.getDistributionMethods().get(i));
         }
     }
 
@@ -81,20 +69,7 @@ class TaskControllerCreateTaskTest extends BaseControllerTest {
         pluginForSave.setStatus(PluginStatus.ACTIVE);
         pluginRepository.save(pluginForSave);
 
-        var requestBody = new CreateTaskRequest();
-        requestBody.setPluginId(PLUGIN_ID);
-
-        var descriptionRequestBody = new PluginDescription();
-        descriptionRequestBody.setDescription("decription");
-        descriptionRequestBody.setImagePaths(List.of("first", "second"));
-        descriptionRequestBody.setDistributionMethods(List.of(new DistributionMethod()
-                        .type(DistributionPlanTypeEnum.PURCHASE)
-                        .cost(BigDecimal.valueOf(1234)),
-                new DistributionMethod()
-                        .type(DistributionPlanTypeEnum.SUBSCRIBE)
-                        .cost(BigDecimal.valueOf(4321))
-                        .duration(Duration.of(5, ChronoUnit.DAYS).toString())));
-        requestBody.setDescription(descriptionRequestBody);
+        var requestBody = prepareRequestBody();
 
         //Action
         MvcResult mvcResult = post(TASK_CREATE_ENDPOINT, requestBody, prepareSimpleUserHeaders());
@@ -113,12 +88,32 @@ class TaskControllerCreateTaskTest extends BaseControllerTest {
 
         EmbeddablePluginDescription embeddableDescription = taskEntity.getDescription();
         assertNotNull(embeddableDescription);
-        assertEquals(descriptionRequestBody.getDescription(), embeddableDescription.getDescription());
-        assertEquals(descriptionRequestBody.getImagePaths(), embeddableDescription.getImagePaths());
-        assertEquals(descriptionRequestBody.getDistributionMethods().size(), embeddableDescription.getDistributionMethods().size());
-        for (int i = 0; i < descriptionRequestBody.getDistributionMethods().size(); i++) {
-            assertEqualsDistributionMethod(descriptionRequestBody.getDistributionMethods().get(i), embeddableDescription.getDistributionMethods().get(i));
+        assertEquals(requestBody.getDescription().getDescription(), embeddableDescription.getDescription());
+        assertEquals(requestBody.getDescription().getImagePaths(), embeddableDescription.getImagePaths());
+        assertEquals(requestBody.getDescription().getTags(), embeddableDescription.getTags().getTags());
+        assertEquals(requestBody.getDescription().getDistributionMethods().size(), embeddableDescription.getDistributionMethods().size());
+        for (int i = 0; i < requestBody.getDescription().getDistributionMethods().size(); i++) {
+            assertEqualsDistributionMethod(requestBody.getDescription().getDistributionMethods().get(i), embeddableDescription.getDistributionMethods().get(i));
         }
+    }
+
+    private CreateTaskRequest prepareRequestBody() {
+        var requestBody = new CreateTaskRequest();
+        requestBody.setPluginId(PLUGIN_ID);
+
+        var descriptionRequestBody = new PluginDescription();
+        descriptionRequestBody.setDescription("decription");
+        descriptionRequestBody.setImagePaths(List.of("first", "second"));
+        descriptionRequestBody.setTags(List.of("tags1", "tags2"));
+        descriptionRequestBody.setDistributionMethods(List.of(new DistributionMethod()
+                        .type(DistributionPlanTypeEnum.PURCHASE)
+                        .cost(BigDecimal.valueOf(1234)),
+                new DistributionMethod()
+                        .type(DistributionPlanTypeEnum.SUBSCRIBE)
+                        .cost(BigDecimal.valueOf(4321))
+                        .duration(Duration.of(5, ChronoUnit.DAYS).toString())));
+        requestBody.setDescription(descriptionRequestBody);
+        return requestBody;
     }
 
     private void assertEqualsDistributionMethod(DistributionMethod responseDistributionMethod,
