@@ -25,6 +25,7 @@ public class PluginIntegrationSecurityConfiguration {
                         .requestMatchers("/notification").hasRole(PluginAuthority.PLUGIN.name())
                         .anyRequest().denyAll()
                 )
+                .cors(Customizer.withDefaults())
                 .httpBasic(Customizer.withDefaults())
                 .formLogin(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)

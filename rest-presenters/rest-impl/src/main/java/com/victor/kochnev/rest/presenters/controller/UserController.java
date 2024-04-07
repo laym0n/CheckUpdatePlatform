@@ -8,9 +8,13 @@ import com.victor.kochnev.rest.presenters.converter.RestUserRequestMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@CrossOrigin
+@Validated
 @RequiredArgsConstructor
 @Slf4j
 public class UserController implements UserApi {

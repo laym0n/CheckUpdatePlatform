@@ -240,9 +240,11 @@ components:
           type: string
           description: email для регистрации
           format: email
+          minLength: 1
         password:
           type: string
           description: Пароль
+          minLength: 1
       required:
         - email
         - password
