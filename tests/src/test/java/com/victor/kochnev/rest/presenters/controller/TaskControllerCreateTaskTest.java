@@ -2,9 +2,9 @@ package com.victor.kochnev.rest.presenters.controller;
 
 import com.victor.kochnev.BaseControllerTest;
 import com.victor.kochnev.api.dto.CreateTaskRequest;
-import com.victor.kochnev.api.dto.DistributionMethod;
+import com.victor.kochnev.api.dto.DistributionMethodDto;
 import com.victor.kochnev.api.dto.DistributionPlanTypeEnum;
-import com.victor.kochnev.api.dto.PluginDescription;
+import com.victor.kochnev.api.dto.PluginDescriptionDto;
 import com.victor.kochnev.dal.embeddable.object.EmbeddablePluginDescription;
 import com.victor.kochnev.dal.entity.*;
 import com.victor.kochnev.domain.enums.PluginStatus;
@@ -99,14 +99,14 @@ class TaskControllerCreateTaskTest extends BaseControllerTest {
         var requestBody = new CreateTaskRequest();
         requestBody.setPluginId(PLUGIN_ID);
 
-        var descriptionRequestBody = new PluginDescription();
+        var descriptionRequestBody = new PluginDescriptionDto();
         descriptionRequestBody.setDescription("decription");
         descriptionRequestBody.setImagePaths(List.of("first", "second"));
         descriptionRequestBody.setTags(List.of("tags1", "tags2"));
-        descriptionRequestBody.setDistributionMethods(List.of(new DistributionMethod()
+        descriptionRequestBody.setDistributionMethods(List.of(new DistributionMethodDto()
                         .type(DistributionPlanTypeEnum.PURCHASE)
                         .cost(BigDecimal.valueOf(1234)),
-                new DistributionMethod()
+                new DistributionMethodDto()
                         .type(DistributionPlanTypeEnum.SUBSCRIBE)
                         .cost(BigDecimal.valueOf(4321))
                         .duration(Duration.of(5, ChronoUnit.DAYS).toString())));
@@ -114,7 +114,7 @@ class TaskControllerCreateTaskTest extends BaseControllerTest {
         return requestBody;
     }
 
-    private void assertEqualsDistributionMethod(DistributionMethod responseDistributionMethod,
+    private void assertEqualsDistributionMethod(DistributionMethodDto responseDistributionMethod,
                                                 com.victor.kochnev.domain.value.object.DistributionMethod distributionMethod) {
         assertEquals(0, responseDistributionMethod.getCost().compareTo(distributionMethod.cost()));
         if (responseDistributionMethod.getDuration() != null && distributionMethod.duration() != null) {

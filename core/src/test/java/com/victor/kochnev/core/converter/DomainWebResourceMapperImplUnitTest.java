@@ -1,7 +1,7 @@
 package com.victor.kochnev.core.converter;
 
 import com.victor.kochnev.core.BaseCoreUnitTest;
-import com.victor.kochnev.core.dto.domain.entity.WebResourceDto;
+import com.victor.kochnev.core.dto.domain.entity.WebResourceDomainDto;
 import com.victor.kochnev.core.dto.plugin.WebResourcePluginDto;
 import com.victor.kochnev.core.dto.plugin.WebResourcePluginDtoBuilder;
 import com.victor.kochnev.domain.entity.WebResource;
@@ -72,11 +72,11 @@ class DomainWebResourceMapperImplUnitTest extends BaseCoreUnitTest {
         WebResource webResource = WebResourceDomainBuilder.persistedDefaultBuilder().description(description).build();
 
         //Action
-        WebResourceDto webResourceDto = domainWebResourceMapper.mapToDto(webResource);
+        WebResourceDomainDto webResourceDomainDto = domainWebResourceMapper.mapToDto(webResource);
 
         //Assert
-        assertEquals(webResource.getId(), webResourceDto.getId());
-        assertEquals(webResource.getName(), webResourceDto.getName());
-        assertEquals(webResource.getDescription(), webResourceDto.getDescription());
+        assertEquals(webResource.getId(), webResourceDomainDto.getId());
+        assertEquals(webResource.getName(), webResourceDomainDto.getName());
+        assertEquals(webResource.getDescription(), webResourceDomainDto.getDescription());
     }
 }

@@ -2,7 +2,7 @@ package com.victor.kochnev.rest.presenters.controller;
 
 import com.victor.kochnev.BaseControllerTest;
 import com.victor.kochnev.api.dto.CreatePluginUsageRequest;
-import com.victor.kochnev.api.dto.DistributionMethod;
+import com.victor.kochnev.api.dto.DistributionMethodDto;
 import com.victor.kochnev.api.dto.DistributionPlanTypeEnum;
 import com.victor.kochnev.dal.embeddable.object.EmbeddablePluginDescriptionBuilder;
 import com.victor.kochnev.dal.entity.*;
@@ -60,7 +60,7 @@ class PluginUsageCreateTest extends BaseControllerTest {
         pluginRepository.save(pluginEntity);
 
         var requestBody = prepareRequest();
-        requestBody.setDistributionMethod(new DistributionMethod()
+        requestBody.setDistributionMethod(new DistributionMethodDto()
                 .type(DistributionPlanTypeEnum.SUBSCRIBE)
                 .cost(DistributionMethodBuilder.DEFAULT_COST)
                 .duration(DistributionMethodBuilder.DEFAULT_DURATION.toString()));
@@ -91,7 +91,7 @@ class PluginUsageCreateTest extends BaseControllerTest {
         pluginRepository.save(pluginEntity);
 
         var requestBody = prepareRequest();
-        requestBody.setDistributionMethod(new DistributionMethod()
+        requestBody.setDistributionMethod(new DistributionMethodDto()
                 .type(DistributionPlanTypeEnum.SUBSCRIBE)
                 .cost(DistributionMethodBuilder.DEFAULT_COST)
                 .duration(DistributionMethodBuilder.DEFAULT_DURATION.plusMinutes(1).toString()));
@@ -129,7 +129,7 @@ class PluginUsageCreateTest extends BaseControllerTest {
     private CreatePluginUsageRequest prepareRequest() {
         var requestBody = new CreatePluginUsageRequest();
         requestBody.setPluginId(PLUGIN_ID);
-        requestBody.setDistributionMethod(new DistributionMethod()
+        requestBody.setDistributionMethod(new DistributionMethodDto()
                 .cost(DistributionMethodBuilder.DEFAULT_COST)
                 .type(DistributionPlanTypeEnum.PURCHASE));
         return requestBody;

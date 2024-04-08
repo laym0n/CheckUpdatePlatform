@@ -1,6 +1,6 @@
 package com.victor.kochnev.core.converter;
 
-import com.victor.kochnev.core.dto.domain.entity.UserDto;
+import com.victor.kochnev.core.dto.domain.entity.UserDomainDto;
 import com.victor.kochnev.core.dto.request.UserRegistrationRequestDto;
 import com.victor.kochnev.core.security.entity.UserAuthoritySecurity;
 import com.victor.kochnev.core.security.entity.UserSecurity;
@@ -21,7 +21,7 @@ public interface DomainUserMapper {
     @Mapping(target = "roles", ignore = true)
     User mapToEntity(UserRegistrationRequestDto request);
 
-    UserDto mapToUserDto(User user);
+    UserDomainDto mapToUserDto(User user);
 
     @Mapping(target = "authorities", source = "roles")
     UserSecurity mapToSecurityUser(User user);

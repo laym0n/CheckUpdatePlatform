@@ -1,7 +1,7 @@
 package com.victor.kochnev.core.service.pluginusage;
 
 import com.victor.kochnev.core.converter.DomainPluginUsageMapper;
-import com.victor.kochnev.core.dto.domain.entity.PluginUsageDto;
+import com.victor.kochnev.core.dto.domain.entity.PluginUsageDomainDto;
 import com.victor.kochnev.core.dto.request.CreatePluginUsageRequestDto;
 import com.victor.kochnev.core.exception.PluginUsageNotPermittedException;
 import com.victor.kochnev.core.exception.ResourceNotFoundException;
@@ -29,7 +29,7 @@ public class PluginUsageServiceImpl implements PluginUsageService {
 
     @Override
     @Transactional
-    public PluginUsageDto create(CreatePluginUsageRequestDto requestDto, UUID userId) {
+    public PluginUsageDomainDto create(CreatePluginUsageRequestDto requestDto, UUID userId) {
         PluginUsage pluginUsage = pluginUsageMapper.mapToDomain(requestDto);
 
         Plugin plugin = pluginRepository.getById(requestDto.getPluginId());

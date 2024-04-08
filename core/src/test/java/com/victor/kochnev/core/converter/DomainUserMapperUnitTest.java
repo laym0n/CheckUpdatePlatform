@@ -1,7 +1,7 @@
 package com.victor.kochnev.core.converter;
 
 import com.victor.kochnev.core.BaseCoreUnitTest;
-import com.victor.kochnev.core.dto.domain.entity.UserDto;
+import com.victor.kochnev.core.dto.domain.entity.UserDomainDto;
 import com.victor.kochnev.core.dto.request.UserRegistrationRequestDto;
 import com.victor.kochnev.domain.entity.User;
 import com.victor.kochnev.domain.entity.builder.UserDomainBuilder;
@@ -44,12 +44,12 @@ class DomainUserMapperUnitTest extends BaseCoreUnitTest {
         User user = UserDomainBuilder.persistedDefaultUser().enabled(isEnabled).build();
 
         //Action
-        UserDto mappedUserDto = domainUserMapper.mapToUserDto(user);
+        UserDomainDto mappedUserDomainDto = domainUserMapper.mapToUserDto(user);
 
         //Assert
-        assertEquals(user.getId(), mappedUserDto.getId());
-        assertEquals(user.getEmail(), mappedUserDto.getEmail());
-        assertEquals(user.getPassword(), mappedUserDto.getPassword());
-        assertEquals(isEnabled, mappedUserDto.getEnabled());
+        assertEquals(user.getId(), mappedUserDomainDto.getId());
+        assertEquals(user.getEmail(), mappedUserDomainDto.getEmail());
+        assertEquals(user.getPassword(), mappedUserDomainDto.getPassword());
+        assertEquals(isEnabled, mappedUserDomainDto.getEnabled());
     }
 }

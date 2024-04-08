@@ -1,7 +1,7 @@
 package com.victor.kochnev.core.facade.webresourceobserving;
 
 import com.victor.kochnev.core.converter.DomainWebResourceObservingMapper;
-import com.victor.kochnev.core.dto.domain.entity.WebResourceObservingDto;
+import com.victor.kochnev.core.dto.domain.entity.WebResourceObservingDomainDto;
 import com.victor.kochnev.core.dto.plugin.CanObserveResponseDto;
 import com.victor.kochnev.core.dto.plugin.WebResourcePluginDto;
 import com.victor.kochnev.core.dto.request.AddWebResourceForObservingRequestDto;
@@ -36,7 +36,7 @@ public class WebResourceObservingFacadeImpl implements WebResourceObservingFacad
 
     @PreAuthorize("@authorizationService.verifyUserCanUsePlugin(#request.getPluginId(), #request.getUserId())")
     @Override
-    public WebResourceObservingDto addWebResourceForObserving(@P("request") AddWebResourceForObservingRequestDto request) {
+    public WebResourceObservingDomainDto addWebResourceForObserving(@P("request") AddWebResourceForObservingRequestDto request) {
         Plugin plugin = pluginService.getById(request.getPluginId());
         String baseUrl = plugin.getBaseUrl();
         CanObserveResponseDto response = pluginClient.canObserve(baseUrl, request.getResourceDescription());
@@ -53,7 +53,7 @@ public class WebResourceObservingFacadeImpl implements WebResourceObservingFacad
     }
 
     @Override
-    public WebResourceObservingDto stopWebResourceObserving(StopWebResourceObservingRequestDto request) {
+    public WebResourceObservingDomainDto stopWebResourceObserving(StopWebResourceObservingRequestDto request) {
         boolean isNeedChangeStatus = webResourceObservingService.stopObservingCascade(request.getWebResourceObservingId());
         if (isNeedChangeStatus) {
             WebResourceObserving observing = webResourceObservingService.getById(request.getWebResourceObservingId());

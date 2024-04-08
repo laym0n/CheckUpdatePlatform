@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class WebResourceObservingDto {
+public class WebResourceObservingDomainDto {
     private ObserveSettings observeSettings;
-    private WebResourceDto webResourceDto;
+    private WebResourceDomainDto webResourceDto;
     private ObserveStatus status;
 }

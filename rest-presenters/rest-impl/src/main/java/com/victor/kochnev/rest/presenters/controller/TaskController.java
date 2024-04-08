@@ -2,9 +2,9 @@ package com.victor.kochnev.rest.presenters.controller;
 
 import com.victor.kochnev.api.dto.CreateTaskRequest;
 import com.victor.kochnev.api.dto.MakeDecisionRequest;
-import com.victor.kochnev.api.dto.Task;
+import com.victor.kochnev.api.dto.TaskDto;
 import com.victor.kochnev.api.rest.TaskApi;
-import com.victor.kochnev.core.dto.domain.entity.TaskDto;
+import com.victor.kochnev.core.dto.domain.entity.TaskDomainDto;
 import com.victor.kochnev.core.facade.task.TaskFacade;
 import com.victor.kochnev.rest.presenters.converter.RestTaskMapper;
 import lombok.RequiredArgsConstructor;
@@ -28,27 +28,27 @@ public class TaskController implements TaskApi {
     private final RestTaskMapper taskMapper;
 
     @Override
-    public ResponseEntity<Task> createTask(CreateTaskRequest requestBody) {
+    public ResponseEntity<TaskDto> createTask(CreateTaskRequest requestBody) {
         log.info("Request: {}", CREATE_TASK_ENDPOINT);
         log.debug("Request: {} {}", CREATE_TASK_ENDPOINT, requestBody);
 
         var requestDto = taskMapper.mapToCoreRequest(requestBody);
-        TaskDto taskDto = taskFacade.create(requestDto);
-        Task task = taskMapper.mapToRestDto(taskDto);
+        TaskDomainDto taskDomainDto = taskFacade.create(requestDto);
+        TaskDto task = taskMapper.mapToRestDto(taskDomainDto);
 
         log.info("Request: {} proccesed", CREATE_TASK_ENDPOINT);
         return ResponseEntity.ok(task);
     }
 
     @Override
-    public ResponseEntity<Task> makeDecision(UUID taskId, MakeDecisionRequest requestBody) {
+    public ResponseEntity<TaskDto> makeDecision(UUID taskId, MakeDecisionRequest requestBody) {
         log.info("Request: {}", MAKE_DECISION_ENDPOINT);
         log.debug("Request: {} {}", MAKE_DECISION_ENDPOINT, requestBody);
 
         var requestDto = taskMapper.mapToCoreRequest(requestBody);
         requestDto.setTaskId(taskId);
-        TaskDto taskDto = taskFacade.makeDecision(requestDto);
-        Task task = taskMapper.mapToRestDto(taskDto);
+        TaskDomainDto taskDomainDto = taskFacade.makeDecision(requestDto);
+        TaskDto task = taskMapper.mapToRestDto(taskDomainDto);
 
         log.info("Request: {} proccesed", MAKE_DECISION_ENDPOINT);
         return ResponseEntity.ok(task);

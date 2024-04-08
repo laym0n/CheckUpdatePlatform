@@ -13,10 +13,10 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TaskDto {
+public class TaskDomainDto {
     private UUID id;
     private PluginDescription description;
     private TaskDecision decision;
     private String comment;
-    private PluginDto plugin;
+    private PluginDomainDto plugin;
 }

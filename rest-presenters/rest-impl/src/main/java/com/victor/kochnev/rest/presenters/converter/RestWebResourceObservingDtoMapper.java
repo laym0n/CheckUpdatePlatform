@@ -1,7 +1,7 @@
 package com.victor.kochnev.rest.presenters.converter;
 
-import com.victor.kochnev.api.dto.WebResourceObserving;
-import com.victor.kochnev.core.dto.domain.entity.WebResourceObservingDto;
+import com.victor.kochnev.api.dto.WebResourceObservingDto;
+import com.victor.kochnev.core.dto.domain.entity.WebResourceObservingDomainDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
@@ -13,5 +13,5 @@ import org.mapstruct.ReportingPolicy;
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface RestWebResourceObservingDtoMapper {
 
-    WebResourceObserving mapToRestDto(WebResourceObservingDto webResourceObservingDto);
+    WebResourceObservingDto mapToRestDto(WebResourceObservingDomainDto webResourceObservingDomainDto);
 }

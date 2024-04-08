@@ -1,9 +1,9 @@
 package com.victor.kochnev.rest.presenters.controller;
 
-import com.victor.kochnev.api.dto.WebResourceObserving;
+import com.victor.kochnev.api.dto.WebResourceObservingDto;
 import com.victor.kochnev.api.dto.WebResourceObservingAddRequest;
 import com.victor.kochnev.api.rest.WebResourceObservingApi;
-import com.victor.kochnev.core.dto.domain.entity.WebResourceObservingDto;
+import com.victor.kochnev.core.dto.domain.entity.WebResourceObservingDomainDto;
 import com.victor.kochnev.core.dto.request.AddWebResourceForObservingRequestDto;
 import com.victor.kochnev.core.dto.request.StopWebResourceObservingRequestDto;
 import com.victor.kochnev.core.facade.webresourceobserving.WebResourceObservingFacade;
@@ -34,7 +34,7 @@ public class WebResourceObservingController implements WebResourceObservingApi {
     private final SecurityUserService securityUserService;
 
     @Override
-    public ResponseEntity<WebResourceObserving> createObserving(WebResourceObservingAddRequest requestBody) {
+    public ResponseEntity<WebResourceObservingDto> createObserving(WebResourceObservingAddRequest requestBody) {
         log.info("Request: {}", WEB_RESOURCE_OBSERVING_CREATE_ENDPOINT);
         log.debug("Request: {} {}", WEB_RESOURCE_OBSERVING_CREATE_ENDPOINT, requestBody);
 
@@ -42,15 +42,15 @@ public class WebResourceObservingController implements WebResourceObservingApi {
         UserSecurity currentUser = securityUserService.getCurrentUser();
         request.setUserId(currentUser.getId());
 
-        WebResourceObservingDto webResourceObservingDto = webResourceObservingFacade.addWebResourceForObserving(request);
-        WebResourceObserving webResourceObserving = dtoMapper.mapToRestDto(webResourceObservingDto);
+        WebResourceObservingDomainDto webResourceObservingDomainDto = webResourceObservingFacade.addWebResourceForObserving(request);
+        WebResourceObservingDto webResourceObserving = dtoMapper.mapToRestDto(webResourceObservingDomainDto);
 
         log.info("Request: {} proccesed", WEB_RESOURCE_OBSERVING_CREATE_ENDPOINT);
         return ResponseEntity.ok(webResourceObserving);
     }
 
     @Override
-    public ResponseEntity<WebResourceObserving> stopObserve(UUID observingId) {
+    public ResponseEntity<WebResourceObservingDto> stopObserve(UUID observingId) {
         log.info("Request: {}", WEB_RESOURCE_OBSERVING_STOP_ENDPOINT);
         log.debug("Request: {} {}", WEB_RESOURCE_OBSERVING_STOP_ENDPOINT, observingId);
 
@@ -58,8 +58,8 @@ public class WebResourceObservingController implements WebResourceObservingApi {
         UUID userId = currentUser.getId();
         StopWebResourceObservingRequestDto request = new StopWebResourceObservingRequestDto(observingId, userId);
 
-        WebResourceObservingDto webResourceObservingDto = webResourceObservingFacade.stopWebResourceObserving(request);
-        WebResourceObserving webResourceObserving = dtoMapper.mapToRestDto(webResourceObservingDto);
+        WebResourceObservingDomainDto webResourceObservingDomainDto = webResourceObservingFacade.stopWebResourceObserving(request);
+        WebResourceObservingDto webResourceObserving = dtoMapper.mapToRestDto(webResourceObservingDomainDto);
 
         log.info("Request: {} proccesed", WEB_RESOURCE_OBSERVING_STOP_ENDPOINT);
         return ResponseEntity.ok(webResourceObserving);

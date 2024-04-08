@@ -50,7 +50,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                         .accessToken(accessToken)
                         .refreshToken(refreshToken)
                 )
-                .user(new User()
+                .user(new UserDto()
                         .id(userSecurity.getId())
                         .email(userSecurity.getUsername())
                         .roles(userSecurity.getAuthorities().stream()

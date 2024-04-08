@@ -1,9 +1,9 @@
 package com.victor.kochnev.rest.presenters.controller;
 
 import com.victor.kochnev.api.dto.CreatePluginUsageRequest;
-import com.victor.kochnev.api.dto.PluginUsage;
+import com.victor.kochnev.api.dto.PluginUsageDto;
 import com.victor.kochnev.api.rest.PluginUsageApi;
-import com.victor.kochnev.core.dto.domain.entity.PluginUsageDto;
+import com.victor.kochnev.core.dto.domain.entity.PluginUsageDomainDto;
 import com.victor.kochnev.core.facade.pluginusage.PluginUsageFacade;
 import com.victor.kochnev.rest.presenters.converter.RestPluginUsageMapper;
 import lombok.RequiredArgsConstructor;
@@ -24,13 +24,13 @@ public class PluginUsageController implements PluginUsageApi {
     private final RestPluginUsageMapper pluginUsageMapper;
 
     @Override
-    public ResponseEntity<PluginUsage> createPluginUsage(CreatePluginUsageRequest request) {
+    public ResponseEntity<PluginUsageDto> createPluginUsage(CreatePluginUsageRequest request) {
         log.info("Request: {}", CREATE_PLUGIN_USAGE_ENDPOINT);
         log.debug("Request: {} {}", CREATE_PLUGIN_USAGE_ENDPOINT, request);
 
         var requestDto = pluginUsageMapper.mapToCoreRequest(request);
-        PluginUsageDto pluginUsageDto = pluginUsageFacade.create(requestDto);
-        PluginUsage pluginUsage = pluginUsageMapper.mapToRestDto(pluginUsageDto);
+        PluginUsageDomainDto pluginUsageDomainDto = pluginUsageFacade.create(requestDto);
+        PluginUsageDto pluginUsage = pluginUsageMapper.mapToRestDto(pluginUsageDomainDto);
 
         log.info("Request: {} proccesed", CREATE_PLUGIN_USAGE_ENDPOINT);
         return ResponseEntity.ok(pluginUsage);

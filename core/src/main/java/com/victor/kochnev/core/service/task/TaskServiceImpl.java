@@ -1,7 +1,7 @@
 package com.victor.kochnev.core.service.task;
 
 import com.victor.kochnev.core.converter.DomainTaskMapper;
-import com.victor.kochnev.core.dto.domain.entity.TaskDto;
+import com.victor.kochnev.core.dto.domain.entity.TaskDomainDto;
 import com.victor.kochnev.core.dto.request.CreateTaskRequestDto;
 import com.victor.kochnev.core.dto.request.MakeDecisionRequestDto;
 import com.victor.kochnev.core.repository.PluginRepository;
@@ -28,7 +28,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     @Transactional
-    public TaskDto create(CreateTaskRequestDto requestDto, TaskType type) {
+    public TaskDomainDto create(CreateTaskRequestDto requestDto, TaskType type) {
         Task task = taskMapper.mapToDomain(requestDto);
         Plugin plugin = pluginRepository.getById(requestDto.getPluginId());
         task.setPlugin(plugin);
@@ -39,7 +39,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     @Transactional
-    public TaskDto makeDecision(MakeDecisionRequestDto requestDto) {
+    public TaskDomainDto makeDecision(MakeDecisionRequestDto requestDto) {
         Task task = taskRepository.getById(requestDto.getTaskId());
         if (requestDto.getDecision() == TaskDecision.APPROVE) {
             Plugin plugin = task.getPlugin();
