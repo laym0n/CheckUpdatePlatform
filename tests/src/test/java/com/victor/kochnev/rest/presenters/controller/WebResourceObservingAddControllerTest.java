@@ -26,6 +26,7 @@ class WebResourceObservingAddControllerTest extends BaseControllerTest {
     private final String PLUGIN_CAN_OBSERVE_ENDPOINT = "/webresource/can/observe";
     private UUID USER_ID;
     private UUID PLUGIN_ID;
+    private UserEntity userForRequest;
 
     @Test
     void addWebResourceObserving_WhenUserAndPluginExists() {
@@ -38,7 +39,7 @@ class WebResourceObservingAddControllerTest extends BaseControllerTest {
         stubSuccessWebResourceAdd(expectedName);
 
         //Action
-        MvcResult mvcResult = post(WEBRESOURCE_OBSERVING_ENDPOINT, requestBody, prepareSimpleUserHeaders());
+        MvcResult mvcResult = post(WEBRESOURCE_OBSERVING_ENDPOINT, requestBody, prepareSimpleUserHeaders(userForRequest));
 
         //Assert
         assertHttpStatusOk(mvcResult);
@@ -70,7 +71,7 @@ class WebResourceObservingAddControllerTest extends BaseControllerTest {
         stubSuccessWebResourceAdd(expectedName);
 
         //Action
-        MvcResult mvcResult = post(WEBRESOURCE_OBSERVING_ENDPOINT, requestBody, prepareSimpleUserHeaders());
+        MvcResult mvcResult = post(WEBRESOURCE_OBSERVING_ENDPOINT, requestBody, prepareSimpleUserHeaders(userForRequest));
 
         //Assert
         assertHttpStatus(mvcResult, HttpStatus.UNAUTHORIZED);
@@ -94,7 +95,7 @@ class WebResourceObservingAddControllerTest extends BaseControllerTest {
         stubSuccessWebResourceAdd(expectedName);
 
         //Action
-        MvcResult mvcResult = post(WEBRESOURCE_OBSERVING_ENDPOINT, requestBody, prepareSimpleUserHeaders());
+        MvcResult mvcResult = post(WEBRESOURCE_OBSERVING_ENDPOINT, requestBody, prepareSimpleUserHeaders(userForRequest));
 
         //Assert
         assertHttpStatus(mvcResult, HttpStatus.UNAUTHORIZED);
@@ -114,7 +115,7 @@ class WebResourceObservingAddControllerTest extends BaseControllerTest {
         stubSuccessWebResourceAdd(WebResourceEntityBuilder.DEFAULT_NAME);
 
         //Action
-        MvcResult mvcResult = post(WEBRESOURCE_OBSERVING_ENDPOINT, requestBody, prepareSimpleUserHeaders());
+        MvcResult mvcResult = post(WEBRESOURCE_OBSERVING_ENDPOINT, requestBody, prepareSimpleUserHeaders(userForRequest));
 
         //Assert
         assertHttpStatusOk(mvcResult);
@@ -154,7 +155,7 @@ class WebResourceObservingAddControllerTest extends BaseControllerTest {
         stubSuccessWebResourceAdd(WebResourceEntityBuilder.DEFAULT_NAME);
 
         //Action
-        MvcResult mvcResult = post(WEBRESOURCE_OBSERVING_ENDPOINT, requestBody, prepareSimpleUserHeaders());
+        MvcResult mvcResult = post(WEBRESOURCE_OBSERVING_ENDPOINT, requestBody, prepareSimpleUserHeaders(userForRequest));
 
         //Assert
         assertHttpStatusOk(mvcResult);
@@ -194,7 +195,7 @@ class WebResourceObservingAddControllerTest extends BaseControllerTest {
         stubSuccessCanObserve(WebResourceEntityBuilder.DEFAULT_NAME);
 
         //Action
-        MvcResult mvcResult = post(WEBRESOURCE_OBSERVING_ENDPOINT, requestBody, prepareSimpleUserHeaders());
+        MvcResult mvcResult = post(WEBRESOURCE_OBSERVING_ENDPOINT, requestBody, prepareSimpleUserHeaders(userForRequest));
 
         //Assert
         assertHttpStatusOk(mvcResult);
@@ -239,7 +240,7 @@ class WebResourceObservingAddControllerTest extends BaseControllerTest {
         stubSuccessCanObserve(WebResourceEntityBuilder.DEFAULT_NAME);
 
         //Action
-        MvcResult mvcResult = post(WEBRESOURCE_OBSERVING_ENDPOINT, requestBody, prepareSimpleUserHeaders());
+        MvcResult mvcResult = post(WEBRESOURCE_OBSERVING_ENDPOINT, requestBody, prepareSimpleUserHeaders(userForRequest));
 
         //Assert
         assertHttpStatusOk(mvcResult);
@@ -281,7 +282,7 @@ class WebResourceObservingAddControllerTest extends BaseControllerTest {
                 .willReturn(wireMockResponse(pluginCanObserveResponse)));
 
         //Action
-        MvcResult mvcResult = post(WEBRESOURCE_OBSERVING_ENDPOINT, requestBody, prepareSimpleUserHeaders());
+        MvcResult mvcResult = post(WEBRESOURCE_OBSERVING_ENDPOINT, requestBody, prepareSimpleUserHeaders(userForRequest));
 
         //Assert
         assertHttpStatus(mvcResult, HttpStatus.BAD_REQUEST);
@@ -311,7 +312,7 @@ class WebResourceObservingAddControllerTest extends BaseControllerTest {
                 .willReturn(wireMockResponse(pluginCanObserveResponse)));
 
         //Action
-        MvcResult mvcResult = post(WEBRESOURCE_OBSERVING_ENDPOINT, requestBody, prepareSimpleUserHeaders());
+        MvcResult mvcResult = post(WEBRESOURCE_OBSERVING_ENDPOINT, requestBody, prepareSimpleUserHeaders(userForRequest));
 
         //Assert
         assertHttpStatus(mvcResult, HttpStatus.UNAUTHORIZED);
@@ -344,6 +345,8 @@ class WebResourceObservingAddControllerTest extends BaseControllerTest {
         pluginUsageRepository.save(PluginUsageEntityBuilder.persistedDefaultBuilder()
                 .plugin(pluginRepository.findById(PLUGIN_ID).get())
                 .user(userRepository.findById(USER_ID).get()).build());
+
+        userForRequest = userRepository.findById(USER_ID).get();
     }
 
     private void assertResponse(WebResourceObserving responseDto, WebResourceEntity webResourceEntity) {

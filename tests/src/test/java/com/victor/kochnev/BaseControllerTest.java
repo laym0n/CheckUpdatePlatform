@@ -2,6 +2,12 @@ package com.victor.kochnev;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.victor.kochnev.core.converter.DomainUserMapper;
+import com.victor.kochnev.core.security.entity.UserSecurity;
+import com.victor.kochnev.dal.converter.EntityUserMapper;
+import com.victor.kochnev.dal.entity.UserEntity;
+import com.victor.kochnev.domain.entity.User;
+import com.victor.kochnev.rest.presenters.security.service.JwtService;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Assertions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +27,12 @@ import java.nio.charset.StandardCharsets;
 public abstract class BaseControllerTest extends BaseBootTest {
     @Autowired
     protected MockMvc mvc;
+    @Autowired
+    protected EntityUserMapper entityUserMapper;
+    @Autowired
+    protected DomainUserMapper domainUserMapper;
+    @Autowired
+    protected JwtService jwtService;
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
@@ -74,9 +86,12 @@ public abstract class BaseControllerTest extends BaseBootTest {
         }
     }
 
-    protected HttpHeaders prepareSimpleUserHeaders() {
+    protected HttpHeaders prepareSimpleUserHeaders(UserEntity userEntity) {
+        User user = entityUserMapper.mapToDomain(userEntity);
+        UserSecurity userSecurity = domainUserMapper.mapToSecurityUser(user);
+        String token = jwtService.generateAccessToken(userSecurity);
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add(HttpHeaders.AUTHORIZATION, "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ2aWN0b3JfazAyQG1haWwucnUiLCJpYXQiOjE3MDk0NjQ2MzIsImV4cCI6MTg2NzE0NDYzMn0.H28RAopSE55Opd2Jj8zhrWofMB0lY6_Jprn4r9fZAB_CKJ3YpnYQ4e-RX_j7oE_SnesI9dN4M-qdtUdZQKHA6Q");
+        httpHeaders.add(HttpHeaders.AUTHORIZATION, String.format("Bearer %s", token));
         return httpHeaders;
     }
 

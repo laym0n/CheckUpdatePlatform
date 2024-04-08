@@ -5,10 +5,7 @@ import com.victor.kochnev.api.dto.CreatePluginUsageRequest;
 import com.victor.kochnev.api.dto.DistributionMethod;
 import com.victor.kochnev.api.dto.DistributionPlanTypeEnum;
 import com.victor.kochnev.dal.embeddable.object.EmbeddablePluginDescriptionBuilder;
-import com.victor.kochnev.dal.entity.PluginEntity;
-import com.victor.kochnev.dal.entity.PluginEntityBuilder;
-import com.victor.kochnev.dal.entity.PluginUsageEntity;
-import com.victor.kochnev.dal.entity.UserEntityBuilder;
+import com.victor.kochnev.dal.entity.*;
 import com.victor.kochnev.domain.enums.DistributionPlanType;
 import com.victor.kochnev.domain.enums.PluginStatus;
 import com.victor.kochnev.domain.enums.UserRole;
@@ -29,6 +26,7 @@ class PluginUsageCreateTest extends BaseControllerTest {
     private static final String PLUGIN_USAGE_CREATE_ENDPOINT = "/plugin/usage";
     private UUID USER_ID;
     private UUID PLUGIN_ID;
+    private UserEntity userForRequest;
 
     @Test
     void createPluginUsage_WhenPurchase() {
@@ -38,7 +36,7 @@ class PluginUsageCreateTest extends BaseControllerTest {
         var requestBody = prepareRequest();
 
         //Action
-        MvcResult mvcResult = post(PLUGIN_USAGE_CREATE_ENDPOINT, requestBody, prepareSimpleUserHeaders());
+        MvcResult mvcResult = post(PLUGIN_USAGE_CREATE_ENDPOINT, requestBody, prepareSimpleUserHeaders(userForRequest));
 
         //Assert
         assertHttpStatusOk(mvcResult);
@@ -68,7 +66,7 @@ class PluginUsageCreateTest extends BaseControllerTest {
                 .duration(DistributionMethodBuilder.DEFAULT_DURATION.toString()));
 
         //Action
-        MvcResult mvcResult = post(PLUGIN_USAGE_CREATE_ENDPOINT, requestBody, prepareSimpleUserHeaders());
+        MvcResult mvcResult = post(PLUGIN_USAGE_CREATE_ENDPOINT, requestBody, prepareSimpleUserHeaders(userForRequest));
 
         //Assert
         assertHttpStatusOk(mvcResult);
@@ -99,7 +97,7 @@ class PluginUsageCreateTest extends BaseControllerTest {
                 .duration(DistributionMethodBuilder.DEFAULT_DURATION.plusMinutes(1).toString()));
 
         //Action
-        MvcResult mvcResult = post(PLUGIN_USAGE_CREATE_ENDPOINT, requestBody, prepareSimpleUserHeaders());
+        MvcResult mvcResult = post(PLUGIN_USAGE_CREATE_ENDPOINT, requestBody, prepareSimpleUserHeaders(userForRequest));
 
         //Assert
         assertHttpStatus(mvcResult, HttpStatus.NOT_FOUND);
@@ -119,7 +117,7 @@ class PluginUsageCreateTest extends BaseControllerTest {
         var requestBody = prepareRequest();
 
         //Action
-        MvcResult mvcResult = post(PLUGIN_USAGE_CREATE_ENDPOINT, requestBody, prepareSimpleUserHeaders());
+        MvcResult mvcResult = post(PLUGIN_USAGE_CREATE_ENDPOINT, requestBody, prepareSimpleUserHeaders(userForRequest));
 
         //Assert
         assertHttpStatus(mvcResult, HttpStatus.UNAUTHORIZED);
@@ -146,5 +144,6 @@ class PluginUsageCreateTest extends BaseControllerTest {
                 .description(EmbeddablePluginDescriptionBuilder.defaultBuilder()
                         .distributionMethods(List.of(DistributionMethodBuilder.defaultPurchaseDistribution())).build())
                 .build()).getId();
+        userForRequest = userRepository.findById(USER_ID).get();
     }
 }

@@ -24,7 +24,7 @@ public interface DomainUserMapper {
     UserDto mapToUserDto(User user);
 
     @Mapping(target = "authorities", source = "roles")
-    UserSecurity mapToSecurityUser(User userByEmail);
+    UserSecurity mapToSecurityUser(User user);
 
     @Mapping(target = "authority", expression = "java(\"ROLE_\" + userRole.name())")
     UserAuthoritySecurity mapToGrantedAuthority(UserRole userRole);

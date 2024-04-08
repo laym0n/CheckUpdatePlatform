@@ -25,8 +25,10 @@ app:
   rest:
     security:
       jwt:
-        duration: ${ev.app.rest.security.jwt.duration}
         secret: ${ev.app.rest.security.jwt.secret}
+        access-token-duration: ${ev.app.rest.security.jwt.access-token-duration}
+        refresh-token-duration: ${ev.app.rest.security.jwt.refresh-token-duration}
+        refresh-token-remeber-me-duration: ${ev.app.rest.security.jwt.refresh-token-remeber-me-duration}
   integration:
     mail:
       enabled: true

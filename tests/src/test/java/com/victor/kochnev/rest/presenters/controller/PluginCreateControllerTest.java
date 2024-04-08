@@ -5,6 +5,7 @@ import com.victor.kochnev.api.dto.AddPluginRequest;
 import com.victor.kochnev.api.dto.AddPluginResponse;
 import com.victor.kochnev.api.dto.Plugin;
 import com.victor.kochnev.dal.entity.PluginEntity;
+import com.victor.kochnev.dal.entity.UserEntity;
 import com.victor.kochnev.dal.entity.UserEntityBuilder;
 import com.victor.kochnev.domain.entity.builder.PluginDomainBuilder;
 import com.victor.kochnev.domain.enums.PluginStatus;
@@ -20,6 +21,7 @@ class PluginCreateControllerTest extends BaseControllerTest {
 
     @Autowired
     PasswordEncoder passwordEncoder;
+    UserEntity userForRequest;
 
     @Test
     void successAddPlugin() {
@@ -28,7 +30,7 @@ class PluginCreateControllerTest extends BaseControllerTest {
         var requestBody = prepareAddRequest();
 
         //Action
-        MvcResult mvcResult = post(PLUGIN_ENDPOINT, requestBody, prepareSimpleUserHeaders());
+        MvcResult mvcResult = post(PLUGIN_ENDPOINT, requestBody, prepareSimpleUserHeaders(userForRequest));
 
         //Assert
         assertHttpStatusOk(mvcResult);
@@ -57,6 +59,6 @@ class PluginCreateControllerTest extends BaseControllerTest {
     }
 
     private void prepareDb() {
-        userRepository.save(UserEntityBuilder.defaultBuilder().build()).getId();
+        userForRequest = userRepository.save(UserEntityBuilder.defaultBuilder().build());
     }
 }

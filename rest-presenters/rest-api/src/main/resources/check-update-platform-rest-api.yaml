@@ -47,7 +47,32 @@ paths:
           content:
             'application/json':
               schema:
-                $ref: '#/components/schemas/JwtTokenResponse'
+                $ref: '#/components/schemas/AuthenticateResponse'
+        400:
+          description: неуспешная аутентификация
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ErrorMessageDto'
+
+  /authentication/refresh:
+    post:
+      tags:
+        - Authentication
+      summary: Обновление аутентификации пользователя
+      operationId: authenticationRefresh
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthenticationRefreshRequest'
+      responses:
+        200:
+          description: успешная аутентификация
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/AuthenticateResponse'
         400:
           description: неуспешная аутентификация
           content:
@@ -228,7 +253,7 @@ components:
         format: uuid
 
   securitySchemes:
-    JwtToken:
+    JwtTokenSecurity:
       type: http
       scheme: bearer
       bearerFormat: JWT
@@ -252,21 +277,55 @@ components:
     AuthenticationRequest:
       type: object
       properties:
-        principal:
+        email:
           type: string
-        credentials:
+        password:
           type: string
+        rememberMe:
+          type: boolean
       required:
-        - principal
-        - credentials
+        - email
+        - password
+        - rememberMe
 
-    JwtTokenResponse:
+    AuthenticationRefreshRequest:
       type: object
       properties:
-        token:
+        refreshToken:
           type: string
+        rememberMe:
+          type: boolean
       required:
-        - token
+        - refreshToken
+        - rememberMe
+
+    AuthenticateResponse:
+      type: object
+      properties:
+        jwtToken:
+          $ref: '#/components/schemas/JwtTokenDto'
+        user:
+          $ref: '#/components/schemas/User'
+      required:
+        - jwtToken
+        - user
+
+    JwtTokenDto:
+      type: object
+      properties:
+        accessToken:
+          type: string
+        accessTokenLiveDuration:
+          type: integer
+        refreshToken:
+          type: string
+        refreshTokenLiveDuration:
+          type: integer
+      required:
+        - accessToken
+        - accessTokenLiveDuration
+        - refreshToken
+        - refreshTokenLiveDuration
 
     WebResourceObservingAddRequest:
       type: object
@@ -409,6 +468,30 @@ components:
         - id
         - name
         - baseUrl
+
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        email:
+          type: string
+        roles:
+          type: array
+          items:
+            $ref: "#/components/schemas/UserRoleEnum"
+      required:
+        - id
+        - type
+        - role
+
+    UserRoleEnum:
+      type: string
+      enum:
+        - SIMPLE_USER
+        - EMPLOYEE
+        - ADMIN
 
     WebResource:
       type: object

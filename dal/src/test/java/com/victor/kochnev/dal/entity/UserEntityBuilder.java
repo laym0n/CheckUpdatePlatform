@@ -9,6 +9,7 @@ import java.util.UUID;
 public class UserEntityBuilder {
     public static final String DEFAULT_EMAIL = "victor_k02@mail.ru";
     public static final String DEFAULT_PASSWORD = "$2a$10$LgKxgwMdKMJFEFF8YVeJVu0JK7cwuv/D1PBRxRcACf3XTsWx9g5mi";
+    public static final List<UserRole> DEFAULT_ROLES = List.of(UserRole.SIMPLE_USER);
 
     private UserEntityBuilder() {
     }
@@ -17,7 +18,7 @@ public class UserEntityBuilder {
         return UserEntity.builder()
                 .email(DEFAULT_EMAIL)
                 .password(DEFAULT_PASSWORD)
-                .roles(List.of(UserRole.SIMPLE_USER))
+                .roles(DEFAULT_ROLES)
                 .enabled(true);
     }
 

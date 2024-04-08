@@ -9,9 +9,17 @@ import java.time.Duration;
 @Data
 public class JwtConfigurationProperties {
     /**
-     * Длительность жизни Jwt токена
+     * Длительность жизни Jwt токена доступа
      */
-    private Duration duration;
+    private Duration accessTokenDuration;
+    /**
+     * Длительность жизни Jwt токена обновления доступа
+     */
+    private Duration refreshTokenDuration;
+    /**
+     * Длительность жизни Jwt токена обновления доступа для опции remeberMe
+     */
+    private Duration refreshTokenRemeberMeDuration;
     /**
      * Секрет для генерации Jwt токена
      */

@@ -27,6 +27,7 @@ class WebResourceObservingStopControllerTest extends BaseControllerTest {
     private UUID PLUGIN_ID;
     private UUID WEBRESOURCE_ID;
     private UUID WEBRESOURCE_OBSERVING_ID;
+    private UserEntity userForRequest;
 
     @Test
     void removeWebResourceObserving_WhenUserAndPluginExists() {
@@ -36,7 +37,7 @@ class WebResourceObservingStopControllerTest extends BaseControllerTest {
         String url = String.format(WEBRESOURCE_OBSERVING_STOP_ENDPOINT, WEBRESOURCE_OBSERVING_ID);
 
         //Action
-        MvcResult mvcResult = put(url, null, prepareSimpleUserHeaders());
+        MvcResult mvcResult = put(url, null, prepareSimpleUserHeaders(userForRequest));
 
         //Assert
         assertHttpStatusOk(mvcResult);
@@ -75,7 +76,7 @@ class WebResourceObservingStopControllerTest extends BaseControllerTest {
         String url = String.format(WEBRESOURCE_OBSERVING_STOP_ENDPOINT, WEBRESOURCE_OBSERVING_ID);
 
         //Action
-        MvcResult mvcResult = put(url, null, prepareSimpleUserHeaders());
+        MvcResult mvcResult = put(url, null, prepareSimpleUserHeaders(userForRequest));
 
         //Assert
         assertHttpStatusOk(mvcResult);
@@ -113,7 +114,7 @@ class WebResourceObservingStopControllerTest extends BaseControllerTest {
         String url = String.format(WEBRESOURCE_OBSERVING_STOP_ENDPOINT, WEBRESOURCE_OBSERVING_ID);
 
         //Action
-        MvcResult mvcResult = put(url, null, prepareSimpleUserHeaders());
+        MvcResult mvcResult = put(url, null, prepareSimpleUserHeaders(userForRequest));
 
         //Assert
         assertHttpStatusOk(mvcResult);
@@ -151,7 +152,7 @@ class WebResourceObservingStopControllerTest extends BaseControllerTest {
         String url = String.format(WEBRESOURCE_OBSERVING_STOP_ENDPOINT, notPermittedObservingId);
 
         //Action
-        MvcResult mvcResult = put(url, null, prepareSimpleUserHeaders());
+        MvcResult mvcResult = put(url, null, prepareSimpleUserHeaders(userForRequest));
 
         //Assert
         assertHttpStatus(mvcResult, HttpStatus.FORBIDDEN);
@@ -201,5 +202,6 @@ class WebResourceObservingStopControllerTest extends BaseControllerTest {
                 .webResource(webResourceRepository.findById(WEBRESOURCE_ID).get())
                 .status(ObserveStatus.OBSERVE)
                 .build()).getId();
+        userForRequest = userRepository.findById(USER_ID).get();
     }
 }

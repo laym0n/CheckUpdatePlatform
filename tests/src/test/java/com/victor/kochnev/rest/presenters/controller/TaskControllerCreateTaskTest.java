@@ -6,10 +6,7 @@ import com.victor.kochnev.api.dto.DistributionMethod;
 import com.victor.kochnev.api.dto.DistributionPlanTypeEnum;
 import com.victor.kochnev.api.dto.PluginDescription;
 import com.victor.kochnev.dal.embeddable.object.EmbeddablePluginDescription;
-import com.victor.kochnev.dal.entity.PluginEntity;
-import com.victor.kochnev.dal.entity.PluginEntityBuilder;
-import com.victor.kochnev.dal.entity.TaskEntity;
-import com.victor.kochnev.dal.entity.UserEntityBuilder;
+import com.victor.kochnev.dal.entity.*;
 import com.victor.kochnev.domain.enums.PluginStatus;
 import com.victor.kochnev.domain.enums.TaskType;
 import org.junit.jupiter.api.Test;
@@ -27,6 +24,7 @@ class TaskControllerCreateTaskTest extends BaseControllerTest {
     private final String TASK_CREATE_ENDPOINT = "/task";
     private UUID USER_ID;
     private UUID PLUGIN_ID;
+    private UserEntity userForRequest;
 
     @Test
     void createTaskForInitialize() {
@@ -36,7 +34,7 @@ class TaskControllerCreateTaskTest extends BaseControllerTest {
         var requestBody = prepareRequestBody();
 
         //Action
-        MvcResult mvcResult = post(TASK_CREATE_ENDPOINT, requestBody, prepareSimpleUserHeaders());
+        MvcResult mvcResult = post(TASK_CREATE_ENDPOINT, requestBody, prepareSimpleUserHeaders(userForRequest));
 
         //Assert
         assertHttpStatusOk(mvcResult);
@@ -72,7 +70,7 @@ class TaskControllerCreateTaskTest extends BaseControllerTest {
         var requestBody = prepareRequestBody();
 
         //Action
-        MvcResult mvcResult = post(TASK_CREATE_ENDPOINT, requestBody, prepareSimpleUserHeaders());
+        MvcResult mvcResult = post(TASK_CREATE_ENDPOINT, requestBody, prepareSimpleUserHeaders(userForRequest));
 
         //Assert
         assertHttpStatusOk(mvcResult);
@@ -133,5 +131,6 @@ class TaskControllerCreateTaskTest extends BaseControllerTest {
                 .ownerUser(userRepository.findById(USER_ID).get())
                 .status(PluginStatus.CREATED)
                 .description(null).build()).getId();
+        userForRequest = userRepository.findById(USER_ID).get();
     }
 }

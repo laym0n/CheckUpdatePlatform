@@ -22,6 +22,7 @@ class TaskControllerDecisionMakingTest extends BaseControllerTest {
     private UUID USER_ID;
     private UUID PLUGIN_ID;
     private UUID TASK_ID;
+    private UserEntity userForRequest;
 
     @Test
     void makeApproveDecision() {
@@ -33,7 +34,7 @@ class TaskControllerDecisionMakingTest extends BaseControllerTest {
         String url = String.format(TASK_CREATE_ENDPOINT, TASK_ID);
 
         //Action
-        MvcResult mvcResult = put(url, requestBody, prepareSimpleUserHeaders());
+        MvcResult mvcResult = put(url, requestBody, prepareSimpleUserHeaders(userForRequest));
 
         //Assert
         assertHttpStatusOk(mvcResult);
@@ -58,7 +59,7 @@ class TaskControllerDecisionMakingTest extends BaseControllerTest {
         String url = String.format(TASK_CREATE_ENDPOINT, TASK_ID);
 
         //Action
-        MvcResult mvcResult = put(url, requestBody, prepareSimpleUserHeaders());
+        MvcResult mvcResult = put(url, requestBody, prepareSimpleUserHeaders(userForRequest));
 
         //Assert
         assertHttpStatusOk(mvcResult);
@@ -85,7 +86,7 @@ class TaskControllerDecisionMakingTest extends BaseControllerTest {
         String url = String.format(TASK_CREATE_ENDPOINT, TASK_ID);
 
         //Action
-        MvcResult mvcResult = put(url, requestBody, prepareSimpleUserHeaders());
+        MvcResult mvcResult = put(url, requestBody, prepareSimpleUserHeaders(userForRequest));
 
         //Assert
         assertHttpStatusOk(mvcResult);
@@ -113,7 +114,7 @@ class TaskControllerDecisionMakingTest extends BaseControllerTest {
         String url = String.format(TASK_CREATE_ENDPOINT, TASK_ID);
 
         //Action
-        MvcResult mvcResult = put(url, requestBody, prepareSimpleUserHeaders());
+        MvcResult mvcResult = put(url, requestBody, prepareSimpleUserHeaders(userForRequest));
 
         //Assert
         assertHttpStatusOk(mvcResult);
@@ -134,14 +135,14 @@ class TaskControllerDecisionMakingTest extends BaseControllerTest {
         prepareDb();
         UserEntity user = userRepository.findById(USER_ID).get();
         user.setRoles(List.of(UserRole.SIMPLE_USER));
-        userRepository.save(user);
+        user = userRepository.save(user);
 
         var requestBody = prepareRequest(TaskDecisionEnum.APPROVE);
 
         String url = String.format(TASK_CREATE_ENDPOINT, TASK_ID);
 
         //Action
-        MvcResult mvcResult = post(url, requestBody, prepareSimpleUserHeaders());
+        MvcResult mvcResult = post(url, requestBody, prepareSimpleUserHeaders(user));
 
         //Assert
         assertHttpStatus(mvcResult, HttpStatus.FORBIDDEN);
@@ -168,5 +169,6 @@ class TaskControllerDecisionMakingTest extends BaseControllerTest {
         TASK_ID = taskRepository.save(TaskEntityBuilder.defaultBuilder()
                 .plugin(pluginRepository.findById(PLUGIN_ID).get())
                 .build()).getId();
+        userForRequest = userRepository.findById(USER_ID).get();
     }
 }
