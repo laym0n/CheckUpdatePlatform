@@ -1,8 +1,14 @@
 package com.victor.kochnev.rest.presenters.security.service;
 
-import com.victor.kochnev.api.dto.*;
+import com.victor.kochnev.core.dto.domain.entity.UserInfoDto;
 import com.victor.kochnev.core.security.entity.UserSecurity;
 import com.victor.kochnev.core.security.service.user.SecurityUserService;
+import com.victor.kochnev.domain.enums.UserRole;
+import com.victor.kochnev.rest.presenters.configuration.JwtConfigurationProperties;
+import com.victor.kochnev.rest.presenters.dto.AuthenticateResponse;
+import com.victor.kochnev.rest.presenters.dto.AuthenticationRefreshRequest;
+import com.victor.kochnev.rest.presenters.dto.AuthenticationRequest;
+import com.victor.kochnev.rest.presenters.dto.JwtTokenDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,6 +22,7 @@ import java.security.InvalidParameterException;
 public class AuthenticationServiceImpl implements AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
+    private final JwtConfigurationProperties jwtProperties;
     private final SecurityUserService securityUserService;
 
     @Override
@@ -45,16 +52,19 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private AuthenticateResponse getAuthenticateResponse(Boolean rememberMe, UserSecurity userSecurity) {
         String accessToken = jwtService.generateAccessToken(userSecurity);
         String refreshToken = jwtService.generateRefreshToken(userSecurity, rememberMe);
-        return new AuthenticateResponse()
-                .jwtToken(new JwtTokenDto()
-                        .accessToken(accessToken)
-                        .refreshToken(refreshToken)
-                )
-                .user(new UserDto()
-                        .id(userSecurity.getId())
-                        .email(userSecurity.getUsername())
-                        .roles(userSecurity.getAuthorities().stream()
-                                .map(authority -> UserRoleEnum.fromValue(authority.getAuthority().substring(5)))
-                                .toList()));
+
+        UserInfoDto userInfoDto = new UserInfoDto();
+        userInfoDto.setId(userSecurity.getId());
+        userInfoDto.setEmail(userSecurity.getUsername());
+        userInfoDto.setRoles(userSecurity.getAuthorities().stream()
+                .map(authority -> UserRole.valueOf(authority.getAuthority().substring(5)))
+                .toList());
+
+        JwtTokenDto jwtTokenDto = new JwtTokenDto();
+        jwtTokenDto.setAccessToken(accessToken);
+        jwtTokenDto.setRefreshToken(refreshToken);
+        jwtTokenDto.setAccessTokenLiveDuration(jwtProperties.getAccessTokenDuration());
+        jwtTokenDto.setRefreshTokenLiveDuration(jwtProperties.getRefreshTokenDuration());
+        return new AuthenticateResponse(jwtTokenDto, userInfoDto);
     }
 }

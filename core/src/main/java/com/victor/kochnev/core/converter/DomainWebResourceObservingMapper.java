@@ -2,7 +2,10 @@ package com.victor.kochnev.core.converter;
 
 import com.victor.kochnev.core.dto.domain.entity.WebResourceObservingDomainDto;
 import com.victor.kochnev.domain.entity.WebResourceObserving;
-import org.mapstruct.*;
+import org.mapstruct.InjectionStrategy;
+import org.mapstruct.Mapper;
+import org.mapstruct.NullValuePropertyMappingStrategy;
+import org.mapstruct.ReportingPolicy;
 
 @Mapper(uses = DomainWebResourceMapper.class,
         injectionStrategy = InjectionStrategy.CONSTRUCTOR,
@@ -11,6 +14,5 @@ import org.mapstruct.*;
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface DomainWebResourceObservingMapper {
 
-    @Mapping(target = "webResourceDto", source = "webResource")
     WebResourceObservingDomainDto mapToDto(WebResourceObserving webResourceObserving);
 }

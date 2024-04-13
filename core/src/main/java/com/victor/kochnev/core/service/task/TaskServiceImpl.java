@@ -17,6 +17,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Component
 @RequiredArgsConstructor
 @Slf4j
@@ -39,8 +41,8 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     @Transactional
-    public TaskDomainDto makeDecision(MakeDecisionRequestDto requestDto) {
-        Task task = taskRepository.getById(requestDto.getTaskId());
+    public TaskDomainDto makeDecision(UUID taskId, MakeDecisionRequestDto requestDto) {
+        Task task = taskRepository.getById(taskId);
         if (requestDto.getDecision() == TaskDecision.APPROVE) {
             Plugin plugin = task.getPlugin();
             plugin.setDescription(task.getDescription());

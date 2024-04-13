@@ -1,8 +1,7 @@
 package com.victor.kochnev.rest.presenters.controller;
 
 import com.victor.kochnev.BaseControllerTest;
-import com.victor.kochnev.api.dto.MakeDecisionRequest;
-import com.victor.kochnev.api.dto.TaskDecisionEnum;
+import com.victor.kochnev.core.dto.request.MakeDecisionRequestDto;
 import com.victor.kochnev.dal.entity.*;
 import com.victor.kochnev.domain.enums.PluginStatus;
 import com.victor.kochnev.domain.enums.TaskDecision;
@@ -29,7 +28,7 @@ class TaskControllerDecisionMakingTest extends BaseControllerTest {
         //Assign
         prepareDb();
 
-        var requestBody = prepareRequest(TaskDecisionEnum.APPROVE);
+        var requestBody = prepareRequest(TaskDecision.APPROVE);
 
         String url = String.format(TASK_CREATE_ENDPOINT, TASK_ID);
 
@@ -54,7 +53,7 @@ class TaskControllerDecisionMakingTest extends BaseControllerTest {
         //Assign
         prepareDb();
 
-        var requestBody = prepareRequest(TaskDecisionEnum.REJECT);
+        var requestBody = prepareRequest(TaskDecision.REJECT);
 
         String url = String.format(TASK_CREATE_ENDPOINT, TASK_ID);
 
@@ -81,7 +80,7 @@ class TaskControllerDecisionMakingTest extends BaseControllerTest {
         pluginEntity.setStatus(PluginStatus.ACTIVE);
         pluginRepository.save(pluginEntity);
 
-        var requestBody = prepareRequest(TaskDecisionEnum.APPROVE);
+        var requestBody = prepareRequest(TaskDecision.APPROVE);
 
         String url = String.format(TASK_CREATE_ENDPOINT, TASK_ID);
 
@@ -109,7 +108,7 @@ class TaskControllerDecisionMakingTest extends BaseControllerTest {
         pluginEntity.setStatus(PluginStatus.ACTIVE);
         pluginRepository.save(pluginEntity);
 
-        var requestBody = prepareRequest(TaskDecisionEnum.REJECT);
+        var requestBody = prepareRequest(TaskDecision.REJECT);
 
         String url = String.format(TASK_CREATE_ENDPOINT, TASK_ID);
 
@@ -137,7 +136,7 @@ class TaskControllerDecisionMakingTest extends BaseControllerTest {
         user.setRoles(List.of(UserRole.SIMPLE_USER));
         user = userRepository.save(user);
 
-        var requestBody = prepareRequest(TaskDecisionEnum.APPROVE);
+        var requestBody = prepareRequest(TaskDecision.APPROVE);
 
         String url = String.format(TASK_CREATE_ENDPOINT, TASK_ID);
 
@@ -151,8 +150,8 @@ class TaskControllerDecisionMakingTest extends BaseControllerTest {
         assertNull(taskEntity.getDecision());
     }
 
-    private MakeDecisionRequest prepareRequest(TaskDecisionEnum decision) {
-        var requestBody = new MakeDecisionRequest();
+    private MakeDecisionRequestDto prepareRequest(TaskDecision decision) {
+        var requestBody = new MakeDecisionRequestDto();
         requestBody.setDecision(decision);
         requestBody.setComment(COMMENT);
         return requestBody;

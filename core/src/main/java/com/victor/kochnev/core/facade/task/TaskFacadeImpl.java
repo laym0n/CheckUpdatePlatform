@@ -13,6 +13,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Component
 @RequiredArgsConstructor
 public class TaskFacadeImpl implements TaskFacade {
@@ -33,7 +35,7 @@ public class TaskFacadeImpl implements TaskFacade {
     }
 
     @Override
-    public TaskDomainDto makeDecision(MakeDecisionRequestDto requestDto) {
-        return taskService.makeDecision(requestDto);
+    public TaskDomainDto makeDecision(UUID taskId, MakeDecisionRequestDto requestDto) {
+        return taskService.makeDecision(taskId, requestDto);
     }
 }

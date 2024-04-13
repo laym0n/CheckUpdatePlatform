@@ -1,13 +1,16 @@
 package com.victor.kochnev.rest.presenters.controller;
 
 import com.victor.kochnev.BaseControllerTest;
-import com.victor.kochnev.api.dto.*;
 import com.victor.kochnev.core.security.entity.UserSecurity;
 import com.victor.kochnev.dal.entity.UserEntity;
 import com.victor.kochnev.dal.entity.UserEntityBuilder;
 import com.victor.kochnev.domain.entity.User;
 import com.victor.kochnev.domain.entity.builder.UserDomainBuilder;
 import com.victor.kochnev.domain.enums.UserRole;
+import com.victor.kochnev.rest.presenters.dto.AuthenticateResponse;
+import com.victor.kochnev.rest.presenters.dto.AuthenticationRefreshRequest;
+import com.victor.kochnev.rest.presenters.dto.AuthenticationRequest;
+import com.victor.kochnev.rest.presenters.dto.ErrorMessageDto;
 import com.victor.kochnev.rest.presenters.security.service.JwtService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +56,7 @@ class AuthenticationControllerTest extends BaseControllerTest {
         assertNotNull(responseDto.getUser());
         assertEquals(userEntity.getId(), responseDto.getUser().getId());
         assertEquals(REQUEST_EMAIL, responseDto.getUser().getEmail());
-        assertEquals(userEntity.getRoles().stream().map(UserRole::name).toList(), responseDto.getUser().getRoles().stream().map(UserRoleEnum::name).toList());
+        assertEquals(userEntity.getRoles().stream().map(UserRole::name).toList(), responseDto.getUser().getRoles().stream().map(UserRole::name).toList());
 
         UserSecurity user = jwtService.getUserFromToken(responseDto.getJwtToken().getAccessToken());
         assertEquals(userEntity.getId(), user.getId());
@@ -88,7 +91,7 @@ class AuthenticationControllerTest extends BaseControllerTest {
         assertNotNull(responseDto.getUser());
         assertEquals(userEntity.getId(), responseDto.getUser().getId());
         assertEquals(REQUEST_EMAIL, responseDto.getUser().getEmail());
-        assertEquals(userEntity.getRoles().stream().map(UserRole::name).toList(), responseDto.getUser().getRoles().stream().map(UserRoleEnum::name).toList());
+        assertEquals(userEntity.getRoles().stream().map(UserRole::name).toList(), responseDto.getUser().getRoles().stream().map(UserRole::name).toList());
 
         UserSecurity user = jwtService.getUserFromToken(responseDto.getJwtToken().getAccessToken());
         assertEquals(userEntity.getId(), user.getId());

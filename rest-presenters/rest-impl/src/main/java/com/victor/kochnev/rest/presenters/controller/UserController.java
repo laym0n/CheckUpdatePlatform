@@ -1,15 +1,17 @@
 package com.victor.kochnev.rest.presenters.controller;
 
-import com.victor.kochnev.api.dto.UserRegistrationRequest;
-import com.victor.kochnev.api.rest.UserApi;
 import com.victor.kochnev.core.dto.request.UserRegistrationRequestDto;
 import com.victor.kochnev.core.facade.user.UserFacade;
-import com.victor.kochnev.rest.presenters.converter.RestUserRequestMapper;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -17,18 +19,18 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 @RequiredArgsConstructor
 @Slf4j
-public class UserController implements UserApi {
+@Tag(name = "User")
+public class UserController {
     private static final String USER_REGISTER_ENDPOINT = "POST /user/register";
     private final UserFacade userFacade;
-    private final RestUserRequestMapper restUserRequestMapper;
 
-    @Override
-    public ResponseEntity<Void> register(UserRegistrationRequest requestBody) {
+    @PostMapping("/user/register")
+    @Operation(operationId = "register")
+    public ResponseEntity<Void> register(@Valid @RequestBody UserRegistrationRequestDto requestBody) {
         log.info("Request: {}", USER_REGISTER_ENDPOINT);
         log.debug("Request: {} {}", USER_REGISTER_ENDPOINT, requestBody);
 
-        UserRegistrationRequestDto registrationRequest = restUserRequestMapper.mapToCoreRequest(requestBody);
-        userFacade.registerUser(registrationRequest);
+        userFacade.registerUser(requestBody);
 
         log.info("Request: {} proccesed", USER_REGISTER_ENDPOINT);
         return ResponseEntity.ok().build();

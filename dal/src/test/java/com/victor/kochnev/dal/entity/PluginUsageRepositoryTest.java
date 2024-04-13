@@ -48,9 +48,9 @@ class PluginUsageRepositoryTest extends BaseBootTest {
         PluginUsage pluginUsage1 = actualList.stream().filter(usage -> usage.getId().equals(pluginUsageId1)).findFirst().get();
         assertNotNull(pluginUsage1);
         assertEquals(pluginUsageId1, pluginUsage1.getId());
-        assertEquals(DistributionPlanType.PURCHASE, pluginUsage1.getDistributionMethod().type());
-        assertNull(pluginUsage1.getDistributionMethod().duration());
-        assertEquals(0, EmbeddableDistributionMethodBuilder.DEFAULT_COST.compareTo(pluginUsage1.getDistributionMethod().cost()));
+        assertEquals(DistributionPlanType.PURCHASE, pluginUsage1.getDistributionMethod().getType());
+        assertNull(pluginUsage1.getDistributionMethod().getDuration());
+        assertEquals(0, EmbeddableDistributionMethodBuilder.DEFAULT_COST.compareTo(pluginUsage1.getDistributionMethod().getCost()));
         assertNull(pluginUsage1.getExpiredDate());
 
         PluginUsage pluginUsage2 = actualList.stream().filter(usage -> usage.getId().equals(pluginUsageId2)).findFirst().get();

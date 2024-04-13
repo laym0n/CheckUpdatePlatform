@@ -1,23 +1,24 @@
-package com.victor.kochnev.core.dto.request;
+package com.victor.kochnev.rest.presenters.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserRegistrationRequestDto {
+public class AuthenticationRequest {
     @JsonProperty("email")
     @Email
-    @NotBlank
+    @NotNull
     private String email;
     @JsonProperty("password")
-    @NotBlank
+    @NotNull
     private String password;
+    @JsonProperty("rememberMe")
+    private Boolean rememberMe;
 }
+

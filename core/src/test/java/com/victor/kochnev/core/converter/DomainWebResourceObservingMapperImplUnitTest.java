@@ -37,7 +37,7 @@ class DomainWebResourceObservingMapperImplUnitTest extends BaseCoreUnitTest {
         WebResourceObservingDomainDto webResourceObservingDomainDto = domainWebResourceObservingMapper.mapToDto(webResourceObserving);
 
         //Assert
-        WebResourceDomainDto webResourceDomainDto = webResourceObservingDomainDto.getWebResourceDto();
+        WebResourceDomainDto webResourceDomainDto = webResourceObservingDomainDto.getWebResource();
         assertNotNull(webResourceDomainDto);
         assertEquals(WebResourceDomainBuilder.DEFAULT_NAME, webResourceDomainDto.getName());
 

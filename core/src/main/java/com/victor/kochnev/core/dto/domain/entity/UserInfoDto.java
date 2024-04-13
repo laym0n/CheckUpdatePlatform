@@ -1,26 +1,29 @@
 package com.victor.kochnev.core.dto.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.victor.kochnev.domain.enums.UserRole;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.UUID;
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PluginDomainDto {
+public class UserInfoDto {
     @JsonProperty("id")
     @NotNull
     private UUID id;
-    @JsonProperty("name")
+    @JsonProperty("email")
+    @Email
     @NotNull
-    private String name;
-    @JsonProperty("baseUrl")
+    private String email;
+    @JsonProperty("roles")
     @NotNull
-    private String baseUrl;
+    private List<UserRole> roles;
 }
+

@@ -1,18 +1,19 @@
 package com.victor.kochnev.rest.presenters.controller;
 
-import com.victor.kochnev.api.dto.AddPluginRequest;
-import com.victor.kochnev.api.dto.AddPluginResponse;
-import com.victor.kochnev.api.rest.PluginApi;
 import com.victor.kochnev.core.dto.request.AddPluginRequestDto;
 import com.victor.kochnev.core.dto.response.AddPluginResponseDto;
 import com.victor.kochnev.core.facade.plugin.PluginFacade;
-import com.victor.kochnev.rest.presenters.converter.RestPluginDtoMapper;
-import com.victor.kochnev.rest.presenters.converter.RestPluginRequestMapper;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -20,22 +21,21 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 @RequiredArgsConstructor
 @Slf4j
-public class PluginController implements PluginApi {
+@Tag(name = "Plugin")
+public class PluginController {
     private static final String CREATE_PLUGIN_ENDPOINT = "POST /plugin";
     private final PluginFacade pluginFacade;
-    private final RestPluginRequestMapper requestMapper;
-    private final RestPluginDtoMapper restPluginDtoMapper;
 
-    @Override
-    public ResponseEntity<AddPluginResponse> createPlugin(AddPluginRequest requestBody) {
+    @PostMapping("/plugin")
+    @SecurityRequirement(name = "bearerAuth")
+    @Operation(operationId = "createPlugin")
+    public ResponseEntity<AddPluginResponseDto> createPlugin(@Valid @RequestBody AddPluginRequestDto request) {
         log.info("Request: {}", CREATE_PLUGIN_ENDPOINT);
-        log.debug("Request: {} {}", CREATE_PLUGIN_ENDPOINT, requestBody);
+        log.debug("Request: {} {}", CREATE_PLUGIN_ENDPOINT, request);
 
-        AddPluginRequestDto requestDto = requestMapper.mapToCoreRequest(requestBody);
-        AddPluginResponseDto addPluginResponseDto = pluginFacade.addPlugin(requestDto);
-        var responseBody = restPluginDtoMapper.mapToRestDto(addPluginResponseDto);
+        var responseDto = pluginFacade.addPlugin(request);
 
-        log.info("Request: {} proccesed {}", CREATE_PLUGIN_ENDPOINT, addPluginResponseDto);
-        return ResponseEntity.ok(responseBody);
+        log.info("Request: {} proccesed {}", CREATE_PLUGIN_ENDPOINT, responseDto);
+        return ResponseEntity.ok(responseDto);
     }
 }

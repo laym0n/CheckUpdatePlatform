@@ -23,7 +23,8 @@ public class AuthorizationServiceImpl implements AuthorizationService {
     private final PluginRepository pluginRepository;
 
     @Override
-    public boolean verifyUserCanUsePlugin(UUID pluginId, UUID userId) {
+    public boolean verifyCurrentUserCanUsePlugin(UUID pluginId) {
+        UUID userId = securityUserService.getCurrentUser().getId();
         List<PluginUsage> actualPluginUsageList = pluginUsageRepository.findPluginUsageWithExpiredDateAfterOrNull(userId, pluginId, ZonedDateTime.now());
         Optional<PluginUsage> optionalPluginUsage = actualPluginUsageList.stream().findFirst();
         if (optionalPluginUsage.isEmpty()) {

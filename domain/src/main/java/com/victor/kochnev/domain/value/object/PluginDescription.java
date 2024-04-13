@@ -1,10 +1,11 @@
 package com.victor.kochnev.domain.value.object;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-import java.util.Collection;
+import java.util.List;
 
 /**
  * Описание плагина
@@ -16,13 +17,16 @@ public class PluginDescription {
     /**
      * Подробное описание плагина
      */
+    @JsonProperty("specificDescription")
     private PluginSpecificDescription specificDescription;
     /**
      * Путь до логотипа плагина
      */
+    @JsonProperty("logoPath")
     private String logoPath;
     /**
      * Способы распространения плагина
      */
-    private Collection<DistributionMethod> distributionMethods;
+    @JsonProperty("distributionMethods")
+    private List<DistributionMethod> distributionMethods;
 }

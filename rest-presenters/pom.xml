@@ -17,11 +17,6 @@
         <dependencies>
             <dependency>
                 <groupId>com.victor.kochnev</groupId>
-                <artifactId>rest-api</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.victor.kochnev</groupId>
                 <artifactId>rest-impl</artifactId>
                 <version>${revision}</version>
             </dependency>
@@ -29,7 +24,6 @@
     </dependencyManagement>
 
     <modules>
-        <module>rest-api</module>
         <module>rest-impl</module>
     </modules>
 </project>

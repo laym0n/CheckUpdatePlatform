@@ -2,9 +2,8 @@ package com.victor.kochnev.rest.presenters.controller;
 
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.victor.kochnev.BaseControllerTest;
-import com.victor.kochnev.api.dto.WebResourceObservingAddRequest;
-import com.victor.kochnev.api.dto.WebResourceObservingAddRequestBuilder;
-import com.victor.kochnev.api.dto.WebResourceObservingDto;
+import com.victor.kochnev.core.dto.domain.entity.WebResourceObservingDomainDto;
+import com.victor.kochnev.core.dto.request.AddWebResourceForObservingRequestDto;
 import com.victor.kochnev.dal.embeddable.object.EmbeddableDistributionMethodBuilder;
 import com.victor.kochnev.dal.entity.*;
 import com.victor.kochnev.domain.enums.ObserveStatus;
@@ -55,7 +54,7 @@ class WebResourceObservingAddControllerTest extends BaseControllerTest {
         var observingEntity = optionalObservingEntity.get();
         assertWebResourceObservingEntity(observingEntity);
 
-        var responseDto = getResponseDto(mvcResult, WebResourceObservingDto.class);
+        var responseDto = getResponseDto(mvcResult, WebResourceObservingDomainDto.class);
         assertNotNull(responseDto);
 
         assertResponse(responseDto, webResourceEntity);
@@ -132,7 +131,7 @@ class WebResourceObservingAddControllerTest extends BaseControllerTest {
         var observingEntity = optionalObservingEntity.get();
         assertWebResourceObservingEntity(observingEntity);
 
-        var responseDto = getResponseDto(mvcResult, WebResourceObservingDto.class);
+        var responseDto = getResponseDto(mvcResult, WebResourceObservingDomainDto.class);
         assertNotNull(responseDto);
 
         assertResponse(responseDto, webResourceEntity);
@@ -173,7 +172,7 @@ class WebResourceObservingAddControllerTest extends BaseControllerTest {
         assertEquals(observingId, observingEntity.getId());
         assertWebResourceObservingEntity(observingEntity);
 
-        var responseDto = getResponseDto(mvcResult, WebResourceObservingDto.class);
+        var responseDto = getResponseDto(mvcResult, WebResourceObservingDomainDto.class);
         assertNotNull(responseDto);
 
         assertResponse(responseDto, webResourceEntity);
@@ -213,7 +212,7 @@ class WebResourceObservingAddControllerTest extends BaseControllerTest {
         assertEquals(observingId, observingEntity.getId());
         assertWebResourceObservingEntity(observingEntity);
 
-        var responseDto = getResponseDto(mvcResult, WebResourceObservingDto.class);
+        var responseDto = getResponseDto(mvcResult, WebResourceObservingDomainDto.class);
         assertNotNull(responseDto);
 
         assertResponse(responseDto, webResourceEntity);
@@ -257,7 +256,7 @@ class WebResourceObservingAddControllerTest extends BaseControllerTest {
         var observingEntity = optionalObservingEntity.get();
         assertWebResourceObservingEntity(observingEntity);
 
-        var responseDto = getResponseDto(mvcResult, WebResourceObservingDto.class);
+        var responseDto = getResponseDto(mvcResult, WebResourceObservingDomainDto.class);
         assertNotNull(responseDto);
 
         assertResponse(responseDto, webResourceEntity);
@@ -320,9 +319,8 @@ class WebResourceObservingAddControllerTest extends BaseControllerTest {
         assertHttpStatus(mvcResult, HttpStatus.UNAUTHORIZED);
     }
 
-    private WebResourceObservingAddRequest prepareAddRequest() {
-        return WebResourceObservingAddRequestBuilder.defaultRequest()
-                .pluginId(PLUGIN_ID);
+    private AddWebResourceForObservingRequestDto prepareAddRequest() {
+        return new AddWebResourceForObservingRequestDto(PLUGIN_ID, CanObserveResponseBuilder.DEFAULT_WEB_RESOURCE.getDescription());
     }
 
     private void stubSuccessCanObserve(String expectedName) {
@@ -351,8 +349,8 @@ class WebResourceObservingAddControllerTest extends BaseControllerTest {
         userForRequest = userRepository.findById(USER_ID).get();
     }
 
-    private void assertResponse(WebResourceObservingDto responseDto, WebResourceEntity webResourceEntity) {
-        var webResourceDto = responseDto.getWebResourceDto();
+    private void assertResponse(WebResourceObservingDomainDto responseDto, WebResourceEntity webResourceEntity) {
+        var webResourceDto = responseDto.getWebResource();
         assertNotNull(webResourceDto);
         assertEquals(webResourceEntity.getId(), webResourceDto.getId());
         assertEquals(CanObserveResponseBuilder.DEFAULT_WEB_RESOURCE.getName(), webResourceDto.getName());
@@ -360,7 +358,7 @@ class WebResourceObservingAddControllerTest extends BaseControllerTest {
 
         var observeSettings = responseDto.getObserveSettings();
         assertNotNull(observeSettings);
-        assertEquals(true, observeSettings.getNeedNotify());
+        assertTrue(observeSettings.needNotify());
     }
 
     private void assertWebResourceEntity(WebResourceEntity webResourceEntity) {

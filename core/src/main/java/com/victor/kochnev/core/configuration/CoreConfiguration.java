@@ -1,5 +1,8 @@
 package com.victor.kochnev.core.configuration;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.victor.kochnev.core.CoreBeanScanMarker;
 import com.victor.kochnev.core.converter.DomainUserMapper;
 import com.victor.kochnev.core.security.service.plugin.PluginSecurityService;
@@ -75,5 +78,12 @@ public class CoreConfiguration {
     @Bean
     public AuthenticationManager authenticationManager(List<AuthenticationProvider> authenticationProviderList) {
         return new ProviderManager(authenticationProviderList);
+    }
+
+    @Bean
+    public ObjectMapper objectMapper() {
+        return JsonMapper.builder()
+                .addModule(new JavaTimeModule())
+                .build();
     }
 }

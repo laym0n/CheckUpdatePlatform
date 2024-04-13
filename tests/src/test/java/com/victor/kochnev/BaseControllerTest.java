@@ -2,6 +2,7 @@ package com.victor.kochnev;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.victor.kochnev.core.converter.DomainUserMapper;
 import com.victor.kochnev.core.security.entity.UserSecurity;
 import com.victor.kochnev.dal.converter.EntityUserMapper;
@@ -34,7 +35,8 @@ public abstract class BaseControllerTest extends BaseBootTest {
     @Autowired
     protected JwtService jwtService;
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private ObjectMapper objectMapper = new ObjectMapper()
+            .registerModule(new JavaTimeModule());
 
     @SneakyThrows
     public MvcResult post(String uri, Object body) {

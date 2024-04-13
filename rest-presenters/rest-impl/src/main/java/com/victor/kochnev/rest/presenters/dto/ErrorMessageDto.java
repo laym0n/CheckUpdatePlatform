@@ -1,21 +1,17 @@
-package com.victor.kochnev.core.dto.request;
+package com.victor.kochnev.rest.presenters.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AddPluginRequestDto {
-    @JsonProperty("name")
+public class ErrorMessageDto {
+    @JsonProperty("message")
     @NotNull
-    private String name;
-    @JsonProperty("baseUrl")
-    @NotNull
-    private String baseUrl;
+    private String message;
 }
+

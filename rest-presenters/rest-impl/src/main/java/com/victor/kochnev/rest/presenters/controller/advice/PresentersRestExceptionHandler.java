@@ -1,11 +1,11 @@
 package com.victor.kochnev.rest.presenters.controller.advice;
 
-import com.victor.kochnev.api.dto.ErrorMessageDto;
 import com.victor.kochnev.core.exception.PluginUsageNotPermittedException;
 import com.victor.kochnev.core.exception.ResourceDescriptionParseException;
 import com.victor.kochnev.core.exception.ResourceNotFoundException;
 import com.victor.kochnev.core.exception.UserRegistrationException;
 import com.victor.kochnev.rest.presenters.controller.ControllerScanMarker;
+import com.victor.kochnev.rest.presenters.dto.ErrorMessageDto;
 import io.jsonwebtoken.JwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -36,7 +36,7 @@ public class PresentersRestExceptionHandler extends ResponseEntityExceptionHandl
     public ResponseEntity<Object> handleUserAuthorizationException(Exception ex, WebRequest request) {
         log.error(ExceptionUtils.getMessage(ex), ex);
         return ResponseEntity.status(HttpStatusCode.valueOf(400))
-                .body(new ErrorMessageDto().message("Проваленная аутентификация"));
+                .body(new ErrorMessageDto("Проваленная аутентификация"));
     }
 
     @ExceptionHandler({AccessDeniedException.class})
@@ -44,7 +44,7 @@ public class PresentersRestExceptionHandler extends ResponseEntityExceptionHandl
         String msg = ExceptionUtils.getMessage(ex);
         log.error(msg, ex);
         return ResponseEntity.status(HttpStatusCode.valueOf(401))
-                .body(new ErrorMessageDto().message(msg));
+                .body(new ErrorMessageDto(msg));
     }
 
     @ExceptionHandler({ResourceDescriptionParseException.class})
@@ -52,7 +52,7 @@ public class PresentersRestExceptionHandler extends ResponseEntityExceptionHandl
         String msg = ExceptionUtils.getMessage(ex);
         log.error(msg, ex);
         return ResponseEntity.status(HttpStatusCode.valueOf(400))
-                .body(new ErrorMessageDto().message(msg));
+                .body(new ErrorMessageDto(msg));
     }
 
     @ExceptionHandler({ResourceNotFoundException.class})
@@ -60,7 +60,7 @@ public class PresentersRestExceptionHandler extends ResponseEntityExceptionHandl
         String msg = ExceptionUtils.getMessage(ex);
         log.error(msg, ex);
         return ResponseEntity.status(HttpStatusCode.valueOf(404))
-                .body(new ErrorMessageDto().message(msg));
+                .body(new ErrorMessageDto(msg));
     }
 
     @ExceptionHandler({PluginUsageNotPermittedException.class})
@@ -68,7 +68,7 @@ public class PresentersRestExceptionHandler extends ResponseEntityExceptionHandl
         String msg = ExceptionUtils.getMessage(ex);
         log.error(msg, ex);
         return ResponseEntity.status(HttpStatusCode.valueOf(401))
-                .body(new ErrorMessageDto().message(msg));
+                .body(new ErrorMessageDto(msg));
     }
 
     @ExceptionHandler(Exception.class)

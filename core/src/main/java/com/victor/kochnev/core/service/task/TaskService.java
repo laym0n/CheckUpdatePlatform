@@ -5,8 +5,10 @@ import com.victor.kochnev.core.dto.request.CreateTaskRequestDto;
 import com.victor.kochnev.core.dto.request.MakeDecisionRequestDto;
 import com.victor.kochnev.domain.enums.TaskType;
 
+import java.util.UUID;
+
 public interface TaskService {
     TaskDomainDto create(CreateTaskRequestDto requestDto, TaskType type);
 
-    TaskDomainDto makeDecision(MakeDecisionRequestDto requestDto);
+    TaskDomainDto makeDecision(UUID taskId, MakeDecisionRequestDto requestDto);
 }

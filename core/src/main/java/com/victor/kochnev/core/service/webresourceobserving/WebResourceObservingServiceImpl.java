@@ -6,6 +6,7 @@ import com.victor.kochnev.core.dto.plugin.WebResourcePluginDto;
 import com.victor.kochnev.core.dto.request.AddWebResourceForObservingRequestDto;
 import com.victor.kochnev.core.repository.UserRepository;
 import com.victor.kochnev.core.repository.WebResourceObservingRepository;
+import com.victor.kochnev.core.security.service.user.SecurityUserService;
 import com.victor.kochnev.core.service.webresource.WebResourceService;
 import com.victor.kochnev.domain.entity.WebResource;
 import com.victor.kochnev.domain.entity.WebResourceObserving;
@@ -28,13 +29,14 @@ public class WebResourceObservingServiceImpl implements WebResourceObservingServ
     private final DomainWebResourceObservingMapper webResourceObservingMapper;
     private final WebResourceObservingRepository observingRepository;
     private final WebResourceService webResourceService;
+    private final SecurityUserService securityUserService;
     private final UserRepository userRepository;
 
     @Override
     @Transactional
     public WebResourceObservingDomainDto addObservingCascade(WebResourcePluginDto webResourcePluginDto, AddWebResourceForObservingRequestDto request) {
         UUID pluginId = request.getPluginId();
-        UUID userId = request.getUserId();
+        UUID userId = securityUserService.getCurrentUser().getId();
         WebResource webResource = webResourceService.updateOrCreate(pluginId, webResourcePluginDto, ObserveStatus.OBSERVE);
         UUID webResourceId = webResource.getId();
         Optional<WebResourceObserving> webResourceObservingOptional = observingRepository.findByWebResourceIdAndUserId(webResourceId, userId);

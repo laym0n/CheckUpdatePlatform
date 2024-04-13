@@ -60,6 +60,24 @@
         </dependency>
     </dependencies>
 
+    <profiles>
+        <profile>
+            <id>swagger</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.springdoc</groupId>
+                    <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.springdoc</groupId>
+                    <artifactId>springdoc-openapi-ui</artifactId>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
+
     <build>
         <plugins>
             <plugin>

@@ -1,14 +1,13 @@
 package com.victor.kochnev.rest.presenters.controller;
 
 import com.victor.kochnev.BaseControllerTest;
-import com.victor.kochnev.api.dto.CreatePluginUsageRequest;
-import com.victor.kochnev.api.dto.DistributionMethodDto;
-import com.victor.kochnev.api.dto.DistributionPlanTypeEnum;
+import com.victor.kochnev.core.dto.request.CreatePluginUsageRequestDto;
 import com.victor.kochnev.dal.embeddable.object.EmbeddablePluginDescriptionBuilder;
 import com.victor.kochnev.dal.entity.*;
 import com.victor.kochnev.domain.enums.DistributionPlanType;
 import com.victor.kochnev.domain.enums.PluginStatus;
 import com.victor.kochnev.domain.enums.UserRole;
+import com.victor.kochnev.domain.value.object.DistributionMethod;
 import com.victor.kochnev.domain.value.object.DistributionMethodBuilder;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
@@ -59,11 +58,13 @@ class PluginUsageCreateTest extends BaseControllerTest {
         pluginEntity.getDescription().setDistributionMethods(List.of(DistributionMethodBuilder.defaultSubscribeDistribution()));
         pluginRepository.save(pluginEntity);
 
+        var distributionMethod = new DistributionMethod();
+        distributionMethod.setType(DistributionPlanType.SUBSCRIBE);
+        distributionMethod.setCost(DistributionMethodBuilder.DEFAULT_COST);
+        distributionMethod.setDuration(DistributionMethodBuilder.DEFAULT_DURATION);
+
         var requestBody = prepareRequest();
-        requestBody.setDistributionMethod(new DistributionMethodDto()
-                .type(DistributionPlanTypeEnum.SUBSCRIBE)
-                .cost(DistributionMethodBuilder.DEFAULT_COST)
-                .duration(DistributionMethodBuilder.DEFAULT_DURATION.toString()));
+        requestBody.setDistributionMethod(distributionMethod);
 
         //Action
         MvcResult mvcResult = post(PLUGIN_USAGE_CREATE_ENDPOINT, requestBody, prepareSimpleUserHeaders(userForRequest));
@@ -90,11 +91,13 @@ class PluginUsageCreateTest extends BaseControllerTest {
         pluginEntity.getDescription().setDistributionMethods(List.of(DistributionMethodBuilder.defaultSubscribeDistribution()));
         pluginRepository.save(pluginEntity);
 
+        var distributionMethod = new DistributionMethod();
+        distributionMethod.setCost(DistributionMethodBuilder.DEFAULT_COST);
+        distributionMethod.setType(DistributionPlanType.SUBSCRIBE);
+        distributionMethod.setDuration(DistributionMethodBuilder.DEFAULT_DURATION.plusMinutes(1));
+
         var requestBody = prepareRequest();
-        requestBody.setDistributionMethod(new DistributionMethodDto()
-                .type(DistributionPlanTypeEnum.SUBSCRIBE)
-                .cost(DistributionMethodBuilder.DEFAULT_COST)
-                .duration(DistributionMethodBuilder.DEFAULT_DURATION.plusMinutes(1).toString()));
+        requestBody.setDistributionMethod(distributionMethod);
 
         //Action
         MvcResult mvcResult = post(PLUGIN_USAGE_CREATE_ENDPOINT, requestBody, prepareSimpleUserHeaders(userForRequest));
@@ -126,12 +129,12 @@ class PluginUsageCreateTest extends BaseControllerTest {
         assertFalse(optionalPluginUsage.isPresent());
     }
 
-    private CreatePluginUsageRequest prepareRequest() {
-        var requestBody = new CreatePluginUsageRequest();
+    private CreatePluginUsageRequestDto prepareRequest() {
+        DistributionMethod distributionMethod = new DistributionMethod(DistributionPlanType.PURCHASE, null, DistributionMethodBuilder.DEFAULT_COST);
+
+        var requestBody = new CreatePluginUsageRequestDto();
         requestBody.setPluginId(PLUGIN_ID);
-        requestBody.setDistributionMethod(new DistributionMethodDto()
-                .cost(DistributionMethodBuilder.DEFAULT_COST)
-                .type(DistributionPlanTypeEnum.PURCHASE));
+        requestBody.setDistributionMethod(distributionMethod);
         return requestBody;
     }
 

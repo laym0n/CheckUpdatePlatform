@@ -1,10 +1,14 @@
 package com.victor.kochnev.rest.presenters.controller;
 
 import com.victor.kochnev.BaseControllerTest;
-import com.victor.kochnev.api.dto.*;
+import com.victor.kochnev.core.dto.request.CreateTaskRequestDto;
 import com.victor.kochnev.dal.entity.*;
+import com.victor.kochnev.domain.enums.DistributionPlanType;
 import com.victor.kochnev.domain.enums.PluginStatus;
 import com.victor.kochnev.domain.enums.TaskType;
+import com.victor.kochnev.domain.value.object.DistributionMethod;
+import com.victor.kochnev.domain.value.object.PluginDescription;
+import com.victor.kochnev.domain.value.object.PluginSpecificDescription;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -93,23 +97,27 @@ class TaskControllerCreateTaskTest extends BaseControllerTest {
         }
     }
 
-    private CreateTaskRequest prepareRequestBody() {
-        var requestBody = new CreateTaskRequest();
+    private CreateTaskRequestDto prepareRequestBody() {
+        var requestBody = new CreateTaskRequestDto();
         requestBody.setPluginId(PLUGIN_ID);
 
-        var specificDescriptionDto = new PluginSpecificDescriptionDto();
+        var specificDescriptionDto = new PluginSpecificDescription();
         specificDescriptionDto.setDescription("decription");
         specificDescriptionDto.setImagePaths(List.of("first", "second"));
         specificDescriptionDto.setTags(List.of("tags1", "tags2"));
 
-        var pluginDescriptionDto = new PluginDescriptionDto();
-        pluginDescriptionDto.setDistributionMethods(List.of(new DistributionMethodDto()
-                        .type(DistributionPlanTypeEnum.PURCHASE)
-                        .cost(BigDecimal.valueOf(1234)),
-                new DistributionMethodDto()
-                        .type(DistributionPlanTypeEnum.SUBSCRIBE)
-                        .cost(BigDecimal.valueOf(4321))
-                        .duration(Duration.of(5, ChronoUnit.DAYS).toString())));
+        var pluginDescriptionDto = new PluginDescription();
+        pluginDescriptionDto.setDistributionMethods(
+                List.of(
+                        new DistributionMethod(DistributionPlanType.PURCHASE,
+                                null,
+                                BigDecimal.valueOf(1234)),
+                        new DistributionMethod(
+                                DistributionPlanType.SUBSCRIBE,
+                                Duration.of(5, ChronoUnit.DAYS),
+                                BigDecimal.valueOf(4321))
+                )
+        );
         pluginDescriptionDto.setSpecificDescription(specificDescriptionDto);
         pluginDescriptionDto.setLogoPath("logoPath");
 
@@ -117,15 +125,14 @@ class TaskControllerCreateTaskTest extends BaseControllerTest {
         return requestBody;
     }
 
-    private void assertEqualsDistributionMethod(DistributionMethodDto responseDistributionMethod,
-                                                com.victor.kochnev.domain.value.object.DistributionMethod distributionMethod) {
-        assertEquals(0, responseDistributionMethod.getCost().compareTo(distributionMethod.cost()));
-        if (responseDistributionMethod.getDuration() != null && distributionMethod.duration() != null) {
-            assertEquals(0, distributionMethod.duration().compareTo(Duration.parse(responseDistributionMethod.getDuration())));
+    private void assertEqualsDistributionMethod(DistributionMethod responseDistributionMethod, DistributionMethod distributionMethod) {
+        assertEquals(0, responseDistributionMethod.getCost().compareTo(distributionMethod.getCost()));
+        if (responseDistributionMethod.getDuration() != null && distributionMethod.getDuration() != null) {
+            assertEquals(0, distributionMethod.getDuration().compareTo(responseDistributionMethod.getDuration()));
         } else {
-            assertEquals(responseDistributionMethod.getDuration(), distributionMethod.duration());
+            assertEquals(responseDistributionMethod.getDuration(), distributionMethod.getDuration());
         }
-        assertEquals(responseDistributionMethod.getType().name(), distributionMethod.type().name());
+        assertEquals(responseDistributionMethod.getType().name(), distributionMethod.getType().name());
     }
 
     private void prepareDb() {

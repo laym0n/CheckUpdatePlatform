@@ -31,6 +31,7 @@
         <mapstruct-processor.version>1.5.5.Final</mapstruct-processor.version>
         <jjwt-api.version>0.12.3</jjwt-api.version>
         <jacoco.version>0.8.11</jacoco.version>
+        <jackson-databind.version>2.17.0</jackson-databind.version>
 
         <!-- SonarQube -->
         <sonar.coverage.jacoco.xmlReportPaths>
@@ -116,17 +117,46 @@
                 <artifactId>rest-impl</artifactId>
                 <version>${revision}</version>
             </dependency>
-            <dependency>
-                <groupId>com.victor.kochnev</groupId>
-                <artifactId>rest-impl</artifactId>
-                <version>${revision}</version>
-                <type>test-jar</type>
-            </dependency>
 
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+                <version>2.5.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-ui</artifactId>
+                <version>1.8.0</version>
+            </dependency>
             <dependency>
                 <groupId>org.openapitools</groupId>
                 <artifactId>jackson-databind-nullable</artifactId>
                 <version>0.2.6</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson-databind.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
+                <version>${jackson-databind.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>${jackson-databind.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.datatype</groupId>
+                <artifactId>jackson-datatype-jsr310</artifactId>
+                <version>${jackson-databind.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.swagger.core.v3</groupId>
+                <artifactId>swagger-annotations</artifactId>
+                <version>2.2.21</version>
             </dependency>
             <dependency>
                 <groupId>org.springdoc</groupId>
