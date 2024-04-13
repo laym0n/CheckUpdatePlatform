@@ -1,11 +1,7 @@
 package com.victor.kochnev.rest.presenters.controller;
 
 import com.victor.kochnev.BaseControllerTest;
-import com.victor.kochnev.api.dto.CreateTaskRequest;
-import com.victor.kochnev.api.dto.DistributionMethodDto;
-import com.victor.kochnev.api.dto.DistributionPlanTypeEnum;
-import com.victor.kochnev.api.dto.PluginDescriptionDto;
-import com.victor.kochnev.dal.embeddable.object.EmbeddablePluginDescription;
+import com.victor.kochnev.api.dto.*;
 import com.victor.kochnev.dal.entity.*;
 import com.victor.kochnev.domain.enums.PluginStatus;
 import com.victor.kochnev.domain.enums.TaskType;
@@ -48,11 +44,12 @@ class TaskControllerCreateTaskTest extends BaseControllerTest {
         TaskEntity taskEntity = allTasks.get(0);
         assertEquals(TaskType.INITIALIZE, taskEntity.getType());
 
-        EmbeddablePluginDescription embeddableDescription = taskEntity.getDescription();
+        var embeddableDescription = taskEntity.getDescription();
         assertNotNull(embeddableDescription);
-        assertEquals(requestBody.getDescription().getDescription(), embeddableDescription.getDescription());
-        assertEquals(requestBody.getDescription().getImagePaths(), embeddableDescription.getImagePaths());
-        assertEquals(requestBody.getDescription().getTags(), embeddableDescription.getTags().getTags());
+        assertEquals(requestBody.getDescription().getSpecificDescription().getDescription(), embeddableDescription.getSpecificDescription().getDescription());
+        assertEquals(requestBody.getDescription().getSpecificDescription().getImagePaths(), embeddableDescription.getSpecificDescription().getImagePaths());
+        assertEquals(requestBody.getDescription().getSpecificDescription().getTags(), embeddableDescription.getSpecificDescription().getTags().getTags());
+        assertEquals(requestBody.getDescription().getLogoPath(), embeddableDescription.getLogoPath());
         assertEquals(requestBody.getDescription().getDistributionMethods().size(), embeddableDescription.getDistributionMethods().size());
         for (int i = 0; i < requestBody.getDescription().getDistributionMethods().size(); i++) {
             assertEqualsDistributionMethod(requestBody.getDescription().getDistributionMethods().get(i), embeddableDescription.getDistributionMethods().get(i));
@@ -84,11 +81,12 @@ class TaskControllerCreateTaskTest extends BaseControllerTest {
         TaskEntity taskEntity = allTasks.get(0);
         assertEquals(TaskType.UPDATE, taskEntity.getType());
 
-        EmbeddablePluginDescription embeddableDescription = taskEntity.getDescription();
+        var embeddableDescription = taskEntity.getDescription();
         assertNotNull(embeddableDescription);
-        assertEquals(requestBody.getDescription().getDescription(), embeddableDescription.getDescription());
-        assertEquals(requestBody.getDescription().getImagePaths(), embeddableDescription.getImagePaths());
-        assertEquals(requestBody.getDescription().getTags(), embeddableDescription.getTags().getTags());
+        assertEquals(requestBody.getDescription().getSpecificDescription().getDescription(), embeddableDescription.getSpecificDescription().getDescription());
+        assertEquals(requestBody.getDescription().getSpecificDescription().getImagePaths(), embeddableDescription.getSpecificDescription().getImagePaths());
+        assertEquals(requestBody.getDescription().getSpecificDescription().getTags(), embeddableDescription.getSpecificDescription().getTags().getTags());
+        assertEquals(requestBody.getDescription().getLogoPath(), embeddableDescription.getLogoPath());
         assertEquals(requestBody.getDescription().getDistributionMethods().size(), embeddableDescription.getDistributionMethods().size());
         for (int i = 0; i < requestBody.getDescription().getDistributionMethods().size(); i++) {
             assertEqualsDistributionMethod(requestBody.getDescription().getDistributionMethods().get(i), embeddableDescription.getDistributionMethods().get(i));
@@ -99,18 +97,23 @@ class TaskControllerCreateTaskTest extends BaseControllerTest {
         var requestBody = new CreateTaskRequest();
         requestBody.setPluginId(PLUGIN_ID);
 
-        var descriptionRequestBody = new PluginDescriptionDto();
-        descriptionRequestBody.setDescription("decription");
-        descriptionRequestBody.setImagePaths(List.of("first", "second"));
-        descriptionRequestBody.setTags(List.of("tags1", "tags2"));
-        descriptionRequestBody.setDistributionMethods(List.of(new DistributionMethodDto()
+        var specificDescriptionDto = new PluginSpecificDescriptionDto();
+        specificDescriptionDto.setDescription("decription");
+        specificDescriptionDto.setImagePaths(List.of("first", "second"));
+        specificDescriptionDto.setTags(List.of("tags1", "tags2"));
+
+        var pluginDescriptionDto = new PluginDescriptionDto();
+        pluginDescriptionDto.setDistributionMethods(List.of(new DistributionMethodDto()
                         .type(DistributionPlanTypeEnum.PURCHASE)
                         .cost(BigDecimal.valueOf(1234)),
                 new DistributionMethodDto()
                         .type(DistributionPlanTypeEnum.SUBSCRIBE)
                         .cost(BigDecimal.valueOf(4321))
                         .duration(Duration.of(5, ChronoUnit.DAYS).toString())));
-        requestBody.setDescription(descriptionRequestBody);
+        pluginDescriptionDto.setSpecificDescription(specificDescriptionDto);
+        pluginDescriptionDto.setLogoPath("logoPath");
+
+        requestBody.setDescription(pluginDescriptionDto);
         return requestBody;
     }
 

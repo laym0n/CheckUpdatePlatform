@@ -1,7 +1,7 @@
 package com.victor.kochnev.rest.presenters.controller;
 
-import com.victor.kochnev.api.dto.WebResourceObservingDto;
 import com.victor.kochnev.api.dto.WebResourceObservingAddRequest;
+import com.victor.kochnev.api.dto.WebResourceObservingDto;
 import com.victor.kochnev.api.rest.WebResourceObservingApi;
 import com.victor.kochnev.core.dto.domain.entity.WebResourceObservingDomainDto;
 import com.victor.kochnev.core.dto.request.AddWebResourceForObservingRequestDto;

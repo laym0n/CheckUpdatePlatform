@@ -3,7 +3,6 @@ package com.victor.kochnev.rest.presenters.controller;
 import com.victor.kochnev.BaseControllerTest;
 import com.victor.kochnev.api.dto.AddPluginRequest;
 import com.victor.kochnev.api.dto.AddPluginResponse;
-import com.victor.kochnev.api.dto.PluginDto;
 import com.victor.kochnev.dal.entity.PluginEntity;
 import com.victor.kochnev.dal.entity.UserEntity;
 import com.victor.kochnev.dal.entity.UserEntityBuilder;

@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS TASK
     decision             VARCHAR(50),
     comment              VARCHAR(500),
     tags                 JSONB,
+    logo_path            VARCHAR(50),
     plugin_id            UUID                     NOT NULL
 );
 

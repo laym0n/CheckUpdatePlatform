@@ -29,7 +29,7 @@ public class Plugin extends BaseEntity {
      */
     private PluginStatus status;
     /**
-     * Подробное описание плагина
+     * Описание плагина
      */
     private PluginDescription description;
     /**

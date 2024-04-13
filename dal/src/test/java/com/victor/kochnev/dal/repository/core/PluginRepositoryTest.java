@@ -4,6 +4,7 @@ import com.victor.kochnev.core.exception.ResourceNotFoundException;
 import com.victor.kochnev.core.repository.PluginRepository;
 import com.victor.kochnev.dal.BaseBootTest;
 import com.victor.kochnev.dal.embeddable.object.EmbeddablePluginDescriptionBuilder;
+import com.victor.kochnev.dal.embeddable.object.EmbeddableSpecificPluginDescriptionBuilder;
 import com.victor.kochnev.dal.entity.PluginEntityBuilder;
 import com.victor.kochnev.dal.entity.WebResourceEntityBuilder;
 import com.victor.kochnev.dal.entity.value.object.TagsInfo;
@@ -35,10 +36,11 @@ class PluginRepositoryTest extends BaseBootTest {
         assertEquals(PluginEntityBuilder.DEFAULT_NAME, plugin.getName());
         assertEquals(PluginEntityBuilder.DEFAULT_BASE_URL, plugin.getBaseUrl());
         assertEquals(PluginEntityBuilder.DEFAULT_ACCESS_TOKEN, plugin.getAccessToken());
-        assertEquals(PluginEntityBuilder.DEFAULT_IMAGE_PATHS_LIST, plugin.getDescription().getImagePaths());
-        assertEquals(PluginEntityBuilder.DEFAULT_DESCRIPTION.getDescription(), plugin.getDescription().getDescription());
-        assertEquals(PluginEntityBuilder.DEFAULT_DISTRIBUTION_METHODS_COLLECTION, plugin.getDescription().getDistributionMethods());
-        assertEquals(PluginEntityBuilder.DEFAULT_TAGS, plugin.getDescription().getTags());
+        assertEquals(EmbeddableSpecificPluginDescriptionBuilder.DEFAULT_IMAGE_PATHS, plugin.getDescription().getSpecificDescription().getImagePaths());
+        assertEquals(EmbeddableSpecificPluginDescriptionBuilder.DEFAULT_DESCRIPTION, plugin.getDescription().getSpecificDescription().getDescription());
+        assertEquals(EmbeddableSpecificPluginDescriptionBuilder.DEFAULT_TAGS, plugin.getDescription().getSpecificDescription().getTags());
+        assertEquals(EmbeddablePluginDescriptionBuilder.DEFAULT_DISTRIBUTION_METHODS_COLLECTION, plugin.getDescription().getDistributionMethods());
+        assertEquals(EmbeddablePluginDescriptionBuilder.DEFAULT_LOGO_PATH, plugin.getDescription().getLogoPath());
         assertNotNull(plugin.getOwnerUser());
     }
 
@@ -67,9 +69,11 @@ class PluginRepositoryTest extends BaseBootTest {
         assertEquals(PluginEntityBuilder.DEFAULT_NAME, plugin.getName());
         assertEquals(PluginEntityBuilder.DEFAULT_BASE_URL, plugin.getBaseUrl());
         assertEquals(PluginEntityBuilder.DEFAULT_ACCESS_TOKEN, plugin.getAccessToken());
-        assertEquals(PluginEntityBuilder.DEFAULT_IMAGE_PATHS_LIST, plugin.getDescription().getImagePaths());
-        assertEquals(PluginEntityBuilder.DEFAULT_DESCRIPTION.getDescription(), plugin.getDescription().getDescription());
-        assertEquals(PluginEntityBuilder.DEFAULT_DISTRIBUTION_METHODS_COLLECTION, plugin.getDescription().getDistributionMethods());
+        assertEquals(EmbeddableSpecificPluginDescriptionBuilder.DEFAULT_IMAGE_PATHS, plugin.getDescription().getSpecificDescription().getImagePaths());
+        assertEquals(EmbeddableSpecificPluginDescriptionBuilder.DEFAULT_DESCRIPTION, plugin.getDescription().getSpecificDescription().getDescription());
+        assertEquals(EmbeddableSpecificPluginDescriptionBuilder.DEFAULT_TAGS, plugin.getDescription().getSpecificDescription().getTags());
+        assertEquals(EmbeddablePluginDescriptionBuilder.DEFAULT_DISTRIBUTION_METHODS_COLLECTION, plugin.getDescription().getDistributionMethods());
+        assertEquals(EmbeddablePluginDescriptionBuilder.DEFAULT_LOGO_PATH, plugin.getDescription().getLogoPath());
         assertNotNull(plugin.getOwnerUser());
     }
 
@@ -102,9 +106,11 @@ class PluginRepositoryTest extends BaseBootTest {
         assertEquals(PluginEntityBuilder.DEFAULT_NAME, plugin.getName());
         assertEquals(PluginEntityBuilder.DEFAULT_BASE_URL, plugin.getBaseUrl());
         assertEquals(PluginEntityBuilder.DEFAULT_ACCESS_TOKEN, plugin.getAccessToken());
-        assertEquals(PluginEntityBuilder.DEFAULT_IMAGE_PATHS_LIST, plugin.getDescription().getImagePaths());
-        assertEquals(PluginEntityBuilder.DEFAULT_DESCRIPTION.getDescription(), plugin.getDescription().getDescription());
-        assertEquals(PluginEntityBuilder.DEFAULT_DISTRIBUTION_METHODS_COLLECTION, plugin.getDescription().getDistributionMethods());
+        assertEquals(EmbeddableSpecificPluginDescriptionBuilder.DEFAULT_IMAGE_PATHS, plugin.getDescription().getSpecificDescription().getImagePaths());
+        assertEquals(EmbeddableSpecificPluginDescriptionBuilder.DEFAULT_DESCRIPTION, plugin.getDescription().getSpecificDescription().getDescription());
+        assertEquals(EmbeddableSpecificPluginDescriptionBuilder.DEFAULT_TAGS, plugin.getDescription().getSpecificDescription().getTags());
+        assertEquals(EmbeddablePluginDescriptionBuilder.DEFAULT_DISTRIBUTION_METHODS_COLLECTION, plugin.getDescription().getDistributionMethods());
+        assertEquals(EmbeddablePluginDescriptionBuilder.DEFAULT_LOGO_PATH, plugin.getDescription().getLogoPath());
         assertNotNull(plugin.getOwnerUser());
     }
 
@@ -113,11 +119,14 @@ class PluginRepositoryTest extends BaseBootTest {
         //Assign
         UUID pluginId = pluginEntityRepository.save(PluginEntityBuilder.defaultBuilder()
                 .description(EmbeddablePluginDescriptionBuilder.defaultBuilder()
-                        .tags(new TagsInfo(List.of("tag1"))).build()).build()).getId();
+                        .specificDescription(EmbeddableSpecificPluginDescriptionBuilder.defaultBuilder()
+                                .tags(new TagsInfo(List.of("tag1")))
+                                .build())
+                        .build()).build()).getId();
 
         Plugin pluginForUpdate = pluginRepository.findByName(PluginEntityBuilder.DEFAULT_NAME).get();
         List<String> newTags = List.of("tag2");
-        pluginForUpdate.getDescription().setTags(newTags);
+        pluginForUpdate.getDescription().getSpecificDescription().setTags(newTags);
 
         //Action
         Plugin actualResult = pluginRepository.update(pluginForUpdate);
@@ -125,7 +134,7 @@ class PluginRepositoryTest extends BaseBootTest {
         //Assert
         assertNotNull(actualResult);
         assertEquals(pluginId, actualResult.getId());
-        assertEquals(newTags, actualResult.getDescription().getTags());
+        assertEquals(newTags, actualResult.getDescription().getSpecificDescription().getTags());
     }
 
     @Test

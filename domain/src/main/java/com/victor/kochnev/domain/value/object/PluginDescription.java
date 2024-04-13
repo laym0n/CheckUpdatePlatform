@@ -5,27 +5,22 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.util.Collection;
-import java.util.List;
 
 /**
- * Подробное описание плагина
+ * Описание плагина
  */
 @Data
 @NoArgsConstructor
 @SuperBuilder
 public class PluginDescription {
     /**
-     * Описание плагина
+     * Подробное описание плагина
      */
-    private String description;
+    private PluginSpecificDescription specificDescription;
     /**
-     * Пути до файлов изображений плагина
+     * Путь до логотипа плагина
      */
-    private List<String> imagePaths;
-    /**
-     * Теги плагина
-     */
-    private List<String> tags;
+    private String logoPath;
     /**
      * Способы распространения плагина
      */

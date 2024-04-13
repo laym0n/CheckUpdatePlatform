@@ -142,7 +142,8 @@ class PluginUsageCreateTest extends BaseControllerTest {
                 .ownerUser(userRepository.findById(USER_ID).get())
                 .status(PluginStatus.ACTIVE)
                 .description(EmbeddablePluginDescriptionBuilder.defaultBuilder()
-                        .distributionMethods(List.of(DistributionMethodBuilder.defaultPurchaseDistribution())).build())
+                        .distributionMethods(List.of(DistributionMethodBuilder.defaultPurchaseDistribution()))
+                        .build())
                 .build()).getId();
         userForRequest = userRepository.findById(USER_ID).get();
     }

@@ -510,6 +510,22 @@ components:
     PluginDescriptionDto:
       type: object
       properties:
+        specificDescription:
+          $ref: '#/components/schemas/PluginSpecificDescriptionDto'
+        logoPath:
+          type: string
+          description: путь до логотипа плагина
+        distributionMethods:
+          type: array
+          description: массив типов распространения плагина
+          items:
+            $ref: "#/components/schemas/DistributionMethodDto"
+      required:
+        - distributionMethods
+
+    PluginSpecificDescriptionDto:
+      type: object
+      properties:
         description:
           type: string
           description: описание плагина
@@ -523,15 +539,6 @@ components:
           description: массив тегов плагина
           items:
             type: string
-        distributionMethods:
-          type: array
-          description: массив типов распространения плагина
-          items:
-            $ref: "#/components/schemas/DistributionMethodDto"
-      required:
-        - description
-        - imagePaths
-        - distributionMethods
 
     DistributionMethodDto:
       type: object

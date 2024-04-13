@@ -165,7 +165,7 @@ class TaskControllerDecisionMakingTest extends BaseControllerTest {
                 .ownerUser(userRepository.findById(USER_ID).get())
                 .status(PluginStatus.CREATED)
                 .description(null)
-                .description(null).build()).getId();
+                .build()).getId();
         TASK_ID = taskRepository.save(TaskEntityBuilder.defaultBuilder()
                 .plugin(pluginRepository.findById(PLUGIN_ID).get())
                 .build()).getId();

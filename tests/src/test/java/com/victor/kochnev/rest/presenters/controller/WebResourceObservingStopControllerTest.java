@@ -2,9 +2,7 @@ package com.victor.kochnev.rest.presenters.controller;
 
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.victor.kochnev.BaseControllerTest;
-import com.victor.kochnev.api.dto.ObserveSettingsDto;
 import com.victor.kochnev.api.dto.ObserveStatusEnum;
-import com.victor.kochnev.api.dto.WebResourceDto;
 import com.victor.kochnev.api.dto.WebResourceObservingDto;
 import com.victor.kochnev.dal.entity.*;
 import com.victor.kochnev.domain.enums.ObserveStatus;
