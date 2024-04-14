@@ -1,6 +1,6 @@
 package com.victor.kochnev.rest.presenters.controller;
 
-import com.victor.kochnev.core.dto.domain.entity.TaskDomainDto;
+import com.victor.kochnev.core.dto.domain.entity.TaskDto;
 import com.victor.kochnev.core.dto.request.CreateTaskRequestDto;
 import com.victor.kochnev.core.dto.request.MakeDecisionRequestDto;
 import com.victor.kochnev.core.facade.task.TaskFacade;
@@ -30,7 +30,7 @@ public class TaskController {
     @PostMapping("/task")
     @SecurityRequirement(name = "bearerAuth")
     @Operation(operationId = "createTask")
-    public ResponseEntity<TaskDomainDto> createTask(@Valid @RequestBody CreateTaskRequestDto requestBody) {
+    public ResponseEntity<TaskDto> createTask(@Valid @RequestBody CreateTaskRequestDto requestBody) {
         log.info("Request: {}", CREATE_TASK_ENDPOINT);
         log.debug("Request: {} {}", CREATE_TASK_ENDPOINT, requestBody);
 
@@ -43,11 +43,11 @@ public class TaskController {
     @PutMapping("/task/{id}/decision")
     @SecurityRequirement(name = "bearerAuth")
     @Operation(operationId = "makeDecision")
-    public ResponseEntity<TaskDomainDto> makeDecision(@Valid @PathVariable("id") UUID taskId, @Valid @RequestBody MakeDecisionRequestDto requestBody) {
+    public ResponseEntity<TaskDto> makeDecision(@Valid @PathVariable("id") UUID taskId, @Valid @RequestBody MakeDecisionRequestDto requestBody) {
         log.info("Request: {}", MAKE_DECISION_ENDPOINT);
         log.debug("Request: {} {}", MAKE_DECISION_ENDPOINT, requestBody);
 
-        TaskDomainDto taskDomainDto = taskFacade.makeDecision(taskId, requestBody);
+        TaskDto taskDomainDto = taskFacade.makeDecision(taskId, requestBody);
 
         log.info("Request: {} proccesed", MAKE_DECISION_ENDPOINT);
         return ResponseEntity.ok(taskDomainDto);

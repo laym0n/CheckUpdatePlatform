@@ -13,13 +13,13 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class WebResourceObservingDomainDto {
+public class WebResourceObservingDto {
     @JsonProperty("observeSettings")
     @NotNull
     private ObserveSettings observeSettings;
     @JsonProperty("webResourceDto")
     @NotNull
-    private WebResourceDomainDto webResource;
+    private WebResourceDto webResource;
     @JsonProperty("status")
     @NotNull
     private ObserveStatus status;

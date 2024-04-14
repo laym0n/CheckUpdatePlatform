@@ -1,6 +1,6 @@
 package com.victor.kochnev.core.converter;
 
-import com.victor.kochnev.core.dto.domain.entity.WebResourceDomainDto;
+import com.victor.kochnev.core.dto.domain.entity.WebResourceDto;
 import com.victor.kochnev.core.dto.plugin.WebResourcePluginDto;
 import com.victor.kochnev.domain.entity.WebResource;
 import com.victor.kochnev.domain.enums.ObserveStatus;
@@ -16,7 +16,7 @@ public interface DomainWebResourceMapper {
     @Mapping(target = "status", expression = "java(ObserveStatus.NOT_OBSERVE)")
     WebResource mapToEntity(WebResourcePluginDto webResourcePluginDto);
 
-    WebResourceDomainDto mapToDto(WebResource webResource);
+    WebResourceDto mapToDto(WebResource webResource);
 
     @BlankEntityMapping
     @Mapping(target = "plugin", ignore = true)

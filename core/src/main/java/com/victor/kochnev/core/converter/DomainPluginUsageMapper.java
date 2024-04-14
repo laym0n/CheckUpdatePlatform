@@ -1,6 +1,6 @@
 package com.victor.kochnev.core.converter;
 
-import com.victor.kochnev.core.dto.domain.entity.PluginUsageDomainDto;
+import com.victor.kochnev.core.dto.domain.entity.PluginUsageDto;
 import com.victor.kochnev.core.dto.request.CreatePluginUsageRequestDto;
 import com.victor.kochnev.domain.entity.PluginUsage;
 import org.mapstruct.*;
@@ -15,7 +15,7 @@ import java.time.ZonedDateTime;
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface DomainPluginUsageMapper {
 
-    PluginUsageDomainDto mapToDto(PluginUsage pluginUsage);
+    PluginUsageDto mapToDto(PluginUsage pluginUsage);
 
     @BlankEntityMapping
     @Mapping(target = "plugin", ignore = true)

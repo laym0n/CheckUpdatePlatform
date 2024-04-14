@@ -1,8 +1,8 @@
 package com.victor.kochnev.core.converter;
 
 import com.victor.kochnev.core.BaseCoreUnitTest;
-import com.victor.kochnev.core.dto.domain.entity.WebResourceDomainDto;
-import com.victor.kochnev.core.dto.domain.entity.WebResourceObservingDomainDto;
+import com.victor.kochnev.core.dto.domain.entity.WebResourceDto;
+import com.victor.kochnev.core.dto.domain.entity.WebResourceObservingDto;
 import com.victor.kochnev.domain.entity.WebResourceObserving;
 import com.victor.kochnev.domain.entity.builder.WebResourceDomainBuilder;
 import com.victor.kochnev.domain.entity.builder.WebResourceObservingBuilder;
@@ -34,14 +34,14 @@ class DomainWebResourceObservingMapperImplUnitTest extends BaseCoreUnitTest {
                 .build();
 
         //Action
-        WebResourceObservingDomainDto webResourceObservingDomainDto = domainWebResourceObservingMapper.mapToDto(webResourceObserving);
+        WebResourceObservingDto webResourceObservingDto = domainWebResourceObservingMapper.mapToDto(webResourceObserving);
 
         //Assert
-        WebResourceDomainDto webResourceDomainDto = webResourceObservingDomainDto.getWebResource();
-        assertNotNull(webResourceDomainDto);
-        assertEquals(WebResourceDomainBuilder.DEFAULT_NAME, webResourceDomainDto.getName());
+        WebResourceDto webResourceDto = webResourceObservingDto.getWebResource();
+        assertNotNull(webResourceDto);
+        assertEquals(WebResourceDomainBuilder.DEFAULT_NAME, webResourceDto.getName());
 
-        ObserveSettings observeSettings = webResourceObservingDomainDto.getObserveSettings();
+        ObserveSettings observeSettings = webResourceObservingDto.getObserveSettings();
         assertEquals(entityObserveSettings, observeSettings);
     }
 }

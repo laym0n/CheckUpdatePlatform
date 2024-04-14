@@ -1,7 +1,7 @@
 package com.victor.kochnev.core.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.victor.kochnev.core.dto.domain.entity.PluginDomainDto;
+import com.victor.kochnev.core.dto.domain.entity.PluginDto;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 public class AddPluginResponseDto {
     @JsonProperty("plugin")
     @NotNull
-    private PluginDomainDto plugin;
+    private PluginDto plugin;
     @JsonProperty("accessToken")
     @NotNull
     private String accessToken;

@@ -1,6 +1,6 @@
 package com.victor.kochnev.core.converter;
 
-import com.victor.kochnev.core.dto.domain.entity.TaskDomainDto;
+import com.victor.kochnev.core.dto.domain.entity.TaskDto;
 import com.victor.kochnev.core.dto.request.CreateTaskRequestDto;
 import com.victor.kochnev.core.dto.request.MakeDecisionRequestDto;
 import com.victor.kochnev.domain.entity.Task;
@@ -13,7 +13,7 @@ import org.mapstruct.*;
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface DomainTaskMapper {
 
-    TaskDomainDto mapToDto(Task task);
+    TaskDto mapToDto(Task task);
 
     @BlankEntityMapping
     @Mapping(target = "type", ignore = true)

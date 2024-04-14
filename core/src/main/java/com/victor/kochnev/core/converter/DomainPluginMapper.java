@@ -1,7 +1,9 @@
 package com.victor.kochnev.core.converter;
 
+import com.victor.kochnev.core.dto.dal.GetPluginsDalResponseDto;
 import com.victor.kochnev.core.dto.request.AddPluginRequestDto;
 import com.victor.kochnev.core.dto.response.AddPluginResponseDto;
+import com.victor.kochnev.core.dto.response.GetPluginsResponseDto;
 import com.victor.kochnev.core.security.entity.PluginAuthority;
 import com.victor.kochnev.core.security.entity.PluginSecurity;
 import com.victor.kochnev.domain.entity.Plugin;
@@ -29,4 +31,6 @@ public interface DomainPluginMapper {
     @Mapping(target = "description", ignore = true)
     @Mapping(target = "ownerUser", ignore = true)
     Plugin mapToDomain(AddPluginRequestDto requestDto);
+
+    GetPluginsResponseDto mapToDto(GetPluginsDalResponseDto dalResponseDto);
 }

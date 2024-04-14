@@ -1,6 +1,6 @@
 package com.victor.kochnev.core.facade.task;
 
-import com.victor.kochnev.core.dto.domain.entity.TaskDomainDto;
+import com.victor.kochnev.core.dto.domain.entity.TaskDto;
 import com.victor.kochnev.core.dto.request.CreateTaskRequestDto;
 import com.victor.kochnev.core.dto.request.MakeDecisionRequestDto;
 import com.victor.kochnev.core.service.plugin.PluginService;
@@ -23,7 +23,7 @@ public class TaskFacadeImpl implements TaskFacade {
 
     @PreAuthorize("@authorizationService.verifyAuthenticatedUserCanManagePlugin(#requestDto.getPluginId())")
     @Override
-    public TaskDomainDto create(@P("requestDto") CreateTaskRequestDto requestDto) {
+    public TaskDto create(@P("requestDto") CreateTaskRequestDto requestDto) {
         Plugin plugin = pluginService.getById(requestDto.getPluginId());
         TaskType taskType;
         if (PluginStatus.CREATED.equals(plugin.getStatus())) {
@@ -35,7 +35,7 @@ public class TaskFacadeImpl implements TaskFacade {
     }
 
     @Override
-    public TaskDomainDto makeDecision(UUID taskId, MakeDecisionRequestDto requestDto) {
+    public TaskDto makeDecision(UUID taskId, MakeDecisionRequestDto requestDto) {
         return taskService.makeDecision(taskId, requestDto);
     }
 }

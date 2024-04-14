@@ -2,7 +2,7 @@ package com.victor.kochnev.rest.presenters.controller;
 
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.victor.kochnev.BaseControllerTest;
-import com.victor.kochnev.core.dto.domain.entity.WebResourceObservingDomainDto;
+import com.victor.kochnev.core.dto.domain.entity.WebResourceObservingDto;
 import com.victor.kochnev.dal.entity.*;
 import com.victor.kochnev.domain.enums.ObserveStatus;
 import com.victor.kochnev.integration.plugin.api.dto.CanObserveResponseBuilder;
@@ -48,7 +48,7 @@ class WebResourceObservingStopControllerTest extends BaseControllerTest {
         var observingEntity = optionalObservingEntity.get();
         assertEquals(ObserveStatus.NOT_OBSERVE, observingEntity.getStatus());
 
-        var responseDto = getResponseDto(mvcResult, WebResourceObservingDomainDto.class);
+        var responseDto = getResponseDto(mvcResult, WebResourceObservingDto.class);
         assertNotNull(responseDto);
 
         assertResponse(responseDto, webResourceEntity);
@@ -87,7 +87,7 @@ class WebResourceObservingStopControllerTest extends BaseControllerTest {
         var observingEntity = optionalObservingEntity.get();
         assertEquals(ObserveStatus.NOT_OBSERVE, observingEntity.getStatus());
 
-        var responseDto = getResponseDto(mvcResult, WebResourceObservingDomainDto.class);
+        var responseDto = getResponseDto(mvcResult, WebResourceObservingDto.class);
         assertNotNull(responseDto);
 
         assertResponse(responseDto, webResourceEntity);
@@ -125,7 +125,7 @@ class WebResourceObservingStopControllerTest extends BaseControllerTest {
         var observingEntity = optionalObservingEntity.get();
         assertEquals(ObserveStatus.NOT_OBSERVE, observingEntity.getStatus());
 
-        var responseDto = getResponseDto(mvcResult, WebResourceObservingDomainDto.class);
+        var responseDto = getResponseDto(mvcResult, WebResourceObservingDto.class);
         assertNotNull(responseDto);
 
         assertResponse(responseDto, webResourceEntity);
@@ -165,7 +165,7 @@ class WebResourceObservingStopControllerTest extends BaseControllerTest {
         assertEquals(ObserveStatus.OBSERVE, observingEntity.getStatus());
     }
 
-    private void assertResponse(WebResourceObservingDomainDto responseDto, WebResourceEntity webResourceEntity) {
+    private void assertResponse(WebResourceObservingDto responseDto, WebResourceEntity webResourceEntity) {
         var webResourceDto = responseDto.getWebResource();
         assertNotNull(webResourceDto);
         assertEquals(webResourceEntity.getId(), webResourceDto.getId());

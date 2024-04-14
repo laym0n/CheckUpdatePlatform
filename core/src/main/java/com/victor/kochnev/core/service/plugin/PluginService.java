@@ -1,7 +1,9 @@
 package com.victor.kochnev.core.service.plugin;
 
 import com.victor.kochnev.core.dto.request.AddPluginRequestDto;
+import com.victor.kochnev.core.dto.request.GetPluginsRequestDto;
 import com.victor.kochnev.core.dto.response.AddPluginResponseDto;
+import com.victor.kochnev.core.dto.response.GetPluginsResponseDto;
 import com.victor.kochnev.domain.entity.Plugin;
 
 import java.util.UUID;
@@ -14,4 +16,6 @@ public interface PluginService {
     AddPluginResponseDto create(UUID userId, AddPluginRequestDto requestDto);
 
     Plugin update(Plugin plugin);
+
+    GetPluginsResponseDto getPlugins(GetPluginsRequestDto request);
 }

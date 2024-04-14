@@ -1,6 +1,6 @@
 package com.victor.kochnev.rest.presenters.controller;
 
-import com.victor.kochnev.core.dto.domain.entity.PluginUsageDomainDto;
+import com.victor.kochnev.core.dto.domain.entity.PluginUsageDto;
 import com.victor.kochnev.core.dto.request.CreatePluginUsageRequestDto;
 import com.victor.kochnev.core.facade.pluginusage.PluginUsageFacade;
 import io.swagger.v3.oas.annotations.Operation;
@@ -29,13 +29,13 @@ public class PluginUsageController {
     @PostMapping("/plugin/usage")
     @SecurityRequirement(name = "bearerAuth")
     @Operation(operationId = "createPluginUsage")
-    public ResponseEntity<PluginUsageDomainDto> createPluginUsage(@Valid @RequestBody CreatePluginUsageRequestDto request) {
+    public ResponseEntity<PluginUsageDto> createPluginUsage(@Valid @RequestBody CreatePluginUsageRequestDto request) {
         log.info("Request: {}", CREATE_PLUGIN_USAGE_ENDPOINT);
         log.debug("Request: {} {}", CREATE_PLUGIN_USAGE_ENDPOINT, request);
 
-        PluginUsageDomainDto pluginUsageDomainDto = pluginUsageFacade.create(request);
+        PluginUsageDto pluginUsageDto = pluginUsageFacade.create(request);
 
         log.info("Request: {} proccesed", CREATE_PLUGIN_USAGE_ENDPOINT);
-        return ResponseEntity.ok(pluginUsageDomainDto);
+        return ResponseEntity.ok(pluginUsageDto);
     }
 }

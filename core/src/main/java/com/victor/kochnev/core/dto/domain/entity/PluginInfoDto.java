@@ -1,6 +1,7 @@
 package com.victor.kochnev.core.dto.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.victor.kochnev.domain.value.object.PluginDescription;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,7 +14,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class WebResourceDomainDto {
+public class PluginInfoDto {
     @JsonProperty("id")
     @NotNull
     private UUID id;
@@ -22,5 +23,5 @@ public class WebResourceDomainDto {
     private String name;
     @JsonProperty("description")
     @NotNull
-    private String description;
+    private PluginDescription description;
 }

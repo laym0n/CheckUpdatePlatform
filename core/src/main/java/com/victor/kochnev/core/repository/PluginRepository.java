@@ -1,5 +1,7 @@
 package com.victor.kochnev.core.repository;
 
+import com.victor.kochnev.core.dto.dal.GetPluginsDalRequestDto;
+import com.victor.kochnev.core.dto.dal.GetPluginsDalResponseDto;
 import com.victor.kochnev.domain.entity.Plugin;
 
 import java.util.Optional;
@@ -15,4 +17,6 @@ public interface PluginRepository {
     Plugin create(Plugin newPlugin);
 
     Plugin update(Plugin plugin);
+
+    GetPluginsDalResponseDto getByFilters(GetPluginsDalRequestDto request);
 }

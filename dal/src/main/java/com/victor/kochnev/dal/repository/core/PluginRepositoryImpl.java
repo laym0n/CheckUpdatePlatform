@@ -1,5 +1,8 @@
 package com.victor.kochnev.dal.repository.core;
 
+import com.victor.kochnev.core.dto.dal.GetPluginsDalRequestDto;
+import com.victor.kochnev.core.dto.dal.GetPluginsDalResponseDto;
+import com.victor.kochnev.core.dto.dal.PluginsFilterDalDto;
 import com.victor.kochnev.core.exception.ResourceNotFoundException;
 import com.victor.kochnev.core.repository.PluginRepository;
 import com.victor.kochnev.dal.converter.EntityPluginMapper;
@@ -7,12 +10,15 @@ import com.victor.kochnev.dal.entity.PluginEntity;
 import com.victor.kochnev.dal.entity.UserEntity;
 import com.victor.kochnev.dal.repository.jpa.PluginEntityRepository;
 import com.victor.kochnev.dal.repository.jpa.UserEntityRepository;
+import com.victor.kochnev.dal.spec.PluginSpecification;
 import com.victor.kochnev.domain.entity.Plugin;
 import com.victor.kochnev.domain.entity.User;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -24,12 +30,14 @@ public class PluginRepositoryImpl implements PluginRepository {
     private final UserEntityRepository userEntityRepository;
 
     @Override
+    @Transactional(readOnly = true)
     public Plugin getById(UUID id) {
         PluginEntity pluginEntity = getPluginEntityById(id);
         return pluginMapper.mapToDomain(pluginEntity);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Plugin findByWebResourceId(UUID webResourceId) {
         return pluginEntityRepository.findByWebResourceId(webResourceId)
                 .map(pluginMapper::mapToDomain)
@@ -37,12 +45,14 @@ public class PluginRepositoryImpl implements PluginRepository {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<Plugin> findByName(String accessToken) {
         return pluginEntityRepository.findByName(accessToken)
                 .map(pluginMapper::mapToDomain);
     }
 
     @Override
+    @Transactional
     public Plugin create(Plugin newPlugin) {
         UUID userId = newPlugin.getOwnerUser().getId();
         UserEntity userEntity = userEntityRepository.findById(userId)
@@ -62,8 +72,37 @@ public class PluginRepositoryImpl implements PluginRepository {
         return pluginMapper.mapToDomain(dbPluginEntity);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public GetPluginsDalResponseDto getByFilters(GetPluginsDalRequestDto request) {
+        Specification<PluginEntity> spec = prepareSpecification(request.getFilters());
+
+        List<Plugin> pluginList = pluginEntityRepository.findAll(spec)
+                .stream()
+                .map(pluginMapper::mapToDomain)
+                .toList();
+
+        GetPluginsDalResponseDto response = new GetPluginsDalResponseDto();
+        response.setPlugins(pluginList);
+        return response;
+    }
+
     private PluginEntity getPluginEntityById(UUID id) {
         return pluginEntityRepository.findById(id)
                 .orElseThrow(() -> ResourceNotFoundException.create(Plugin.class, id.toString(), "id"));
+    }
+
+    private Specification<PluginEntity> prepareSpecification(PluginsFilterDalDto filters) {
+        Specification<PluginEntity> spec = PluginSpecification.getAll();
+        if (filters == null) {
+            return spec;
+        }
+        if (filters.getName() != null) {
+            spec = spec.and(PluginSpecification.byName(filters.getName()));
+        }
+        if (filters.getTags() != null && !filters.getTags().isEmpty()) {
+            spec = spec.and(PluginSpecification.byTags(filters.getTags()));
+        }
+        return spec;
     }
 }

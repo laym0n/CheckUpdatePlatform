@@ -1,18 +1,17 @@
 package com.victor.kochnev.core.converter;
 
-import com.victor.kochnev.core.dto.domain.entity.WebResourceObservingDto;
-import com.victor.kochnev.domain.entity.WebResourceObserving;
+import com.victor.kochnev.core.dto.dal.GetPluginsDalRequestDto;
+import com.victor.kochnev.core.dto.request.GetPluginsRequestDto;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
 
-@Mapper(uses = DomainWebResourceMapper.class,
-        injectionStrategy = InjectionStrategy.CONSTRUCTOR,
+@Mapper(injectionStrategy = InjectionStrategy.CONSTRUCTOR,
         componentModel = "spring",
         unmappedTargetPolicy = ReportingPolicy.ERROR,
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-public interface DomainWebResourceObservingMapper {
+public interface RequestDtoMapper {
 
-    WebResourceObservingDto mapToDto(WebResourceObserving webResourceObserving);
+    GetPluginsDalRequestDto mapToDal(GetPluginsRequestDto request);
 }

@@ -15,7 +15,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PluginUsageDomainDto {
+public class PluginUsageDto {
     @JsonProperty("id")
     @NotNull
     private UUID id;
@@ -27,5 +27,5 @@ public class PluginUsageDomainDto {
     private ZonedDateTime expiredDate;
     @JsonProperty("plugin")
     @NotNull
-    private PluginDomainDto plugin;
+    private PluginDto plugin;
 }

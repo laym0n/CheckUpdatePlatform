@@ -1,8 +1,11 @@
 package com.victor.kochnev.core.service.plugin;
 
 import com.victor.kochnev.core.converter.DomainPluginMapper;
+import com.victor.kochnev.core.converter.RequestDtoMapper;
 import com.victor.kochnev.core.dto.request.AddPluginRequestDto;
+import com.victor.kochnev.core.dto.request.GetPluginsRequestDto;
 import com.victor.kochnev.core.dto.response.AddPluginResponseDto;
+import com.victor.kochnev.core.dto.response.GetPluginsResponseDto;
 import com.victor.kochnev.core.exception.ResourceNotFoundException;
 import com.victor.kochnev.core.repository.PluginRepository;
 import com.victor.kochnev.core.repository.UserRepository;
@@ -24,6 +27,7 @@ public class PluginServiceImpl implements PluginService {
     private final PluginRepository pluginRepository;
     private final UserRepository userRepository;
     private final DomainPluginMapper pluginMapper;
+    private final RequestDtoMapper requestDtoMapper;
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -59,5 +63,13 @@ public class PluginServiceImpl implements PluginService {
     @Transactional
     public Plugin update(Plugin plugin) {
         return pluginRepository.update(plugin);
+    }
+
+    @Override
+    @Transactional
+    public GetPluginsResponseDto getPlugins(GetPluginsRequestDto request) {
+        var dalRequest = requestDtoMapper.mapToDal(request);
+        var dalResponseDto = pluginRepository.getByFilters(dalRequest);
+        return pluginMapper.mapToDto(dalResponseDto);
     }
 }

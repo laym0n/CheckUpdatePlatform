@@ -1,7 +1,9 @@
 package com.victor.kochnev.core.facade.plugin;
 
 import com.victor.kochnev.core.dto.request.AddPluginRequestDto;
+import com.victor.kochnev.core.dto.request.GetPluginsRequestDto;
 import com.victor.kochnev.core.dto.response.AddPluginResponseDto;
+import com.victor.kochnev.core.dto.response.GetPluginsResponseDto;
 import com.victor.kochnev.core.security.entity.UserSecurity;
 import com.victor.kochnev.core.security.service.user.SecurityUserService;
 import com.victor.kochnev.core.service.plugin.PluginService;
@@ -21,5 +23,10 @@ public class PluginFacadeImpl implements PluginFacade {
         UserSecurity user = securityUserService.getCurrentUser();
         UUID userId = user.getId();
         return pluginService.create(userId, requestDto);
+    }
+
+    @Override
+    public GetPluginsResponseDto getPlugins(GetPluginsRequestDto request) {
+        return pluginService.getPlugins(request);
     }
 }
