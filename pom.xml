@@ -114,7 +114,7 @@
             </dependency>
             <dependency>
                 <groupId>com.victor.kochnev</groupId>
-                <artifactId>rest-impl</artifactId>
+                <artifactId>rest-presenters</artifactId>
                 <version>${revision}</version>
             </dependency>
 

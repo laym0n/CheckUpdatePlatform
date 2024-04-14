@@ -3,8 +3,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <artifactId>check-update-platform</artifactId>
         <groupId>com.victor.kochnev</groupId>
+        <artifactId>check-update-platform</artifactId>
         <version>${revision}</version>
     </parent>
 
@@ -23,7 +23,7 @@
         </dependency>
         <dependency>
             <groupId>com.victor.kochnev</groupId>
-            <artifactId>rest-impl</artifactId>
+            <artifactId>rest-presenters</artifactId>
         </dependency>
         <dependency>
             <groupId>com.victor.kochnev</groupId>
