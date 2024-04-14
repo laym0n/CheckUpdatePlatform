@@ -1,13 +1,13 @@
 package com.victor.kochnev.rest.presenters.controller;
 
 import com.victor.kochnev.BaseControllerTest;
+import com.victor.kochnev.core.dto.domain.value.object.DistributionMethodDto;
 import com.victor.kochnev.core.dto.request.CreatePluginUsageRequestDto;
 import com.victor.kochnev.dal.embeddable.object.EmbeddablePluginDescriptionBuilder;
 import com.victor.kochnev.dal.entity.*;
 import com.victor.kochnev.domain.enums.DistributionPlanType;
 import com.victor.kochnev.domain.enums.PluginStatus;
 import com.victor.kochnev.domain.enums.UserRole;
-import com.victor.kochnev.domain.value.object.DistributionMethod;
 import com.victor.kochnev.domain.value.object.DistributionMethodBuilder;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
@@ -58,7 +58,7 @@ class PluginUsageCreateTest extends BaseControllerTest {
         pluginEntity.getDescription().setDistributionMethods(List.of(DistributionMethodBuilder.defaultSubscribeDistribution()));
         pluginRepository.save(pluginEntity);
 
-        var distributionMethod = new DistributionMethod();
+        var distributionMethod = new DistributionMethodDto();
         distributionMethod.setType(DistributionPlanType.SUBSCRIBE);
         distributionMethod.setCost(DistributionMethodBuilder.DEFAULT_COST);
         distributionMethod.setDuration(DistributionMethodBuilder.DEFAULT_DURATION);
@@ -91,7 +91,7 @@ class PluginUsageCreateTest extends BaseControllerTest {
         pluginEntity.getDescription().setDistributionMethods(List.of(DistributionMethodBuilder.defaultSubscribeDistribution()));
         pluginRepository.save(pluginEntity);
 
-        var distributionMethod = new DistributionMethod();
+        var distributionMethod = new DistributionMethodDto();
         distributionMethod.setCost(DistributionMethodBuilder.DEFAULT_COST);
         distributionMethod.setType(DistributionPlanType.SUBSCRIBE);
         distributionMethod.setDuration(DistributionMethodBuilder.DEFAULT_DURATION.plusMinutes(1));
@@ -130,7 +130,7 @@ class PluginUsageCreateTest extends BaseControllerTest {
     }
 
     private CreatePluginUsageRequestDto prepareRequest() {
-        DistributionMethod distributionMethod = new DistributionMethod(DistributionPlanType.PURCHASE, null, DistributionMethodBuilder.DEFAULT_COST);
+        var distributionMethod = new DistributionMethodDto(DistributionPlanType.PURCHASE, null, DistributionMethodBuilder.DEFAULT_COST);
 
         var requestBody = new CreatePluginUsageRequestDto();
         requestBody.setPluginId(PLUGIN_ID);

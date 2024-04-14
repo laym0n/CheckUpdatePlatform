@@ -8,8 +8,8 @@ import org.mapstruct.*;
 import java.time.ZonedDateTime;
 
 @Mapper(uses = DomainPluginMapper.class,
-        imports = ZonedDateTime.class,
         injectionStrategy = InjectionStrategy.CONSTRUCTOR,
+        builder = @Builder(disableBuilder = true),
         componentModel = "spring",
         unmappedTargetPolicy = ReportingPolicy.ERROR,
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
@@ -20,6 +20,11 @@ public interface DomainPluginUsageMapper {
     @BlankEntityMapping
     @Mapping(target = "plugin", ignore = true)
     @Mapping(target = "user", ignore = true)
-    @Mapping(target = "expiredDate", expression = "java(requestDto.getDistributionMethod().getExpiredDate(ZonedDateTime.now()))")
+    @Mapping(target = "expiredDate", ignore = true)
     PluginUsage mapToDomain(CreatePluginUsageRequestDto requestDto);
+
+    @AfterMapping
+    default void performExpiredDateMapping(final CreatePluginUsageRequestDto requestDto, @MappingTarget final PluginUsage pluginUsage) {
+        pluginUsage.setExpiredDate(pluginUsage.getDistributionMethod().getExpiredDate(ZonedDateTime.now()));
+    }
 }

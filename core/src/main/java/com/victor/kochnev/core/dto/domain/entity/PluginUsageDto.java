@@ -1,7 +1,7 @@
 package com.victor.kochnev.core.dto.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.victor.kochnev.domain.value.object.DistributionMethod;
+import com.victor.kochnev.core.dto.domain.value.object.DistributionMethodDto;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,7 +21,7 @@ public class PluginUsageDto {
     private UUID id;
     @JsonProperty("distributionMethod")
     @NotNull
-    private DistributionMethod distributionMethod;
+    private DistributionMethodDto distributionMethod;
     @JsonProperty("expiredDate")
     @NotNull
     private ZonedDateTime expiredDate;

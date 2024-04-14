@@ -1,5 +1,6 @@
 package com.victor.kochnev.core.service.pluginusage;
 
+import com.victor.kochnev.core.converter.DomainPluginMapper;
 import com.victor.kochnev.core.converter.DomainPluginUsageMapper;
 import com.victor.kochnev.core.dto.domain.entity.PluginUsageDto;
 import com.victor.kochnev.core.dto.request.CreatePluginUsageRequestDto;
@@ -23,6 +24,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class PluginUsageServiceImpl implements PluginUsageService {
     private final DomainPluginUsageMapper pluginUsageMapper;
+    private final DomainPluginMapper pluginMapper;
     private final PluginUsageRepository pluginUsageRepository;
     private final PluginRepository pluginRepository;
     private final UserRepository userRepository;
@@ -42,8 +44,9 @@ public class PluginUsageServiceImpl implements PluginUsageService {
             throw new PluginUsageNotPermittedException(plugin.getId());
         }
 
+        var requestedMethod = pluginMapper.mapToDomain(requestDto.getDistributionMethod());
         boolean distributionMethodExists = plugin.getDescription().getDistributionMethods().stream()
-                .anyMatch(method -> method.equals(requestDto.getDistributionMethod()));
+                .anyMatch(method -> method.equals(requestedMethod));
         if (!distributionMethodExists) {
             throw new ResourceNotFoundException(DistributionMethod.class.getName(), requestDto.getDistributionMethod().toString(), "all");
         }

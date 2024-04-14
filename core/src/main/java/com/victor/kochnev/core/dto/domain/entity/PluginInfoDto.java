@@ -1,7 +1,7 @@
 package com.victor.kochnev.core.dto.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.victor.kochnev.domain.value.object.PluginDescription;
+import com.victor.kochnev.core.dto.domain.value.object.PluginDescriptionDto;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,5 +23,5 @@ public class PluginInfoDto {
     private String name;
     @JsonProperty("description")
     @NotNull
-    private PluginDescription description;
+    private PluginDescriptionDto description;
 }

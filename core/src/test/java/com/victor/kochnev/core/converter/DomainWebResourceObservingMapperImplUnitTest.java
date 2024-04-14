@@ -15,8 +15,7 @@ import org.junit.jupiter.params.provider.NullSource;
 
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 class DomainWebResourceObservingMapperImplUnitTest extends BaseCoreUnitTest {
 
@@ -41,7 +40,11 @@ class DomainWebResourceObservingMapperImplUnitTest extends BaseCoreUnitTest {
         assertNotNull(webResourceDto);
         assertEquals(WebResourceDomainBuilder.DEFAULT_NAME, webResourceDto.getName());
 
-        ObserveSettings observeSettings = webResourceObservingDto.getObserveSettings();
-        assertEquals(entityObserveSettings, observeSettings);
+        var observeSettings = webResourceObservingDto.getObserveSettings();
+        if (entityObserveSettings == null) {
+            assertNull(observeSettings);
+        } else {
+            assertEquals(entityObserveSettings.needNotify(), observeSettings.isNeedNotify());
+        }
     }
 }

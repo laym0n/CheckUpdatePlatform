@@ -1,12 +1,14 @@
 package com.victor.kochnev.core.converter;
 
 import com.victor.kochnev.core.dto.dal.GetPluginsDalResponseDto;
+import com.victor.kochnev.core.dto.domain.value.object.DistributionMethodDto;
 import com.victor.kochnev.core.dto.request.AddPluginRequestDto;
 import com.victor.kochnev.core.dto.response.AddPluginResponseDto;
 import com.victor.kochnev.core.dto.response.GetPluginsResponseDto;
 import com.victor.kochnev.core.security.entity.PluginAuthority;
 import com.victor.kochnev.core.security.entity.PluginSecurity;
 import com.victor.kochnev.domain.entity.Plugin;
+import com.victor.kochnev.domain.value.object.DistributionMethod;
 import org.mapstruct.*;
 
 import java.util.List;
@@ -33,4 +35,6 @@ public interface DomainPluginMapper {
     Plugin mapToDomain(AddPluginRequestDto requestDto);
 
     GetPluginsResponseDto mapToDto(GetPluginsDalResponseDto dalResponseDto);
+
+    DistributionMethod mapToDomain(DistributionMethodDto distributionMethod);
 }

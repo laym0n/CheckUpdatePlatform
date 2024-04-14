@@ -1,14 +1,15 @@
 package com.victor.kochnev.rest.presenters.controller;
 
 import com.victor.kochnev.BaseControllerTest;
+import com.victor.kochnev.core.dto.domain.value.object.DistributionMethodDto;
+import com.victor.kochnev.core.dto.domain.value.object.PluginDescriptionDto;
+import com.victor.kochnev.core.dto.domain.value.object.PluginSpecificDescriptionDto;
 import com.victor.kochnev.core.dto.request.CreateTaskRequestDto;
 import com.victor.kochnev.dal.entity.*;
 import com.victor.kochnev.domain.enums.DistributionPlanType;
 import com.victor.kochnev.domain.enums.PluginStatus;
 import com.victor.kochnev.domain.enums.TaskType;
 import com.victor.kochnev.domain.value.object.DistributionMethod;
-import com.victor.kochnev.domain.value.object.PluginDescription;
-import com.victor.kochnev.domain.value.object.PluginSpecificDescription;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -101,18 +102,18 @@ class TaskControllerCreateTaskTest extends BaseControllerTest {
         var requestBody = new CreateTaskRequestDto();
         requestBody.setPluginId(PLUGIN_ID);
 
-        var specificDescriptionDto = new PluginSpecificDescription();
+        var specificDescriptionDto = new PluginSpecificDescriptionDto();
         specificDescriptionDto.setDescription("decription");
         specificDescriptionDto.setImagePaths(List.of("first", "second"));
         specificDescriptionDto.setTags(List.of("tags1", "tags2"));
 
-        var pluginDescriptionDto = new PluginDescription();
+        var pluginDescriptionDto = new PluginDescriptionDto();
         pluginDescriptionDto.setDistributionMethods(
                 List.of(
-                        new DistributionMethod(DistributionPlanType.PURCHASE,
+                        new DistributionMethodDto(DistributionPlanType.PURCHASE,
                                 null,
                                 BigDecimal.valueOf(1234)),
-                        new DistributionMethod(
+                        new DistributionMethodDto(
                                 DistributionPlanType.SUBSCRIBE,
                                 Duration.of(5, ChronoUnit.DAYS),
                                 BigDecimal.valueOf(4321))
@@ -125,7 +126,7 @@ class TaskControllerCreateTaskTest extends BaseControllerTest {
         return requestBody;
     }
 
-    private void assertEqualsDistributionMethod(DistributionMethod responseDistributionMethod, DistributionMethod distributionMethod) {
+    private void assertEqualsDistributionMethod(DistributionMethodDto responseDistributionMethod, DistributionMethod distributionMethod) {
         assertEquals(0, responseDistributionMethod.getCost().compareTo(distributionMethod.getCost()));
         if (responseDistributionMethod.getDuration() != null && distributionMethod.getDuration() != null) {
             assertEquals(0, distributionMethod.getDuration().compareTo(responseDistributionMethod.getDuration()));

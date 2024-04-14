@@ -358,7 +358,7 @@ class WebResourceObservingAddControllerTest extends BaseControllerTest {
 
         var observeSettings = responseDto.getObserveSettings();
         assertNotNull(observeSettings);
-        assertTrue(observeSettings.needNotify());
+        assertTrue(observeSettings.isNeedNotify());
     }
 
     private void assertWebResourceEntity(WebResourceEntity webResourceEntity) {

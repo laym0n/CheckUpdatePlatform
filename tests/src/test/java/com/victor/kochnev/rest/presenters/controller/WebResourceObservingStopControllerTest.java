@@ -175,7 +175,7 @@ class WebResourceObservingStopControllerTest extends BaseControllerTest {
         var observeSettings = responseDto.getObserveSettings();
         assertEquals(ObserveStatus.NOT_OBSERVE, responseDto.getStatus());
         assertNotNull(observeSettings);
-        assertTrue(observeSettings.needNotify());
+        assertTrue(observeSettings.isNeedNotify());
     }
 
     private void stubSuccessWebResourceRemove() {
