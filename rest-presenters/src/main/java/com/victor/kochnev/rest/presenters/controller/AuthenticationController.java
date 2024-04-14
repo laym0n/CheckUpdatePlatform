@@ -7,6 +7,7 @@ import com.victor.kochnev.rest.presenters.security.service.AuthenticationService
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +30,7 @@ public class AuthenticationController {
 
     @PostMapping("/authentication")
     @Operation(operationId = "authenticate")
-    public ResponseEntity<AuthenticateResponse> authenticate(@Valid @RequestBody AuthenticationRequest requestBody) {
+    public ResponseEntity<AuthenticateResponse> authenticate(@Valid @RequestBody @NotNull AuthenticationRequest requestBody) {
         log.info("Request: {}", AUTHENTICATION_ENDPOINT);
         log.debug("Request: {} {}", AUTHENTICATION_ENDPOINT, requestBody);
 
@@ -41,7 +42,7 @@ public class AuthenticationController {
 
     @PostMapping("/authentication/refresh")
     @Operation(operationId = "refreshAuthentication")
-    public ResponseEntity<AuthenticateResponse> refreshAuthentication(@RequestBody AuthenticationRefreshRequest request) {
+    public ResponseEntity<AuthenticateResponse> refreshAuthentication(@Valid @RequestBody @NotNull AuthenticationRefreshRequest request) {
         log.info("Request: {}", AUTHENTICATION_REFRESH_ENDPOINT);
         log.debug("Request: {} {}", AUTHENTICATION_REFRESH_ENDPOINT, request);
 

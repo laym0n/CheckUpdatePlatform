@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +31,7 @@ public class WebResourceObservingController {
     @PostMapping("/webresource/observing")
     @SecurityRequirement(name = "bearerAuth")
     @Operation(operationId = "createObserving")
-    public ResponseEntity<WebResourceObservingDto> createObserving(@Valid @RequestBody AddWebResourceForObservingRequestDto request) {
+    public ResponseEntity<WebResourceObservingDto> createObserving(@Valid @RequestBody @NotNull AddWebResourceForObservingRequestDto request) {
         log.info("Request: {}", WEB_RESOURCE_OBSERVING_CREATE_ENDPOINT);
         log.debug("Request: {} {}", WEB_RESOURCE_OBSERVING_CREATE_ENDPOINT, request);
 
@@ -43,7 +44,7 @@ public class WebResourceObservingController {
     @PutMapping("/webresource/observing/{id}/stop")
     @SecurityRequirement(name = "bearerAuth")
     @Operation(operationId = "stopObserve")
-    public ResponseEntity<WebResourceObservingDto> stopObserve(@Valid @PathVariable("id") UUID observingId) {
+    public ResponseEntity<WebResourceObservingDto> stopObserve(@Valid @PathVariable("id") @NotNull UUID observingId) {
         log.info("Request: {}", WEB_RESOURCE_OBSERVING_STOP_ENDPOINT);
         log.debug("Request: {} {}", WEB_RESOURCE_OBSERVING_STOP_ENDPOINT, observingId);
 

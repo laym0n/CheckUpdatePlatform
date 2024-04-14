@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +30,7 @@ public class PluginController {
     @PostMapping("/plugin")
     @SecurityRequirement(name = "bearerAuth")
     @Operation(operationId = "createPlugin")
-    public ResponseEntity<AddPluginResponseDto> createPlugin(@Valid @RequestBody AddPluginRequestDto request) {
+    public ResponseEntity<AddPluginResponseDto> createPlugin(@Valid @RequestBody @NotNull AddPluginRequestDto request) {
         log.info("Request: {}", CREATE_PLUGIN_ENDPOINT);
         log.debug("Request: {} {}", CREATE_PLUGIN_ENDPOINT, request);
 

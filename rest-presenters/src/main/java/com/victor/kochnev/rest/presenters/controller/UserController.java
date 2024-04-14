@@ -5,6 +5,7 @@ import com.victor.kochnev.core.facade.user.UserFacade;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +27,7 @@ public class UserController {
 
     @PostMapping("/user/register")
     @Operation(operationId = "register")
-    public ResponseEntity<Void> register(@Valid @RequestBody UserRegistrationRequestDto requestBody) {
+    public ResponseEntity<Void> register(@Valid @RequestBody @NotNull UserRegistrationRequestDto requestBody) {
         log.info("Request: {}", USER_REGISTER_ENDPOINT);
         log.debug("Request: {} {}", USER_REGISTER_ENDPOINT, requestBody);
 

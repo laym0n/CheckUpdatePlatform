@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +30,7 @@ public class PluginUsageController {
     @PostMapping("/plugin/usage")
     @SecurityRequirement(name = "bearerAuth")
     @Operation(operationId = "createPluginUsage")
-    public ResponseEntity<PluginUsageDto> createPluginUsage(@Valid @RequestBody CreatePluginUsageRequestDto request) {
+    public ResponseEntity<PluginUsageDto> createPluginUsage(@Valid @RequestBody @NotNull CreatePluginUsageRequestDto request) {
         log.info("Request: {}", CREATE_PLUGIN_USAGE_ENDPOINT);
         log.debug("Request: {} {}", CREATE_PLUGIN_USAGE_ENDPOINT, request);
 

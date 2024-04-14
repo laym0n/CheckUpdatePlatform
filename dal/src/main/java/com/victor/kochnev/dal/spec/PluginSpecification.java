@@ -4,7 +4,6 @@ import com.victor.kochnev.dal.embeddable.object.EmbeddablePluginDescription_;
 import com.victor.kochnev.dal.entity.PluginEntity;
 import com.victor.kochnev.dal.entity.PluginEntity_;
 import jakarta.persistence.criteria.Expression;
-import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
@@ -26,35 +25,18 @@ public final class PluginSpecification {
 
     public static Specification<PluginEntity> byTags(List<String> tags) {
         return (root, query, cb) -> {
-
             var jsonbTags = root.get(PluginEntity_.description)
                     .get(EmbeddablePluginDescription_.specificDescription)
                     .get("tags");
 
-            // Подсчитываем количество совпадающих тегов
-            Expression<Integer> matchingTagsCount = cb.function(
-                    "jsonb_array_length",
-                    Integer.class,
-                    cb.function(
-                            "array_agg",
-                            Object.class,
-                            cb.function(
-                                    "jsonb_array_elements_text",
-                                    String.class,
-                                    jsonbTags
-                            )
-                    )
-            );
+            Expression<String[]> tagsArrayExpression = cb.function("jsonb_extract_path_text", String[].class, jsonbTags, cb.literal("tags"));
+            Expression<String> jsonTagsArrayExpression = cb.function("JSONB", String.class, tagsArrayExpression);
+            Expression<String> arrayTags = cb.function("ARRAY", String.class, tags.stream().map(cb::literal).toArray(Expression[]::new));
+            Expression<Long> tagsExpression = cb.function("count_matching_in_array", Long.class, jsonTagsArrayExpression, arrayTags);
 
-            // Создаем предикат для сравнения тегов
-            Predicate matchingTagsPredicate = cb.greaterThan(
-                    matchingTagsCount,
-                    (int) tags.stream().map(cb::literal).count()
-            );
+            query.orderBy(cb.desc(tagsExpression));
 
-            // Возвращаем спецификацию, отсортированную по убыванию количества совпадающих тегов
-            query.orderBy(cb.desc(matchingTagsCount));
-            return matchingTagsPredicate;
+            return null;
         };
     }
 }

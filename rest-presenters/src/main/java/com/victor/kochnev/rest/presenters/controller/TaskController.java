@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +31,7 @@ public class TaskController {
     @PostMapping("/task")
     @SecurityRequirement(name = "bearerAuth")
     @Operation(operationId = "createTask")
-    public ResponseEntity<TaskDto> createTask(@Valid @RequestBody CreateTaskRequestDto requestBody) {
+    public ResponseEntity<TaskDto> createTask(@Valid @RequestBody @NotNull CreateTaskRequestDto requestBody) {
         log.info("Request: {}", CREATE_TASK_ENDPOINT);
         log.debug("Request: {} {}", CREATE_TASK_ENDPOINT, requestBody);
 
@@ -43,7 +44,7 @@ public class TaskController {
     @PutMapping("/task/{id}/decision")
     @SecurityRequirement(name = "bearerAuth")
     @Operation(operationId = "makeDecision")
-    public ResponseEntity<TaskDto> makeDecision(@Valid @PathVariable("id") UUID taskId, @Valid @RequestBody MakeDecisionRequestDto requestBody) {
+    public ResponseEntity<TaskDto> makeDecision(@Valid @PathVariable("id") @NotNull UUID taskId, @Valid @RequestBody @NotNull MakeDecisionRequestDto requestBody) {
         log.info("Request: {}", MAKE_DECISION_ENDPOINT);
         log.debug("Request: {} {}", MAKE_DECISION_ENDPOINT, requestBody);
 

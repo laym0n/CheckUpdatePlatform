@@ -26,6 +26,8 @@ import java.nio.charset.StandardCharsets;
 
 @AutoConfigureMockMvc
 public abstract class BaseControllerTest extends BaseBootTest {
+    private static final ObjectMapper objectMapper = new ObjectMapper()
+            .registerModule(new JavaTimeModule());
     @Autowired
     protected MockMvc mvc;
     @Autowired
@@ -34,9 +36,6 @@ public abstract class BaseControllerTest extends BaseBootTest {
     protected DomainUserMapper domainUserMapper;
     @Autowired
     protected JwtService jwtService;
-
-    private ObjectMapper objectMapper = new ObjectMapper()
-            .registerModule(new JavaTimeModule());
 
     @SneakyThrows
     public MvcResult post(String uri, Object body) {
@@ -47,6 +46,18 @@ public abstract class BaseControllerTest extends BaseBootTest {
     @SneakyThrows
     public MvcResult post(String uri, Object body, HttpHeaders httpHeaders) {
         var request = getRequest(uri, body, HttpMethod.POST, httpHeaders);
+        return mvc.perform(request).andReturn();
+    }
+
+    @SneakyThrows
+    public MvcResult get(String uri, Object body) {
+        var request = getRequest(uri, body, HttpMethod.GET, HttpHeaders.EMPTY);
+        return mvc.perform(request).andReturn();
+    }
+
+    @SneakyThrows
+    public MvcResult get(String uri, Object body, HttpHeaders httpHeaders) {
+        var request = getRequest(uri, body, HttpMethod.GET, httpHeaders);
         return mvc.perform(request).andReturn();
     }
 
@@ -72,6 +83,7 @@ public abstract class BaseControllerTest extends BaseBootTest {
     }
 
     private MockHttpServletRequestBuilder getRequest(String uri, Object request, HttpMethod httpMethod, HttpHeaders httpHeaders) throws JsonProcessingException {
+        httpHeaders = httpHeaders == null ? HttpHeaders.EMPTY : httpHeaders;
         return MockMvcRequestBuilders.request(httpMethod, uri)
                 .headers(httpHeaders)
                 .content(objectMapper.writeValueAsString(request))
