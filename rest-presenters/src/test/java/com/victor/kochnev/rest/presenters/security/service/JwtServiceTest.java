@@ -28,7 +28,7 @@ class JwtServiceTest extends BaseRestPresentersTest {
         properties.setSecret("SecretSecretSecretSecretSecretSecretSecretSecretSecretSecretSecretSecretSecretSecretSecretSecretSecret");
         properties.setAccessTokenDuration(Duration.of(5, ChronoUnit.MINUTES));
         properties.setRefreshTokenDuration(Duration.of(5, ChronoUnit.MINUTES));
-        properties.setRefreshTokenRemeberMeDuration(Duration.of(5, ChronoUnit.MINUTES));
+        properties.setRefreshTokenRememberMeDuration(Duration.of(5, ChronoUnit.MINUTES));
     }
 
     @Test

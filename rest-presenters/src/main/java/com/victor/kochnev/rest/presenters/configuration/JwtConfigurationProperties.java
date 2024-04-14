@@ -19,7 +19,7 @@ public class JwtConfigurationProperties {
     /**
      * Длительность жизни Jwt токена обновления доступа для опции remeberMe
      */
-    private Duration refreshTokenRemeberMeDuration;
+    private Duration refreshTokenRememberMeDuration;
     /**
      * Секрет для генерации Jwt токена
      */

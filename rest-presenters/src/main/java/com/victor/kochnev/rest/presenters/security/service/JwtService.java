@@ -45,7 +45,7 @@ public class JwtService {
         Map<String, Object> userMap = new HashMap<>();
         userMap.put("id", userSecurity.getId());
         userMap.put("username", userSecurity.getUsername());
-        Duration lifeTime = isRememberMeSet ? jwtProperties.getRefreshTokenRemeberMeDuration() : jwtProperties.getRefreshTokenDuration();
+        Duration lifeTime = isRememberMeSet ? jwtProperties.getRefreshTokenRememberMeDuration() : jwtProperties.getRefreshTokenDuration();
         return doGenerateToken(userMap, userSecurity.getUsername(), lifeTime);
     }
 
