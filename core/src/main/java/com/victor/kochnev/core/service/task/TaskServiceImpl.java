@@ -7,6 +7,7 @@ import com.victor.kochnev.core.dto.request.MakeDecisionRequestDto;
 import com.victor.kochnev.core.repository.PluginRepository;
 import com.victor.kochnev.core.repository.TaskRepository;
 import com.victor.kochnev.core.service.plugin.PluginService;
+import com.victor.kochnev.core.service.tag.TagService;
 import com.victor.kochnev.domain.entity.Plugin;
 import com.victor.kochnev.domain.entity.Task;
 import com.victor.kochnev.domain.enums.PluginStatus;
@@ -24,6 +25,7 @@ import java.util.UUID;
 @Slf4j
 public class TaskServiceImpl implements TaskService {
     private final TaskRepository taskRepository;
+    private final TagService tagService;
     private final PluginService pluginService;
     private final PluginRepository pluginRepository;
     private final DomainTaskMapper taskMapper;
@@ -48,6 +50,8 @@ public class TaskServiceImpl implements TaskService {
             plugin.setDescription(task.getDescription());
             plugin.setStatus(PluginStatus.ACTIVE);
             pluginService.update(plugin);
+
+            tagService.createAllIfNotExists(task.getDescription().getSpecificDescription().getTags());
         }
 
         taskMapper.update(task, requestDto);

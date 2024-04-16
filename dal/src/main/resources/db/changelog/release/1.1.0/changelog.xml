@@ -19,4 +19,8 @@
                  endDelimiter=";"
                  dbms="postgresql"/>
     </changeSet>
+    <changeSet id="004_create_table_tag" author="Victor Kochnev" runAlways="false" failOnError="true">
+        <sqlFile path="004_create_table_tag.sql" relativeToChangelogFile="true" splitStatements="true"
+                 dbms="postgresql"/>
+    </changeSet>
 </databaseChangeLog>
