@@ -32,7 +32,7 @@ public class SecurityConfiguration {
     public SecurityFilterChain restPresentersSecurityFilterChain(HttpSecurity http, JwtAuthenticationFilter filter, ApplicationContext context) throws Exception {
         var expressionHandler = new DefaultHttpSecurityExpressionHandler();
         expressionHandler.setApplicationContext(context);
-        var observingAuthorization = new WebExpressionAuthorizationManager("@authorizationHelper.checkWebResourceObservingAccess(authentication,#id)");
+        var observingAuthorization = new WebExpressionAuthorizationManager("@authorizationHelper.checkWebResourceObservingAccess(authentication, #id)");
         observingAuthorization.setExpressionHandler(expressionHandler);
 
         return http

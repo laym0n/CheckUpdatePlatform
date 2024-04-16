@@ -15,6 +15,7 @@ import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 
 @Configuration
 @Profile("swagger")
+@Order(Ordered.HIGHEST_PRECEDENCE + 10000000)
 public class SwaggerConfiguration {
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE + 10000000)
