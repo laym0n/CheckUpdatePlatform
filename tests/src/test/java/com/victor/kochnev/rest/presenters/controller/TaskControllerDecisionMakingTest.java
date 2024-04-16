@@ -2,7 +2,10 @@ package com.victor.kochnev.rest.presenters.controller;
 
 import com.victor.kochnev.BaseControllerTest;
 import com.victor.kochnev.core.dto.request.MakeDecisionRequestDto;
+import com.victor.kochnev.dal.embeddable.object.EmbeddablePluginDescriptionBuilder;
+import com.victor.kochnev.dal.embeddable.object.EmbeddableSpecificPluginDescriptionBuilder;
 import com.victor.kochnev.dal.entity.*;
+import com.victor.kochnev.dal.entity.value.object.TagsInfo;
 import com.victor.kochnev.domain.enums.PluginStatus;
 import com.victor.kochnev.domain.enums.TaskDecision;
 import com.victor.kochnev.domain.enums.UserRole;
@@ -46,6 +49,9 @@ class TaskControllerDecisionMakingTest extends BaseControllerTest {
         assertNotNull(plugin.getDescription());
         assertEquals(PluginStatus.ACTIVE, plugin.getStatus());
         assertEquals(taskEntity.getDescription(), plugin.getDescription());
+
+        List<TagEntity> allTags = tagRepository.findAll();
+        assertEquals(4, allTags.size());
     }
 
     @Test
@@ -70,6 +76,9 @@ class TaskControllerDecisionMakingTest extends BaseControllerTest {
         PluginEntity plugin = pluginRepository.findById(PLUGIN_ID).get();
         assertNull(plugin.getDescription());
         assertEquals(PluginStatus.CREATED, plugin.getStatus());
+
+        List<TagEntity> allTags = tagRepository.findAll();
+        assertEquals(3, allTags.size());
     }
 
     @Test
@@ -158,6 +167,15 @@ class TaskControllerDecisionMakingTest extends BaseControllerTest {
     }
 
     private void prepareDb() {
+        tagRepository.save(TagEntityBuilder.persistedDefaultBuilder()
+                .data("tag1")
+                .build());
+        tagRepository.save(TagEntityBuilder.persistedDefaultBuilder()
+                .data("tag2")
+                .build());
+        tagRepository.save(TagEntityBuilder.persistedDefaultBuilder()
+                .data("tag4")
+                .build());
         USER_ID = userRepository.save(UserEntityBuilder.defaultBuilder()
                 .roles(List.of(UserRole.EMPLOYEE)).build()).getId();
         PLUGIN_ID = pluginRepository.save(PluginEntityBuilder.persistedDefaultBuilder()
@@ -167,6 +185,11 @@ class TaskControllerDecisionMakingTest extends BaseControllerTest {
                 .build()).getId();
         TASK_ID = taskRepository.save(TaskEntityBuilder.defaultBuilder()
                 .plugin(pluginRepository.findById(PLUGIN_ID).get())
+                .description(EmbeddablePluginDescriptionBuilder.defaultBuilder()
+                        .specificDescription(EmbeddableSpecificPluginDescriptionBuilder.defaultBuilder()
+                                .tags(new TagsInfo(List.of("tag1", "tag2", "tag3")))
+                                .build())
+                        .build())
                 .build()).getId();
         userForRequest = userRepository.findById(USER_ID).get();
     }

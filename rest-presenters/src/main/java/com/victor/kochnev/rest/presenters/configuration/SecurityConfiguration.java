@@ -36,14 +36,14 @@ public class SecurityConfiguration {
         observingAuthorization.setExpressionHandler(expressionHandler);
 
         return http
-                .securityMatcher("/webresource/observing/**", "/user/register", "/authentication/**", "/plugin/**", "/task/**")
+                .securityMatcher("/webresource/observing/**", "/user/register", "/authentication/**", "/plugin/**", "/task/**", "/autocomplete/**")
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/task/{id}/decision").hasRole(UserRole.EMPLOYEE.name())
                         .requestMatchers("/webresource/observing/{id}/**").access(observingAuthorization)
                         .requestMatchers("/webresource/observing/**", "/task").hasRole(UserRole.SIMPLE_USER.name())
                         .requestMatchers(HttpMethod.POST, "/plugin/**").hasRole(UserRole.SIMPLE_USER.name())
                         .requestMatchers(HttpMethod.GET, "/plugin/**").permitAll()
-                        .requestMatchers("/user/register", "/authentication/**").permitAll()
+                        .requestMatchers("/user/register", "/authentication/**", "/autocomplete/**").permitAll()
                 )
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
