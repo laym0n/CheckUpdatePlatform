@@ -26,7 +26,7 @@ import java.nio.charset.StandardCharsets;
 
 @AutoConfigureMockMvc
 public abstract class BaseControllerTest extends BaseBootTest {
-    private static final ObjectMapper objectMapper = new ObjectMapper()
+    protected static final ObjectMapper objectMapper = new ObjectMapper()
             .registerModule(new JavaTimeModule());
     @Autowired
     protected MockMvc mvc;

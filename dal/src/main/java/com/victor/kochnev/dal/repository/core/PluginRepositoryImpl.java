@@ -2,7 +2,6 @@ package com.victor.kochnev.dal.repository.core;
 
 import com.victor.kochnev.core.dto.dal.GetPluginsDalRequestDto;
 import com.victor.kochnev.core.dto.dal.GetPluginsDalResponseDto;
-import com.victor.kochnev.core.dto.dal.PluginsFilterDalDto;
 import com.victor.kochnev.core.exception.ResourceNotFoundException;
 import com.victor.kochnev.core.repository.PluginRepository;
 import com.victor.kochnev.dal.converter.EntityPluginMapper;
@@ -14,6 +13,8 @@ import com.victor.kochnev.dal.spec.PluginSpecification;
 import com.victor.kochnev.domain.entity.Plugin;
 import com.victor.kochnev.domain.entity.User;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -75,7 +76,7 @@ public class PluginRepositoryImpl implements PluginRepository {
     @Override
     @Transactional(readOnly = true)
     public GetPluginsDalResponseDto getByFilters(GetPluginsDalRequestDto request) {
-        Specification<PluginEntity> spec = prepareSpecification(request.getFilters());
+        Specification<PluginEntity> spec = prepareSpecification(request);
 
         List<Plugin> pluginList = pluginEntityRepository.findAll(spec)
                 .stream()
@@ -92,15 +93,16 @@ public class PluginRepositoryImpl implements PluginRepository {
                 .orElseThrow(() -> ResourceNotFoundException.create(Plugin.class, id.toString(), "id"));
     }
 
-    private Specification<PluginEntity> prepareSpecification(PluginsFilterDalDto filters) {
+    private Specification<PluginEntity> prepareSpecification(GetPluginsDalRequestDto requestDto) {
         Specification<PluginEntity> spec = PluginSpecification.getAll();
-        if (filters == null) {
+        if (requestDto == null || requestDto.getFilters() == null) {
             return spec;
         }
-        if (filters.getName() != null) {
+        var filters = requestDto.getFilters();
+        if (StringUtils.isNotEmpty(filters.getName())) {
             spec = spec.and(PluginSpecification.byName(filters.getName()));
         }
-        if (filters.getTags() != null && !filters.getTags().isEmpty()) {
+        if (ObjectUtils.isNotEmpty(filters.getTags())) {
             spec = spec.and(PluginSpecification.byTags(filters.getTags()));
         }
         return spec;

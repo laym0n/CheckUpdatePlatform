@@ -6,8 +6,10 @@ import com.victor.kochnev.core.dto.response.AddPluginResponseDto;
 import com.victor.kochnev.core.dto.response.GetPluginsResponseDto;
 import com.victor.kochnev.core.facade.plugin.PluginFacade;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Nullable;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -42,8 +44,14 @@ public class PluginController {
 
     @GetMapping("/plugin")
     @SecurityRequirement(name = "bearerAuth")
-    @Operation(operationId = "getPlugins")
-    public ResponseEntity<GetPluginsResponseDto> getPlugins(@Valid @RequestBody GetPluginsRequestDto request) {
+    @Operation(
+            operationId = "getPlugins",
+            parameters = {
+                    @Parameter(name = "filters.name"),
+                    @Parameter(name = "filters.tags"),
+            }
+    )
+    public ResponseEntity<GetPluginsResponseDto> getPlugins(@Parameter(hidden = true) @Valid @Nullable GetPluginsRequestDto request) {
         log.info("Request: {}", GET_PLUGINS_ENDPOINT);
         log.debug("Request: {} {}", GET_PLUGINS_ENDPOINT, request);
 

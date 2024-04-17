@@ -8,9 +8,9 @@ import com.victor.kochnev.core.dto.response.GetPluginsResponseDto;
 import com.victor.kochnev.dal.embeddable.object.EmbeddablePluginDescriptionBuilder;
 import com.victor.kochnev.dal.embeddable.object.EmbeddableSpecificPluginDescription;
 import com.victor.kochnev.dal.entity.PluginEntityBuilder;
-import com.victor.kochnev.dal.entity.UserEntity;
 import com.victor.kochnev.dal.entity.UserEntityBuilder;
 import com.victor.kochnev.dal.entity.value.object.TagsInfo;
+import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,25 +22,25 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
 
 class GetPluginsControllerTest extends BaseControllerTest {
+    private static final String PLUGIN_ENDPOINT = "/plugin";
     private static UUID OWNER_ID;
     private static UUID PLUGIN_ID1;
     private static UUID PLUGIN_ID2;
     private static UUID PLUGIN_ID3;
     private static UUID PLUGIN_ID4;
-    private final String PLUGIN_ENDPOINT = "/plugin";
-
     @Autowired
     PasswordEncoder passwordEncoder;
-    UserEntity userForRequest;
 
+    @SneakyThrows
     @Test
     void successGetAll() {
         //Assign
         prepareDb();
-        GetPluginsRequestDto requestBody = prepareRequest();
+        var requestDto = prepareRequest();
+        String uri = getUri(requestDto);
 
         //Action
-        MvcResult mvcResult = get(PLUGIN_ENDPOINT, requestBody, null);
+        MvcResult mvcResult = get(uri, requestDto, null);
 
         //Assert
         assertHttpStatusOk(mvcResult);
@@ -56,15 +56,17 @@ class GetPluginsControllerTest extends BaseControllerTest {
         assertContains(response.getPlugins(), PLUGIN_ID4);
     }
 
+    @SneakyThrows
     @Test
     void successGetByName() {
         //Assign
         prepareDb();
-        GetPluginsRequestDto requestBody = prepareRequest();
-        requestBody.getFilters().setName("1");
+        var requestDto = prepareRequest();
+        requestDto.getFilters().setName("1");
+        String uri = getUri(requestDto);
 
         //Action
-        MvcResult mvcResult = get(PLUGIN_ENDPOINT, requestBody, null);
+        MvcResult mvcResult = get(uri, requestDto, null);
 
         //Assert
         assertHttpStatusOk(mvcResult);
@@ -88,8 +90,25 @@ class GetPluginsControllerTest extends BaseControllerTest {
         assertTrue(plugins.stream().anyMatch(plugin -> plugin.getId().equals(pluginId)));
     }
 
-    private void assertPluginIndex(List<PluginInfoDto> plugins, UUID pluginId, int index) {
-        assertEquals(pluginId, plugins.get(index).getId());
+    private String getUri(GetPluginsRequestDto requestDto) {
+        if (requestDto == null || requestDto.getFilters() == null) {
+            return PLUGIN_ENDPOINT;
+        }
+        StringBuilder uri = new StringBuilder(PLUGIN_ENDPOINT);
+        boolean isFirst = true;
+        if (requestDto.getFilters().getName() != null) {
+            uri.append(isFirst ? "?" : "$");
+            uri.append("filters.name=").append(requestDto.getFilters().getName());
+            isFirst = false;
+        }
+        if (requestDto.getFilters().getTags() != null) {
+            uri.append(isFirst ? "?" : "$");
+            uri.append("filters.tags=");
+            requestDto.getFilters().getTags().stream()
+                    .forEach(uri::append);
+            isFirst = false;
+        }
+        return uri.toString();
     }
 
     void prepareDb() {
