@@ -7,6 +7,8 @@ import com.victor.kochnev.core.dto.response.GetPluginsResponseDto;
 import com.victor.kochnev.core.facade.plugin.PluginFacade;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Nullable;
@@ -47,8 +49,8 @@ public class PluginController {
     @Operation(
             operationId = "getPlugins",
             parameters = {
-                    @Parameter(name = "filters.name"),
-                    @Parameter(name = "filters.tags"),
+                    @Parameter(name = "filters.name", schema = @Schema(type = "string")),
+                    @Parameter(name = "filters.tags", array = @ArraySchema(schema = @Schema(type = "string"))),
             }
     )
     public ResponseEntity<GetPluginsResponseDto> getPlugins(@Parameter(hidden = true) @Valid @Nullable GetPluginsRequestDto request) {
