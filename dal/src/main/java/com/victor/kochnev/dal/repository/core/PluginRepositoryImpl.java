@@ -105,6 +105,9 @@ public class PluginRepositoryImpl implements PluginRepository {
         if (ObjectUtils.isNotEmpty(filters.getTags())) {
             spec = spec.and(PluginSpecification.byTags(filters.getTags()));
         }
+        if (filters.getIds() != null) {
+            spec = spec.and(PluginSpecification.byIds(filters.getIds()));
+        }
         return spec;
     }
 }

@@ -106,6 +106,25 @@ class GetByFiltersPluginRepositoryTest extends BaseBootTest {
         assertPluginIndex(response.getPlugins(), PLUGIN_ID3, 3);
     }
 
+    @Test
+    void testGetByFilters_GetById() {
+        //Assign
+        prepareDb();
+        var request = prepareRequest();
+        request.getFilters().setIds(List.of(PLUGIN_ID1, PLUGIN_ID4));
+
+        //Action
+        var response = pluginRepository.getByFilters(request);
+
+        //Assert
+        assertNotNull(response);
+        assertNotNull(response.getPlugins());
+        assertEquals(2, response.getPlugins().size());
+
+        assertContains(response.getPlugins(), PLUGIN_ID1);
+        assertContains(response.getPlugins(), PLUGIN_ID4);
+    }
+
     private GetPluginsDalRequestDto prepareRequest() {
         var requestDto = new GetPluginsDalRequestDto();
         requestDto.setFilters(new PluginsFilterDalDto());

@@ -49,6 +49,7 @@ public class PluginController {
     @Operation(
             operationId = "getPlugins",
             parameters = {
+                    @Parameter(name = "filters.ids", array = @ArraySchema(schema = @Schema(type = "string"))),
                     @Parameter(name = "filters.name", schema = @Schema(type = "string")),
                     @Parameter(name = "filters.tags", array = @ArraySchema(schema = @Schema(type = "string"))),
             }
