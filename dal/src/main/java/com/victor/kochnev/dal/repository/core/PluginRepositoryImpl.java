@@ -108,6 +108,9 @@ public class PluginRepositoryImpl implements PluginRepository {
         if (filters.getIds() != null) {
             spec = spec.and(PluginSpecification.byIds(filters.getIds()));
         }
+        if (filters.getUserId() != null) {
+            spec = spec.and(PluginSpecification.byUserId(filters.getUserId()));
+        }
         return spec;
     }
 }

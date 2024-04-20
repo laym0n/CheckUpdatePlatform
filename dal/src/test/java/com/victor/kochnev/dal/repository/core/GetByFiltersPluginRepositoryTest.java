@@ -4,15 +4,18 @@ import com.victor.kochnev.core.dto.dal.GetPluginsDalRequestDto;
 import com.victor.kochnev.core.dto.dal.PluginsFilterDalDto;
 import com.victor.kochnev.core.repository.PluginRepository;
 import com.victor.kochnev.dal.BaseBootTest;
+import com.victor.kochnev.dal.embeddable.object.EmbeddableDistributionMethodBuilder;
 import com.victor.kochnev.dal.embeddable.object.EmbeddablePluginDescriptionBuilder;
 import com.victor.kochnev.dal.embeddable.object.EmbeddableSpecificPluginDescription;
 import com.victor.kochnev.dal.entity.PluginEntityBuilder;
+import com.victor.kochnev.dal.entity.PluginUsageEntityBuilder;
 import com.victor.kochnev.dal.entity.UserEntityBuilder;
 import com.victor.kochnev.dal.entity.value.object.TagsInfo;
 import com.victor.kochnev.domain.entity.Plugin;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -122,6 +125,52 @@ class GetByFiltersPluginRepositoryTest extends BaseBootTest {
         assertEquals(2, response.getPlugins().size());
 
         assertContains(response.getPlugins(), PLUGIN_ID1);
+        assertContains(response.getPlugins(), PLUGIN_ID4);
+    }
+
+    @Test
+    void testGetByFilters_GetByUserId() {
+        //Assign
+        prepareDb();
+        UUID userId1 = userEntityRepository.save(UserEntityBuilder.persistedPostfixBuilder(1).build()).getId();
+        UUID userId2 = userEntityRepository.save(UserEntityBuilder.persistedPostfixBuilder(2).build()).getId();
+        pluginUsageEntityRepository.save(PluginUsageEntityBuilder.persistedBuilder(1)
+                .user(userEntityRepository.findById(userId1).get())
+                .plugin(pluginEntityRepository.findById(PLUGIN_ID1).get())
+                .distributionMethod(EmbeddableDistributionMethodBuilder.defaultPurchaseDistribution().build())
+                .build());
+        pluginUsageEntityRepository.save(PluginUsageEntityBuilder.persistedBuilder(1)
+                .user(userEntityRepository.findById(userId1).get())
+                .plugin(pluginEntityRepository.findById(PLUGIN_ID2).get())
+                .distributionMethod(EmbeddableDistributionMethodBuilder.defaultPurchaseDistribution().build())
+                .build());
+        pluginUsageEntityRepository.save(PluginUsageEntityBuilder.persistedBuilder(1)
+                .user(userEntityRepository.findById(userId1).get())
+                .plugin(pluginEntityRepository.findById(PLUGIN_ID4).get())
+                .distributionMethod(EmbeddableDistributionMethodBuilder.defaultSubscribeDistribution().build())
+                .expiredDate(ZonedDateTime.now().minusDays(5))
+                .build());
+        pluginUsageEntityRepository.save(PluginUsageEntityBuilder.persistedBuilder(1)
+                .user(userEntityRepository.findById(userId2).get())
+                .plugin(pluginEntityRepository.findById(PLUGIN_ID3).get())
+                .distributionMethod(EmbeddableDistributionMethodBuilder.defaultPurchaseDistribution().build())
+                .build());
+
+        pluginEntityRepository.save(PluginEntityBuilder.persistedPostfixBuilder(5)
+                .ownerUser(userEntityRepository.findById(OWNER_ID).get()).build());
+        var request = prepareRequest();
+        request.getFilters().setUserId(userId1);
+
+        //Action
+        var response = pluginRepository.getByFilters(request);
+
+        //Assert
+        assertNotNull(response);
+        assertNotNull(response.getPlugins());
+        assertEquals(3, response.getPlugins().size());
+
+        assertContains(response.getPlugins(), PLUGIN_ID1);
+        assertContains(response.getPlugins(), PLUGIN_ID2);
         assertContains(response.getPlugins(), PLUGIN_ID4);
     }
 

@@ -11,4 +11,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class GetPluginsDalRequestDto {
     private PluginsFilterDalDto filters;
+
+    public PluginsFilterDalDto getFilters() {
+        return filters = filters == null ? new PluginsFilterDalDto() : filters;
+    }
 }

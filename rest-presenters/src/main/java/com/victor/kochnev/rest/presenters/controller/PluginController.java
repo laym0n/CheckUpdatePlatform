@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.*;
 public class PluginController {
     private static final String CREATE_PLUGIN_ENDPOINT = "POST /plugin";
     private static final String GET_PLUGINS_ENDPOINT = "GET /plugin";
+    private static final String GET_MY_PLUGINS_ENDPOINT = "GET /plugin/my";
     private final PluginFacade pluginFacade;
 
     @PostMapping("/plugin")
@@ -61,6 +62,26 @@ public class PluginController {
         var responseDto = pluginFacade.getPlugins(request);
 
         log.info("Request: {} proccesed {}", GET_PLUGINS_ENDPOINT, responseDto);
+        return ResponseEntity.ok(responseDto);
+    }
+
+    @GetMapping("/plugin/my")
+    @SecurityRequirement(name = "bearerAuth")
+    @Operation(
+            operationId = "getMyPlugins",
+            parameters = {
+                    @Parameter(name = "filters.ids", array = @ArraySchema(schema = @Schema(type = "string"))),
+                    @Parameter(name = "filters.name", schema = @Schema(type = "string")),
+                    @Parameter(name = "filters.tags", array = @ArraySchema(schema = @Schema(type = "string"))),
+            }
+    )
+    public ResponseEntity<GetPluginsResponseDto> getMyPlugins(@Parameter(hidden = true) @Valid @Nullable GetPluginsRequestDto request) {
+        log.info("Request: {}", GET_MY_PLUGINS_ENDPOINT);
+        log.debug("Request: {} {}", GET_MY_PLUGINS_ENDPOINT, request);
+
+        var responseDto = pluginFacade.getPluginsForCurrentUser(request);
+
+        log.info("Request: {} proccesed {}", GET_MY_PLUGINS_ENDPOINT, responseDto);
         return ResponseEntity.ok(responseDto);
     }
 }

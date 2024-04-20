@@ -10,4 +10,6 @@ public interface PluginFacade {
     AddPluginResponseDto addPlugin(AddPluginRequestDto requestDto);
 
     GetPluginsResponseDto getPlugins(GetPluginsRequestDto request);
+
+    GetPluginsResponseDto getPluginsForCurrentUser(GetPluginsRequestDto request);
 }

@@ -16,4 +16,5 @@ public class PluginsFilterDalDto {
     private List<UUID> ids;
     private String name;
     private List<String> tags;
+    private UUID userId;
 }

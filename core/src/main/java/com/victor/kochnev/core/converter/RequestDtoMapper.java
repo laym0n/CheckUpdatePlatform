@@ -2,10 +2,7 @@ package com.victor.kochnev.core.converter;
 
 import com.victor.kochnev.core.dto.dal.GetPluginsDalRequestDto;
 import com.victor.kochnev.core.dto.request.GetPluginsRequestDto;
-import org.mapstruct.InjectionStrategy;
-import org.mapstruct.Mapper;
-import org.mapstruct.NullValuePropertyMappingStrategy;
-import org.mapstruct.ReportingPolicy;
+import org.mapstruct.*;
 
 @Mapper(injectionStrategy = InjectionStrategy.CONSTRUCTOR,
         componentModel = "spring",
@@ -13,5 +10,6 @@ import org.mapstruct.ReportingPolicy;
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface RequestDtoMapper {
 
+    @Mapping(target = "filters.userId", ignore = true)
     GetPluginsDalRequestDto mapToDal(GetPluginsRequestDto request);
 }

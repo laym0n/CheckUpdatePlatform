@@ -29,4 +29,10 @@ public class PluginFacadeImpl implements PluginFacade {
     public GetPluginsResponseDto getPlugins(GetPluginsRequestDto request) {
         return pluginService.getPlugins(request);
     }
+
+    @Override
+    public GetPluginsResponseDto getPluginsForCurrentUser(GetPluginsRequestDto request) {
+        UserSecurity currentUser = securityUserService.getCurrentUser();
+        return pluginService.getPluginsForCurrentUser(request, currentUser.getId());
+    }
 }

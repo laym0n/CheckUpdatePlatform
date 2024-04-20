@@ -18,4 +18,6 @@ public interface PluginService {
     Plugin update(Plugin plugin);
 
     GetPluginsResponseDto getPlugins(GetPluginsRequestDto request);
+
+    GetPluginsResponseDto getPluginsForCurrentUser(GetPluginsRequestDto request, UUID userId);
 }
