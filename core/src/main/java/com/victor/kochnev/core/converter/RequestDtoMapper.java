@@ -1,7 +1,9 @@
 package com.victor.kochnev.core.converter;
 
+import com.victor.kochnev.core.dto.dal.GetPluginUsagesDalRequestDto;
 import com.victor.kochnev.core.dto.dal.GetPluginsDalRequestDto;
 import com.victor.kochnev.core.dto.dal.GetWebResourceObservingDalRequestDto;
+import com.victor.kochnev.core.dto.request.GetPluginUsagesRequestDto;
 import com.victor.kochnev.core.dto.request.GetPluginsRequestDto;
 import com.victor.kochnev.core.dto.request.GetWebResourceObservingsRequestDto;
 import org.mapstruct.*;
@@ -17,4 +19,7 @@ public interface RequestDtoMapper {
 
     @Mapping(target = "filters.userIds", ignore = true)
     GetWebResourceObservingDalRequestDto mapToDal(GetWebResourceObservingsRequestDto request);
+
+    @Mapping(target = "filters.userIds", ignore = true)
+    GetPluginUsagesDalRequestDto mapToDal(GetPluginUsagesRequestDto requestDto);
 }

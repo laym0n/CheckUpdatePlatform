@@ -6,6 +6,7 @@ import jakarta.persistence.criteria.ListJoin;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.UUID;
 
 public final class PluginUsageSpecification {
@@ -13,7 +14,7 @@ public final class PluginUsageSpecification {
     }
 
     public static Specification<PluginUsageEntity> withUserIdPluginIdAndExpiredDateNullOrAfter(UUID userId, UUID pluginId, ZonedDateTime expiredDate) {
-        Specification<PluginUsageEntity> spec = Specification.where(getAllUsages());
+        Specification<PluginUsageEntity> spec = Specification.where(getAll());
         spec = spec.and(byUserId(userId));
         spec = spec.and(byPluginId(pluginId));
         spec = spec.and(byExpiredDateAfter(expiredDate).or(byExpiredDateNull()));
@@ -21,7 +22,7 @@ public final class PluginUsageSpecification {
     }
 
     public static Specification<PluginUsageEntity> expiredDateNullOrAfter(ZonedDateTime expiredDate) {
-        Specification<PluginUsageEntity> spec = Specification.where(getAllUsages());
+        Specification<PluginUsageEntity> spec = Specification.where(getAll());
         spec = spec.and(byExpiredDateAfter(expiredDate).or(byExpiredDateNull()));
         return spec;
     }
@@ -51,18 +52,26 @@ public final class PluginUsageSpecification {
     }
 
     public static Specification<PluginUsageEntity> byUserId(UUID userId) {
-        return (root, query, cb) -> cb.equal(root.get(PluginUsageEntity_.user).get(UserEntity_.id), userId);
+        return (root, query, cb) -> cb.equal(root.get(PluginUsageEntity_.user).get(BaseDalEntity_.id), userId);
     }
 
-    private static Specification<PluginUsageEntity> byPluginId(UUID pluginId) {
-        return (root, query, cb) -> cb.equal(root.get(PluginUsageEntity_.plugin).get(PluginEntity_.id), pluginId);
+    public static Specification<PluginUsageEntity> byPluginId(UUID pluginId) {
+        return (root, query, cb) -> cb.equal(root.get(PluginUsageEntity_.plugin).get(BaseDalEntity_.id), pluginId);
     }
 
-    private static Specification<PluginUsageEntity> getAllUsages() {
+    public static Specification<PluginUsageEntity> getAll() {
         return (root, query, cb) -> {
             root.join(PluginUsageEntity_.plugin);
             root.join(PluginUsageEntity_.user);
             return cb.conjunction();
         };
+    }
+
+    public static Specification<PluginUsageEntity> byPluginIds(List<UUID> pluginIds) {
+        return (root, query, cb) -> root.get(PluginUsageEntity_.plugin).get(BaseDalEntity_.id).in(pluginIds);
+    }
+
+    public static Specification<PluginUsageEntity> byUserIds(List<UUID> userIds) {
+        return (root, query, cb) -> root.get(PluginUsageEntity_.user).get(BaseDalEntity_.id).in(userIds);
     }
 }

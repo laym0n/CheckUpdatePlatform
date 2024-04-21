@@ -1,5 +1,7 @@
 package com.victor.kochnev.core.repository;
 
+import com.victor.kochnev.core.dto.dal.GetPluginUsagesDalRequestDto;
+import com.victor.kochnev.core.dto.dal.GetPluginUsagesDalResponseDto;
 import com.victor.kochnev.domain.entity.PluginUsage;
 
 import java.time.ZonedDateTime;
@@ -10,4 +12,6 @@ public interface PluginUsageRepository {
     List<PluginUsage> findPluginUsageWithExpiredDateAfterOrNull(UUID userId, UUID pluginId, ZonedDateTime expiredDate);
 
     PluginUsage create(PluginUsage pluginUsage);
+
+    GetPluginUsagesDalResponseDto getByFilters(GetPluginUsagesDalRequestDto dalRequestDto);
 }

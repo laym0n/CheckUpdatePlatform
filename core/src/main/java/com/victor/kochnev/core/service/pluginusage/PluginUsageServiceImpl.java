@@ -2,8 +2,11 @@ package com.victor.kochnev.core.service.pluginusage;
 
 import com.victor.kochnev.core.converter.DomainPluginMapper;
 import com.victor.kochnev.core.converter.DomainPluginUsageMapper;
+import com.victor.kochnev.core.converter.RequestDtoMapper;
 import com.victor.kochnev.core.dto.domain.entity.PluginUsageDto;
 import com.victor.kochnev.core.dto.request.CreatePluginUsageRequestDto;
+import com.victor.kochnev.core.dto.request.GetPluginUsagesRequestDto;
+import com.victor.kochnev.core.dto.response.GetPluginUsagesResponseDto;
 import com.victor.kochnev.core.exception.PluginUsageNotPermittedException;
 import com.victor.kochnev.core.exception.ResourceNotFoundException;
 import com.victor.kochnev.core.repository.PluginRepository;
@@ -18,6 +21,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.UUID;
 
 @Component
@@ -28,6 +32,7 @@ public class PluginUsageServiceImpl implements PluginUsageService {
     private final PluginUsageRepository pluginUsageRepository;
     private final PluginRepository pluginRepository;
     private final UserRepository userRepository;
+    private final RequestDtoMapper requestDtoMapper;
 
     @Override
     @Transactional
@@ -53,5 +58,13 @@ public class PluginUsageServiceImpl implements PluginUsageService {
 
         pluginUsage = pluginUsageRepository.create(pluginUsage);
         return pluginUsageMapper.mapToDto(pluginUsage);
+    }
+
+    @Override
+    public GetPluginUsagesResponseDto getByFiltersForUser(GetPluginUsagesRequestDto requestDto, UUID userId) {
+        var dalRequestDto = requestDtoMapper.mapToDal(requestDto);
+        dalRequestDto.getFilters().setUserIds(List.of(userId));
+        var dalResponseDto = pluginUsageRepository.getByFilters(dalRequestDto);
+        return pluginUsageMapper.mapToDto(dalResponseDto);
     }
 }

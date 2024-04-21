@@ -1,7 +1,9 @@
 package com.victor.kochnev.core.converter;
 
+import com.victor.kochnev.core.dto.dal.GetPluginUsagesDalResponseDto;
 import com.victor.kochnev.core.dto.domain.entity.PluginUsageDto;
 import com.victor.kochnev.core.dto.request.CreatePluginUsageRequestDto;
+import com.victor.kochnev.core.dto.response.GetPluginUsagesResponseDto;
 import com.victor.kochnev.domain.entity.PluginUsage;
 import org.mapstruct.*;
 
@@ -22,6 +24,8 @@ public interface DomainPluginUsageMapper {
     @Mapping(target = "user", ignore = true)
     @Mapping(target = "expiredDate", ignore = true)
     PluginUsage mapToDomain(CreatePluginUsageRequestDto requestDto);
+
+    GetPluginUsagesResponseDto mapToDto(GetPluginUsagesDalResponseDto dalResponseDto);
 
     @AfterMapping
     default void performExpiredDateMapping(final CreatePluginUsageRequestDto requestDto, @MappingTarget final PluginUsage pluginUsage) {
