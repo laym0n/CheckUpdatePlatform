@@ -1,16 +1,17 @@
 package com.victor.kochnev.core.dto.request;
 
-import jakarta.annotation.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+import java.util.UUID;
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class GetPluginsRequestDto {
-    @Nullable
-    private PluginsFilterDto filters;
+public class WebResourceObservingsFilterDto {
+    private List<UUID> pluginIds;
 }

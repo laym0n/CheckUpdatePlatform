@@ -3,6 +3,8 @@ package com.victor.kochnev.core.service.webresourceobserving;
 import com.victor.kochnev.core.dto.domain.entity.WebResourceObservingDto;
 import com.victor.kochnev.core.dto.plugin.WebResourcePluginDto;
 import com.victor.kochnev.core.dto.request.AddWebResourceForObservingRequestDto;
+import com.victor.kochnev.core.dto.request.GetWebResourceObservingsRequestDto;
+import com.victor.kochnev.core.dto.response.GetWebResouceObservingsResponseDto;
 import com.victor.kochnev.domain.entity.WebResourceObserving;
 
 import java.util.List;
@@ -19,4 +21,6 @@ public interface WebResourceObservingService {
     WebResourceObserving getById(UUID observingId);
 
     boolean stopObservingCascade(UUID observingId);
+
+    GetWebResouceObservingsResponseDto getByFiltersForUser(GetWebResourceObservingsRequestDto request, UUID userId);
 }

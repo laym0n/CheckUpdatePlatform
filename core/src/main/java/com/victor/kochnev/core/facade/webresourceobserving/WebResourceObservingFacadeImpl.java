@@ -5,9 +5,13 @@ import com.victor.kochnev.core.dto.domain.entity.WebResourceObservingDto;
 import com.victor.kochnev.core.dto.plugin.CanObserveResponseDto;
 import com.victor.kochnev.core.dto.plugin.WebResourcePluginDto;
 import com.victor.kochnev.core.dto.request.AddWebResourceForObservingRequestDto;
+import com.victor.kochnev.core.dto.request.GetWebResourceObservingsRequestDto;
 import com.victor.kochnev.core.dto.request.StopWebResourceObservingRequestDto;
+import com.victor.kochnev.core.dto.response.GetWebResouceObservingsResponseDto;
 import com.victor.kochnev.core.exception.ResourceDescriptionParseException;
 import com.victor.kochnev.core.integration.PluginClient;
+import com.victor.kochnev.core.security.entity.UserSecurity;
+import com.victor.kochnev.core.security.service.user.SecurityUserService;
 import com.victor.kochnev.core.service.plugin.PluginService;
 import com.victor.kochnev.core.service.webresource.WebResourceService;
 import com.victor.kochnev.core.service.webresourceobserving.WebResourceObservingService;
@@ -33,6 +37,7 @@ public class WebResourceObservingFacadeImpl implements WebResourceObservingFacad
     private final PluginClient pluginClient;
     private final WebResourceObservingService webResourceObservingService;
     private final DomainWebResourceObservingMapper observingMapper;
+    private final SecurityUserService securityUserService;
 
     @PreAuthorize("@authorizationService.verifyCurrentUserCanUsePlugin(#request.getPluginId())")
     @Override
@@ -62,6 +67,12 @@ public class WebResourceObservingFacadeImpl implements WebResourceObservingFacad
         }
         WebResourceObserving observing = webResourceObservingService.getById(request.getWebResourceObservingId());
         return observingMapper.mapToDto(observing);
+    }
+
+    @Override
+    public GetWebResouceObservingsResponseDto getByFilters(GetWebResourceObservingsRequestDto request) {
+        UserSecurity currentUser = securityUserService.getCurrentUser();
+        return webResourceObservingService.getByFiltersForUser(request, currentUser.getId());
     }
 
     @Override

@@ -7,6 +7,7 @@ import jakarta.persistence.criteria.Path;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.UUID;
 
 public final class WebResourceObservingSpecification {
@@ -51,5 +52,13 @@ public final class WebResourceObservingSpecification {
 
     public static Specification<WebResourceObservingEntity> byStatus(ObserveStatus status) {
         return (root, query, cb) -> cb.equal(root.get(WebResourceObservingEntity_.status), status);
+    }
+
+    public static Specification<WebResourceObservingEntity> byPluginIds(List<UUID> pluginIds) {
+        return (root, query, cb) -> root.get(WebResourceObservingEntity_.webResource).get(WebResourceEntity_.plugin).get(BaseDalEntity_.id).in(pluginIds);
+    }
+
+    public static Specification<WebResourceObservingEntity> byUserIds(List<UUID> userIds) {
+        return (root, query, cb) -> root.get(WebResourceObservingEntity_.user).get(BaseDalEntity_.id).in(userIds);
     }
 }

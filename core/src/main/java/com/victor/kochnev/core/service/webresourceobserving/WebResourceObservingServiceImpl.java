@@ -1,9 +1,12 @@
 package com.victor.kochnev.core.service.webresourceobserving;
 
 import com.victor.kochnev.core.converter.DomainWebResourceObservingMapper;
+import com.victor.kochnev.core.converter.RequestDtoMapper;
 import com.victor.kochnev.core.dto.domain.entity.WebResourceObservingDto;
 import com.victor.kochnev.core.dto.plugin.WebResourcePluginDto;
 import com.victor.kochnev.core.dto.request.AddWebResourceForObservingRequestDto;
+import com.victor.kochnev.core.dto.request.GetWebResourceObservingsRequestDto;
+import com.victor.kochnev.core.dto.response.GetWebResouceObservingsResponseDto;
 import com.victor.kochnev.core.repository.UserRepository;
 import com.victor.kochnev.core.repository.WebResourceObservingRepository;
 import com.victor.kochnev.core.security.service.user.SecurityUserService;
@@ -31,6 +34,7 @@ public class WebResourceObservingServiceImpl implements WebResourceObservingServ
     private final WebResourceService webResourceService;
     private final SecurityUserService securityUserService;
     private final UserRepository userRepository;
+    private final RequestDtoMapper requestDtoMapper;
 
     @Override
     @Transactional
@@ -69,6 +73,14 @@ public class WebResourceObservingServiceImpl implements WebResourceObservingServ
         }
         observingRepository.update(observing);
         return isChangedCascade;
+    }
+
+    @Override
+    public GetWebResouceObservingsResponseDto getByFiltersForUser(GetWebResourceObservingsRequestDto request, UUID userId) {
+        var dalRequestDto = requestDtoMapper.mapToDal(request);
+        dalRequestDto.getFilters().setUserIds(List.of(userId));
+        var dalResponseDto = observingRepository.getByFilters(dalRequestDto);
+        return webResourceObservingMapper.mapToDto(dalResponseDto);
     }
 
     @Override

@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class GetPluginsRequestDto {
+public class GetWebResourceObservingsRequestDto {
     @Nullable
-    private PluginsFilterDto filters;
+    private WebResourceObservingsFilterDto filters;
 }

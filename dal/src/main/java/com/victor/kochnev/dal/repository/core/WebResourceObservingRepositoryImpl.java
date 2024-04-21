@@ -1,5 +1,7 @@
 package com.victor.kochnev.dal.repository.core;
 
+import com.victor.kochnev.core.dto.dal.GetWebResourceObservingDalRequestDto;
+import com.victor.kochnev.core.dto.dal.GetWebResourceObservingDalResponseDto;
 import com.victor.kochnev.core.exception.ResourceNotFoundException;
 import com.victor.kochnev.core.repository.WebResourceObservingRepository;
 import com.victor.kochnev.dal.converter.EntityWebResourceObservingMapper;
@@ -9,6 +11,7 @@ import com.victor.kochnev.dal.spec.WebResourceObservingSpecification;
 import com.victor.kochnev.domain.entity.WebResourceObserving;
 import com.victor.kochnev.domain.enums.ObserveStatus;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 
@@ -64,6 +67,35 @@ public class WebResourceObservingRepositoryImpl implements WebResourceObservingR
     public WebResourceObserving getById(UUID observingId) {
         var observingEntity = getEntityById(observingId);
         return observingMapper.mapToDomain(observingEntity);
+    }
+
+    @Override
+    public GetWebResourceObservingDalResponseDto getByFilters(GetWebResourceObservingDalRequestDto request) {
+        Specification<WebResourceObservingEntity> spec = prepareSpecification(request);
+
+        List<WebResourceObserving> pluginList = observingRepository.findAll(spec)
+                .stream()
+                .map(observingMapper::mapToDomain)
+                .toList();
+
+        var response = new GetWebResourceObservingDalResponseDto();
+        response.setWebResourceObservings(pluginList);
+        return response;
+    }
+
+    private Specification<WebResourceObservingEntity> prepareSpecification(GetWebResourceObservingDalRequestDto request) {
+        Specification<WebResourceObservingEntity> spec = WebResourceObservingSpecification.getAllObservers();
+        if (request == null || request.getFilters() == null) {
+            return spec;
+        }
+        var filters = request.getFilters();
+        if (ObjectUtils.isNotEmpty(filters.getPluginIds())) {
+            spec = spec.and(WebResourceObservingSpecification.byPluginIds(filters.getPluginIds()));
+        }
+        if (ObjectUtils.isNotEmpty(filters.getUserIds())) {
+            spec = spec.and(WebResourceObservingSpecification.byUserIds(filters.getUserIds()));
+        }
+        return spec;
     }
 
     private WebResourceObservingEntity getEntityById(UUID id) {

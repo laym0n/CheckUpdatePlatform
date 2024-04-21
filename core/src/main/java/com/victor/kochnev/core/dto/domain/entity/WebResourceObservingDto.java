@@ -9,11 +9,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class WebResourceObservingDto {
+    @JsonProperty("id")
+    @NotNull
+    private UUID id;
     @JsonProperty("observeSettings")
     @NotNull
     private ObserveSettingsDto observeSettings;

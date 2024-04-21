@@ -1,5 +1,7 @@
 package com.victor.kochnev.core.repository;
 
+import com.victor.kochnev.core.dto.dal.GetWebResourceObservingDalRequestDto;
+import com.victor.kochnev.core.dto.dal.GetWebResourceObservingDalResponseDto;
 import com.victor.kochnev.domain.entity.WebResourceObserving;
 import com.victor.kochnev.domain.enums.ObserveStatus;
 
@@ -20,4 +22,6 @@ public interface WebResourceObservingRepository {
     WebResourceObserving update(WebResourceObserving webResourceObserving);
 
     WebResourceObserving getById(UUID observingId);
+
+    GetWebResourceObservingDalResponseDto getByFilters(GetWebResourceObservingDalRequestDto dalRequestDto);
 }
