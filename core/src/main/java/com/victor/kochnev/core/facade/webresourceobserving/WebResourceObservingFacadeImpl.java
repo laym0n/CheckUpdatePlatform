@@ -66,7 +66,7 @@ public class WebResourceObservingFacadeImpl implements WebResourceObservingFacad
             WebResourcePluginDto webResourcePluginDto = null;
             if (webResource.getStatus() != ObserveStatus.OBSERVE) {
                 var plugin = webResource.getPlugin();
-                webResourcePluginDto = pluginClient.continueResourceObserving(plugin.getBaseUrl(), plugin.getName());
+                webResourcePluginDto = pluginClient.continueResourceObserving(plugin.getBaseUrl(), webResource.getName());
             }
             observing = webResourceObservingService.continueObservingCascade(webResourcePluginDto, request.getWebResourceObservingId());
         } else if (request.getStatus() == ObserveStatus.NOT_OBSERVE && observing.getStatus() == ObserveStatus.OBSERVE) {
