@@ -6,4 +6,6 @@ public interface AuthorizationService {
     boolean verifyCurrentUserCanUsePlugin(UUID pluginId);
 
     boolean verifyAuthenticatedUserCanManagePlugin(UUID pluginId);
+
+    boolean verifyCurrentUserCanManageObserving(UUID observingId);
 }

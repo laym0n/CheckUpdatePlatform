@@ -14,7 +14,7 @@ import java.util.UUID;
  * Сервис для управления сущностью {@link com.victor.kochnev.domain.entity.WebResourceObserving}
  */
 public interface WebResourceObservingService {
-    WebResourceObservingDto addObservingCascade(WebResourcePluginDto webResource, AddWebResourceForObservingRequestDto request);
+    WebResourceObservingDto addOrUpdateObservingCascade(WebResourcePluginDto webResource, AddWebResourceForObservingRequestDto request);
 
     List<WebResourceObserving> findAllActualObservings(String name);
 
@@ -23,4 +23,6 @@ public interface WebResourceObservingService {
     boolean stopObservingCascade(UUID observingId);
 
     GetWebResouceObservingsResponseDto getByFiltersForUser(GetWebResourceObservingsRequestDto request, UUID userId);
+
+    WebResourceObserving continueObservingCascade(WebResourcePluginDto webResourcePluginDto, UUID observingId);
 }

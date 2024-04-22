@@ -27,6 +27,11 @@ public class StubPluginClientImpl implements PluginClient {
         return null;
     }
 
+    @Override
+    public WebResourcePluginDto continueResourceObserving(String baseUrl, String resourceName) {
+        return null;
+    }
+
     @SneakyThrows
     @Override
     public void removeResourceFromObserve(String baseUrl, String resourceName) {

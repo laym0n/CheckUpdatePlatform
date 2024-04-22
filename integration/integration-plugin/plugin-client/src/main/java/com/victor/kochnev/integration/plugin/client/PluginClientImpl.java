@@ -5,6 +5,7 @@ import com.victor.kochnev.core.dto.plugin.WebResourcePluginDto;
 import com.victor.kochnev.core.integration.PluginClient;
 import com.victor.kochnev.integration.plugin.api.dto.CanObserveRequest;
 import com.victor.kochnev.integration.plugin.api.dto.WebResourceAddRequest;
+import com.victor.kochnev.integration.plugin.api.dto.WebResourceContinueObservingRequest;
 import com.victor.kochnev.integration.plugin.api.dto.WebResourceRemoveRequest;
 import com.victor.kochnev.integration.plugin.client.factory.WebResourceClientFactory;
 import com.victor.kochnev.integration.plugin.converter.PluginResponseMapper;
@@ -56,6 +57,27 @@ public class PluginClientImpl implements PluginClient {
         WebResourcePluginDto response;
         try {
             response = webResourceClient.add(request)
+                    .map(pluginResponseMapper::mapToCore)
+                    .block();
+        } catch (Exception e) {
+            String msg = ExceptionUtils.getMessage(e);
+            log.error("Send addResourceForObserving request to {} with error {}", baseUrl, msg);
+            throw new PluginIntegrationException(msg, e);
+        }
+        log.info("Send request to plugin {} successful {}", baseUrl, response);
+        return response;
+    }
+
+    @Override
+    public WebResourcePluginDto continueResourceObserving(String baseUrl, String resourceName) {
+        WebResourceClient webResourceClient = clientFactory.webResourceClient(baseUrl);
+        var request = new WebResourceContinueObservingRequest();
+        request.setName(resourceName);
+
+        log.info("Send request to plugin {} {}", baseUrl, request);
+        WebResourcePluginDto response;
+        try {
+            response = webResourceClient.callContinue(request)
                     .map(pluginResponseMapper::mapToCore)
                     .block();
         } catch (Exception e) {

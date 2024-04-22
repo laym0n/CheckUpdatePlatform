@@ -3,7 +3,7 @@ package com.victor.kochnev.rest.presenters.controller;
 import com.victor.kochnev.core.dto.domain.entity.WebResourceObservingDto;
 import com.victor.kochnev.core.dto.request.AddWebResourceForObservingRequestDto;
 import com.victor.kochnev.core.dto.request.GetWebResourceObservingsRequestDto;
-import com.victor.kochnev.core.dto.request.StopWebResourceObservingRequestDto;
+import com.victor.kochnev.core.dto.request.UpdateWebResourceObservingRequestDto;
 import com.victor.kochnev.core.dto.response.GetWebResouceObservingsResponseDto;
 import com.victor.kochnev.core.facade.webresourceobserving.WebResourceObservingFacade;
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,7 +32,7 @@ import java.util.UUID;
 public class WebResourceObservingController {
     private static final String WEB_RESOURCE_OBSERVING_CREATE_ENDPOINT = "POST /webresource/observing";
     private static final String WEB_RESOURCE_OBSERVING_GET_ENDPOINT = "GET /webresource/observing";
-    private static final String WEB_RESOURCE_OBSERVING_STOP_ENDPOINT = "PUT /webresource/observing/stop";
+    private static final String WEB_RESOURCE_OBSERVING_UPDATE_ENDPOINT = "PUT /webresource/observing";
     private final WebResourceObservingFacade webResourceObservingFacade;
 
     @PostMapping("/webresource/observing")
@@ -48,17 +48,17 @@ public class WebResourceObservingController {
         return ResponseEntity.ok(webResourceObservingDto);
     }
 
-    @PutMapping("/webresource/observing/{id}/stop")
+    @PutMapping("/webresource/observing/{id}")
     @SecurityRequirement(name = "bearerAuth")
     @Operation(operationId = "stopObserve")
-    public ResponseEntity<WebResourceObservingDto> stopObserve(@Valid @PathVariable("id") @NotNull UUID observingId) {
-        log.info("Request: {}", WEB_RESOURCE_OBSERVING_STOP_ENDPOINT);
-        log.debug("Request: {} {}", WEB_RESOURCE_OBSERVING_STOP_ENDPOINT, observingId);
+    public ResponseEntity<WebResourceObservingDto> stopObserve(@Valid @PathVariable("id") @NotNull UUID observingId, @Valid @RequestBody @NotNull UpdateWebResourceObservingRequestDto request) {
+        log.info("Request: {}", WEB_RESOURCE_OBSERVING_UPDATE_ENDPOINT);
+        log.debug("Request: {} {}", WEB_RESOURCE_OBSERVING_UPDATE_ENDPOINT, observingId);
 
-        StopWebResourceObservingRequestDto request = new StopWebResourceObservingRequestDto(observingId);
-        WebResourceObservingDto webResourceObservingDto = webResourceObservingFacade.stopWebResourceObserving(request);
+        request.setWebResourceObservingId(observingId);
+        WebResourceObservingDto webResourceObservingDto = webResourceObservingFacade.updateWebResourceObserving(request);
 
-        log.info("Request: {} proccesed", WEB_RESOURCE_OBSERVING_STOP_ENDPOINT);
+        log.info("Request: {} proccesed", WEB_RESOURCE_OBSERVING_UPDATE_ENDPOINT);
         return ResponseEntity.ok(webResourceObservingDto);
     }
 

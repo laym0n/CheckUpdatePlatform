@@ -32,6 +32,29 @@ paths:
             'application/json':
               schema:
                 $ref: '#/components/schemas/ErrorMessageDto'
+    put:
+      tags:
+        - WebResource
+      summary: Продолжить отслеживание веб ресурса
+      operationId: continue
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebResourceContinueObservingRequest'
+      responses:
+        200:
+          description: успешное добавление
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/WebResourceDto'
+        400:
+          description: ошибка валидации данных
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ErrorMessageDto'
     delete:
       tags:
         - WebResource
@@ -87,6 +110,15 @@ components:
           description: описание веб ресурса для отслеживания
       required:
         - description
+
+    WebResourceContinueObservingRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: имя веб ресурса данное плагина
+      required:
+        - name
 
     WebResourceRemoveRequest:
       type: object

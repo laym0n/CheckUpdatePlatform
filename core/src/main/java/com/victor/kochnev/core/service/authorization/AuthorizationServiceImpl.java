@@ -2,6 +2,7 @@ package com.victor.kochnev.core.service.authorization;
 
 import com.victor.kochnev.core.repository.PluginRepository;
 import com.victor.kochnev.core.repository.PluginUsageRepository;
+import com.victor.kochnev.core.repository.WebResourceObservingRepository;
 import com.victor.kochnev.core.security.service.user.SecurityUserService;
 import com.victor.kochnev.domain.entity.PluginUsage;
 import com.victor.kochnev.domain.enums.PluginStatus;
@@ -20,6 +21,7 @@ import java.util.UUID;
 public class AuthorizationServiceImpl implements AuthorizationService {
     private final SecurityUserService securityUserService;
     private final PluginUsageRepository pluginUsageRepository;
+    private final WebResourceObservingRepository observingRepository;
     private final PluginRepository pluginRepository;
 
     @Override
@@ -39,5 +41,15 @@ public class AuthorizationServiceImpl implements AuthorizationService {
         UUID userId = securityUserService.getCurrentUser().getId();
         UUID ownerId = pluginRepository.getById(pluginId).getOwnerUser().getId();
         return ownerId.equals(userId);
+    }
+
+    @Override
+    public boolean verifyCurrentUserCanManageObserving(UUID observingId) {
+        UUID currentUserId = securityUserService.getCurrentUser().getId();
+        var observing = observingRepository.getById(observingId);
+        if (!observing.getUser().getId().equals(currentUserId)) {
+            return false;
+        }
+        return verifyCurrentUserCanUsePlugin(observing.getWebResource().getPlugin().getId());
     }
 }

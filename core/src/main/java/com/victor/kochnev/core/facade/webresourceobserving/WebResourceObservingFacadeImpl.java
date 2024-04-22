@@ -6,7 +6,7 @@ import com.victor.kochnev.core.dto.plugin.CanObserveResponseDto;
 import com.victor.kochnev.core.dto.plugin.WebResourcePluginDto;
 import com.victor.kochnev.core.dto.request.AddWebResourceForObservingRequestDto;
 import com.victor.kochnev.core.dto.request.GetWebResourceObservingsRequestDto;
-import com.victor.kochnev.core.dto.request.StopWebResourceObservingRequestDto;
+import com.victor.kochnev.core.dto.request.UpdateWebResourceObservingRequestDto;
 import com.victor.kochnev.core.dto.response.GetWebResouceObservingsResponseDto;
 import com.victor.kochnev.core.exception.ResourceDescriptionParseException;
 import com.victor.kochnev.core.integration.PluginClient;
@@ -54,18 +54,30 @@ public class WebResourceObservingFacadeImpl implements WebResourceObservingFacad
         if (isNotObserved) {
             webResourcePluginDto = pluginClient.addResourceForObserving(baseUrl, request.getResourceDescription());
         }
-        return webResourceObservingService.addObservingCascade(webResourcePluginDto, request);
+        return webResourceObservingService.addOrUpdateObservingCascade(webResourcePluginDto, request);
     }
 
+    @PreAuthorize("@authorizationService.verifyCurrentUserCanManageObserving(#request.getWebResourceObservingId())")
     @Override
-    public WebResourceObservingDto stopWebResourceObserving(StopWebResourceObservingRequestDto request) {
-        boolean isNeedChangeStatus = webResourceObservingService.stopObservingCascade(request.getWebResourceObservingId());
-        if (isNeedChangeStatus) {
-            WebResourceObserving observing = webResourceObservingService.getById(request.getWebResourceObservingId());
-            Plugin plugin = observing.getWebResource().getPlugin();
-            pluginClient.removeResourceFromObserve(plugin.getBaseUrl(), observing.getWebResource().getName());
+    public WebResourceObservingDto updateWebResourceObserving(@P("request") UpdateWebResourceObservingRequestDto request) {
+        var observing = webResourceObservingService.getById(request.getWebResourceObservingId());
+        if (request.getStatus() == ObserveStatus.OBSERVE && observing.getStatus() == ObserveStatus.NOT_OBSERVE) {
+            var webResource = observing.getWebResource();
+            WebResourcePluginDto webResourcePluginDto = null;
+            if (webResource.getStatus() != ObserveStatus.OBSERVE) {
+                var plugin = webResource.getPlugin();
+                webResourcePluginDto = pluginClient.continueResourceObserving(plugin.getBaseUrl(), plugin.getName());
+            }
+            observing = webResourceObservingService.continueObservingCascade(webResourcePluginDto, request.getWebResourceObservingId());
+        } else if (request.getStatus() == ObserveStatus.NOT_OBSERVE && observing.getStatus() == ObserveStatus.OBSERVE) {
+            boolean isNeedChangeStatus = webResourceObservingService.stopObservingCascade(request.getWebResourceObservingId());
+            if (isNeedChangeStatus) {
+                observing = webResourceObservingService.getById(request.getWebResourceObservingId());
+                Plugin plugin = observing.getWebResource().getPlugin();
+                pluginClient.removeResourceFromObserve(plugin.getBaseUrl(), observing.getWebResource().getName());
+            }
+            observing = webResourceObservingService.getById(request.getWebResourceObservingId());
         }
-        WebResourceObserving observing = webResourceObservingService.getById(request.getWebResourceObservingId());
         return observingMapper.mapToDto(observing);
     }
 

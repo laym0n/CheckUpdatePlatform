@@ -38,7 +38,7 @@ public class WebResourceObservingServiceImpl implements WebResourceObservingServ
 
     @Override
     @Transactional
-    public WebResourceObservingDto addObservingCascade(WebResourcePluginDto webResourcePluginDto, AddWebResourceForObservingRequestDto request) {
+    public WebResourceObservingDto addOrUpdateObservingCascade(WebResourcePluginDto webResourcePluginDto, AddWebResourceForObservingRequestDto request) {
         UUID pluginId = request.getPluginId();
         UUID userId = securityUserService.getCurrentUser().getId();
         WebResource webResource = webResourceService.updateOrCreate(pluginId, webResourcePluginDto, ObserveStatus.OBSERVE);
@@ -59,6 +59,17 @@ public class WebResourceObservingServiceImpl implements WebResourceObservingServ
             webResourceObserving = observingRepository.update(webResourceObserving);
         }
         return webResourceObservingMapper.mapToDto(webResourceObserving);
+    }
+
+    @Override
+    @Transactional
+    public WebResourceObserving continueObservingCascade(WebResourcePluginDto webResourcePluginDto, UUID observingId) {
+        var observing = observingRepository.getById(observingId);
+        if (webResourcePluginDto != null) {
+            observing.setWebResource(webResourceService.updateOrCreate(observing.getWebResource().getPlugin().getId(), webResourcePluginDto, ObserveStatus.OBSERVE));
+        }
+        observing.setStatus(ObserveStatus.OBSERVE);
+        return observingRepository.update(observing);
     }
 
     @Override
