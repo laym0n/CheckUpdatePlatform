@@ -36,11 +36,11 @@ public class SecurityConfiguration {
         observingAuthorization.setExpressionHandler(expressionHandler);
 
         return http
-                .securityMatcher("/webresource/observing/**", "/user/register", "/authentication/**", "/plugin/**", "/task/**", "/autocomplete/**")
+                .securityMatcher("/webresource/observing/**", "/user/register", "/authentication/**", "/plugin/**", "/task/**", "/autocomplete/**", "/task*")
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/task/{id}/decision").hasRole(UserRole.EMPLOYEE.name())
                         .requestMatchers("/webresource/observing/{id}/**").access(observingAuthorization)
-                        .requestMatchers("/webresource/observing/**", "/task").hasRole(UserRole.SIMPLE_USER.name())
+                        .requestMatchers("/webresource/observing/**", "/task**").hasRole(UserRole.SIMPLE_USER.name())
                         .requestMatchers(HttpMethod.POST, "/plugin/**").hasRole(UserRole.SIMPLE_USER.name())
                         .requestMatchers(HttpMethod.GET, "/plugin/usage").hasRole(UserRole.SIMPLE_USER.name())
                         .requestMatchers(HttpMethod.GET, "/plugin/my").hasRole(UserRole.SIMPLE_USER.name())

@@ -1,7 +1,7 @@
 package com.victor.kochnev.core.dto.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.victor.kochnev.core.dto.domain.value.object.PluginDescriptionDto;
+import com.victor.kochnev.core.dto.domain.value.object.PluginDescriptionTaskDto;
 import com.victor.kochnev.domain.enums.TaskDecision;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -21,7 +21,7 @@ public class TaskDto {
     private UUID id;
     @JsonProperty("description")
     @NotNull
-    private PluginDescriptionDto description;
+    private PluginDescriptionTaskDto description;
     @JsonProperty("decision")
     @NotNull
     private TaskDecision decision;
@@ -29,5 +29,5 @@ public class TaskDto {
     private String comment;
     @JsonProperty("plugin")
     @NotNull
-    private PluginDto plugin;
+    private PluginInfoDto plugin;
 }

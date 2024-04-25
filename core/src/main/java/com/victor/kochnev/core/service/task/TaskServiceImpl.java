@@ -1,9 +1,12 @@
 package com.victor.kochnev.core.service.task;
 
 import com.victor.kochnev.core.converter.DomainTaskMapper;
+import com.victor.kochnev.core.converter.RequestDtoMapper;
 import com.victor.kochnev.core.dto.domain.entity.TaskDto;
 import com.victor.kochnev.core.dto.request.CreateTaskRequestDto;
+import com.victor.kochnev.core.dto.request.GetTasksRequestDto;
 import com.victor.kochnev.core.dto.request.MakeDecisionRequestDto;
+import com.victor.kochnev.core.dto.response.GetTasksResponseDto;
 import com.victor.kochnev.core.repository.PluginRepository;
 import com.victor.kochnev.core.repository.TaskRepository;
 import com.victor.kochnev.core.service.plugin.PluginService;
@@ -29,6 +32,7 @@ public class TaskServiceImpl implements TaskService {
     private final PluginService pluginService;
     private final PluginRepository pluginRepository;
     private final DomainTaskMapper taskMapper;
+    private final RequestDtoMapper requestDtoMapper;
 
     @Override
     @Transactional
@@ -57,5 +61,12 @@ public class TaskServiceImpl implements TaskService {
         taskMapper.update(task, requestDto);
         task = taskRepository.update(task);
         return taskMapper.mapToDto(task);
+    }
+
+    @Override
+    public GetTasksResponseDto getByFilters(GetTasksRequestDto requestDto) {
+        var dalRqDto = requestDtoMapper.mapToDal(requestDto);
+        var dalRsDto = taskRepository.getByFilters(dalRqDto);
+        return taskMapper.mapToDto(dalRsDto);
     }
 }

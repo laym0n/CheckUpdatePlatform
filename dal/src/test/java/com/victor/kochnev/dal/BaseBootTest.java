@@ -47,4 +47,6 @@ public abstract class BaseBootTest {
     protected WebResourceObservingEntityRepository webResourceObservingEntityRepository;
     @Autowired
     protected NotificationEntityRepository notificationEntityRepository;
+    @Autowired
+    protected TaskEntityRepository taskEntityRepository;
 }

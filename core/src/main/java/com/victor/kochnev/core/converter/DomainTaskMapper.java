@@ -1,12 +1,14 @@
 package com.victor.kochnev.core.converter;
 
+import com.victor.kochnev.core.dto.dal.GetTasksDalResponseDto;
 import com.victor.kochnev.core.dto.domain.entity.TaskDto;
 import com.victor.kochnev.core.dto.request.CreateTaskRequestDto;
 import com.victor.kochnev.core.dto.request.MakeDecisionRequestDto;
+import com.victor.kochnev.core.dto.response.GetTasksResponseDto;
 import com.victor.kochnev.domain.entity.Task;
 import org.mapstruct.*;
 
-@Mapper(uses = DomainPluginMapper.class,
+@Mapper(uses = {DomainPluginMapper.class, DomainTagMapper.class},
         injectionStrategy = InjectionStrategy.CONSTRUCTOR,
         componentModel = "spring",
         unmappedTargetPolicy = ReportingPolicy.ERROR,
@@ -27,4 +29,6 @@ public interface DomainTaskMapper {
     @Mapping(target = "type", ignore = true)
     @Mapping(target = "plugin", ignore = true)
     void update(@MappingTarget Task task, MakeDecisionRequestDto requestDto);
+
+    GetTasksResponseDto mapToDto(GetTasksDalResponseDto dalRsDto);
 }
