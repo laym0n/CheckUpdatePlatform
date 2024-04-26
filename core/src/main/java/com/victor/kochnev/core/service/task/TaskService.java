@@ -14,5 +14,5 @@ public interface TaskService {
 
     TaskDto makeDecision(UUID taskId, MakeDecisionRequestDto requestDto);
 
-    GetTasksResponseDto getByFilters(GetTasksRequestDto requestDto);
+    GetTasksResponseDto getByFiltersForCurrentUser(GetTasksRequestDto requestDto);
 }

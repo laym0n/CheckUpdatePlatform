@@ -79,6 +79,36 @@ class GetTasksControllerTest extends BaseControllerTest {
         assertContains(response.getTasks(), TASK_ID1);
     }
 
+    @SneakyThrows
+    @Test
+    void successGet_bySimpleUser() {
+        //Assign
+        prepareDb();
+        UserEntity user3 = userRepository.save(UserEntityBuilder.persistedPostfixBuilder(3)
+                .roles(List.of(UserRole.SIMPLE_USER))
+                .build());
+        UUID pluginId2 = pluginRepository.save(PluginEntityBuilder.persistedPostfixBuilder(2)
+                .ownerUser(userRepository.findById(user3.getId()).get()).build()).getId();
+        UUID taskId6 = taskRepository.save(TaskEntityBuilder.persistedPostfixBuilder(6)
+                .plugin(pluginRepository.findById(pluginId2).get()).build()).getId();
+
+        var requestDto = prepareRequest();
+        String uri = getUri(requestDto);
+
+        //Action
+        MvcResult mvcResult = get(uri, requestDto, prepareSimpleUserHeaders(user3));
+
+        //Assert
+        assertHttpStatusOk(mvcResult);
+
+        var response = getResponseDto(mvcResult, GetTasksResponseDto.class);
+
+        assertNotNull(response);
+        assertNotNull(response.getTasks());
+        assertEquals(1, response.getTasks().size());
+        assertContains(response.getTasks(), taskId6);
+    }
+
     private GetTasksRequestDto prepareRequest() {
         var requestDto = new GetTasksRequestDto();
         requestDto.setFilters(new TasksFilterDto());

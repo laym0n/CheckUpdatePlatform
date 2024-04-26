@@ -13,4 +13,9 @@ import lombok.NoArgsConstructor;
 public class GetTasksRequestDto {
     @Nullable
     private TasksFilterDto filters;
+
+    @Nullable
+    public TasksFilterDto getFilters() {
+        return filters = filters == null ? new TasksFilterDto() : filters;
+    }
 }

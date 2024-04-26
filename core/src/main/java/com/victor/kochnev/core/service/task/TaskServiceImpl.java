@@ -64,7 +64,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public GetTasksResponseDto getByFilters(GetTasksRequestDto requestDto) {
+    public GetTasksResponseDto getByFiltersForCurrentUser(GetTasksRequestDto requestDto) {
         var dalRqDto = requestDtoMapper.mapToDal(requestDto);
         var dalRsDto = taskRepository.getByFilters(dalRqDto);
         return taskMapper.mapToDto(dalRsDto);

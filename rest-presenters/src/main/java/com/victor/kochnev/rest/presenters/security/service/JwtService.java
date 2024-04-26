@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.victor.kochnev.core.security.entity.UserAuthoritySecurity;
 import com.victor.kochnev.core.security.entity.UserSecurity;
+import com.victor.kochnev.domain.enums.UserRole;
 import com.victor.kochnev.rest.presenters.configuration.JwtConfigurationProperties;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -34,7 +35,9 @@ public class JwtService {
             boolean enabled = (boolean) mappedUser.get("enabled");
             List<UserAuthoritySecurity> authorities = objectMapper.convertValue(mappedUser.get("authorities"), new TypeReference<List<UserAuthoritySecurity>>() {
             });
-            userSecurity = new UserSecurity(id, username, "", enabled, authorities);
+            List<UserRole> roles = objectMapper.convertValue(mappedUser.get("roles"), new TypeReference<List<UserRole>>() {
+            });
+            userSecurity = new UserSecurity(id, username, "", enabled, authorities, roles);
         } else {
             userSecurity = new UserSecurity(id, username);
         }

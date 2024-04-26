@@ -3,6 +3,7 @@ package com.victor.kochnev.rest.presenters.security.service;
 import com.victor.kochnev.BaseRestPresentersTest;
 import com.victor.kochnev.core.security.entity.UserAuthoritySecurity;
 import com.victor.kochnev.core.security.entity.UserSecurity;
+import com.victor.kochnev.domain.enums.UserRole;
 import com.victor.kochnev.rest.presenters.configuration.JwtConfigurationProperties;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -38,7 +39,8 @@ class JwtServiceTest extends BaseRestPresentersTest {
                 "email",
                 "password",
                 true,
-                List.of(new UserAuthoritySecurity("authority")));
+                List.of(new UserAuthoritySecurity("authority")),
+                List.of(UserRole.EMPLOYEE));
 
         //Action
         String token = jwtService.generateAccessToken(userSecurity);
@@ -51,6 +53,7 @@ class JwtServiceTest extends BaseRestPresentersTest {
         assertEquals("", parsedUser.getPassword());
         assertEquals(userSecurity.getAuthorities(), parsedUser.getAuthorities());
         assertEquals(userSecurity.isEnabled(), parsedUser.isEnabled());
+        assertEquals(userSecurity.getRoles(), parsedUser.getRoles());
     }
 
     @Test
@@ -60,7 +63,8 @@ class JwtServiceTest extends BaseRestPresentersTest {
                 "email",
                 "password",
                 true,
-                List.of(new UserAuthoritySecurity("authority")));
+                List.of(new UserAuthoritySecurity("authority")),
+                List.of(UserRole.EMPLOYEE));
 
         //Action
         String token = jwtService.generateRefreshToken(userSecurity, true);
@@ -72,5 +76,6 @@ class JwtServiceTest extends BaseRestPresentersTest {
         assertEquals(userSecurity.getUsername(), parsedUser.getUsername());
         assertEquals("", parsedUser.getPassword());
         assertEquals(0, parsedUser.getAuthorities().size());
+        assertEquals(0, parsedUser.getRoles().size());
     }
 }

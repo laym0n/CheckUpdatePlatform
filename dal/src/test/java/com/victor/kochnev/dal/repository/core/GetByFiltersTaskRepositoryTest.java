@@ -59,6 +59,33 @@ class GetByFiltersTaskRepositoryTest extends BaseBootTest {
         assertContains(response.getTasks(), TASK_ID2);
     }
 
+    @Test
+    void testGetByFilters_byOwnerIds() {
+        //Assign
+        prepareDb();
+        UUID userId1 = userEntityRepository.save(UserEntityBuilder.persistedPostfixBuilder(2).build()).getId();
+        UUID pluginId2 = pluginEntityRepository.save(PluginEntityBuilder.persistedPostfixBuilder(2)
+                .ownerUser(userEntityRepository.findById(userId1).get()).build()).getId();
+        UUID taskId6 = taskEntityRepository.save(TaskEntityBuilder.persistedPostfixBuilder(6)
+                .plugin(pluginEntityRepository.findById(pluginId2).get()).build()).getId();
+
+        var request = prepareRequest();
+        request.getFilters().setOwnerIds(List.of(OWNER_ID));
+
+        //Action
+        var response = taskRepository.getByFilters(request);
+
+        //Assert
+        assertNotNull(response);
+        assertEquals(5, response.getTasks().size());
+
+        assertContains(response.getTasks(), TASK_ID1);
+        assertContains(response.getTasks(), TASK_ID2);
+        assertContains(response.getTasks(), TASK_ID3);
+        assertContains(response.getTasks(), TASK_ID4);
+        assertContains(response.getTasks(), TASK_ID5);
+    }
+
 
     private void assertContains(List<Task> entities, UUID id) {
         assertTrue(entities.stream().anyMatch(observing -> observing.getId().equals(id)));

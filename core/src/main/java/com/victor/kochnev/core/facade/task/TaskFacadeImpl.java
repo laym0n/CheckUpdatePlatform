@@ -43,6 +43,6 @@ public class TaskFacadeImpl implements TaskFacade {
 
     @Override
     public GetTasksResponseDto get(GetTasksRequestDto requestDto) {
-        return taskService.getByFilters(requestDto);
+        return taskService.getByFiltersForCurrentUser(requestDto);
     }
 }
