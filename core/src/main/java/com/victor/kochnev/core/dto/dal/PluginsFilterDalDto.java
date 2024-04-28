@@ -1,5 +1,6 @@
 package com.victor.kochnev.core.dto.dal;
 
+import com.victor.kochnev.domain.enums.PluginStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,5 +17,6 @@ public class PluginsFilterDalDto {
     private List<UUID> ids;
     private String name;
     private List<String> tags;
+    private List<PluginStatus> statuses;
     private UUID userId;
 }

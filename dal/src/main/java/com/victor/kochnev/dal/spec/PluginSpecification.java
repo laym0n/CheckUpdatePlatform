@@ -2,6 +2,7 @@ package com.victor.kochnev.dal.spec;
 
 import com.victor.kochnev.dal.embeddable.object.EmbeddablePluginDescription_;
 import com.victor.kochnev.dal.entity.*;
+import com.victor.kochnev.domain.enums.PluginStatus;
 import jakarta.persistence.criteria.Expression;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -46,5 +47,9 @@ public final class PluginSpecification {
 
     public static Specification<PluginEntity> byUserId(UUID userId) {
         return (root, query, cb) -> cb.equal(root.join(PluginEntity_.pluginUsageEntityList).get(PluginUsageEntity_.user).get(UserEntity_.id), userId);
+    }
+
+    public static Specification<PluginEntity> byStatuses(List<PluginStatus> statuses) {
+        return (root, query, cb) -> root.get(PluginEntity_.status).in(statuses);
     }
 }

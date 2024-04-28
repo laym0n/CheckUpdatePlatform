@@ -12,6 +12,7 @@ import com.victor.kochnev.dal.entity.PluginUsageEntityBuilder;
 import com.victor.kochnev.dal.entity.UserEntityBuilder;
 import com.victor.kochnev.dal.entity.value.object.TagsInfo;
 import com.victor.kochnev.domain.entity.Plugin;
+import com.victor.kochnev.domain.enums.PluginStatus;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -129,6 +130,24 @@ class GetByFiltersPluginRepositoryTest extends BaseBootTest {
     }
 
     @Test
+    void testGetByFilters_GetByStatuses() {
+        //Assign
+        prepareDb();
+        var request = prepareRequest();
+        request.getFilters().setStatuses(List.of(PluginStatus.CREATED));
+
+        //Action
+        var response = pluginRepository.getByFilters(request);
+
+        //Assert
+        assertNotNull(response);
+        assertNotNull(response.getPlugins());
+        assertEquals(1, response.getPlugins().size());
+
+        assertContains(response.getPlugins(), PLUGIN_ID1);
+    }
+
+    @Test
     void testGetByFilters_GetByUserId() {
         //Assign
         prepareDb();
@@ -194,6 +213,7 @@ class GetByFiltersPluginRepositoryTest extends BaseBootTest {
         PLUGIN_ID1 = pluginEntityRepository.save(PluginEntityBuilder.persistedPostfixBuilder(1)
                 .name("Name1")
                 .ownerUser(userEntityRepository.findById(OWNER_ID).get())
+                .status(PluginStatus.CREATED)
                 .description(EmbeddablePluginDescriptionBuilder.defaultBuilder()
                         .specificDescription(EmbeddableSpecificPluginDescription.builder()
                                 .tags(new TagsInfo(
@@ -205,6 +225,7 @@ class GetByFiltersPluginRepositoryTest extends BaseBootTest {
         PLUGIN_ID2 = pluginEntityRepository.save(PluginEntityBuilder.persistedPostfixBuilder(2)
                 .name("Name2")
                 .ownerUser(userEntityRepository.findById(OWNER_ID).get())
+                .status(PluginStatus.ACTIVE)
                 .description(EmbeddablePluginDescriptionBuilder.defaultBuilder()
                         .specificDescription(EmbeddableSpecificPluginDescription.builder()
                                 .tags(new TagsInfo(
@@ -216,6 +237,7 @@ class GetByFiltersPluginRepositoryTest extends BaseBootTest {
         PLUGIN_ID3 = pluginEntityRepository.save(PluginEntityBuilder.persistedPostfixBuilder(3)
                 .name("ИМЯ1")
                 .ownerUser(userEntityRepository.findById(OWNER_ID).get())
+                .status(PluginStatus.ACTIVE)
                 .description(EmbeddablePluginDescriptionBuilder.defaultBuilder()
                         .specificDescription(EmbeddableSpecificPluginDescription.builder()
                                 .tags(new TagsInfo(
@@ -227,6 +249,7 @@ class GetByFiltersPluginRepositoryTest extends BaseBootTest {
         PLUGIN_ID4 = pluginEntityRepository.save(PluginEntityBuilder.persistedPostfixBuilder(4)
                 .name("Имя2")
                 .ownerUser(userEntityRepository.findById(OWNER_ID).get())
+                .status(PluginStatus.ACTIVE)
                 .description(EmbeddablePluginDescriptionBuilder.defaultBuilder()
                         .specificDescription(EmbeddableSpecificPluginDescription.builder()
                                 .tags(new TagsInfo(

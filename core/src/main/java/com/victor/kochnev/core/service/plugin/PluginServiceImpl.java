@@ -18,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -69,6 +70,7 @@ public class PluginServiceImpl implements PluginService {
     @Transactional
     public GetPluginsResponseDto getPlugins(GetPluginsRequestDto request) {
         var dalRequest = requestDtoMapper.mapToDal(request);
+        dalRequest.getFilters().setStatuses(List.of(PluginStatus.ACTIVE));
         var dalResponseDto = pluginRepository.getByFilters(dalRequest);
         return pluginMapper.mapToDto(dalResponseDto);
     }
