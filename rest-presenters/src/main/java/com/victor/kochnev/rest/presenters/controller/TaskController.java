@@ -66,6 +66,7 @@ public class TaskController {
     @Operation(operationId = "getTasks",
             parameters = {
                     @Parameter(name = "filters.ids", array = @ArraySchema(schema = @Schema(type = "string"))),
+                    @Parameter(name = "filters.pluginIds", array = @ArraySchema(schema = @Schema(type = "string"))),
             })
     public ResponseEntity<GetTasksResponseDto> getByFilters(@Parameter(hidden = true) @Valid @Nullable GetTasksRequestDto request) {
         log.info("Request: {}", GET_TASKS_ENDPOINT);

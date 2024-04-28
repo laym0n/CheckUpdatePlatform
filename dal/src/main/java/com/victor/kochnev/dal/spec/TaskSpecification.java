@@ -24,4 +24,8 @@ public final class TaskSpecification {
     public static Specification<TaskEntity> byOwnerIds(List<UUID> ownerIds) {
         return (root, query, cb) -> root.get(TaskEntity_.plugin).get(PluginEntity_.ownerUser).get(BaseDalEntity_.id).in(ownerIds);
     }
+
+    public static Specification<TaskEntity> byPluginIds(List<UUID> pluginIds) {
+        return (root, query, cb) -> root.get(TaskEntity_.plugin).get(BaseDalEntity_.id).in(pluginIds);
+    }
 }

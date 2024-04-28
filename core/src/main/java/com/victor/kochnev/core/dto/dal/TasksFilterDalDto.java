@@ -14,5 +14,6 @@ import java.util.UUID;
 @AllArgsConstructor
 public class TasksFilterDalDto {
     private List<UUID> ids;
+    private List<UUID> pluginIds;
     private List<UUID> ownerIds;
 }

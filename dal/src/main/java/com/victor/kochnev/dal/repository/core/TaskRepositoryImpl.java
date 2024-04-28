@@ -78,6 +78,9 @@ public class TaskRepositoryImpl implements TaskRepository {
         if (ObjectUtils.isNotEmpty(filters.getOwnerIds())) {
             spec = spec.and(TaskSpecification.byOwnerIds(filters.getOwnerIds()));
         }
+        if (ObjectUtils.isNotEmpty(filters.getPluginIds())) {
+            spec = spec.and(TaskSpecification.byPluginIds(filters.getPluginIds()));
+        }
         return spec;
     }
 
