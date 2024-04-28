@@ -45,11 +45,15 @@ public final class PluginSpecification {
         return (root, query, cb) -> root.get(BaseDalEntity_.id).in(ids);
     }
 
-    public static Specification<PluginEntity> byUserId(UUID userId) {
+    public static Specification<PluginEntity> byPluginUsageUserId(UUID userId) {
         return (root, query, cb) -> cb.equal(root.join(PluginEntity_.pluginUsageEntityList).get(PluginUsageEntity_.user).get(UserEntity_.id), userId);
     }
 
     public static Specification<PluginEntity> byStatuses(List<PluginStatus> statuses) {
         return (root, query, cb) -> root.get(PluginEntity_.status).in(statuses);
+    }
+
+    public static Specification<PluginEntity> byOwnerIds(List<UUID> ownerIds) {
+        return (root, query, cb) -> root.get(PluginEntity_.ownerUser).get(BaseDalEntity_.id).in(ownerIds);
     }
 }

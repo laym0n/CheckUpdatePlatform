@@ -10,7 +10,6 @@ import com.victor.kochnev.core.dto.request.GetTasksRequestDto;
 import com.victor.kochnev.core.dto.request.GetWebResourceObservingsRequestDto;
 import com.victor.kochnev.core.security.entity.UserSecurity;
 import com.victor.kochnev.core.security.service.user.SecurityUserService;
-import com.victor.kochnev.domain.enums.PluginStatus;
 import com.victor.kochnev.domain.enums.UserRole;
 import org.mapstruct.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +26,9 @@ public abstract class RequestDtoMapper {
     @Autowired
     private SecurityUserService securityUserService;
 
-    @Mapping(target = "filters.userId", ignore = true)
-    @Mapping(target = "filters.statuses", expression = "java(mapToEmptyStatuses())")
+    @Mapping(target = "filters.pluginUsageUserId", ignore = true)
+    @Mapping(target = "filters.statuses", ignore = true)
+    @Mapping(target = "filters.ownerIds", ignore = true)
     public abstract GetPluginsDalRequestDto mapToDal(GetPluginsRequestDto request);
 
     @Mapping(target = "filters.userIds", ignore = true)
@@ -45,9 +45,5 @@ public abstract class RequestDtoMapper {
         var curUserRoles = curUser.getRoles();
         boolean currentUserIsEmployee = curUserRoles.stream().anyMatch(role -> role == UserRole.EMPLOYEE || role == UserRole.ADMIN);
         return currentUserIsEmployee ? Collections.emptyList() : List.of(curUser.getId());
-    }
-
-    protected List<PluginStatus> mapToEmptyStatuses() {
-        return Collections.emptyList();
     }
 }

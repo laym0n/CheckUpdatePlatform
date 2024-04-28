@@ -30,6 +30,7 @@ public class PluginController {
     private static final String CREATE_PLUGIN_ENDPOINT = "POST /plugin";
     private static final String GET_PLUGINS_ENDPOINT = "GET /plugin";
     private static final String GET_MY_PLUGINS_ENDPOINT = "GET /plugin/my";
+    private static final String GET_OWN_PLUGINS_ENDPOINT = "GET /plugin/own";
     private final PluginFacade pluginFacade;
 
     @PostMapping("/plugin")
@@ -82,6 +83,26 @@ public class PluginController {
         var responseDto = pluginFacade.getPluginsForCurrentUser(request);
 
         log.info("Request: {} proccesed {}", GET_MY_PLUGINS_ENDPOINT, responseDto);
+        return ResponseEntity.ok(responseDto);
+    }
+
+    @GetMapping("/plugin/own")
+    @SecurityRequirement(name = "bearerAuth")
+    @Operation(
+            operationId = "getOwnPlugins",
+            parameters = {
+                    @Parameter(name = "filters.ids", array = @ArraySchema(schema = @Schema(type = "string"))),
+                    @Parameter(name = "filters.name", schema = @Schema(type = "string")),
+                    @Parameter(name = "filters.tags", array = @ArraySchema(schema = @Schema(type = "string"))),
+            }
+    )
+    public ResponseEntity<GetPluginsResponseDto> getOwnPlugins(@Parameter(hidden = true) @Valid @Nullable GetPluginsRequestDto request) {
+        log.info("Request: {}", GET_OWN_PLUGINS_ENDPOINT);
+        log.debug("Request: {} {}", GET_OWN_PLUGINS_ENDPOINT, request);
+
+        var responseDto = pluginFacade.getOwnPlugins(request);
+
+        log.info("Request: {} proccesed {}", GET_OWN_PLUGINS_ENDPOINT, responseDto);
         return ResponseEntity.ok(responseDto);
     }
 }

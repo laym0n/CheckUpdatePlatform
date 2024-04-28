@@ -20,4 +20,6 @@ public interface PluginService {
     GetPluginsResponseDto getPlugins(GetPluginsRequestDto request);
 
     GetPluginsResponseDto getPluginsForCurrentUser(GetPluginsRequestDto request, UUID userId);
+
+    GetPluginsResponseDto getOwnPlugins(GetPluginsRequestDto request, UUID userId);
 }

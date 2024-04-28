@@ -111,6 +111,29 @@ class GetByFiltersPluginRepositoryTest extends BaseBootTest {
     }
 
     @Test
+    void testGetByFilters_GetByOwnerIds() {
+        //Assign
+        prepareDb();
+        UUID ownerId2 = userEntityRepository.save(UserEntityBuilder.persistedPostfixBuilder(3).build()).getId();
+        UUID pluginId5 = pluginEntityRepository.save(PluginEntityBuilder.persistedPostfixBuilder(6)
+                .ownerUser(userEntityRepository.findById(ownerId2).get())
+                .build()).getId();
+
+        var request = prepareRequest();
+        request.getFilters().setOwnerIds(List.of(ownerId2));
+
+        //Action
+        var response = pluginRepository.getByFilters(request);
+
+        //Assert
+        assertNotNull(response);
+        assertNotNull(response.getPlugins());
+        assertEquals(1, response.getPlugins().size());
+
+        assertContains(response.getPlugins(), pluginId5);
+    }
+
+    @Test
     void testGetByFilters_GetById() {
         //Assign
         prepareDb();
@@ -178,7 +201,7 @@ class GetByFiltersPluginRepositoryTest extends BaseBootTest {
         pluginEntityRepository.save(PluginEntityBuilder.persistedPostfixBuilder(5)
                 .ownerUser(userEntityRepository.findById(OWNER_ID).get()).build());
         var request = prepareRequest();
-        request.getFilters().setUserId(userId1);
+        request.getFilters().setPluginUsageUserId(userId1);
 
         //Action
         var response = pluginRepository.getByFilters(request);

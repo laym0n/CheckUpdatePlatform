@@ -78,7 +78,15 @@ public class PluginServiceImpl implements PluginService {
     @Override
     public GetPluginsResponseDto getPluginsForCurrentUser(GetPluginsRequestDto request, UUID userId) {
         var dalRequest = requestDtoMapper.mapToDal(request);
-        dalRequest.getFilters().setUserId(userId);
+        dalRequest.getFilters().setPluginUsageUserId(userId);
+        var dalResponseDto = pluginRepository.getByFilters(dalRequest);
+        return pluginMapper.mapToDto(dalResponseDto);
+    }
+
+    @Override
+    public GetPluginsResponseDto getOwnPlugins(GetPluginsRequestDto request, UUID userId) {
+        var dalRequest = requestDtoMapper.mapToDal(request);
+        dalRequest.getFilters().setOwnerIds(List.of(userId));
         var dalResponseDto = pluginRepository.getByFilters(dalRequest);
         return pluginMapper.mapToDto(dalResponseDto);
     }

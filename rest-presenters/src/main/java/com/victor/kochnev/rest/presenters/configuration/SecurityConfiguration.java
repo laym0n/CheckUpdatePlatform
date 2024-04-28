@@ -43,7 +43,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/webresource/observing/**", "/task**").hasRole(UserRole.SIMPLE_USER.name())
                         .requestMatchers(HttpMethod.POST, "/plugin/**").hasRole(UserRole.SIMPLE_USER.name())
                         .requestMatchers(HttpMethod.GET, "/plugin/usage").hasRole(UserRole.SIMPLE_USER.name())
-                        .requestMatchers(HttpMethod.GET, "/plugin/my").hasRole(UserRole.SIMPLE_USER.name())
+                        .requestMatchers(HttpMethod.GET, "/plugin/my", "/plugin/own").hasRole(UserRole.SIMPLE_USER.name())
                         .requestMatchers(HttpMethod.GET, "/plugin").permitAll()
                         .requestMatchers("/user/register", "/authentication/**", "/autocomplete/**").permitAll()
                 )

@@ -18,5 +18,6 @@ public class PluginsFilterDalDto {
     private String name;
     private List<String> tags;
     private List<PluginStatus> statuses;
-    private UUID userId;
+    private List<UUID> ownerIds;
+    private UUID pluginUsageUserId;
 }
