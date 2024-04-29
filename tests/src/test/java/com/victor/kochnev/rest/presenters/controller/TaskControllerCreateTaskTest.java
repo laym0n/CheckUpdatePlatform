@@ -5,9 +5,11 @@ import com.victor.kochnev.core.dto.domain.value.object.DistributionMethodDto;
 import com.victor.kochnev.core.dto.domain.value.object.PluginDescriptionDto;
 import com.victor.kochnev.core.dto.domain.value.object.PluginSpecificDescriptionDto;
 import com.victor.kochnev.core.dto.request.CreateTaskRequestDto;
+import com.victor.kochnev.dal.embeddable.object.EmbeddablePluginDescriptionBuilder;
 import com.victor.kochnev.dal.entity.*;
 import com.victor.kochnev.domain.enums.DistributionPlanType;
 import com.victor.kochnev.domain.enums.PluginStatus;
+import com.victor.kochnev.domain.enums.TaskDecision;
 import com.victor.kochnev.domain.enums.TaskType;
 import com.victor.kochnev.domain.value.object.DistributionMethod;
 import org.junit.jupiter.api.Test;
@@ -23,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TaskControllerCreateTaskTest extends BaseControllerTest {
     private final String TASK_CREATE_ENDPOINT = "/task";
-    private UUID USER_ID;
+    private UUID OWNER_ID;
     private UUID PLUGIN_ID;
     private UserEntity userForRequest;
 
@@ -65,6 +67,11 @@ class TaskControllerCreateTaskTest extends BaseControllerTest {
     void createTaskForSimpleUpdate() {
         //Assign
         prepareDb();
+        UUID savedTaskId = taskRepository.save(TaskEntityBuilder.persistedPostfixBuilder(1)
+                .plugin(pluginRepository.findById(PLUGIN_ID).get())
+                .decision(TaskDecision.APPROVE)
+                .build()).getId();
+
         PluginEntity pluginForSave = pluginRepository.findById(PLUGIN_ID).get();
         pluginForSave.setStatus(PluginStatus.ACTIVE);
         pluginRepository.save(pluginForSave);
@@ -82,9 +89,51 @@ class TaskControllerCreateTaskTest extends BaseControllerTest {
         assertNull(pluginEntity.getDescription());
 
         List<TaskEntity> allTasks = taskRepository.findAllByPluginId(PLUGIN_ID);
+        assertEquals(2, allTasks.size());
+        TaskEntity taskEntity = allTasks.stream().filter(task -> !task.getId().equals(savedTaskId)).findFirst().get();
+        assertEquals(TaskType.UPDATE, taskEntity.getType());
+
+        var embeddableDescription = taskEntity.getDescription();
+        assertNotNull(embeddableDescription);
+        assertEquals(requestBody.getDescription().getSpecificDescription().getDescription(), embeddableDescription.getSpecificDescription().getDescription());
+        assertEquals(requestBody.getDescription().getSpecificDescription().getImagePaths(), embeddableDescription.getSpecificDescription().getImagePaths());
+        assertEquals(requestBody.getDescription().getSpecificDescription().getTags(), embeddableDescription.getSpecificDescription().getTags().getTags());
+        assertEquals(requestBody.getDescription().getLogoPath(), embeddableDescription.getLogoPath());
+        assertEquals(requestBody.getDescription().getDistributionMethods().size(), embeddableDescription.getDistributionMethods().size());
+        for (int i = 0; i < requestBody.getDescription().getDistributionMethods().size(); i++) {
+            assertEqualsDistributionMethod(requestBody.getDescription().getDistributionMethods().get(i), embeddableDescription.getDistributionMethods().get(i));
+        }
+    }
+
+    @Test
+    void updateTask() {
+        //Assign
+        prepareDb();
+
+        var requestBody = prepareRequestBody();
+        taskRepository.save(TaskEntityBuilder.persistedPostfixBuilder(1)
+                .plugin(pluginRepository.findById(PLUGIN_ID).get())
+                .decision(null)
+                .type(TaskType.INITIALIZE)
+                .description(EmbeddablePluginDescriptionBuilder.defaultBuilder()
+                        .logoPath(requestBody.getDescription().getLogoPath() + "1")
+                        .build())
+                .build());
+
+        //Action
+        MvcResult mvcResult = post(TASK_CREATE_ENDPOINT, requestBody, prepareSimpleUserHeaders(userForRequest));
+
+        //Assert
+        assertHttpStatusOk(mvcResult);
+
+        PluginEntity pluginEntity = pluginRepository.findById(PLUGIN_ID).get();
+        assertEquals(PluginStatus.CREATED, pluginEntity.getStatus());
+        assertNull(pluginEntity.getDescription());
+
+        List<TaskEntity> allTasks = taskRepository.findAllByPluginId(PLUGIN_ID);
         assertEquals(1, allTasks.size());
         TaskEntity taskEntity = allTasks.get(0);
-        assertEquals(TaskType.UPDATE, taskEntity.getType());
+        assertEquals(TaskType.INITIALIZE, taskEntity.getType());
 
         var embeddableDescription = taskEntity.getDescription();
         assertNotNull(embeddableDescription);
@@ -137,11 +186,11 @@ class TaskControllerCreateTaskTest extends BaseControllerTest {
     }
 
     private void prepareDb() {
-        USER_ID = userRepository.save(UserEntityBuilder.defaultBuilder().build()).getId();
+        OWNER_ID = userRepository.save(UserEntityBuilder.defaultBuilder().build()).getId();
         PLUGIN_ID = pluginRepository.save(PluginEntityBuilder.persistedDefaultBuilder()
-                .ownerUser(userRepository.findById(USER_ID).get())
+                .ownerUser(userRepository.findById(OWNER_ID).get())
                 .status(PluginStatus.CREATED)
                 .description(null).build()).getId();
-        userForRequest = userRepository.findById(USER_ID).get();
+        userForRequest = userRepository.findById(OWNER_ID).get();
     }
 }

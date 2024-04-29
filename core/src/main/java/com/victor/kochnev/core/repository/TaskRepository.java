@@ -4,6 +4,7 @@ import com.victor.kochnev.core.dto.dal.GetTasksDalRequestDto;
 import com.victor.kochnev.core.dto.dal.GetTasksDalResponseDto;
 import com.victor.kochnev.domain.entity.Task;
 
+import java.util.Optional;
 import java.util.UUID;
 
 public interface TaskRepository {
@@ -14,4 +15,6 @@ public interface TaskRepository {
     Task update(Task task);
 
     GetTasksDalResponseDto getByFilters(GetTasksDalRequestDto dalRqDto);
+
+    Optional<Task> findNotResolvedByPluginId(UUID pluginId);
 }

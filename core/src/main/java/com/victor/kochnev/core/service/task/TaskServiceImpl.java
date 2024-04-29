@@ -21,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Component
@@ -64,9 +65,25 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    @Transactional
     public GetTasksResponseDto getByFiltersForCurrentUser(GetTasksRequestDto requestDto) {
         var dalRqDto = requestDtoMapper.mapToDal(requestDto);
         var dalRsDto = taskRepository.getByFilters(dalRqDto);
         return taskMapper.mapToDto(dalRsDto);
+    }
+
+    @Override
+    @Transactional
+    public Optional<Task> findNotResolvedByPluginId(UUID pluginId) {
+        return taskRepository.findNotResolvedByPluginId(pluginId);
+    }
+
+    @Override
+    @Transactional
+    public TaskDto update(UUID id, CreateTaskRequestDto requestDto) {
+        Task task = taskRepository.getById(id);
+        taskMapper.update(task, requestDto);
+        task = taskRepository.update(task);
+        return taskMapper.mapToDto(task);
     }
 }

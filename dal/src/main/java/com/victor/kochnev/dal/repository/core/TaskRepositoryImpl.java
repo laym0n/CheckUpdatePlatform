@@ -7,6 +7,7 @@ import com.victor.kochnev.core.repository.TaskRepository;
 import com.victor.kochnev.dal.converter.EntityTaskMapper;
 import com.victor.kochnev.dal.entity.PluginEntity;
 import com.victor.kochnev.dal.entity.TaskEntity;
+import com.victor.kochnev.dal.exception.DalException;
 import com.victor.kochnev.dal.repository.jpa.PluginEntityRepository;
 import com.victor.kochnev.dal.repository.jpa.TaskEntityRepository;
 import com.victor.kochnev.dal.spec.TaskSpecification;
@@ -18,6 +19,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -64,6 +66,19 @@ public class TaskRepositoryImpl implements TaskRepository {
         var responseDto = new GetTasksDalResponseDto();
         responseDto.setTasks(tasks);
         return responseDto;
+    }
+
+    @Override
+    public Optional<Task> findNotResolvedByPluginId(UUID pluginId) {
+        Specification<TaskEntity> spec = Specification.where(TaskSpecification.getAll());
+        spec = spec.and(TaskSpecification.byPluginId(pluginId));
+        spec = spec.and(TaskSpecification.byDecisionIsNull());
+        List<TaskEntity> taskEntities = taskRepository.findAll(spec);
+        if (taskEntities.size() > 1) {
+            throw new DalException(String.format("Found more than one not resolved task with plugin id %s", pluginId));
+        }
+        return Optional.ofNullable(taskEntities.size() == 1 ? taskEntities.get(0) : null)
+                .map(taskMapper::mapToDomain);
     }
 
     private Specification<TaskEntity> prepareSpecification(GetTasksDalRequestDto dalRqDto) {

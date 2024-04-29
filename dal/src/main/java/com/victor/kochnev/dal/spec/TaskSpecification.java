@@ -28,4 +28,12 @@ public final class TaskSpecification {
     public static Specification<TaskEntity> byPluginIds(List<UUID> pluginIds) {
         return (root, query, cb) -> root.get(TaskEntity_.plugin).get(BaseDalEntity_.id).in(pluginIds);
     }
+
+    public static Specification<TaskEntity> byPluginId(UUID pluginId) {
+        return (root, query, cb) -> cb.equal(root.get(TaskEntity_.plugin).get(BaseDalEntity_.id), pluginId);
+    }
+
+    public static Specification<TaskEntity> byDecisionIsNull() {
+        return (root, query, cb) -> cb.isNull(root.get(TaskEntity_.decision));
+    }
 }

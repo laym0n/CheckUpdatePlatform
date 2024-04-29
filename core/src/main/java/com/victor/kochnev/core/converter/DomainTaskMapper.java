@@ -31,4 +31,11 @@ public interface DomainTaskMapper {
     void update(@MappingTarget Task task, MakeDecisionRequestDto requestDto);
 
     GetTasksResponseDto mapToDto(GetTasksDalResponseDto dalRsDto);
+
+    @BlankEntityMapping
+    @Mapping(target = "type", ignore = true)
+    @Mapping(target = "plugin", ignore = true)
+    @Mapping(target = "decision", ignore = true)
+    @Mapping(target = "comment", ignore = true)
+    void update(@MappingTarget Task task, CreateTaskRequestDto requestDto);
 }
