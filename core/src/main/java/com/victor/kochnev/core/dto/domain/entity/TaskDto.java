@@ -1,5 +1,6 @@
 package com.victor.kochnev.core.dto.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.victor.kochnev.core.dto.domain.value.object.PluginDescriptionTaskDto;
 import com.victor.kochnev.domain.enums.TaskDecision;
@@ -22,6 +23,7 @@ public class TaskDto {
     @NotNull
     private UUID id;
     @JsonProperty("createDate")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm Z")
     @NotNull
     private ZonedDateTime createDate;
     @JsonProperty("description")

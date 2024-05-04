@@ -2,7 +2,6 @@ package com.victor.kochnev;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.victor.kochnev.core.converter.DomainUserMapper;
 import com.victor.kochnev.core.security.entity.UserSecurity;
 import com.victor.kochnev.dal.converter.EntityUserMapper;
@@ -26,8 +25,8 @@ import java.nio.charset.StandardCharsets;
 
 @AutoConfigureMockMvc
 public abstract class BaseControllerTest extends BaseBootTest {
-    protected static final ObjectMapper objectMapper = new ObjectMapper()
-            .registerModule(new JavaTimeModule());
+    @Autowired
+    ObjectMapper objectMapper;
     @Autowired
     protected MockMvc mvc;
     @Autowired
