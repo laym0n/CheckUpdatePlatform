@@ -15,6 +15,7 @@ import com.victor.kochnev.core.repository.UserRepository;
 import com.victor.kochnev.domain.entity.Plugin;
 import com.victor.kochnev.domain.entity.PluginUsage;
 import com.victor.kochnev.domain.entity.User;
+import com.victor.kochnev.domain.enums.DistributionPlanType;
 import com.victor.kochnev.domain.enums.PluginStatus;
 import com.victor.kochnev.domain.value.object.DistributionMethod;
 import jakarta.transaction.Transactional;
@@ -61,10 +62,24 @@ public class PluginUsageServiceImpl implements PluginUsageService {
     }
 
     @Override
+    @Transactional
     public GetPluginUsagesResponseDto getByFiltersForUser(GetPluginUsagesRequestDto requestDto, UUID userId) {
         var dalRequestDto = requestDtoMapper.mapToDal(requestDto);
         dalRequestDto.getFilters().setUserIds(List.of(userId));
         var dalResponseDto = pluginUsageRepository.getByFilters(dalRequestDto);
         return pluginUsageMapper.mapToDto(dalResponseDto);
+    }
+
+    @Override
+    @Transactional
+    public void createOwningUsage(UUID userId, UUID pluginId) {
+        PluginUsage newPluginUsage = new PluginUsage();
+        newPluginUsage.setPlugin(pluginRepository.getById(pluginId));
+        newPluginUsage.setUser(userRepository.getById(userId));
+
+        var newDistributionMethod = new DistributionMethod();
+        newDistributionMethod.setType(DistributionPlanType.OWNER);
+        newPluginUsage.setDistributionMethod(newDistributionMethod);
+        pluginUsageRepository.create(newPluginUsage);
     }
 }

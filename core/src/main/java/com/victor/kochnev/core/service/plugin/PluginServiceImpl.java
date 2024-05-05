@@ -9,6 +9,7 @@ import com.victor.kochnev.core.dto.response.GetPluginsResponseDto;
 import com.victor.kochnev.core.exception.ResourceNotFoundException;
 import com.victor.kochnev.core.repository.PluginRepository;
 import com.victor.kochnev.core.repository.UserRepository;
+import com.victor.kochnev.core.service.pluginusage.PluginUsageService;
 import com.victor.kochnev.domain.entity.Plugin;
 import com.victor.kochnev.domain.entity.User;
 import com.victor.kochnev.domain.enums.PluginStatus;
@@ -25,6 +26,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Slf4j
 public class PluginServiceImpl implements PluginService {
+    private final PluginUsageService pluginUsageService;
     private final PluginRepository pluginRepository;
     private final UserRepository userRepository;
     private final DomainPluginMapper pluginMapper;
@@ -54,6 +56,8 @@ public class PluginServiceImpl implements PluginService {
         String accessToken = UUID.randomUUID().toString();
         newPlugin.setAccessToken(passwordEncoder.encode(accessToken));
         Plugin createdPlugin = pluginRepository.create(newPlugin);
+
+        pluginUsageService.createOwningUsage(userId, createdPlugin.getId());
 
         AddPluginResponseDto responseDto = pluginMapper.mapToAddPluginResponseDto(createdPlugin);
         responseDto.setAccessToken(accessToken);

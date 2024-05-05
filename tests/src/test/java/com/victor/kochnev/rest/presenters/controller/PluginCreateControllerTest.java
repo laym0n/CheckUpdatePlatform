@@ -4,14 +4,18 @@ import com.victor.kochnev.BaseControllerTest;
 import com.victor.kochnev.core.dto.request.AddPluginRequestDto;
 import com.victor.kochnev.core.dto.response.AddPluginResponseDto;
 import com.victor.kochnev.dal.entity.PluginEntity;
+import com.victor.kochnev.dal.entity.PluginUsageEntity;
 import com.victor.kochnev.dal.entity.UserEntity;
 import com.victor.kochnev.dal.entity.UserEntityBuilder;
 import com.victor.kochnev.domain.entity.builder.PluginDomainBuilder;
+import com.victor.kochnev.domain.enums.DistributionPlanType;
 import com.victor.kochnev.domain.enums.PluginStatus;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MvcResult;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -49,7 +53,14 @@ class PluginCreateControllerTest extends BaseControllerTest {
         assertEquals(pluginEntity.getId(), pluginResponseDto.getId());
         assertEquals(requestBody.getName(), pluginResponseDto.getName());
         assertEquals(requestBody.getBaseUrl(), pluginResponseDto.getBaseUrl());
+
+        List<PluginUsageEntity> pluginUsages = pluginUsageRepository.findAll();
+        assertEquals(1, pluginUsages.size());
+        var pluginUsage = pluginUsages.get(0);
+        assertEquals(DistributionPlanType.OWNER, pluginUsage.getDistributionMethod().getType());
+        assertNull(pluginUsage.getDistributionMethod().getCost());
     }
+
 
     private AddPluginRequestDto prepareAddRequest() {
         var requestDto = new AddPluginRequestDto();

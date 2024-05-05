@@ -12,4 +12,6 @@ public interface PluginUsageService {
     PluginUsageDto create(CreatePluginUsageRequestDto requestDto, UUID userId);
 
     GetPluginUsagesResponseDto getByFiltersForUser(GetPluginUsagesRequestDto requestDto, UUID userId);
+
+    void createOwningUsage(UUID userId, UUID pluginId);
 }
