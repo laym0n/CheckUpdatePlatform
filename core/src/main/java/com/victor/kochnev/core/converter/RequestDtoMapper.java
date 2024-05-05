@@ -1,13 +1,7 @@
 package com.victor.kochnev.core.converter;
 
-import com.victor.kochnev.core.dto.dal.GetPluginUsagesDalRequestDto;
-import com.victor.kochnev.core.dto.dal.GetPluginsDalRequestDto;
-import com.victor.kochnev.core.dto.dal.GetTasksDalRequestDto;
-import com.victor.kochnev.core.dto.dal.GetWebResourceObservingDalRequestDto;
-import com.victor.kochnev.core.dto.request.GetPluginUsagesRequestDto;
-import com.victor.kochnev.core.dto.request.GetPluginsRequestDto;
-import com.victor.kochnev.core.dto.request.GetTasksRequestDto;
-import com.victor.kochnev.core.dto.request.GetWebResourceObservingsRequestDto;
+import com.victor.kochnev.core.dto.dal.*;
+import com.victor.kochnev.core.dto.request.*;
 import com.victor.kochnev.core.security.entity.UserSecurity;
 import com.victor.kochnev.core.security.service.user.SecurityUserService;
 import com.victor.kochnev.domain.enums.UserRole;
@@ -46,4 +40,6 @@ public abstract class RequestDtoMapper {
         boolean currentUserIsEmployee = curUserRoles.stream().anyMatch(role -> role == UserRole.EMPLOYEE || role == UserRole.ADMIN);
         return currentUserIsEmployee ? Collections.emptyList() : List.of(curUser.getId());
     }
+
+    public abstract GetFeedbacksDalRequestDto mapToDal(GetFeedbacksRequestDto requestDto);
 }

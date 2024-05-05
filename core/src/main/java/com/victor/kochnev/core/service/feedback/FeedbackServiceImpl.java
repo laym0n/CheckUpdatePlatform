@@ -1,8 +1,11 @@
 package com.victor.kochnev.core.service.feedback;
 
 import com.victor.kochnev.core.converter.DomainFeedbackMapper;
+import com.victor.kochnev.core.converter.RequestDtoMapper;
 import com.victor.kochnev.core.dto.domain.entity.FeedbackDto;
 import com.victor.kochnev.core.dto.request.CreateOrUpdateFeedbackRequestDto;
+import com.victor.kochnev.core.dto.request.GetFeedbacksRequestDto;
+import com.victor.kochnev.core.dto.response.GetFeedbacksResponseDto;
 import com.victor.kochnev.core.repository.FeedbackRepository;
 import com.victor.kochnev.core.repository.PluginRepository;
 import com.victor.kochnev.core.repository.UserRepository;
@@ -23,6 +26,7 @@ public class FeedbackServiceImpl implements FeedbackService {
     private final PluginRepository pluginRepository;
     private final UserRepository userRepository;
     private final DomainFeedbackMapper feedbackMapper;
+    private final RequestDtoMapper requestDtoMapper;
 
     @Override
     @Transactional
@@ -40,5 +44,13 @@ public class FeedbackServiceImpl implements FeedbackService {
             feedback = feedbackRepository.create(feedback);
         }
         return feedbackMapper.mapToDto(feedback);
+    }
+
+    @Override
+    @Transactional
+    public GetFeedbacksResponseDto getByFilters(GetFeedbacksRequestDto requestDto) {
+        var dalRequestDto = requestDtoMapper.mapToDal(requestDto);
+        var dalResponseDto = feedbackRepository.getByFilters(dalRequestDto);
+        return feedbackMapper.mapToDto(dalResponseDto);
     }
 }

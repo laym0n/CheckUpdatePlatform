@@ -1,7 +1,9 @@
 package com.victor.kochnev.core.converter;
 
+import com.victor.kochnev.core.dto.dal.GetFeedbacksDalResponseDto;
 import com.victor.kochnev.core.dto.domain.entity.FeedbackDto;
 import com.victor.kochnev.core.dto.request.CreateOrUpdateFeedbackRequestDto;
+import com.victor.kochnev.core.dto.response.GetFeedbacksResponseDto;
 import com.victor.kochnev.domain.entity.Feedback;
 import org.mapstruct.*;
 
@@ -22,4 +24,6 @@ public interface DomainFeedbackMapper {
     @Mapping(target = "user", ignore = true)
     @Mapping(target = "plugin", ignore = true)
     Feedback mapToDomain(CreateOrUpdateFeedbackRequestDto requestDto);
+
+    GetFeedbacksResponseDto mapToDto(GetFeedbacksDalResponseDto dalResponseDto);
 }

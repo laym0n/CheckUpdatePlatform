@@ -49,4 +49,6 @@ public abstract class BaseBootTest {
     protected NotificationEntityRepository notificationEntityRepository;
     @Autowired
     protected TaskEntityRepository taskEntityRepository;
+    @Autowired
+    protected FeedbackEntityRepository feedbackEntityRepository;
 }
