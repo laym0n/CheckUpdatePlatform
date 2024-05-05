@@ -20,7 +20,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TaskControllerDecisionMakingTest extends BaseControllerTest {
     private static final String COMMENT = "comment";
-    private static final String TASK_CREATE_ENDPOINT = "/task/%s/decision";
+    private static final String TASK_DECISION_ENDPOINT = "/task/%s/decision";
+    private static final String TASK_DECISION_BY_CREATOR_ENDPOINT = "/task/%s/creator/decision";
     private UUID USER_ID;
     private UUID PLUGIN_ID;
     private UUID TASK_ID;
@@ -33,7 +34,7 @@ class TaskControllerDecisionMakingTest extends BaseControllerTest {
 
         var requestBody = prepareRequest(TaskDecision.APPROVE);
 
-        String url = String.format(TASK_CREATE_ENDPOINT, TASK_ID);
+        String url = String.format(TASK_DECISION_ENDPOINT, TASK_ID);
 
         //Action
         MvcResult mvcResult = put(url, requestBody, prepareSimpleUserHeaders(userForRequest));
@@ -61,7 +62,7 @@ class TaskControllerDecisionMakingTest extends BaseControllerTest {
 
         var requestBody = prepareRequest(TaskDecision.REJECT);
 
-        String url = String.format(TASK_CREATE_ENDPOINT, TASK_ID);
+        String url = String.format(TASK_DECISION_ENDPOINT, TASK_ID);
 
         //Action
         MvcResult mvcResult = put(url, requestBody, prepareSimpleUserHeaders(userForRequest));
@@ -91,7 +92,7 @@ class TaskControllerDecisionMakingTest extends BaseControllerTest {
 
         var requestBody = prepareRequest(TaskDecision.APPROVE);
 
-        String url = String.format(TASK_CREATE_ENDPOINT, TASK_ID);
+        String url = String.format(TASK_DECISION_ENDPOINT, TASK_ID);
 
         //Action
         MvcResult mvcResult = put(url, requestBody, prepareSimpleUserHeaders(userForRequest));
@@ -119,7 +120,7 @@ class TaskControllerDecisionMakingTest extends BaseControllerTest {
 
         var requestBody = prepareRequest(TaskDecision.REJECT);
 
-        String url = String.format(TASK_CREATE_ENDPOINT, TASK_ID);
+        String url = String.format(TASK_DECISION_ENDPOINT, TASK_ID);
 
         //Action
         MvcResult mvcResult = put(url, requestBody, prepareSimpleUserHeaders(userForRequest));
@@ -129,6 +130,58 @@ class TaskControllerDecisionMakingTest extends BaseControllerTest {
 
         TaskEntity taskEntity = taskRepository.findById(TASK_ID).get();
         assertEquals(TaskDecision.REJECT, taskEntity.getDecision());
+        assertEquals(COMMENT, taskEntity.getComment());
+
+        PluginEntity plugin = pluginRepository.findById(PLUGIN_ID).get();
+        assertNull(plugin.getDescription());
+        assertEquals(PluginStatus.ACTIVE, plugin.getStatus());
+    }
+
+    @Test
+    void makeRejectByCreatorDecision_WhenSendNotCreator() {
+        //Assign
+        prepareDb();
+        userForRequest = userRepository.save(UserEntityBuilder.persistedPostfixBuilder(1)
+                .roles(List.of(UserRole.ADMIN)).build());
+        PluginEntity pluginEntity = pluginRepository.findById(PLUGIN_ID).get();
+        pluginEntity.setStatus(PluginStatus.ACTIVE);
+        pluginRepository.save(pluginEntity);
+
+        var requestBody = prepareRequest(TaskDecision.REJECT_BY_CREATOR);
+
+        String url = String.format(TASK_DECISION_ENDPOINT, TASK_ID);
+
+        //Action
+        MvcResult mvcResult = put(url, requestBody, prepareSimpleUserHeaders(userForRequest));
+
+        //Assert
+        assertHttpStatus(mvcResult, HttpStatus.UNAUTHORIZED);
+
+        TaskEntity taskEntity = taskRepository.findById(TASK_ID).get();
+        assertNull(taskEntity.getDecision());
+    }
+
+    @Test
+    void makeRejectByCreatorDecision_WhenSendByCreator() {
+        //Assign
+        prepareDb();
+
+        PluginEntity pluginEntity = pluginRepository.findById(PLUGIN_ID).get();
+        pluginEntity.setStatus(PluginStatus.ACTIVE);
+        pluginRepository.save(pluginEntity);
+
+        var requestBody = prepareRequest(TaskDecision.REJECT_BY_CREATOR);
+
+        String url = String.format(TASK_DECISION_BY_CREATOR_ENDPOINT, TASK_ID);
+
+        //Action
+        MvcResult mvcResult = put(url, requestBody, prepareSimpleUserHeaders(userForRequest));
+
+        //Assert
+        assertHttpStatusOk(mvcResult);
+
+        TaskEntity taskEntity = taskRepository.findById(TASK_ID).get();
+        assertEquals(TaskDecision.REJECT_BY_CREATOR, taskEntity.getDecision());
         assertEquals(COMMENT, taskEntity.getComment());
 
         PluginEntity plugin = pluginRepository.findById(PLUGIN_ID).get();
@@ -147,7 +200,7 @@ class TaskControllerDecisionMakingTest extends BaseControllerTest {
 
         var requestBody = prepareRequest(TaskDecision.APPROVE);
 
-        String url = String.format(TASK_CREATE_ENDPOINT, TASK_ID);
+        String url = String.format(TASK_DECISION_ENDPOINT, TASK_ID);
 
         //Action
         MvcResult mvcResult = post(url, requestBody, prepareSimpleUserHeaders(user));

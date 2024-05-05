@@ -21,4 +21,8 @@ public interface TaskService {
     Optional<Task> findNotResolvedByPluginId(UUID pluginId);
 
     TaskDto update(UUID id, CreateTaskRequestDto requestDto);
+
+    TaskDto makeDecisionByCreator(UUID taskId, MakeDecisionRequestDto requestDto);
+
+    Task getById(UUID taskId);
 }

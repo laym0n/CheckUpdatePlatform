@@ -32,6 +32,7 @@ import java.util.UUID;
 public class TaskController {
     private static final String CREATE_TASK_ENDPOINT = "POST /task";
     private static final String MAKE_DECISION_ENDPOINT = "PUT /task/{entityId}/decision";
+    private static final String MAKE_DECISION_BY_CREATOR_ENDPOINT = "/task/{id}/creator/decision";
     private static final String GET_TASKS_ENDPOINT = "GET /tasks";
     private final TaskFacade taskFacade;
 
@@ -58,6 +59,19 @@ public class TaskController {
         TaskDto taskDomainDto = taskFacade.makeDecision(taskId, requestBody);
 
         log.info("Request: {} proccesed", MAKE_DECISION_ENDPOINT);
+        return ResponseEntity.ok(taskDomainDto);
+    }
+
+    @PutMapping("/task/{id}/creator/decision")
+    @SecurityRequirement(name = "bearerAuth")
+    @Operation(operationId = "makeDecisionByCreator")
+    public ResponseEntity<TaskDto> makeDecisionByCreator(@Valid @PathVariable("id") @NotNull UUID taskId, @Valid @RequestBody @NotNull MakeDecisionRequestDto requestBody) {
+        log.info("Request: {}", MAKE_DECISION_BY_CREATOR_ENDPOINT);
+        log.debug("Request: {} {}", MAKE_DECISION_BY_CREATOR_ENDPOINT, requestBody);
+
+        TaskDto taskDomainDto = taskFacade.makeDecisionByCreator(taskId, requestBody);
+
+        log.info("Request: {} proccesed", MAKE_DECISION_BY_CREATOR_ENDPOINT);
         return ResponseEntity.ok(taskDomainDto);
     }
 

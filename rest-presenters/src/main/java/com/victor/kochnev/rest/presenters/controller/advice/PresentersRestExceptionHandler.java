@@ -1,9 +1,6 @@
 package com.victor.kochnev.rest.presenters.controller.advice;
 
-import com.victor.kochnev.core.exception.PluginUsageNotPermittedException;
-import com.victor.kochnev.core.exception.ResourceDescriptionParseException;
-import com.victor.kochnev.core.exception.ResourceNotFoundException;
-import com.victor.kochnev.core.exception.UserRegistrationException;
+import com.victor.kochnev.core.exception.*;
 import com.victor.kochnev.rest.presenters.controller.ControllerScanMarker;
 import com.victor.kochnev.rest.presenters.dto.ErrorMessageDto;
 import io.jsonwebtoken.JwtException;
@@ -41,6 +38,14 @@ public class PresentersRestExceptionHandler extends ResponseEntityExceptionHandl
 
     @ExceptionHandler({AccessDeniedException.class})
     public ResponseEntity<Object> handleUserAuthorizationException(AccessDeniedException ex, WebRequest request) {
+        String msg = ExceptionUtils.getMessage(ex);
+        log.error(msg, ex);
+        return ResponseEntity.status(HttpStatusCode.valueOf(401))
+                .body(new ErrorMessageDto(msg));
+    }
+
+    @ExceptionHandler({AccessNotPermittedException.class})
+    public ResponseEntity<Object> handleUserAuthorizationException(AccessNotPermittedException ex, WebRequest request) {
         String msg = ExceptionUtils.getMessage(ex);
         log.error(msg, ex);
         return ResponseEntity.status(HttpStatusCode.valueOf(401))

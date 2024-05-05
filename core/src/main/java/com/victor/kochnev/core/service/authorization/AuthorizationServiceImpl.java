@@ -4,7 +4,10 @@ import com.victor.kochnev.core.repository.PluginRepository;
 import com.victor.kochnev.core.repository.PluginUsageRepository;
 import com.victor.kochnev.core.repository.WebResourceObservingRepository;
 import com.victor.kochnev.core.security.service.user.SecurityUserService;
+import com.victor.kochnev.core.service.task.TaskService;
+import com.victor.kochnev.domain.entity.Plugin;
 import com.victor.kochnev.domain.entity.PluginUsage;
+import com.victor.kochnev.domain.entity.Task;
 import com.victor.kochnev.domain.enums.PluginStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +23,7 @@ import java.util.UUID;
 @Slf4j
 public class AuthorizationServiceImpl implements AuthorizationService {
     private final SecurityUserService securityUserService;
+    private final TaskService taskService;
     private final PluginUsageRepository pluginUsageRepository;
     private final WebResourceObservingRepository observingRepository;
     private final PluginRepository pluginRepository;
@@ -38,9 +42,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
     @Override
     public boolean verifyAuthenticatedUserCanManagePlugin(UUID pluginId) {
-        UUID userId = securityUserService.getCurrentUser().getId();
-        UUID ownerId = pluginRepository.getById(pluginId).getOwnerUser().getId();
-        return ownerId.equals(userId);
+        return verifyAuthenticatedUserCanManagePluginInternal(pluginRepository.getById(pluginId));
     }
 
     @Override
@@ -51,5 +53,18 @@ public class AuthorizationServiceImpl implements AuthorizationService {
             return false;
         }
         return verifyCurrentUserCanUsePlugin(observing.getWebResource().getPlugin().getId());
+    }
+
+    @Override
+    public boolean verifyAuthenticatedUserCanManageTask(UUID taskId) {
+        Task task = taskService.getById(taskId);
+        Plugin plugin = task.getPlugin();
+        return verifyAuthenticatedUserCanManagePluginInternal(plugin);
+    }
+
+    private boolean verifyAuthenticatedUserCanManagePluginInternal(Plugin plugin) {
+        UUID userId = securityUserService.getCurrentUser().getId();
+        UUID ownerId = plugin.getOwnerUser().getId();
+        return ownerId.equals(userId);
     }
 }

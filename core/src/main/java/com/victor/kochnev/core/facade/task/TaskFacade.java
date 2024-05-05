@@ -14,5 +14,7 @@ public interface TaskFacade {
 
     TaskDto makeDecision(UUID taskId, MakeDecisionRequestDto requestDto);
 
+    TaskDto makeDecisionByCreator(UUID taskId, MakeDecisionRequestDto requestDto);
+
     GetTasksResponseDto get(GetTasksRequestDto requestDto);
 }

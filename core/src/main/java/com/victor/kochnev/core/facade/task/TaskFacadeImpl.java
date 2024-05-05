@@ -50,6 +50,12 @@ public class TaskFacadeImpl implements TaskFacade {
     }
 
     @Override
+    @PreAuthorize("@authorizationService.verifyAuthenticatedUserCanManageTask(#taskId)")
+    public TaskDto makeDecisionByCreator(@P("taskId") UUID taskId, MakeDecisionRequestDto requestDto) {
+        return taskService.makeDecisionByCreator(taskId, requestDto);
+    }
+
+    @Override
     public GetTasksResponseDto get(GetTasksRequestDto requestDto) {
         return taskService.getByFiltersForCurrentUser(requestDto);
     }

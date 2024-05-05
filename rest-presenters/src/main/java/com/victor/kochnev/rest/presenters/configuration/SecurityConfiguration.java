@@ -39,6 +39,7 @@ public class SecurityConfiguration {
                 .securityMatcher("/webresource/observing/**", "/user/register", "/authentication/**", "/plugin/**", "/task/**", "/autocomplete/**", "/task*")
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/task/{id}/decision").hasRole(UserRole.EMPLOYEE.name())
+                        .requestMatchers("/task/{id}/creator/decision").hasRole(UserRole.SIMPLE_USER.name())
                         .requestMatchers("/webresource/observing/{id}/**").access(observingAuthorization)
                         .requestMatchers("/webresource/observing/**", "/task**").hasRole(UserRole.SIMPLE_USER.name())
                         .requestMatchers(HttpMethod.POST, "/plugin/**").hasRole(UserRole.SIMPLE_USER.name())

@@ -7,6 +7,7 @@ import com.victor.kochnev.core.dto.request.CreateTaskRequestDto;
 import com.victor.kochnev.core.dto.request.GetTasksRequestDto;
 import com.victor.kochnev.core.dto.request.MakeDecisionRequestDto;
 import com.victor.kochnev.core.dto.response.GetTasksResponseDto;
+import com.victor.kochnev.core.exception.AccessNotPermittedException;
 import com.victor.kochnev.core.repository.PluginRepository;
 import com.victor.kochnev.core.repository.TaskRepository;
 import com.victor.kochnev.core.service.plugin.PluginService;
@@ -49,6 +50,26 @@ public class TaskServiceImpl implements TaskService {
     @Override
     @Transactional
     public TaskDto makeDecision(UUID taskId, MakeDecisionRequestDto requestDto) {
+        if (TaskDecision.isForCreator(requestDto.getDecision())) {
+            throw new AccessNotPermittedException("You do not have permission to make a decision " + requestDto.getDecision());
+        }
+        return makeDecisionInternal(taskId, requestDto);
+    }
+
+    @Override
+    public TaskDto makeDecisionByCreator(UUID taskId, MakeDecisionRequestDto requestDto) {
+        if (!TaskDecision.isForCreator(requestDto.getDecision())) {
+            throw new AccessNotPermittedException("You do not have permission to make a decision " + requestDto.getDecision());
+        }
+        return makeDecisionInternal(taskId, requestDto);
+    }
+
+    @Override
+    public Task getById(UUID taskId) {
+        return taskRepository.getById(taskId);
+    }
+
+    private TaskDto makeDecisionInternal(UUID taskId, MakeDecisionRequestDto requestDto) {
         Task task = taskRepository.getById(taskId);
         if (requestDto.getDecision() == TaskDecision.APPROVE) {
             Plugin plugin = task.getPlugin();
