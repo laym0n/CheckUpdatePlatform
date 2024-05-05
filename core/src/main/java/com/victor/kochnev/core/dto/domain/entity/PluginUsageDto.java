@@ -1,5 +1,6 @@
 package com.victor.kochnev.core.dto.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.victor.kochnev.core.dto.domain.value.object.DistributionMethodDto;
 import jakarta.validation.constraints.NotNull;
@@ -23,6 +24,7 @@ public class PluginUsageDto {
     @NotNull
     private DistributionMethodDto distributionMethod;
     @JsonProperty("expiredDate")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm Z")
     @NotNull
     private ZonedDateTime expiredDate;
     @JsonProperty("plugin")
