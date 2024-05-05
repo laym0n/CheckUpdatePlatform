@@ -26,8 +26,6 @@ import java.nio.charset.StandardCharsets;
 @AutoConfigureMockMvc
 public abstract class BaseControllerTest extends BaseBootTest {
     @Autowired
-    ObjectMapper objectMapper;
-    @Autowired
     protected MockMvc mvc;
     @Autowired
     protected EntityUserMapper entityUserMapper;
@@ -35,6 +33,8 @@ public abstract class BaseControllerTest extends BaseBootTest {
     protected DomainUserMapper domainUserMapper;
     @Autowired
     protected JwtService jwtService;
+    @Autowired
+    ObjectMapper objectMapper;
 
     @SneakyThrows
     public MvcResult post(String uri, Object body) {
