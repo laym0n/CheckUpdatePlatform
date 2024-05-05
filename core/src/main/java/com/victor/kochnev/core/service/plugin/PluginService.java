@@ -4,6 +4,7 @@ import com.victor.kochnev.core.dto.request.AddPluginRequestDto;
 import com.victor.kochnev.core.dto.request.GetPluginsRequestDto;
 import com.victor.kochnev.core.dto.response.AddPluginResponseDto;
 import com.victor.kochnev.core.dto.response.GetPluginsResponseDto;
+import com.victor.kochnev.core.dto.response.RefreshTokenResponseDto;
 import com.victor.kochnev.domain.entity.Plugin;
 
 import java.util.UUID;
@@ -22,4 +23,6 @@ public interface PluginService {
     GetPluginsResponseDto getPluginsForCurrentUser(GetPluginsRequestDto request, UUID userId);
 
     GetPluginsResponseDto getOwnPlugins(GetPluginsRequestDto request, UUID userId);
+
+    RefreshTokenResponseDto refreshAccessToken(UUID pluginId);
 }

@@ -6,6 +6,7 @@ import com.victor.kochnev.core.dto.request.AddPluginRequestDto;
 import com.victor.kochnev.core.dto.request.GetPluginsRequestDto;
 import com.victor.kochnev.core.dto.response.AddPluginResponseDto;
 import com.victor.kochnev.core.dto.response.GetPluginsResponseDto;
+import com.victor.kochnev.core.dto.response.RefreshTokenResponseDto;
 import com.victor.kochnev.core.exception.ResourceNotFoundException;
 import com.victor.kochnev.core.repository.PluginRepository;
 import com.victor.kochnev.core.repository.UserRepository;
@@ -62,6 +63,20 @@ public class PluginServiceImpl implements PluginService {
         AddPluginResponseDto responseDto = pluginMapper.mapToAddPluginResponseDto(createdPlugin);
         responseDto.setAccessToken(accessToken);
         return responseDto;
+    }
+
+    @Override
+    @Transactional
+    public RefreshTokenResponseDto refreshAccessToken(UUID pluginId) {
+        Plugin plugin = pluginRepository.getById(pluginId);
+
+        String accessToken = UUID.randomUUID().toString();
+        plugin.setAccessToken(passwordEncoder.encode(accessToken));
+        pluginRepository.update(plugin);
+
+        var response = new RefreshTokenResponseDto();
+        response.setAccessToken(accessToken);
+        return response;
     }
 
     @Override

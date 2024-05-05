@@ -4,10 +4,13 @@ import com.victor.kochnev.core.dto.request.AddPluginRequestDto;
 import com.victor.kochnev.core.dto.request.GetPluginsRequestDto;
 import com.victor.kochnev.core.dto.response.AddPluginResponseDto;
 import com.victor.kochnev.core.dto.response.GetPluginsResponseDto;
+import com.victor.kochnev.core.dto.response.RefreshTokenResponseDto;
 import com.victor.kochnev.core.security.entity.UserSecurity;
 import com.victor.kochnev.core.security.service.user.SecurityUserService;
 import com.victor.kochnev.core.service.plugin.PluginService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
@@ -23,6 +26,12 @@ public class PluginFacadeImpl implements PluginFacade {
         UserSecurity user = securityUserService.getCurrentUser();
         UUID userId = user.getId();
         return pluginService.create(userId, requestDto);
+    }
+
+    @Override
+    @PreAuthorize("@authorizationService.verifyAuthenticatedUserCanManagePlugin(#pluginId)")
+    public RefreshTokenResponseDto refreshAccessToken(@P("pluginId") UUID pluginId) {
+        return pluginService.refreshAccessToken(pluginId);
     }
 
     @Override
