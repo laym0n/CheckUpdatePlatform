@@ -1,7 +1,9 @@
 package com.victor.kochnev.rest.presenters.controller;
 
+import com.victor.kochnev.core.dto.domain.entity.PluginDto;
 import com.victor.kochnev.core.dto.request.AddPluginRequestDto;
 import com.victor.kochnev.core.dto.request.GetPluginsRequestDto;
+import com.victor.kochnev.core.dto.request.UpdatePluginRequestDto;
 import com.victor.kochnev.core.dto.response.AddPluginResponseDto;
 import com.victor.kochnev.core.dto.response.GetPluginsResponseDto;
 import com.victor.kochnev.core.dto.response.RefreshTokenResponseDto;
@@ -35,6 +37,7 @@ public class PluginController {
     private static final String GET_MY_PLUGINS_ENDPOINT = "GET /plugin/my";
     private static final String GET_OWN_PLUGINS_ENDPOINT = "GET /plugin/own";
     private static final String REFRESH_TOKEN_ENDPOINT = "POST /plugin/{pluginId}/refresh_token";
+    private static final String UPDATE_ENDPOINT = "PUT /plugin/update";
     private final PluginFacade pluginFacade;
 
     @PostMapping("/plugin")
@@ -115,13 +118,28 @@ public class PluginController {
     @Operation(
             operationId = "refreshAccessTokenPlugin"
     )
-    public ResponseEntity<RefreshTokenResponseDto> getOwnPlugins(@PathVariable("pluginId") @Valid @Nullable UUID pluginId) {
+    public ResponseEntity<RefreshTokenResponseDto> refreshAccessToken(@PathVariable("pluginId") @Valid @Nullable UUID pluginId) {
         log.info("Request: {}", REFRESH_TOKEN_ENDPOINT);
         log.debug("Request: {} {}", REFRESH_TOKEN_ENDPOINT, pluginId);
 
         var responseDto = pluginFacade.refreshAccessToken(pluginId);
 
         log.info("Request: {} proccesed {}", REFRESH_TOKEN_ENDPOINT, responseDto);
+        return ResponseEntity.ok(responseDto);
+    }
+
+    @PutMapping("/plugin/update")
+    @SecurityRequirement(name = "bearerAuth")
+    @Operation(
+            operationId = "updatePlugin"
+    )
+    public ResponseEntity<PluginDto> update(@RequestBody @Valid @Nullable UpdatePluginRequestDto requestDto) {
+        log.info("Request: {}", UPDATE_ENDPOINT);
+        log.debug("Request: {} {}", UPDATE_ENDPOINT, requestDto);
+
+        var responseDto = pluginFacade.updatePlugin(requestDto);
+
+        log.info("Request: {} proccesed {}", UPDATE_ENDPOINT, responseDto);
         return ResponseEntity.ok(responseDto);
     }
 }

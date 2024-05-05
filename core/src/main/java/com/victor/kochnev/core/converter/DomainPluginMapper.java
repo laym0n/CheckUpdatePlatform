@@ -1,8 +1,10 @@
 package com.victor.kochnev.core.converter;
 
 import com.victor.kochnev.core.dto.dal.GetPluginsDalResponseDto;
+import com.victor.kochnev.core.dto.domain.entity.PluginDto;
 import com.victor.kochnev.core.dto.domain.value.object.DistributionMethodDto;
 import com.victor.kochnev.core.dto.request.AddPluginRequestDto;
+import com.victor.kochnev.core.dto.request.UpdatePluginRequestDto;
 import com.victor.kochnev.core.dto.response.AddPluginResponseDto;
 import com.victor.kochnev.core.dto.response.GetPluginsResponseDto;
 import com.victor.kochnev.core.security.entity.PluginAuthority;
@@ -37,4 +39,13 @@ public interface DomainPluginMapper {
     GetPluginsResponseDto mapToDto(GetPluginsDalResponseDto dalResponseDto);
 
     DistributionMethod mapToDomain(DistributionMethodDto distributionMethod);
+
+    @BlankEntityMapping
+    @Mapping(target = "accessToken", ignore = true)
+    @Mapping(target = "status", ignore = true)
+    @Mapping(target = "description", ignore = true)
+    @Mapping(target = "ownerUser", ignore = true)
+    void update(@MappingTarget Plugin plugin, UpdatePluginRequestDto requestDto);
+
+    PluginDto mapToDto(Plugin plugin);
 }

@@ -1,7 +1,8 @@
 package com.victor.kochnev.rest.presenters.controller;
 
 import com.victor.kochnev.BaseControllerTest;
-import com.victor.kochnev.core.dto.response.RefreshTokenResponseDto;
+import com.victor.kochnev.core.dto.domain.entity.PluginDto;
+import com.victor.kochnev.core.dto.request.UpdatePluginRequestDto;
 import com.victor.kochnev.dal.entity.PluginEntity;
 import com.victor.kochnev.dal.entity.PluginEntityBuilder;
 import com.victor.kochnev.dal.entity.UserEntity;
@@ -14,10 +15,11 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-class PluginRefreshAccessTokenControllerTest extends BaseControllerTest {
-    private final String REFRESH_ACCESS_TOKEN_ENDPOINT = "/plugin/%s/refresh_token";
+class PluginUpdateControllerTest extends BaseControllerTest {
+    private final String UPDATE_ENDPOINT = "/plugin/update";
     @Autowired
     PasswordEncoder passwordEncoder;
     UserEntity userForRequest;
@@ -27,22 +29,22 @@ class PluginRefreshAccessTokenControllerTest extends BaseControllerTest {
     void successRefresh() {
         //Assign
         prepareDb();
-
-        String url = String.format(REFRESH_ACCESS_TOKEN_ENDPOINT, PLUGIN_ID);
+        var requestDto = prepareRequest();
 
         //Action
-        MvcResult mvcResult = post(url, null, prepareSimpleUserHeaders(userForRequest));
+        MvcResult mvcResult = put(UPDATE_ENDPOINT, requestDto, prepareSimpleUserHeaders(userForRequest));
 
         //Assert
         assertHttpStatusOk(mvcResult);
 
-        var responseBody = getResponseDto(mvcResult, RefreshTokenResponseDto.class);
-        assertNotNull(responseBody);
-        String accessToken = responseBody.getAccessToken();
-        assertNotNull(accessToken);
+        var pluginDto = getResponseDto(mvcResult, PluginDto.class);
+        assertNotNull(pluginDto);
+        assertEquals(requestDto.getName(), pluginDto.getName());
+        assertEquals(requestDto.getBaseUrl(), pluginDto.getBaseUrl());
 
         PluginEntity pluginEntity = pluginRepository.findById(PLUGIN_ID).get();
-        assertTrue(passwordEncoder.matches(accessToken, pluginEntity.getAccessToken()));
+        assertEquals(requestDto.getName(), pluginEntity.getName());
+        assertEquals(requestDto.getBaseUrl(), pluginEntity.getBaseUrl());
     }
 
     @Test
@@ -50,18 +52,27 @@ class PluginRefreshAccessTokenControllerTest extends BaseControllerTest {
         //Assign
         prepareDb();
         userForRequest = userRepository.save(UserEntityBuilder.persistedPostfixBuilder(1).build());
-        String initAccessToken = pluginRepository.findById(PLUGIN_ID).get().getAccessToken();
 
-        String url = String.format(REFRESH_ACCESS_TOKEN_ENDPOINT, PLUGIN_ID);
+        var requestDto = prepareRequest();
+        PluginEntity initPlugin = pluginRepository.findById(PLUGIN_ID).get();
 
         //Action
-        MvcResult mvcResult = post(url, null, prepareSimpleUserHeaders(userForRequest));
+        MvcResult mvcResult = put(UPDATE_ENDPOINT, requestDto, prepareSimpleUserHeaders(userForRequest));
 
         //Assert
         assertHttpStatus(mvcResult, HttpStatus.UNAUTHORIZED);
 
         PluginEntity pluginEntity = pluginRepository.findById(PLUGIN_ID).get();
-        assertEquals(initAccessToken, pluginEntity.getAccessToken());
+        assertEquals(initPlugin.getName(), pluginEntity.getName());
+        assertEquals(initPlugin.getBaseUrl(), pluginEntity.getBaseUrl());
+    }
+
+    private UpdatePluginRequestDto prepareRequest() {
+        var requestDto = new UpdatePluginRequestDto();
+        requestDto.setPluginId(PLUGIN_ID);
+        requestDto.setName("testName");
+        requestDto.setBaseUrl("testBaseUrl");
+        return requestDto;
     }
 
     private void prepareDb() {

@@ -2,8 +2,10 @@ package com.victor.kochnev.core.service.plugin;
 
 import com.victor.kochnev.core.converter.DomainPluginMapper;
 import com.victor.kochnev.core.converter.RequestDtoMapper;
+import com.victor.kochnev.core.dto.domain.entity.PluginDto;
 import com.victor.kochnev.core.dto.request.AddPluginRequestDto;
 import com.victor.kochnev.core.dto.request.GetPluginsRequestDto;
+import com.victor.kochnev.core.dto.request.UpdatePluginRequestDto;
 import com.victor.kochnev.core.dto.response.AddPluginResponseDto;
 import com.victor.kochnev.core.dto.response.GetPluginsResponseDto;
 import com.victor.kochnev.core.dto.response.RefreshTokenResponseDto;
@@ -83,6 +85,15 @@ public class PluginServiceImpl implements PluginService {
     @Transactional
     public Plugin update(Plugin plugin) {
         return pluginRepository.update(plugin);
+    }
+
+    @Override
+    @Transactional
+    public PluginDto update(UpdatePluginRequestDto requestDto) {
+        Plugin plugin = pluginRepository.getById(requestDto.getPluginId());
+        pluginMapper.update(plugin, requestDto);
+        plugin = pluginRepository.update(plugin);
+        return pluginMapper.mapToDto(plugin);
     }
 
     @Override
