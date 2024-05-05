@@ -17,6 +17,10 @@ public class WebResource extends BaseEntity {
      */
     private String name;
     /**
+     * Опциональный заголовок описания ресурса
+     */
+    private String descriptionHeader;
+    /**
      * Опциональное описание ресурса
      */
     private String description;

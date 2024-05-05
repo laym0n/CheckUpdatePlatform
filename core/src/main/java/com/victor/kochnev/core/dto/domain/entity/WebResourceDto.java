@@ -21,6 +21,7 @@ public class WebResourceDto {
     @NotNull
     private String name;
     @JsonProperty("description")
-    @NotNull
     private String description;
+    @JsonProperty("descriptionHeader")
+    private String descriptionHeader;
 }

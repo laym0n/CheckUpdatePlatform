@@ -158,6 +158,9 @@ components:
         description:
           type: string
           description: описание веб ресурса
+        descriptionHeader:
+          type: string
+          description: заголовок описание веб ресурса
       required:
         - name
 

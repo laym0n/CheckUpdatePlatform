@@ -12,4 +12,5 @@ import lombok.NoArgsConstructor;
 public class WebResourcePluginDto {
     private String name;
     private String description;
+    private String descriptionHeader;
 }

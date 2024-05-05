@@ -23,4 +23,10 @@
         <sqlFile path="004_create_table_tag.sql" relativeToChangelogFile="true" splitStatements="true"
                  dbms="postgresql"/>
     </changeSet>
+    <changeSet id="005_alter_table_webresource_add_description_header" author="Victor Kochnev" runAlways="false"
+               failOnError="true">
+        <sqlFile path="005_alter_table_webresource_add_description_header.sql" relativeToChangelogFile="true"
+                 splitStatements="true"
+                 dbms="postgresql"/>
+    </changeSet>
 </databaseChangeLog>
