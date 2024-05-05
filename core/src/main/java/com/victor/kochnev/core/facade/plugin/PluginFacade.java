@@ -1,6 +1,6 @@
 package com.victor.kochnev.core.facade.plugin;
 
-import com.victor.kochnev.core.dto.domain.entity.PluginDto;
+import com.victor.kochnev.core.dto.domain.entity.PluginInfoDto;
 import com.victor.kochnev.core.dto.request.AddPluginRequestDto;
 import com.victor.kochnev.core.dto.request.GetPluginsRequestDto;
 import com.victor.kochnev.core.dto.request.UpdatePluginRequestDto;
@@ -18,7 +18,7 @@ public interface PluginFacade {
 
     GetPluginsResponseDto getOwnPlugins(GetPluginsRequestDto request);
 
-    PluginDto updatePlugin(UpdatePluginRequestDto requestDto);
+    PluginInfoDto updatePlugin(UpdatePluginRequestDto requestDto);
 
     GetPluginsResponseDto getPlugins(GetPluginsRequestDto request);
 

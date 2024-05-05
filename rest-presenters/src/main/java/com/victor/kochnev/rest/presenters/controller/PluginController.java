@@ -1,6 +1,6 @@
 package com.victor.kochnev.rest.presenters.controller;
 
-import com.victor.kochnev.core.dto.domain.entity.PluginDto;
+import com.victor.kochnev.core.dto.domain.entity.PluginInfoDto;
 import com.victor.kochnev.core.dto.request.AddPluginRequestDto;
 import com.victor.kochnev.core.dto.request.GetPluginsRequestDto;
 import com.victor.kochnev.core.dto.request.UpdatePluginRequestDto;
@@ -133,7 +133,7 @@ public class PluginController {
     @Operation(
             operationId = "updatePlugin"
     )
-    public ResponseEntity<PluginDto> update(@RequestBody @Valid @Nullable UpdatePluginRequestDto requestDto) {
+    public ResponseEntity<PluginInfoDto> update(@RequestBody @Valid @Nullable UpdatePluginRequestDto requestDto) {
         log.info("Request: {}", UPDATE_ENDPOINT);
         log.debug("Request: {} {}", UPDATE_ENDPOINT, requestDto);
 
