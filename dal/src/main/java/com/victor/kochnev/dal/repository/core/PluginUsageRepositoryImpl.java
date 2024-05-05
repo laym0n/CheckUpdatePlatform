@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -49,6 +50,12 @@ public class PluginUsageRepositoryImpl implements PluginUsageRepository {
         var response = new GetPluginUsagesDalResponseDto();
         response.setPluginUsages(pluginUsages);
         return response;
+    }
+
+    @Override
+    public Optional<PluginUsage> findLastByExpiredDate(UUID userId, UUID pluginId) {
+        return pluginUsageEntityRepository.findLastByExpiredDate(userId, pluginId)
+                .map(pluginUsageMapper::mapToDomain);
     }
 
     private Specification<PluginUsageEntity> prepareSpecification(GetPluginUsagesDalRequestDto requestDto) {

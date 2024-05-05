@@ -6,6 +6,7 @@ import com.victor.kochnev.domain.entity.PluginUsage;
 
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface PluginUsageRepository {
@@ -14,4 +15,6 @@ public interface PluginUsageRepository {
     PluginUsage create(PluginUsage pluginUsage);
 
     GetPluginUsagesDalResponseDto getByFilters(GetPluginUsagesDalRequestDto dalRequestDto);
+
+    Optional<PluginUsage> findLastByExpiredDate(UUID userId, UUID pluginId);
 }

@@ -22,7 +22,9 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Component
@@ -56,7 +58,11 @@ public class PluginUsageServiceImpl implements PluginUsageService {
         if (!distributionMethodExists) {
             throw new ResourceNotFoundException(DistributionMethod.class.getName(), requestDto.getDistributionMethod().toString(), "all");
         }
-
+        if (pluginUsage.getDistributionMethod().getType() == DistributionPlanType.SUBSCRIBE) {
+            Optional<PluginUsage> optionalPluginUsage = pluginUsageRepository.findLastByExpiredDate(user.getId(), requestDto.getPluginId());
+            var expiredDate = optionalPluginUsage.map(PluginUsage::getExpiredDate).orElse(ZonedDateTime.now());
+            pluginUsage.setExpiredDate(pluginUsage.getDistributionMethod().getExpiredDate(expiredDate));
+        }
         pluginUsage = pluginUsageRepository.create(pluginUsage);
         return pluginUsageMapper.mapToDto(pluginUsage);
     }
