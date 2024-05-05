@@ -37,7 +37,7 @@ class TaskControllerDecisionMakingTest extends BaseControllerTest {
         String url = String.format(TASK_DECISION_ENDPOINT, TASK_ID);
 
         //Action
-        MvcResult mvcResult = put(url, requestBody, prepareSimpleUserHeaders(userForRequest));
+        MvcResult mvcResult = put(url, requestBody, prepareUserHeaders(userForRequest));
 
         //Assert
         assertHttpStatusOk(mvcResult);
@@ -65,7 +65,7 @@ class TaskControllerDecisionMakingTest extends BaseControllerTest {
         String url = String.format(TASK_DECISION_ENDPOINT, TASK_ID);
 
         //Action
-        MvcResult mvcResult = put(url, requestBody, prepareSimpleUserHeaders(userForRequest));
+        MvcResult mvcResult = put(url, requestBody, prepareUserHeaders(userForRequest));
 
         //Assert
         assertHttpStatusOk(mvcResult);
@@ -95,7 +95,7 @@ class TaskControllerDecisionMakingTest extends BaseControllerTest {
         String url = String.format(TASK_DECISION_ENDPOINT, TASK_ID);
 
         //Action
-        MvcResult mvcResult = put(url, requestBody, prepareSimpleUserHeaders(userForRequest));
+        MvcResult mvcResult = put(url, requestBody, prepareUserHeaders(userForRequest));
 
         //Assert
         assertHttpStatusOk(mvcResult);
@@ -123,7 +123,7 @@ class TaskControllerDecisionMakingTest extends BaseControllerTest {
         String url = String.format(TASK_DECISION_ENDPOINT, TASK_ID);
 
         //Action
-        MvcResult mvcResult = put(url, requestBody, prepareSimpleUserHeaders(userForRequest));
+        MvcResult mvcResult = put(url, requestBody, prepareUserHeaders(userForRequest));
 
         //Assert
         assertHttpStatusOk(mvcResult);
@@ -152,7 +152,7 @@ class TaskControllerDecisionMakingTest extends BaseControllerTest {
         String url = String.format(TASK_DECISION_ENDPOINT, TASK_ID);
 
         //Action
-        MvcResult mvcResult = put(url, requestBody, prepareSimpleUserHeaders(userForRequest));
+        MvcResult mvcResult = put(url, requestBody, prepareUserHeaders(userForRequest));
 
         //Assert
         assertHttpStatus(mvcResult, HttpStatus.UNAUTHORIZED);
@@ -175,7 +175,7 @@ class TaskControllerDecisionMakingTest extends BaseControllerTest {
         String url = String.format(TASK_DECISION_BY_CREATOR_ENDPOINT, TASK_ID);
 
         //Action
-        MvcResult mvcResult = put(url, requestBody, prepareSimpleUserHeaders(userForRequest));
+        MvcResult mvcResult = put(url, requestBody, prepareUserHeaders(userForRequest));
 
         //Assert
         assertHttpStatusOk(mvcResult);
@@ -203,7 +203,7 @@ class TaskControllerDecisionMakingTest extends BaseControllerTest {
         String url = String.format(TASK_DECISION_ENDPOINT, TASK_ID);
 
         //Action
-        MvcResult mvcResult = post(url, requestBody, prepareSimpleUserHeaders(user));
+        MvcResult mvcResult = post(url, requestBody, prepareUserHeaders(user));
 
         //Assert
         assertHttpStatus(mvcResult, HttpStatus.FORBIDDEN);

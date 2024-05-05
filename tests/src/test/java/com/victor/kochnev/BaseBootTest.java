@@ -75,6 +75,8 @@ public abstract class BaseBootTest {
     @Autowired
     protected NotificationEntityRepository notificationRepository;
     @Autowired
+    protected FeedbackEntityRepository feedbackRepository;
+    @Autowired
     protected TaskEntityRepository taskRepository;
     @Autowired
     protected TagEntityRepository tagRepository;

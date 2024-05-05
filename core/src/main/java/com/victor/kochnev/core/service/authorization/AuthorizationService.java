@@ -10,4 +10,6 @@ public interface AuthorizationService {
     boolean verifyCurrentUserCanManageObserving(UUID observingId);
 
     boolean verifyAuthenticatedUserCanManageTask(UUID taskId);
+
+    boolean verifyAuthenticatedUserCanCreateOrUpdateFeedback(UUID pluginId);
 }

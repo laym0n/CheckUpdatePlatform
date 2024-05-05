@@ -99,7 +99,7 @@ public abstract class BaseControllerTest extends BaseBootTest {
         }
     }
 
-    protected HttpHeaders prepareSimpleUserHeaders(UserEntity userEntity) {
+    protected HttpHeaders prepareUserHeaders(UserEntity userEntity) {
         User user = entityUserMapper.mapToDomain(userEntity);
         UserSecurity userSecurity = domainUserMapper.mapToSecurityUser(user);
         String token = jwtService.generateAccessToken(userSecurity);

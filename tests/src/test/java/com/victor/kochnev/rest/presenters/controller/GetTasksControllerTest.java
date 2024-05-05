@@ -44,7 +44,7 @@ class GetTasksControllerTest extends BaseControllerTest {
         String uri = getUri(requestDto);
 
         //Action
-        MvcResult mvcResult = get(uri, requestDto, prepareSimpleUserHeaders(userForRequest));
+        MvcResult mvcResult = get(uri, requestDto, prepareUserHeaders(userForRequest));
 
         //Assert
         assertHttpStatusOk(mvcResult);
@@ -66,7 +66,7 @@ class GetTasksControllerTest extends BaseControllerTest {
         String uri = getUri(requestDto);
 
         //Action
-        MvcResult mvcResult = get(uri, requestDto, prepareSimpleUserHeaders(userForRequest));
+        MvcResult mvcResult = get(uri, requestDto, prepareUserHeaders(userForRequest));
 
         //Assert
         assertHttpStatusOk(mvcResult);
@@ -96,7 +96,7 @@ class GetTasksControllerTest extends BaseControllerTest {
         String uri = getUri(requestDto);
 
         //Action
-        MvcResult mvcResult = get(uri, requestDto, prepareSimpleUserHeaders(user3));
+        MvcResult mvcResult = get(uri, requestDto, prepareUserHeaders(user3));
 
         //Assert
         assertHttpStatusOk(mvcResult);

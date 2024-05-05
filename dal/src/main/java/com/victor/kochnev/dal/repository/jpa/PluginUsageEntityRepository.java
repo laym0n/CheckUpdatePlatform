@@ -27,4 +27,12 @@ public interface PluginUsageEntityRepository extends JpaRepository<PluginUsageEn
             LIMIT 1
             """)
     Optional<PluginUsageEntity> findLastByExpiredDate(@Param("userId") UUID userId, @Param("pluginId") UUID pluginId);
+
+    @Query("""
+            select pu from PluginUsageEntity pu
+            where pu.user.id = :userId and pu.plugin.id = :pluginId
+            order by pu.expiredDate
+            LIMIT 1
+            """)
+    Optional<PluginUsageEntity> findAnyByUserIdAndPluginId(@Param("userId") UUID userId, @Param("pluginId") UUID pluginId);
 }

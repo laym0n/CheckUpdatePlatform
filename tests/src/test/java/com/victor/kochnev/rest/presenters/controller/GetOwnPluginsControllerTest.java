@@ -62,7 +62,7 @@ class GetOwnPluginsControllerTest extends BaseControllerTest {
         String uri = getUri(requestDto);
 
         //Action
-        MvcResult mvcResult = get(uri, requestDto, prepareSimpleUserHeaders(userForRequest));
+        MvcResult mvcResult = get(uri, requestDto, prepareUserHeaders(userForRequest));
 
         //Assert
         assertHttpStatusOk(mvcResult);

@@ -62,6 +62,13 @@ public class AuthorizationServiceImpl implements AuthorizationService {
         return verifyAuthenticatedUserCanManagePluginInternal(plugin);
     }
 
+    @Override
+    public boolean verifyAuthenticatedUserCanCreateOrUpdateFeedback(UUID pluginId) {
+        UUID userId = securityUserService.getCurrentUser().getId();
+        Optional<PluginUsage> anyPluginUsage = pluginUsageRepository.findAnyByUserIdAndPluginId(userId, pluginId);
+        return anyPluginUsage.isPresent();
+    }
+
     private boolean verifyAuthenticatedUserCanManagePluginInternal(Plugin plugin) {
         UUID userId = securityUserService.getCurrentUser().getId();
         UUID ownerId = plugin.getOwnerUser().getId();

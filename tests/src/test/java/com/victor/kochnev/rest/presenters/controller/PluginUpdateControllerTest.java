@@ -32,7 +32,7 @@ class PluginUpdateControllerTest extends BaseControllerTest {
         var requestDto = prepareRequest();
 
         //Action
-        MvcResult mvcResult = put(UPDATE_ENDPOINT, requestDto, prepareSimpleUserHeaders(userForRequest));
+        MvcResult mvcResult = put(UPDATE_ENDPOINT, requestDto, prepareUserHeaders(userForRequest));
 
         //Assert
         assertHttpStatusOk(mvcResult);
@@ -57,7 +57,7 @@ class PluginUpdateControllerTest extends BaseControllerTest {
         PluginEntity initPlugin = pluginRepository.findById(PLUGIN_ID).get();
 
         //Action
-        MvcResult mvcResult = put(UPDATE_ENDPOINT, requestDto, prepareSimpleUserHeaders(userForRequest));
+        MvcResult mvcResult = put(UPDATE_ENDPOINT, requestDto, prepareUserHeaders(userForRequest));
 
         //Assert
         assertHttpStatus(mvcResult, HttpStatus.UNAUTHORIZED);

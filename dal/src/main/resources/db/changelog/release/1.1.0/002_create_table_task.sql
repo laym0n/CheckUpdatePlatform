@@ -17,6 +17,6 @@ CREATE TABLE IF NOT EXISTS TASK
 );
 
 ALTER TABLE TASK
-    ADD CONSTRAINT fk_plugin_update_request_plugin_plugin_id
+    ADD CONSTRAINT fk_task_plugin_plugin_id
         FOREIGN KEY (plugin_id)
             REFERENCES PLUGIN (id);

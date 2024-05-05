@@ -37,7 +37,7 @@ class TaskControllerCreateTaskTest extends BaseControllerTest {
         var requestBody = prepareRequestBody();
 
         //Action
-        MvcResult mvcResult = post(TASK_CREATE_ENDPOINT, requestBody, prepareSimpleUserHeaders(userForRequest));
+        MvcResult mvcResult = post(TASK_CREATE_ENDPOINT, requestBody, prepareUserHeaders(userForRequest));
 
         //Assert
         assertHttpStatusOk(mvcResult);
@@ -79,7 +79,7 @@ class TaskControllerCreateTaskTest extends BaseControllerTest {
         var requestBody = prepareRequestBody();
 
         //Action
-        MvcResult mvcResult = post(TASK_CREATE_ENDPOINT, requestBody, prepareSimpleUserHeaders(userForRequest));
+        MvcResult mvcResult = post(TASK_CREATE_ENDPOINT, requestBody, prepareUserHeaders(userForRequest));
 
         //Assert
         assertHttpStatusOk(mvcResult);
@@ -121,7 +121,7 @@ class TaskControllerCreateTaskTest extends BaseControllerTest {
                 .build());
 
         //Action
-        MvcResult mvcResult = post(TASK_CREATE_ENDPOINT, requestBody, prepareSimpleUserHeaders(userForRequest));
+        MvcResult mvcResult = post(TASK_CREATE_ENDPOINT, requestBody, prepareUserHeaders(userForRequest));
 
         //Assert
         assertHttpStatusOk(mvcResult);

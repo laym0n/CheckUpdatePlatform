@@ -29,4 +29,10 @@
                  splitStatements="true"
                  dbms="postgresql"/>
     </changeSet>
+    <changeSet id="006_create_table_feedback" author="Victor Kochnev" runAlways="false"
+               failOnError="true">
+        <sqlFile path="006_create_table_feedback.sql" relativeToChangelogFile="true"
+                 splitStatements="true"
+                 dbms="postgresql"/>
+    </changeSet>
 </databaseChangeLog>

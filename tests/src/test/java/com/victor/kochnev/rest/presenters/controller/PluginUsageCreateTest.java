@@ -37,7 +37,7 @@ class PluginUsageCreateTest extends BaseControllerTest {
         var requestBody = prepareRequest();
 
         //Action
-        MvcResult mvcResult = post(PLUGIN_USAGE_CREATE_ENDPOINT, requestBody, prepareSimpleUserHeaders(userForRequest));
+        MvcResult mvcResult = post(PLUGIN_USAGE_CREATE_ENDPOINT, requestBody, prepareUserHeaders(userForRequest));
 
         //Assert
         assertHttpStatusOk(mvcResult);
@@ -69,7 +69,7 @@ class PluginUsageCreateTest extends BaseControllerTest {
         requestBody.setDistributionMethod(distributionMethod);
 
         //Action
-        MvcResult mvcResult = post(PLUGIN_USAGE_CREATE_ENDPOINT, requestBody, prepareSimpleUserHeaders(userForRequest));
+        MvcResult mvcResult = post(PLUGIN_USAGE_CREATE_ENDPOINT, requestBody, prepareUserHeaders(userForRequest));
 
         //Assert
         assertHttpStatusOk(mvcResult);
@@ -109,7 +109,7 @@ class PluginUsageCreateTest extends BaseControllerTest {
         requestBody.setDistributionMethod(distributionMethod);
 
         //Action
-        MvcResult mvcResult = post(PLUGIN_USAGE_CREATE_ENDPOINT, requestBody, prepareSimpleUserHeaders(userForRequest));
+        MvcResult mvcResult = post(PLUGIN_USAGE_CREATE_ENDPOINT, requestBody, prepareUserHeaders(userForRequest));
 
         //Assert
         assertHttpStatusOk(mvcResult);
@@ -144,7 +144,7 @@ class PluginUsageCreateTest extends BaseControllerTest {
         requestBody.setDistributionMethod(distributionMethod);
 
         //Action
-        MvcResult mvcResult = post(PLUGIN_USAGE_CREATE_ENDPOINT, requestBody, prepareSimpleUserHeaders(userForRequest));
+        MvcResult mvcResult = post(PLUGIN_USAGE_CREATE_ENDPOINT, requestBody, prepareUserHeaders(userForRequest));
 
         //Assert
         assertHttpStatus(mvcResult, HttpStatus.NOT_FOUND);
@@ -164,7 +164,7 @@ class PluginUsageCreateTest extends BaseControllerTest {
         var requestBody = prepareRequest();
 
         //Action
-        MvcResult mvcResult = post(PLUGIN_USAGE_CREATE_ENDPOINT, requestBody, prepareSimpleUserHeaders(userForRequest));
+        MvcResult mvcResult = post(PLUGIN_USAGE_CREATE_ENDPOINT, requestBody, prepareUserHeaders(userForRequest));
 
         //Assert
         assertHttpStatus(mvcResult, HttpStatus.UNAUTHORIZED);

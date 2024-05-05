@@ -58,6 +58,12 @@ public class PluginUsageRepositoryImpl implements PluginUsageRepository {
                 .map(pluginUsageMapper::mapToDomain);
     }
 
+    @Override
+    public Optional<PluginUsage> findAnyByUserIdAndPluginId(UUID userId, UUID pluginId) {
+        return pluginUsageEntityRepository.findAnyByUserIdAndPluginId(userId, pluginId)
+                .map(pluginUsageMapper::mapToDomain);
+    }
+
     private Specification<PluginUsageEntity> prepareSpecification(GetPluginUsagesDalRequestDto requestDto) {
         Specification<PluginUsageEntity> spec = PluginUsageSpecification.getAll();
         if (requestDto == null || requestDto.getFilters() == null) {

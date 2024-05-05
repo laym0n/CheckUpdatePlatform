@@ -31,7 +31,7 @@ class PluginRefreshAccessTokenControllerTest extends BaseControllerTest {
         String url = String.format(REFRESH_ACCESS_TOKEN_ENDPOINT, PLUGIN_ID);
 
         //Action
-        MvcResult mvcResult = post(url, null, prepareSimpleUserHeaders(userForRequest));
+        MvcResult mvcResult = post(url, null, prepareUserHeaders(userForRequest));
 
         //Assert
         assertHttpStatusOk(mvcResult);
@@ -55,7 +55,7 @@ class PluginRefreshAccessTokenControllerTest extends BaseControllerTest {
         String url = String.format(REFRESH_ACCESS_TOKEN_ENDPOINT, PLUGIN_ID);
 
         //Action
-        MvcResult mvcResult = post(url, null, prepareSimpleUserHeaders(userForRequest));
+        MvcResult mvcResult = post(url, null, prepareUserHeaders(userForRequest));
 
         //Assert
         assertHttpStatus(mvcResult, HttpStatus.UNAUTHORIZED);

@@ -17,4 +17,6 @@ public interface PluginUsageRepository {
     GetPluginUsagesDalResponseDto getByFilters(GetPluginUsagesDalRequestDto dalRequestDto);
 
     Optional<PluginUsage> findLastByExpiredDate(UUID userId, UUID pluginId);
+
+    Optional<PluginUsage> findAnyByUserIdAndPluginId(UUID userId, UUID pluginId);
 }

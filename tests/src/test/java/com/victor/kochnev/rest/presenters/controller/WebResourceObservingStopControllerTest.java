@@ -42,7 +42,7 @@ class WebResourceObservingStopControllerTest extends BaseControllerTest {
         var request = prepareRequest();
 
         //Action
-        MvcResult mvcResult = put(url, request, prepareSimpleUserHeaders(userForRequest));
+        MvcResult mvcResult = put(url, request, prepareUserHeaders(userForRequest));
 
         //Assert
         assertHttpStatusOk(mvcResult);
@@ -82,7 +82,7 @@ class WebResourceObservingStopControllerTest extends BaseControllerTest {
         var request = prepareRequest();
 
         //Action
-        MvcResult mvcResult = put(url, request, prepareSimpleUserHeaders(userForRequest));
+        MvcResult mvcResult = put(url, request, prepareUserHeaders(userForRequest));
 
         //Assert
         assertHttpStatusOk(mvcResult);
@@ -121,7 +121,7 @@ class WebResourceObservingStopControllerTest extends BaseControllerTest {
         var request = prepareRequest();
 
         //Action
-        MvcResult mvcResult = put(url, request, prepareSimpleUserHeaders(userForRequest));
+        MvcResult mvcResult = put(url, request, prepareUserHeaders(userForRequest));
 
         //Assert
         assertHttpStatusOk(mvcResult);
@@ -160,7 +160,7 @@ class WebResourceObservingStopControllerTest extends BaseControllerTest {
         var request = prepareRequest();
 
         //Action
-        MvcResult mvcResult = put(url, request, prepareSimpleUserHeaders(userForRequest));
+        MvcResult mvcResult = put(url, request, prepareUserHeaders(userForRequest));
 
         //Assert
         assertHttpStatus(mvcResult, HttpStatus.FORBIDDEN);

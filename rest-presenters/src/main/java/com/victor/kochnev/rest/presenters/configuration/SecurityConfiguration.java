@@ -36,9 +36,10 @@ public class SecurityConfiguration {
         observingAuthorization.setExpressionHandler(expressionHandler);
 
         return http
-                .securityMatcher("/webresource/observing/**", "/user/register", "/authentication/**", "/plugin/**", "/task/**", "/autocomplete/**", "/task*")
+                .securityMatcher("/webresource/observing/**", "/user/register", "/authentication/**", "/plugin/**", "/task/**", "/autocomplete/**", "/task*", "/feedback")
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/task/{id}/decision").hasRole(UserRole.EMPLOYEE.name())
+                        .requestMatchers(HttpMethod.POST, "/feedback").hasRole(UserRole.SIMPLE_USER.name())
                         .requestMatchers("/task/{id}/creator/decision").hasRole(UserRole.SIMPLE_USER.name())
                         .requestMatchers("/webresource/observing/{id}/**").access(observingAuthorization)
                         .requestMatchers("/webresource/observing/**", "/task**").hasRole(UserRole.SIMPLE_USER.name())
@@ -46,7 +47,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.PUT, "/plugin/**").hasRole(UserRole.SIMPLE_USER.name())
                         .requestMatchers(HttpMethod.GET, "/plugin/usage").hasRole(UserRole.SIMPLE_USER.name())
                         .requestMatchers(HttpMethod.GET, "/plugin/my", "/plugin/own").hasRole(UserRole.SIMPLE_USER.name())
-                        .requestMatchers(HttpMethod.GET, "/plugin").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/plugin", "/feedback").permitAll()
                         .requestMatchers("/user/register", "/authentication/**", "/autocomplete/**").permitAll()
                 )
                 .httpBasic(AbstractHttpConfigurer::disable)
