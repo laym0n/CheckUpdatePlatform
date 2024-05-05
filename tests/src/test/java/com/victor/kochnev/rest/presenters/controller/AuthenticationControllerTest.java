@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 class AuthenticationControllerTest extends BaseControllerTest {
     private static final String AUTHENTICATION_ENDPOINT = "/authentication";
     private static final String AUTHENTICATION_REFRESH_ENDPOINT = "/authentication/refresh";
-    private static final String REQUEST_EMAIL = UserDomainBuilder.DEFAULT_EMAIL;
+    private static final String REQUEST_LOGIN = UserDomainBuilder.DEFAULT_LOGIN;
     private static final String REQUEST_PASSWORD = UserDomainBuilder.DEFAULT_PASSWORD;
 
     @Autowired
@@ -37,7 +37,7 @@ class AuthenticationControllerTest extends BaseControllerTest {
         //Assign
         UserEntity userEntity = userRepository.save(UserEntityBuilder
                 .defaultBuilder()
-                .email(REQUEST_EMAIL)
+                .login(REQUEST_LOGIN)
                 .password(passwordEncoder.encode(REQUEST_PASSWORD))
                 .build());
         var request = prepareRequest();
@@ -55,7 +55,7 @@ class AuthenticationControllerTest extends BaseControllerTest {
 
         assertNotNull(responseDto.getUser());
         assertEquals(userEntity.getId(), responseDto.getUser().getId());
-        assertEquals(REQUEST_EMAIL, responseDto.getUser().getEmail());
+        assertEquals(REQUEST_LOGIN, responseDto.getUser().getLogin());
         assertEquals(userEntity.getRoles().stream().map(UserRole::name).toList(), responseDto.getUser().getRoles().stream().map(UserRole::name).toList());
 
         UserSecurity user = jwtService.getUserFromToken(responseDto.getJwtToken().getAccessToken());
@@ -69,7 +69,7 @@ class AuthenticationControllerTest extends BaseControllerTest {
         //Assign
         UserEntity userEntity = userRepository.save(UserEntityBuilder
                 .defaultBuilder()
-                .email(REQUEST_EMAIL)
+                .email(REQUEST_LOGIN)
                 .password(passwordEncoder.encode(REQUEST_PASSWORD))
                 .build());
         User userForRefreshToken = entityUserMapper.mapToDomain(userEntity);
@@ -90,7 +90,7 @@ class AuthenticationControllerTest extends BaseControllerTest {
 
         assertNotNull(responseDto.getUser());
         assertEquals(userEntity.getId(), responseDto.getUser().getId());
-        assertEquals(REQUEST_EMAIL, responseDto.getUser().getEmail());
+        assertEquals(REQUEST_LOGIN, responseDto.getUser().getLogin());
         assertEquals(userEntity.getRoles().stream().map(UserRole::name).toList(), responseDto.getUser().getRoles().stream().map(UserRole::name).toList());
 
         UserSecurity user = jwtService.getUserFromToken(responseDto.getJwtToken().getAccessToken());
@@ -104,7 +104,7 @@ class AuthenticationControllerTest extends BaseControllerTest {
         //Assign
         userRepository.save(UserEntityBuilder
                 .defaultBuilder()
-                .email(REQUEST_EMAIL)
+                .email(REQUEST_LOGIN)
                 .password(passwordEncoder.encode(REQUEST_PASSWORD + "1"))
                 .build());
         var request = prepareRequest();
@@ -122,7 +122,7 @@ class AuthenticationControllerTest extends BaseControllerTest {
         //Assign
         userRepository.save(UserEntityBuilder
                 .defaultBuilder()
-                .email(REQUEST_EMAIL + "1")
+                .login(REQUEST_LOGIN + "1")
                 .password(passwordEncoder.encode(REQUEST_PASSWORD))
                 .build());
         var request = prepareRequest();
@@ -140,7 +140,7 @@ class AuthenticationControllerTest extends BaseControllerTest {
         //Assign
         userRepository.save(UserEntityBuilder
                 .defaultBuilder()
-                .email(REQUEST_EMAIL + "1")
+                .login(REQUEST_LOGIN + "1")
                 .build());
         var request = prepareRequest();
 
@@ -153,7 +153,7 @@ class AuthenticationControllerTest extends BaseControllerTest {
 
     private AuthenticationRequest prepareRequest() {
         var request = new AuthenticationRequest();
-        request.setEmail(REQUEST_EMAIL);
+        request.setLogin(REQUEST_LOGIN);
         request.setPassword(REQUEST_PASSWORD);
         request.setRememberMe(false);
         return request;

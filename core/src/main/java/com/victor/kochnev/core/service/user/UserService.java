@@ -6,5 +6,5 @@ import com.victor.kochnev.domain.entity.User;
 public interface UserService {
     void createUser(UserRegistrationRequestDto request);
 
-    User findUserByEmail(String email);
+    User findUserByLogin(String login);
 }

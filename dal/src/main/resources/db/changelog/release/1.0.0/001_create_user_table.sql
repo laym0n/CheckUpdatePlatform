@@ -11,5 +11,3 @@ CREATE TABLE IF NOT EXISTS USERS
     enabled          BOOLEAN                  NOT NULL,
     roles            VARCHAR(50)              NOT NULL
 );
-
-CREATE UNIQUE INDEX idx_user_email ON USERS (email);

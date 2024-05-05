@@ -13,6 +13,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserRegistrationRequestDto {
+    @JsonProperty("login")
+    @NotBlank
+    private String login;
     @JsonProperty("email")
     @Email
     @NotBlank

@@ -27,7 +27,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public AuthenticateResponse authenticate(AuthenticationRequest request) {
-        var authenticationToken = new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword());
+        var authenticationToken = new UsernamePasswordAuthenticationToken(request.getLogin(), request.getPassword());
         Authentication authentication = authenticationManager.authenticate(authenticationToken);
         UserSecurity userSecurity = (UserSecurity) authentication.getPrincipal();
         return getAuthenticateResponse(request.getRememberMe(), userSecurity);
@@ -55,7 +55,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         UserInfoDto userInfoDto = new UserInfoDto();
         userInfoDto.setId(userSecurity.getId());
-        userInfoDto.setEmail(userSecurity.getUsername());
+        userInfoDto.setLogin(userSecurity.getUsername());
         userInfoDto.setRoles(userSecurity.getAuthorities().stream()
                 .map(authority -> UserRole.valueOf(authority.getAuthority().substring(5)))
                 .toList());

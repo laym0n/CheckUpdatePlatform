@@ -22,6 +22,7 @@ class UserControllerTest extends BaseControllerTest {
     private static final String USER_REGISTRATION_ENDPOINT = "/user/register";
     private static final String REQUEST_EMAIL = UserDomainBuilder.DEFAULT_EMAIL;
     private static final String REQUEST_PASSWORD = "password";
+    private static final String REQUEST_LOGIN = "login";
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -29,6 +30,7 @@ class UserControllerTest extends BaseControllerTest {
         UserRegistrationRequestDto request = new UserRegistrationRequestDto();
         request.setEmail(REQUEST_EMAIL);
         request.setPassword(REQUEST_PASSWORD);
+        request.setLogin(REQUEST_LOGIN);
         return request;
     }
 
@@ -43,7 +45,7 @@ class UserControllerTest extends BaseControllerTest {
         //Assert
         assertHttpStatusOk(result);
 
-        Optional<UserEntity> optionalCreatedUser = userRepository.findByEmail(REQUEST_EMAIL);
+        Optional<UserEntity> optionalCreatedUser = userRepository.findByLogin(REQUEST_LOGIN);
         assertTrue(optionalCreatedUser.isPresent());
         UserEntity createdUser = optionalCreatedUser.get();
         assertEquals(REQUEST_EMAIL, createdUser.getEmail());

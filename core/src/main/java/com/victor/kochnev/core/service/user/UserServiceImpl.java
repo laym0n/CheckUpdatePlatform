@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void createUser(UserRegistrationRequestDto request) {
-        Optional<User> optionalUser = userRepository.findUserByEmail(request.getEmail());
+        Optional<User> optionalUser = userRepository.findUserByLogin(request.getLogin());
         if (optionalUser.isPresent()) {
             throw new UserRegistrationException(request.getEmail());
         }
@@ -38,9 +38,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findUserByEmail(String email) {
-        Optional<User> optionalUser = userRepository.findUserByEmail(email);
+    public User findUserByLogin(String login) {
+        Optional<User> optionalUser = userRepository.findUserByLogin(login);
         return optionalUser
-                .orElseThrow(() -> ResourceNotFoundException.create(User.class, email, "email"));
+                .orElseThrow(() -> ResourceNotFoundException.create(User.class, login, "login"));
     }
 }

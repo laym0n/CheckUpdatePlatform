@@ -21,13 +21,13 @@ public class SecurityUserServiceImpl implements SecurityUserService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User userByEmail;
+        User userByLogin;
         try {
-            userByEmail = userService.findUserByEmail(username);
+            userByLogin = userService.findUserByLogin(username);
         } catch (ResourceNotFoundException ex) {
             throw new UsernameNotFoundException(ex.getMessage());
         }
-        return userMapper.mapToSecurityUser(userByEmail);
+        return userMapper.mapToSecurityUser(userByLogin);
     }
 
     @Override

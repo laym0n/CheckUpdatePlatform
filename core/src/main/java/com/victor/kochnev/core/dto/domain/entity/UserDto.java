@@ -15,6 +15,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class UserDto {
     private UUID id;
+    private String login;
     private String email;
     private String password;
     private Boolean enabled;

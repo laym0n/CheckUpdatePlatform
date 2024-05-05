@@ -21,8 +21,8 @@ public class UserSecurity extends User {
     private List<UserRole> roles = new ArrayList<>();
 
     @Default
-    public UserSecurity(UUID id, String email, String password, boolean enabled, Collection<? extends GrantedAuthority> authorities, List<UserRole> roles) {
-        super(email, password, enabled, true, true, true, authorities);
+    public UserSecurity(UUID id, String login, String password, boolean enabled, Collection<? extends GrantedAuthority> authorities, List<UserRole> roles) {
+        super(login, password, enabled, true, true, true, authorities);
         this.id = id;
         this.roles = roles;
     }

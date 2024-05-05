@@ -118,7 +118,7 @@ class PluginUsageCreateTest extends BaseControllerTest {
         assertTrue(optionalPluginUsage.isPresent());
         PluginUsageEntity pluginUsage = optionalPluginUsage.get();
         ZonedDateTime expectedExpiredDate = savedExpiredDate.plus(requestedDuration).truncatedTo(ChronoUnit.DAYS);
-        assertTrue(expectedExpiredDate.isEqual(pluginUsage.getExpiredDate().withZoneSameLocal(expectedExpiredDate.getZone()).truncatedTo(ChronoUnit.DAYS)),
+        assertTrue(expectedExpiredDate.isEqual(pluginUsage.getExpiredDate().withZoneSameInstant(expectedExpiredDate.getZone()).truncatedTo(ChronoUnit.DAYS)),
                 () -> "Expected expired date is " + expectedExpiredDate + " but got " + pluginUsage.getExpiredDate().withZoneSameLocal(expectedExpiredDate.getZone()).truncatedTo(ChronoUnit.DAYS));
         assertNotNull(pluginUsage.getDistributionMethod());
         assertEquals(DistributionPlanType.SUBSCRIBE, pluginUsage.getDistributionMethod().getType());

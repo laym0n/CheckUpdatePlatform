@@ -15,6 +15,7 @@ import java.util.Collection;
 @NoArgsConstructor
 @SuperBuilder(toBuilder = true)
 public class User extends BaseEntity {
+    private String login;
     private String email;
     private String telegramInfo;
     private String password;

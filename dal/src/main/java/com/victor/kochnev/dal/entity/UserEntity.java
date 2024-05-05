@@ -22,6 +22,8 @@ import java.util.List;
 public class UserEntity extends BaseDalEntity {
     @Column(name = "email", nullable = false)
     private String email;
+    @Column(name = "login", nullable = false)
+    private String login;
     @Column(name = "password", nullable = false)
     private String password;
     @Column(name = "telegram_info")

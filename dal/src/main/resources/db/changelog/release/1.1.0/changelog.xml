@@ -35,4 +35,10 @@
                  splitStatements="true"
                  dbms="postgresql"/>
     </changeSet>
+    <changeSet id="007_alter_table_user" author="Victor Kochnev" runAlways="false"
+               failOnError="true">
+        <sqlFile path="007_alter_table_user.sql" relativeToChangelogFile="true"
+                 splitStatements="true"
+                 dbms="postgresql"/>
+    </changeSet>
 </databaseChangeLog>

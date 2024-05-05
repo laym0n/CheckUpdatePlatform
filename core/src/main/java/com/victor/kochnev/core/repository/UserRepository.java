@@ -6,7 +6,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface UserRepository {
-    Optional<User> findUserByEmail(String email);
+    Optional<User> findUserByLogin(String login);
 
     User create(User user);
 

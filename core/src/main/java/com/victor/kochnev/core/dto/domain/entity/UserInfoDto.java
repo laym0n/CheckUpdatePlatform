@@ -22,6 +22,10 @@ public class UserInfoDto {
     @Email
     @NotNull
     private String email;
+    @JsonProperty("login")
+    @Email
+    @NotNull
+    private String login;
     @JsonProperty("roles")
     @NotNull
     private List<UserRole> roles;

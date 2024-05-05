@@ -20,8 +20,8 @@ public class UserRepositoryImpl implements UserRepository {
     private final EntityUserMapper entityUserMapper;
 
     @Override
-    public Optional<User> findUserByEmail(String email) {
-        return userEntityRepository.findByEmail(email).map(entityUserMapper::mapToDomain);
+    public Optional<User> findUserByLogin(String login) {
+        return userEntityRepository.findByLogin(login).map(entityUserMapper::mapToDomain);
     }
 
     @Override

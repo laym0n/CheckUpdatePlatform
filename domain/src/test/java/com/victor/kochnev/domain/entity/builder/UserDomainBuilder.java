@@ -11,6 +11,7 @@ import java.util.UUID;
 public class UserDomainBuilder {
     public static final String DEFAULT_EMAIL = "victor_k02@mail.ru";
     public static final String DEFAULT_PASSWORD = "password";
+    public static final String DEFAULT_LOGIN = "login";
 
     private UserDomainBuilder() {
     }
@@ -21,6 +22,7 @@ public class UserDomainBuilder {
         return User.builder()
                 .email(DEFAULT_EMAIL)
                 .password(DEFAULT_PASSWORD)
+                .login(DEFAULT_LOGIN)
                 .roles(rolesList)
                 .enabled(true);
     }

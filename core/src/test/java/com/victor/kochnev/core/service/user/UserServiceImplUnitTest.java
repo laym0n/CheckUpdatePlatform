@@ -22,6 +22,7 @@ import static org.mockito.Mockito.when;
 class UserServiceImplUnitTest extends BaseCoreUnitTest {
     private static final String REQUEST_EMAIL = "victor_k02@mail.ru";
     private static final String REQUEST_PASSWORD = "pass";
+    private static final String REQUEST_LOGIN = "login";
     @Spy
     private PasswordEncoder passwordCoder = new BCryptPasswordEncoder();
     @InjectMocks
@@ -33,13 +34,14 @@ class UserServiceImplUnitTest extends BaseCoreUnitTest {
         UserRegistrationRequestDto request = new UserRegistrationRequestDto();
         request.setEmail(REQUEST_EMAIL);
         request.setPassword(REQUEST_PASSWORD);
+        request.setLogin(REQUEST_LOGIN);
         return request;
     }
 
     @Test
     void testCreateNotExistedUser() {
         //Assign
-        when(userRepository.findUserByEmail(REQUEST_EMAIL)).thenReturn(Optional.empty());
+        when(userRepository.findUserByLogin(REQUEST_LOGIN)).thenReturn(Optional.empty());
         UserRegistrationRequestDto request = prepareRequest();
 
         //Action
@@ -58,7 +60,7 @@ class UserServiceImplUnitTest extends BaseCoreUnitTest {
     @Test
     void testCreateExistedUser_expectUserRegistrationException() {
         //Assign
-        when(userRepository.findUserByEmail(REQUEST_EMAIL)).thenReturn(Optional.of(UserDomainBuilder.persistedDefaultUser().build()));
+        when(userRepository.findUserByLogin(REQUEST_LOGIN)).thenReturn(Optional.of(UserDomainBuilder.persistedDefaultUser().build()));
         UserRegistrationRequestDto request = prepareRequest();
 
         //Action
@@ -68,9 +70,9 @@ class UserServiceImplUnitTest extends BaseCoreUnitTest {
     @Test
     void testFindNotExistedUserByEmail_expectResourceNotFound() {
         //Assign
-        when(userRepository.findUserByEmail(REQUEST_EMAIL)).thenReturn(Optional.empty());
+        when(userRepository.findUserByLogin(REQUEST_LOGIN)).thenReturn(Optional.empty());
 
         //Action
-        assertThrows(ResourceNotFoundException.class, () -> userService.findUserByEmail(REQUEST_EMAIL));
+        assertThrows(ResourceNotFoundException.class, () -> userService.findUserByLogin(REQUEST_LOGIN));
     }
 }

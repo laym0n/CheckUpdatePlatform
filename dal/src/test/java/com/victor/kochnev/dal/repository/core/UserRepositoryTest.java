@@ -73,12 +73,12 @@ class UserRepositoryTest extends BaseBootTest {
     }
 
     @Test
-    void testSuccessFindUserByEmail() {
+    void testSuccessFindUserByLogin() {
         //Assign
         UserEntity savedUserEntity = userEntityRepository.save(UserEntityBuilder.defaultBuilder().build());
 
         //Action
-        Optional<User> optionalUser = userRepository.findUserByEmail(savedUserEntity.getEmail());
+        Optional<User> optionalUser = userRepository.findUserByLogin(savedUserEntity.getLogin());
 
         //Assert
         assertTrue(optionalUser.isPresent());
@@ -92,9 +92,9 @@ class UserRepositoryTest extends BaseBootTest {
     }
 
     @Test
-    void testFindUserByEmail_NotExisted_ExpectEmptyOptional() {
+    void testFindUserByLogin_NotExisted_ExpectEmptyOptional() {
         //Action
-        Optional<User> optionalUser = userRepository.findUserByEmail("victor_k02@mail.ru");
+        Optional<User> optionalUser = userRepository.findUserByLogin("randomLogin");
 
         //Assert
         assertFalse(optionalUser.isPresent());
