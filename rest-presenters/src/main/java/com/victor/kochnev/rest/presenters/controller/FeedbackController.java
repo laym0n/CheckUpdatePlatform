@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Nullable;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -52,7 +53,7 @@ public class FeedbackController {
                     @Parameter(name = "filters.userIds", array = @ArraySchema(schema = @Schema(type = "string"))),
                     @Parameter(name = "filters.excludedUserIds", array = @ArraySchema(schema = @Schema(type = "string"))),
             })
-    public ResponseEntity<GetFeedbacksResponseDto> get(@Valid @RequestBody @NotNull GetFeedbacksRequestDto request) {
+    public ResponseEntity<GetFeedbacksResponseDto> get(@Parameter(hidden = true) @Valid @Nullable GetFeedbacksRequestDto request) {
         log.info("Request: {}", GET_ENDPOINT);
         log.debug("Request: {} {}", GET_ENDPOINT, request);
 
