@@ -14,7 +14,10 @@ public final class TaskSpecification {
     }
 
     public static Specification<TaskEntity> getAll() {
-        return null;
+        return (root, query, cb) -> {
+            query.orderBy(cb.desc(root.get(BaseDalEntity_.createDate)));
+            return cb.conjunction();
+        };
     }
 
     public static Specification<TaskEntity> byIds(List<UUID> ids) {

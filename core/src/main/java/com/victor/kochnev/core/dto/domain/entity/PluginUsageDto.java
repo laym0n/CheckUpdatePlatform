@@ -20,6 +20,10 @@ public class PluginUsageDto {
     @JsonProperty("id")
     @NotNull
     private UUID id;
+    @JsonProperty("createDate")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm Z")
+    @NotNull
+    private ZonedDateTime createDate;
     @JsonProperty("distributionMethod")
     @NotNull
     private DistributionMethodDto distributionMethod;
