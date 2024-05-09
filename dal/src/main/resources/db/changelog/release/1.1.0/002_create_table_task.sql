@@ -7,12 +7,12 @@ CREATE TABLE IF NOT EXISTS TASK
 
     type                 VARCHAR(50)              NOT NULL,
     image_paths          VARCHAR(500),
-    description          VARCHAR(500),
+    description          VARCHAR(2000),
     distribution_methods VARCHAR(500)             NOT NULL,
     decision             VARCHAR(50),
     comment              VARCHAR(500),
     tags                 JSONB,
-    logo_path            VARCHAR(50),
+    logo_path            VARCHAR(500),
     plugin_id            UUID                     NOT NULL
 );
 
